@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+
+func foo(n) {
+    sum(1..n, {|k|
+        (-1)**bigomega(k) * faulhaber(floor(n/k), 1)
+    })
+}
+say 20.of(foo)
+say 20.of(foo).map_cons(2, {|a,b| b-a })

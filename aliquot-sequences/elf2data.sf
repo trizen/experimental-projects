@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+# Convert an Aliquot ELF file from factordb.com, to a b-file for OEIS.org.
+
+# Examples:
+#   sidef elf2data.sf elf_files/1134.elf | gnuplot -p -e 'set logscale y; plot "/dev/stdin" with lines'
+#   cat elf_files/1134.elf | sidef elf2data.sf | gnuplot -p -e 'set logscale y; plot "/dev/stdin" with lines'
+
+ARGF.each {|line|
+    if (line =~ /^(\d+)\s*\.\s*(\d+)/) {|m|
+        say (m[0], ' ', m[1])
+    }
+}

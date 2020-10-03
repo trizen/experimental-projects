@@ -1,0 +1,166 @@
+#!/usr/bin/ruby
+
+
+
+
+
+func f(n) {
+    (1i)**(n**2)
+}
+
+func g(n) {
+    1i**bigomega(n)
+}
+
+func F(n, m) {
+    sum(1..n, {|k|
+        f(k) * faulhaber(floor(n/k), m)
+    })
+}
+
+func G(n, m) {
+    sum(1..n, {|k|
+        g(k) * faulhaber(floor(n/k), m)
+    })
+}
+
+say 20.of { F(_, 0) }.map{.re}
+say 20.of { F(_, 0) }.map{.im}
+#say 20.of { G(_, 0) }.map{.im}
+
+__END__
+func PF(m) {        # https://oeis.org/A065469
+    1e3.primes.prod {|p|
+        (1 - 1/(p**m - 1))
+    }
+}
+
+func PG(m) {            # https://oeis.org/A182448  Pi^2/15 = zeta(2*2) / zeta(2)
+    #~ 1e3.primes.prod {|p|
+        #~ #(1 - 1/(p**m - 1))
+        #~ p**m / (p**m + 1)
+    #~ }
+
+    zeta(2*m) / zeta(m)
+}
+
+for k in (1..10) {
+    #say (G(1e5, k) / faulhaber(1e5, k))
+    #say PG(k+1)
+
+    say F(1e4, k)
+    say (faulhaber(1e4, k) * PF(k+1))
+    say ''
+}
+
+#
+#say PG(4)
+
+
+__END__
+say 26.of {|n|
+    n.divisors.sum{|d|
+        f(d)
+    } != 0 ? 1 : 0
+}.accumulate
+
+say 26.of {|n|
+    n.divisors.sum{|d|
+        g(d)
+    }
+}.accumulate
+
+
+
+__END__
+for k in (1..100) {
+    #k.is_powerful && say [k.factor, k.divisors.sum{|d| f(d) }]
+    if (k.divisors.sum{|d| g(d) }) {
+        say [k.sqrt]
+    }
+}
+
+__END__
+say 20.of {|n|
+    n.divisors.sum{|d|
+        g(d)
+    }
+}
+
+__END__
+
+func foo(n) {
+    sum(1..n, {|k|
+        k.divisors.sum{|d|
+            f(k/d) * d
+        }
+    })
+}
+
+func bar(n) {
+    n.divisors.sum {|d|
+        f(n/d) * d
+    }
+}
+
+func z(n) {
+    n.divisors.sum {|d|
+        d.divisors.sum {|d|
+            (-1)**omega(d)
+        } * euler_phi(n/d)
+    }
+}
+
+func conj(n) {
+    n.factor_prod{|p,e|
+        p**e - (p**e - 1)/(p - 1)
+
+        #sum(0..e.dec, {|k|
+        #    -p**k
+        #})
+    }
+}
+
+func f2(n) {
+    sum(1..n, {|k|
+        (-1)**omega(k) * (n//k) * (1 + n//k)
+    }) / 2
+}
+
+#say 20.of(bar)
+for k in (1..500) {
+    #say [bar(k), euler_phi(k), euler_phi(k) - bar(k)]
+    print(euler_phi(k) - bar(k), ", ")
+}
+
+__END__
+for n in (1..10000) {
+
+    assert_eq(bar(n), conj(n))
+
+    #var t = 1e30.irand
+    #say [z(t), conj(t)]
+
+    #say conj(n.pn_primorial ** 2)
+}
+
+#say z(23*7)
+
+
+__END__
+say 20.of(bar).accumulate
+say 20.of(f2)
+
+for n in (1..10) {
+    say (f2(10**n) / faulhaber(10**n, 1))
+}
+
+# sqrt(n)
+#say 20.of(foo)
+#say 20.of(bar).slice(1)
+#say 20.of(foo).map_cons(2, {|a,b| b-a })
+
+#say 800.of(bar)
+#~ for k in (1..1000) {
+    #~ say bar(k)
+#~ }

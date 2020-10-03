@@ -1,0 +1,14 @@
+
+# Sum of the numbers of divisors of gcd(x,y) with x*y <= n
+# https://oeis.org/A268732
+
+# a(n) = Sum_{k=1..floor(sqrt(n))} (2*Sum_{j=1..floor(sqrt(n/k^2))} floor(n/(j*k^2)) - floor(sqrt(n/k^2))^2). - ~~~~
+
+(PARI) a(n) = sum(k=1, sqrtint(n), 2*sum(j=1, sqrtint(n\(k*k)), n\(j*k*k))-sqrtint(n\(k*k))^2); \\ ~~~~
+
+a(10^9)  = 32467409097
+a(10^10) = 362549612240
+a(10^11) = 4004254692640
+a(10^12) = 43830142939380
+a(10^13) = 476177421208658
+a(10^14) = 5140534231877816

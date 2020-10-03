@@ -1,0 +1,254 @@
+#!/usr/bin/ruby
+
+# Helper script to automatically extract factors from factordb.com, using the `get_factordb.pl` script.
+
+define (
+    MIN_SIZE    = 55,
+    TRIAL_LIMIT = 1e6,
+)
+
+const script = File(__FILE__).dir+File("get_factordb.pl")
+
+func factordb(n) is cached {
+
+    if (n.kind_of(Num)) {
+        return n.factor if (n.len <= MIN_SIZE)
+    }
+
+    var f = `perl #{script} #{Str(n).escape}`.nums.sort
+
+    if (n.kind_of(Num)) {
+        assert_eq(n, f.prod)
+    }
+
+    return f
+}
+
+func factordb_exp(n) {
+    factordb(n).to_bag.kv.sort_by { .head }
+}
+
+func FF_factordb(n) {
+    var f = factordb(n)
+    f.all_prime || die "\n\nnot FF: #{n}\n\n"
+    if (n.kind_of(Num)) {
+        assert_eq(f.prod, n)
+    }
+    return f
+}
+
+func FF_factordb_exp(n) {
+    var f = factordb_exp(n)
+    f.all { .head.is_prime } || die "\n\nnot FF: #{n}\n\n"
+    if (n.kind_of(Num)) {
+        assert_eq(f.prod_2d{|p,e| p**e }, n)
+    }
+    return f
+}
+
+func divisors(n, k=n) {     # divisors d of n, with d <= k
+
+    var d  = [1]
+    var pp = FF_factordb_exp(n).grep{ .head <= k }
+
+    for p,e in (pp) {
+        var r = 1
+        d << gather {
+            e.times {
+                r *= p
+                d.each { |u|
+                    take(u*r) if (u*r <= k)
+                }
+            }
+        }...
+    }
+
+    d.sort
+}
+
+func sigma(n, x=1) {
+
+    if (x == 0) {
+        return FF_factordb_exp(n).prod_2d {|_,e|
+            (e+1)
+        }
+    }
+
+    FF_factordb_exp(n).prod_2d {|p,e|
+        (p**(x*(e+1)) - 1) / (p**x - 1)
+    }
+}
+
+func sigma0(n) {
+    sigma(n, 0)
+}
+
+func sigma_factors(n, x=1) {
+    FF_factordb_exp(n).map_2d {|p,e|
+        (p**(x*(e+1)) - 1) / (p**x - 1)
+    }.sort
+}
+
+func sigma_factors_symbolic(n, x=1) {
+    FF_factordb_exp(n).map_2d {|p,e|
+        "(#{p}^#{x*(e+1)} - 1) / (#{p}^#{x} - 1)"
+    }
+}
+
+func proper_divisor_sum(n) {
+    sigma(n) - n
+}
+
+func eulerphi(n) {
+    FF_factordb_exp(n).prod_2d {|p,k|
+        p**(k-1) * (p-1)
+    }
+}
+
+func jordan_totient(n,m=1) {
+    FF_factordb_exp(n).prod_2d {|p,k|
+        p**(k*m) - p**(m*(k-1))
+    }
+}
+
+func dedekind_psi(n, m=1) {
+    FF_factordb_exp(n).prod_2d {|p,k|
+        p**(k*m) + p**(m*(k-1))
+    }
+}
+
+func cyclotomic_symbolic(n, x) {
+
+    var d = []
+    for p in (n.factor.uniq) {
+        d << d.map_2d {|q,e| [p*q, e+1] }...
+        d << [p, 1]
+    }
+
+    d << [1, 0]
+
+    var factors = []
+    var divisors = []
+
+    if (x !~ /^\w+\z/) {
+        x = "(#{x})"
+    }
+
+    d.map_2d {|p,e|
+        var t = "(#{x}^#{n/p} - 1)"
+        if (e.is_even) {
+            factors << t
+        }
+        else {
+            divisors << t
+        }
+    }
+
+    var s = factors.join(' * ')
+    var t = divisors.join(' * ')
+
+    if (t) {
+        s = "(#{s}) / (#{t})"
+    }
+
+    return s
+}
+
+func omega(n) is cached {
+    FF_factordb(n).uniq.len
+}
+
+func bigomega(n) is cached {
+    FF_factordb(n).len
+}
+
+func is_prime(n) is cached {
+    var f = factordb(n)
+    (f.len == 1) && f[0].is_prime
+}
+
+func is_squarefree(n) is cached {
+
+    if (n.kind_of(Num)) {
+        n.len <= MIN_SIZE && return n.is_squarefree
+        n.is_prob_squarefree || return false
+    }
+
+    factordb_exp(n).any { .tail >= 2 } && return false
+    omega(n) == bigomega(n)
+}
+
+func is_semiprime(n) is cached {
+
+    var check = {|f|
+        if (f.len > 2) {
+            return false
+        }
+
+        if (f.len == 2) {
+            f.all { .is_prime } || return false
+        }
+    }
+
+    if (n.kind_of(Num)) {
+        n.len <= MIN_SIZE && return n.is_semiprime
+        check(n.trial_factor(TRIAL_LIMIT))
+    }
+
+    check(factordb(n))
+    FF_factordb(n).len == 2
+}
+
+func moebius(n) is cached {
+    is_squarefree(n) ? ((-1)**omega(n)) : 0
+}
+
+func gpf(n) is cached {     # greatest prime factor of n
+    FF_factordb(n).tail
+}
+
+func lpf(n) is cached {     # least prime factor of n
+
+    if (n.kind_of(Num)) {
+        n.len <= MIN_SIZE && return n.lpf
+        var f = n.trial_factor(TRIAL_LIMIT)
+        f.len > 1 && return f[0]
+    }
+
+    FF_factordb(n).head
+}
+
+func show_partial_factorization(n, t = n) {
+    var f = factordb(n)
+
+    if (f.len >= 1) {
+        say(t, " = ", f.map {|d| d.is_prime ? d : "C#{d.len}" }.join(' * '))
+    }
+}
+
+func show_full_factorization(n, t = n) {
+    var f = FF_factordb_exp(n)
+
+    if (f.len >= 1) {
+        say(t, " = ", f.map_2d {|p,e| e == 1 ? p : "#{p}^#{e}" }.join(' * '))
+    }
+}
+
+__END__
+
+for k in (220..300) {
+    show_full_factorization(motzkin(k), "M(#{k})")
+}
+
+#-------------------------------------------------------------------------------------------------------------------#
+
+var a = 2
+
+for (1..100) {
+    break if (a.len > 10_000)
+    a = sigma(a, 2)
+    #print(omega(a), ", ")
+    say a
+}
+
+#-------------------------------------------------------------------------------------------------------------------#

@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# Integers k such that k is equal to the sum of the nonprime proper divisors of k.
+# https://oeis.org/A331805
+
+# 9*10^12 < a(4) <= 72872313094554244192 = 2^5 * 109 * 151 * 65837 * 2101546957. - Giovanni Resta, Jan 28 2020
+
+# Notice that:
+#   65837 = 2^2 * 109 * 151 + 1
+#   sigma(2^5 * 109 * 151 * 65837) / 2101546957 =~ 33.00003145254488 =~ 2^5 + 1
+
+# Also:
+#   log_3(72872313094554244192) =~ 41.6300098  (coincidence?)
+
+func isok(n) {
+    n.sigma - n - n.prime_sigma == n
+}
+
+primes(200).combinations(2, {|a,b|
+
+    for k in (1..10) {
+        var t = (2**k * a * b + 1)
+
+        t.is_prime || next
+        #valuation(a+1, 2) + valuation(b+1, 2) + valuation(t+1, 2) == (2*k + 1) || next
+
+        for j in (k .. (2*k + 1)) {
+
+            var v = (2**j * t * a * b)
+            var s = v.sigma
+
+            (s/v < 2) && (s/v > (2 - 1/v.pow(2/3))) || next
+
+            say "#{[v, k, j]} with #{s/v}"
+
+            for p in (factor(s - (2 + t + a + b))) {
+
+                var u = (v * p)
+
+                if (u > 1e13 && isok(u)) {
+                    say "Found: #{u}"
+                }
+            }
+        }
+    }
+})
+
+__END__
+[18632, 2, 2] with 1.99978531558608844997853155860884499785315586088
+[1292768, 2, 4] with 1.99998762345602613926087279388103665932325057551
+[391612, 1, 2] with 1.99997957161680438801671041745401060233087852262
+[6800695312, 3, 4] with 1.99999999882364969565923702714473263847936377009
+[34675557856, 2, 5] with 1.99999999907715976386338198209606332569567067674
+Found: 72872313094554244192

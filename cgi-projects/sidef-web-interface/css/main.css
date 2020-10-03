@@ -1,0 +1,27 @@
+pre {
+    padding: 0.1em 0.5em 0.3em 0.7em;
+    border-left: 11px solid #ccc;
+    border-left-width: medium;
+    border-image:url(border.png) 30 30 round;
+    margin: 0.1em 0 1.7em 0.3em;
+    overflow: auto;
+    width: 100%;
+}
+
+textarea
+{
+   font-family:Monospace, DejaVuSansMono, FreeMono, DroidSansMono, Courier, serif;
+   font-size: 12px;
+}
+
+.main_content { position:relative; padding:0 0 0 260px; }
+
+#sidebar {
+    position:absolute;
+    top:0; bottom:0; left:0;
+    width:250px;
+}
+
+#content {
+    margin:5px 0 5px 0;
+}

@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Numbers k such that 4^k - 3^k + 2^k is prime.
+# http://oeis.org/A317887
+
+# 1, 2, 4, 18, 56, 60, 88, 1288, 1784, 3406, 9250, 11968, 36216, 57206
+
+# a(15) >= 66456
+
+for k in (66456..100_000) {
+    say "Testing: #{k}"
+    if (is_prob_prime(4**k - 3**k + 2**k)) {
+        say "\t\tFound: #{k}\t\t"
+        Sys.exit
+    }
+}

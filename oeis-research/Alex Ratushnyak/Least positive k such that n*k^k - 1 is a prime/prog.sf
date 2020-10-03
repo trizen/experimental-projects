@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+# https://oeis.org/draft/A231735
+
+# a(37) >= 5340
+
+func a(n, from = 5340) {
+    for k in (from .. 1e6) {
+        say "Testing: #{k}"
+        if (n * k**k - 1 -> is_prob_prime) {
+            die "Found: #{k}"
+            #return k
+        }
+    }
+}
+
+
+say a(37, 5340)     # from 5340
+
+__END__
+for n in (38..50) {
+    say [n, a(n)]
+}
+
+__END__
+[38, 1]
+[39, 6]
+[40, 6]
+[41, 2]
+[42, 1]

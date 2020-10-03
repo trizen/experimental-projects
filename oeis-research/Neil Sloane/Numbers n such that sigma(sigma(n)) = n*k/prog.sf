@@ -1,0 +1,95 @@
+#!/usr/bin/ruby
+
+# Numbers n such that sigma(sigma(n)) = k*n for some k.
+# https://oeis.org/A019278
+
+func isok(n) {
+    n `divides` n.sigma.sigma
+}
+
+var seen = Set()
+#~ var P = 1e6.primes
+
+func b(n) {
+    #n.sigma0 <= 500 || return nil
+    #[n.sigma.sigma.sigma.sigma.sigma.sigma.sigma.sigma].each {|k|
+
+    n.sigma.sigma0 <= 50 || return nil
+
+    n.sigma.inverse_sigma.each {|v|
+        v > (1e11/1e6) || next
+        for k in (1..1e6) {
+            var t = v*k
+            if (!seen.has(t) and isok(t)) {
+                say t
+                seen << t
+            }
+        }
+    }
+}
+
+func a(n) {
+
+    var arr = []
+
+    for k in (1..1e3) {
+        var t = n*k
+        if (!seen.has(t) && isok(t)) {
+            arr << t
+            seen << t
+        }
+    }
+
+        #~ for p in (P) {
+            #~ if (!seen.has(n*p) && isok(n*p)) {
+                #~ arr << n*p
+                #~ seen << n*p
+            #~ }
+        #~ }
+
+        #~ for j in (0..10), k in (0..5), k2 in (0..3), k3 in (0..3) {
+            #~ var t = (n * 2**j * 3**k * 5**k2 * 7**k3)
+            #~ next if (t == n)
+            #~ if (!seen.has(t) && isok(t)) {
+                #~ arr << t
+                #~ seen << t
+            #~ }
+        #~ }
+
+    #~ for k in (arr) {
+        #~ var t = k
+        #~ for (1..20) {
+            #~ t = t.sigma
+            #~ if (!seen.has(t) && isok(t)) {
+                #~ arr << t
+                #~ seen << t
+            #~ }
+        #~ }
+    #~ }
+
+    for d in (n.divisors(1e6) + n.prime_divisors -> uniq) {
+        for t in (n*d, n/d, sigma(n*d), sigma(n/d)) {
+            #t > 1e11 || next
+            if (!seen.has(t) && isok(t)) {
+                arr << t
+                seen << t
+            }
+        }
+    }
+
+    for v in (arr) {
+        say v if (v > 1e11)
+    }
+
+    for v in (arr.grep{ _ > 1e10}) {
+        a(v)
+    }
+
+    return nil
+}
+
+var arr = ARGF.lines.map{.nums[0]}.sort.uniq.grep{.is_pos && isok(_) }.grep{_ > 1e11}
+
+for k in (arr) {
+    a(k)
+}

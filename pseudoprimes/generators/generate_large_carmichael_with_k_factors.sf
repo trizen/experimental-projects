@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# Generate large Carmichael numbers > 2^64, with exactly k prime factors.
+
+var omega = 4                         # must have this many prime factors
+var min   = 18446744073709551616      # must be greater than this
+
+func a(n) {
+
+    var arr = []
+    var from = 0
+    var p = prime(n)
+
+    for z in (2..35) {
+
+        var to = round(sqrt(2)**z)
+
+        for k in (from+1 .. to) {
+            var r = (2*k*p + 1)
+            if (r.is_prime && (r.dec.gpf == p)) {
+                #r.inc.is_smooth(p) || next
+                arr << r
+            }
+        }
+
+        from = to
+
+        if (arr.last(omega).prod < min) {
+            next
+        }
+
+        while (arr.first(omega).prod < min) {
+            arr.shift
+            arr || break
+        }
+
+        # Give up if there are too many combinations to try
+        break if (binomial(arr.len, omega) > 1e7)
+
+        #say arr
+
+        arr.combinations(omega, {|*a|
+            with (a.prod) {|C|
+                if (C.is_carmichael) {
+                    return C
+                }
+            }
+        })
+    }
+
+    return nil
+}
+
+if (ARGV) {
+    say a(ARGV[0].to_i)
+    return true
+}
+
+for n in (4..100) {
+    say "# Generating with n = #{n}"
+    with (a(n)) {|c|
+        say c
+    }
+}

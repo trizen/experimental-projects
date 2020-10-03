@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+func isok(n) {
+    var m = znorder(2, n)
+    m.is_even || return false
+    m < euler_phi(n) || return false
+    powmod(2, m/2, n).is_congruent(-1, n)
+}
+
+for k in (1..3000) {
+    if (isok(k)) {
+        print(k, ", ")
+    }
+}

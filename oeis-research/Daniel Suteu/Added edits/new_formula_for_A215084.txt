@@ -1,0 +1,18 @@
+
+# Added
+# https://oeis.org/A215084
+
+# 0, 1, 6, 46, 470, 6035, 93436, 1695036, 35277012, 828707925, 21693441550
+
+a(n) = Sum_{k=1..n} (B(n+1, k+1) - B(n+1, 1)) / (n+1), where B(n, x) are the Bernoulli polynomials. - ~~~~
+
+
+# Program Sidef
+
+func foo(n) {
+    sum(1..n, {|k|
+        (bernoulli(n+1, k+1) - bernoulli(n+1, 1)) / (n+1)
+    })
+}
+
+say 20.of { foo(_) }

@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+# Generate the n-th n-powerful number.
+
+func nth_powerful(n,k=2) {
+
+    var min = 0
+    var max = 1
+
+    while (powerful_count(max, k) < n) {
+        min = max+1
+        max *= 2
+    }
+
+    bsearch_min(min, max, {|v|
+        powerful_count(v,k) <=> n
+    })
+}
+
+for n in (1..100) {
+    say (n, " ", nth_powerful(n,n))
+}

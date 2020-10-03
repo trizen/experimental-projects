@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+# Take a squarefree semiprime and take the difference between its prime factors. If this difference is a squarefree semiprime repeat the process. Sequence lists the smallest squarefree semiprime that generates other squarefree semiprimes in the first n steps of this process.
+# https://oeis.org/A296808
+
+# 6, 34, 82, 226, 687, 4786, 14367, 28738, 373763, 21408927, 158279834
+
+# a(9)  = 21408927
+# a(10) = 158279834
+# a(11) = 2690757467

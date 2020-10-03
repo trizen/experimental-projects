@@ -1,0 +1,80 @@
+#!/usr/bin/ruby
+
+# Numbers that are the sum of m = 5 successive primes and also the product of m = 5 (other) successive primes.
+# https://oeis.org/A323052
+
+var a = [
+    2775683761181, 10945513774549181, 31285407706348267, 43861128120750079, 100441814079170659, 159395121707397143, 402260157804827743, 1340537842364790347, 4738876023641493659, 16292356006439865799, 27911122766554363873
+]
+
+# 27911122766554363873
+# 27911122766554363847
+# 27911122766554364033
+
+# 27911122766554363847
+# 27911122766554364033
+
+# sum(5582224553310872717, 5582224553310872743, 5582224553310872749, 5582224553310872771, 5582224553310872867)
+# sum(5582224553310872743, 5582224553310872749, 5582224553310872771, 5582224553310872867, 5582224553310872903)
+
+func is_sum(n) {
+
+    var k = floor(n/5)
+
+    loop {
+
+        if (k.is_prime) {
+            var r = 5.of { k }.map_reduce{|a| a.next_prime }.sum
+
+            if (r < n) {
+                #die "not ok: #{n} -- #{k}"
+                return false
+            }
+
+            if (r == n) {
+                #say "#{n} = sum(#{r})";
+                #break
+                return true
+            }
+        }
+
+        k.prev_prime!
+    }
+}
+
+STDOUT.autoflush(1)
+
+for p in (primes(100000)) {
+    var n = 5.of { p }.map_reduce{ .next_prime }.prod
+
+    if (is_sum(n)) {
+        print(n, ", ")
+    }
+}
+
+__END__
+
+a.each {|n|
+    var f = n.factor
+    assert_eq(5.of { f[0] }.map_reduce {|a| a.next_prime }, f)
+
+    var k = floor(n/5)
+
+    loop {
+
+        if (k.is_prime) {
+            var r = 5.of { k }.map_reduce{|a| a.next_prime }
+
+            if (r.sum < n) {
+                die "not ok: #{n} -- #{k}"
+            }
+
+            if (r.sum == n) {
+                say "#{n} = sum(#{r})";
+                break
+            }
+        }
+
+        k.prev_prime!
+    }
+}

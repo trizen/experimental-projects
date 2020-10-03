@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+for n in (1..300) {
+    var sum = 0
+    for m in (1 .. n) {
+        var k = n
+        for f in (m.factor.reverse) {
+            k.remove!(f)
+        }
+        #sum += k
+        #say k
+        if (k.is_prime) {
+            sum += 1;
+        }
+    }
+
+    if (sum == n.prime_count) {
+        #say sum
+        say n
+    }
+}
+
+
+__END__
+1
+2
+3
+6
+15
+20
+21
+63
+265
+295
+875
+978

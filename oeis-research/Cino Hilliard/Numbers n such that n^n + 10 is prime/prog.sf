@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+# Numbers n such that n^n + 10 is prime.
+# https://oeis.org/A100839
+
+# a(7) >= 8673
+
+for k in (8673 .. 1e6) {
+    say "Testing: #{k}"
+    if (is_prob_prime(k**k + 10)) {
+        die "Found: #{k}"
+    }
+}

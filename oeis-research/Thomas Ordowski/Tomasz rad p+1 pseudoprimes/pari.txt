@@ -1,0 +1,5 @@
+
+# https://oeis.org/draft/A306479
+
+rad(n) = factorback(factor(n)[, 1]); \\ A007947
+isok(m) = my(f=factor(m)[, 1]); my(r=rad(m-1)); m > 1 && !isprime(m) && issquarefree(m) && prod(k=1, #f, rad(f[k]-1) == r);

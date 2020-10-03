@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Numbers n such that n^(n + 1) + n - 1 is prime.
+# https://oeis.org/A309140
+
+# a(7) = 2323
+# a(8) >= 5125
+
+for n in (5125 .. 1e6) {
+
+    say "Testing: #{n}"
+
+    if (is_prob_prime(n**(n+1) + n - 1)) {
+        die "Found: #{n}"
+    }
+}

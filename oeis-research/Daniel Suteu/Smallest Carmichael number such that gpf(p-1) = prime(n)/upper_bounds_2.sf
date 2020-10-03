@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest Carmichael number such that gpf(p-1) = prime(n) for all prime factors p of a(n), or 0 if no such number exists.
+
+# This program efficiently generates upper-bounds for a(n).
+
+func a(n) {
+    var p = prime(n)
+
+    for z in (2..100) {
+
+        var arr = []
+
+        for k in (1 .. round(sqrt(2)**z)) {
+            var r = (2*k*p + 1)
+            if (r.is_prime && (r.dec.gpf == p)) {
+                arr << r
+            }
+        }
+
+        arr.combinations(3, {|*a|
+            var C = a.prod
+            return C if C.is_carmichael
+        })
+    }
+}
+
+if (ARGV) {
+    say a(ARGV[0].to_i)
+    return true
+}
+
+for n in (1..100) {
+    say ("a(10^#{n}) <= ", a(10**n))
+}
+
+__END__
+a(10^1)  <= 1269295201
+a(10^2)  <= 73881755325361
+a(10^3)  <= 80450619910537321
+a(10^4)  <= 15886037020062115176481
+a(10^5)  <= 49794506529815563415921701
+a(10^6)  <= 1254931836141826573323167521
+a(10^7)  <= 8508919739555013050246491382764321
+a(10^8)  <= 1487446982391835231061076260463688369
+a(10^9)  <= 1922278110523271693763383700255402020449
+a(10^10) <= 139290264728702092696281089762626914038407921

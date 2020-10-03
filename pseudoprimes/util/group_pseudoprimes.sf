@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+var LC = File('lucas_carmichael.txt').open_w
+var L  = File('lucas.txt').open_w
+var F  = File('fib.txt').open_w
+var O  = File('other.txt').open_w
+
+[LC, L, F, O].each { .autoflush(true) }
+
+ARGF.each {|line|
+    var n = line.to_i || next
+
+    n.is_prime && next
+
+    if (n.len <= 40 && n.is_lucas_carmichael) {
+        say "Lucas-Carmichael: #{n}"
+        LC.say(n)
+    }
+    else {
+        O.say(n)
+    }
+}

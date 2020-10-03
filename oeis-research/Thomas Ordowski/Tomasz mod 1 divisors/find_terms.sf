@@ -1,0 +1,81 @@
+#!/usr/bin/ruby
+
+# a(11) >= 85879
+
+for n in (5) {
+    for k in (2 .. Inf) {
+
+        say "Testing #{k}"
+        k.is_prime && next
+
+        powmod(n, k, (n-1)*k) == n || next
+        (n**k - 1)/(n-1) % k == 1 || next
+
+        k.factor.all {|p|
+            (n**p - 1)/(n-1) % k == 1
+        } || next
+
+        #, so n^k == n (mod (n-1)k)
+
+        var ok = true
+        var t = (n**k - 1)/(n-1)
+        var orig = t
+        var trial = true
+
+        while (t > 1) {
+
+            if (t.len < 60) {
+                ok = t.divisors.all { |d| (d%k == 1) && ((orig/d) % k == 1) }
+                break
+            }
+
+            say "Factoring...";
+
+            var f = (trial ? t.pminus1_factor : t.ecm_factor)
+
+            if ((f.len == 1) && (!trial) && (f[-1].is_prob_prime)) {
+                ok = ((t%k == 1) && ((orig/t)%k == 1))
+                break
+            }
+
+            if (trial && (f.len == 1)) {
+                say "Factoring again..."
+                trial = false;
+                f = t.ecm_factor
+            }
+
+            say f.ft(0,-2)
+
+            (f[-1]%k == 1) && ((orig/f[-1])%k == 1) || do {
+                say "Last factor counter-example";
+                ok = false;
+                break;
+            };
+
+           # say f
+            assert(f.len > 1)
+
+            f.ft(0,-2).all {|d|
+                (d%k == 1) &&
+                ((orig/d)%k == 1) && d.divisors.all {|d|
+                    (d%k == 1) && ((orig/d)%k == 1)
+                }
+            } || do {
+                #say "Counter-example for k=#{k} with #{f.ft(-1)}"
+                ok = false
+                break
+            }
+
+            t = f.pop
+        }
+
+        ok || next
+        say "Found: a(#{n}) = #{k}"
+        break
+
+        #if ( -> divisors.all { _%k == 1}) {
+        #    say "a(#{n}) = #{k}"
+        #    break
+        #}
+    }
+}

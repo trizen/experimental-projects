@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# Brief analyzation of Sierpinski triangle.
+
+func sierpinski_triangle(n) {
+    var triangle = ['*']
+    { |i|
+        var sp = (' ' * 2**i)
+        triangle = (triangle.map {|x| sp + x + sp} +
+                    triangle.map {|x| x + ' ' + x})
+    } * n
+    triangle.join("\n")
+}
+
+var t = sierpinski_triangle(5)
+
+t.gsub!(/^(\s+)/m, '')
+t.gsub!(/(\s+)$/m, '')
+
+say t
+
+var k = -1
+
+t.gsub!(/(.)/, {|s|
+    ++k; s == '*' ? k : ' '
+})
+
+say t
+
+func A038183(n) {
+    prod(0..n.ilog2, {|k|
+        getbit(n,k) * (2**(2**(k+1))) + 1
+    })
+}
+
+say 20.of(A038183)
+
+func positions_of_1s (n) {
+    var k = 0
+    var r = []
+
+    for v in (n.of(A038183)) {
+        for b in (v.digits(2)) {
+            r << k if b
+            ++k
+        }
+    }
+
+    return r
+}
+
+say positions_of_1s(10)
+
+__END__
+
+The position of 1's in A070886 are given by:
+    0, 1, 3, 4, 8, 9, 11, 13, 15, 16, 24, 25, 27, 33, 35, 36, 40, 44, 48, 49, 51, 53, 55, 57, 59, 61, 63, 64, 80, 81, 83, 97, 99, 100, 104, 116, 120, 121, 123, 125, 127, 137, 139, 141, 143, 144, 152, 160, 168
+
+The rows of 1s and 0s interpreted as a binary, is given by A038183:
+    1, 5, 17, 85, 257, 1285, 4369, 21845, 65537, 327685, 1114129, 5570645, 16843009, 84215045, 286331153, 1431655765, 4294967297, 21474836485, 73014444049, 365072220245, 1103806595329, 5519032976645, 18764712120593, 93823560602965
+
+where:
+    a(n) = Product_{i>=0} bit_n(n, i)*(2^(2^(i+1)))+1.
+    a(n) = Sum_{k=0..n} (binomial(2*n, 2*k) mod 2) * 4^(n-k).

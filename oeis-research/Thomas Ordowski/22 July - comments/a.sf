@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# https://oeis.org/A309284
+
+# a(10) <= 41154189126635405260441. - ~~~~
+
+# A309284(10) <= 41154189126635405260441
+
+func isok_a(n, k) {
+    # prime(n)^((k-1)/2) == -1 (mod k)
+    powmod(prime(n), ((k-1)/2), k).is_congruent(-1, k) && (
+        1..^prime(n) -> all {|b|
+                powmod(b, (k-1)/2, k) == 1
+        }
+    )
+}
+
+say isok_a(10, 41154189126635405260441)
+
+
+# isok(n,k) = (k%2==1) && !isprime(k) && Mod(prime(n), k)^((k-1)/2) == Mod(-1, k) && !for(b=2, prime(n)-1, if(Mod(b, k)^((k-1)/2) != Mod(1, k), return(0)));
+# a(n) = for(k=9, oo, if(isok(n, k), return(k))); \\ ~~~~
+
+# b^((a(n)-1)/2) == (b/a(n)) (mod a(n)) for every natural b <= prime(n), where (x/y) is the Jacobi symbol.

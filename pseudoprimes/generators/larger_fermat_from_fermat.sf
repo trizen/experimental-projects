@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# Generate larger Fermat base-2 pseudoprimes from a set of Fermat base-2 pseudoprimes.
+
+# Algorithm:
+#   1) Let n be a Fermat base-2 pseudoprime and L = znorder(2,n)
+#   2) Iterate over the positive divisors d of (n-1)/L.
+#   3) If p = d*L+1 is prime and p does not divide n, then n*p is a Fermat base-2 pseudoprime.
+
+# Equivalently (assuming n is squarefree):
+#   L = lcm({znorder(2, p)}), where p are primes p|n.
+
+var arr = [
+    341, 561, 645, 1105
+]
+
+for n in (arr) {
+
+    var L = znorder(2, n)
+    #var L = n.factor.lcm {|p| znorder(2, p) }
+    #var L = n.factor.gcd{.dec}
+    #var L = lambda(n)
+
+    #sigma0((n-1)/L) <= 1e4 || next
+
+    for d in (divisors((n-1)/L, 1e7)) {
+        var p = (L*d + 1)
+
+        next if (n%p == 0)
+
+        # p < 2**64 || next
+        p.is_prime || next
+
+        if (is_pseudoprime(n*p)) {
+            say n*p
+            arr << n*p if (len(n*p) <= 100)
+        }
+    }
+}

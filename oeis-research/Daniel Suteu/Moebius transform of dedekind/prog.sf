@@ -1,0 +1,198 @@
+#!/usr/bin/ruby
+
+# Daniel "Trizen" Șuteu
+# Date: 08 March 2019
+# https://github.com/trizen
+
+# Partial sums of the inverse Möbius transform of the Dedekind psi function (A001615).
+
+# Definition, for m >= 0:
+#
+#   a(n) = Sum_{k=1..n} Sum_{d|k} ψ_m(d)
+#        = Sum_{k=1..n} Sum_{d|k} 2^omega(k/d) * d^m
+#        = Sum_{k=1..n} 2^omega(k) * F_m(floor(n/k))
+#
+# where `F_n(x)` are the Faulhaber polynomials.
+
+# Asymptotic formula:
+#   Sum_{k=1..n} Sum_{d|k} ψ_m(d) ~ F_m(n) * (zeta(m+1)^2 / zeta(2*(m+1)))
+#                                 ~ (n^(m+1) * zeta(m+1)^2) / ((m+1) * zeta(2*(m+1)))
+
+# For m=1, we have:
+#   a(n) ~ (5/4) * n^2.
+#   a(n) = Sum_{k=1..n} A060648(k).
+#   a(n) = Sum_{k=1..n} Sum_{d|k} 2^omega(k/d) * d.
+#   a(n) = Sum_{k=1..n} Sum_{d|k} A001615(d).
+#   a(n) = (1/2)*Sum_{k=1..n} 2^omega(k) * floor(n/k) * floor(1 + n/k).
+
+# Partial sums of A060648.
+
+# See also:
+#   https://oeis.org/A064608 -- Partial sums of A034444: sum of number of unitary divisors from 1 to n.
+#   https://oeis.org/A061503 -- Sum_{k<=n} (tau(k^2)), where tau is the number of divisors function.
+
+# a(n) = Sum_{d|n} J_2(d)*mu(n/d)^2, Dirichlet convolution of A007434 and A008966. - Benoit Cloitre, Sep 08 2002
+
+func hello(n, m) {
+    n.divisors.sum {|d|
+        moebius(d) * dedekind_psi(n/d, m)
+    }
+}
+
+func bar(n, m) {
+    n.divisors.sum {|d|
+        jordan_totient(d, m) * moebius(n/d)**2
+    }
+}
+
+func hello2(n, m) {
+ #   n.divisors.sum {|d|
+         dedekind_psi(n, m)
+   # }
+}
+
+func bar2(n, m) {
+    n.divisors.sum {|d|
+        #2**omega(d) * jordan_totient(n/d, m)
+        2**omega(d) * euler_phi(n/d)
+        #moebius(n/d) * d**2 / euler_phi(n)
+    }
+}
+
+# a(n) = Sum_{d|n} 2^omega(d) * phi(n/d), Dirichlet convolution of A034444 and A000010. - ~~~~
+
+
+__END__
+say 20.of { hello(_, 2) }
+say 20.of { bar(_, 2) }
+
+say ''
+
+say 20.of { hello2(_, 1) }
+say 20.of { bar2(_, 1) }
+
+
+__END__
+
+func foo (n, m) {
+
+    var lookup_size = (2 + 2*n.iroot(3)**2)
+    var omega_sum_lookup = [0]
+
+    for k in (1..lookup_size) {
+        omega_sum_lookup[k] = (omega_sum_lookup[k-1] + 2**(k.omega))
+    }
+
+    var mu = moebius(0, n.isqrt)
+
+    func R(n) {   # A064608(n) = Sum_{k=1..n} 2^omega(k)
+
+        if (n <= lookup_size) {
+            return omega_sum_lookup[n]
+        }
+
+        var total = 0
+
+        for k in (1..n.isqrt) {
+            total += mu[k]*(
+                2*sum(1..floor(isqrt(n / k**2)), {|j|
+                    floor(n / (j * k**2))
+                }) - floor(isqrt(n / k**2))**2
+            ) if mu[k]
+        }
+
+        return total
+    }
+
+    var s = n.isqrt
+    var total = 0
+
+    for k in (1..s) {
+        total += (2**omega(k) * faulhaber(floor(n/k), m))
+        total += (k**m * R(floor(n/k)))
+    }
+
+    total -= R(s)*faulhaber_sum(s, m)
+
+    return total
+}
+
+func R(n) {
+    sum(1..n, {|k|
+        2**omega(k)
+    })
+}
+
+
+func bar(n, m) {
+    sum(1..n, {|k|
+        k**m * R(floor(n/k))
+    })
+}
+
+func baz(n, m) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            dedekind_psi(d, m)
+        }
+    })
+}
+
+say 20.of { foo(_, 1) }
+say 20.of { bar(_, 0) }
+say 20.of { baz(_, 1) }
+
+say 20.of { R(_) }
+
+
+__END__
+func inverse_moebius_of_dedekind_partial_sum_test_1(n, m) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            d.dedekind_psi(m)
+        }
+    })
+}
+
+func inverse_moebius_of_dedekind_partial_sum_test_2(n, m) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            2**omega(k/d) * d**m
+        }
+    })
+}
+
+func inverse_moebius_of_dedekind_partial_sum_test_3(n, m) {
+    sum(1..n, {|k|
+        2**omega(k) * faulhaber(floor(n/k), m)
+    })
+}
+
+for m in (0 .. 10) {
+
+    var n = 100.irand
+
+    var t1 = inverse_moebius_of_dedekind_partial_sum(n, m)
+    var t2 = inverse_moebius_of_dedekind_partial_sum_test_1(n, m)
+    var t3 = inverse_moebius_of_dedekind_partial_sum_test_2(n, m)
+    var t4 = inverse_moebius_of_dedekind_partial_sum_test_3(n, m)
+
+    assert_eq(t1, t2)
+    assert_eq(t1, t3)
+    assert_eq(t1, t4)
+
+    say "Sum_{k=1..#{n}} Sum_{d|k} ψ_#{m}(d) = #{t1}"
+}
+
+__END__
+Sum_{k=1..84} Sum_{d|k} ψ_0(d) = 956
+Sum_{k=1..87} Sum_{d|k} ψ_1(d) = 9310
+Sum_{k=1..61} Sum_{d|k} ψ_2(d) = 109853
+Sum_{k=1..35} Sum_{d|k} ψ_3(d) = 458652
+Sum_{k=1..47} Sum_{d|k} ψ_4(d) = 51704334
+Sum_{k=1..50} Sum_{d|k} ψ_5(d) = 2863258691
+Sum_{k=1..40} Sum_{d|k} ψ_6(d) = 25966179432
+Sum_{k=1..94} Sum_{d|k} ψ_7(d) = 801529887601705
+Sum_{k=1..61} Sum_{d|k} ψ_8(d) = 1402512018638201
+Sum_{k=1..78} Sum_{d|k} ψ_9(d) = 889920100633147511
+Sum_{k=1..63} Sum_{d|k} ψ_10(d) = 6152021324576989982

@@ -1,0 +1,232 @@
+#!/usr/bin/perl
+
+func test(n) {
+    powmod(2, n.dec/2, n) == n-1
+}
+
+for k in (1..1e6) {
+
+    if (test(k)) {
+        #if (k.factor.any {|p| kronecker(2, p) == 1 }) {
+        #if (kronecker(2, k) == -1) {
+
+        #if (k.dec `divides` k.dec/2) {
+
+        if (!k.factor.any {|p|
+            powmod(2, p.dec/2, p) == p-1
+        }) {
+            #p-1 `divides` ((k-1)/2) }) {
+            say k
+        }
+    }
+}
+
+__END__
+
+If 2^((n-1)/2) == -1 (mod n), then p-1 cannot divide (n-1)/2, where p is any prime factor of n.
+
+The criteria for an absolute Euler pseudoprime is that for each prime factor p of n, p-1 divides (n-1)/2.
+
+If n is a an odd composite integer, satisfying:
+
+    2^((n-1)/2) == -1 (mod n)
+
+then, at least one of its prime factors p, must satisfy:
+
+    2^((p-1)/2) == -1 (mod p)
+
+By writing n = p*k, for some k, then:
+
+    p-1 cannot divide p*k-1
+
+
+
+
+
+It's easy to show that a prime number p, cannot satisfy both conditions:
+
+    if 2^((p-1)/2) == -1 (mod p), then p-1 cannot divide (p-1)/2, since p-1 > (p-1)/2.
+
+
+
+If n is an odd composite integer satisfying:
+
+    2^((n-1)/2) == -1 (mod n)
+
+then all its prime factors p also satisfy:
+
+    2^((p-1)/2) == -1 (mod p)
+
+
+If n is a composite number n = p*q, for two primes p and q, then (p*q - 1)/2 cannot be divisible by p-1.
+
+This can be shown by writing p and q as:
+
+    p = 2*a + 1
+    q = 2*b + 1
+
+for some integers a and b.
+
+ (((2*a+1)*(2*b+1) - 1)/2) / (2*a)
+
+
+If 2^((p*q-1)/2) == -1 (mod p*q), then neither p-1 nor q-1 can divide (p*q-1)/2.
+
+This can be shown by writing p = 2*a + 1, q = 2*a + 1:
+
+    2^(((2*a+1)*(2*b+1)-1)/2) == -1 (mod p*q)
+
+which simplifies to:
+
+    2^(2*a*b + a + b) == -1 (mod p*q)
+
+    2^(2*a*b) * 2^a * 2^b == -1 (mod p*q)
+
+By substituing back a = (p-1)/2 and b = (q-1)/2, we get:
+
+    2^(2*((p-1)/2)*((q-1)/2)) * 2^((p-1)/2) * 2^((q-1)/2) == -1 (mod p*q)
+
+
+
+
+
+simplifying to:
+
+    2^(1/2 (p - 1) (q - 1) + p/2 + q/2 - 1) == -1 (mod p*q)
+
+
+
+
+#2^((p*q-1)/2) == -1
+
+
+
+__END__
+
+
+Suppose p is a prime p > 2, then p can be expressed as 2*q + 1, for some integer q:
+
+    2^((p-1)/2) == -1 (mod p)
+
+which is equivalent with:
+
+    2^(((2*q + 1) - 1) / 2) == -1 (mod p)
+
+and gets simplified to:
+
+    2^q == -1 (mod p)
+
+Then:
+    2^q + 1 == 0 (mod p)
+
+
+From this we know that:
+
+    2^q + 1 is divisible by p
+
+Therefore:
+
+    2^q + 1 = p * k, for some integer k
+
+
+    2^((p-1)/2) + 1 = p*k
+
+
+
+
+
+Suppose p is a prime p > 2, then p can be expressed as 2*q + 1, for some integer q:
+
+    2^(((2*q + 1) - 1) / 2) == -1
+
+
+
+
+__END__
+
+2^((p*q-1)/2) == -1 (mod n)
+
+then:
+
+2^((p*q-1)/2) + 1 = 0 (mod n)
+
+
+
+
+__END__
+If n = p*q, then:
+
+    ((p*q - 1)/2) / (p-1) = (p*q - 1) / (2*(p - 1))
+
+
+Equivalent to:
+
+    2*(p-1) divides p*q-1
+
+
+
+__END__
+
+If this were the case, then:
+
+    (n-1)/2 = (p-1)*(q-1)
+
+meaning that:
+
+    n = 2*p*q - 2*p - 2*q + 3
+
+
+
+
+Yes, there doesn't seem to exist any numbers n such that satisfy both conditions:
+
+    2^((n-1)/2) == -1 (mod n)
+
+and
+
+    (p-1) divides (n-1)/2 for all prime factors p of n
+
+I think this is easy to prove:
+
+
+
+var primes_bellow = []
+
+func isok(k) {
+    var w = powmod(prime(k), (k-1)/2, k)
+
+    (w != 1) && (w != k-1) || return false
+
+    primes_bellow.all {|p|
+        var t = powmod(p, (k-1)/2, k)
+        (t == 1) || (t == k-1)
+    }
+}
+
+var p = 2;
+
+for k in (1..1e7) {
+    if (isok(k)) {
+        say k
+
+        primes_bellow << p
+        p = p.next_prime
+    }
+}
+
+# (($n-1)>>1) % ($_-1) == 0
+
+
+
+
+
+However, by slightly weaking the second condition:
+
+    (p-1) dividies (n-1) for all prime factors p of n
+
+
+
+
+
+...then the first few terms would be:
+    29341, 314821, 15247621, 36765901, 133800661, 299736181, 579606301, 702683101, 739444021, 775368901, 4127050621, 4340265931, 4953963781, 7361854501, 9293756581, 11360308765, 13734086221, 14386156093, 18173966581, 19331388805, 20193897781, 23224518901, 24800417461, 27363972901, 34087042891, 37870128451, 41135881645, 41764915501, 42304192981, 46493311411, 48354810571, 52396612381, 53038112821, 63734663077, 65376249445, 72725349421, 74500799437, 90495831037, 94706509885, 96133341781, 117930513949, 118805562613, 118936706941, 245291853691, 268628041501, 347556640861, 366552764101, 370230237469, 396124060501, 436580025661, 440688939301, 443729109421, 494442433171, 547365250405, 600613114501, 638345536501, 705636161413, 707161856941, 716726903707, 779999961061, 813460927501, 1084962050965, 1142877413581, 1341908088445, 1427823735229, 1435738307221, 1479982594861, 1557309989845, 1557325889821, 1671885346141, 1683061731541, 1766297137501, 1918081357501, 2030606255101, 2100917530531, 2152302898747, 2289717532901, 2332465835701, 2432870015941, 2657407435621, 2874412113301, 2881383743701, 2951861939461, 3305918887501, 3459443867461, 3944036145061, 4018209994261, 4038030605701, 4443982738651, 4525783922251, 4963134761131, 5069712129301, 5459748937021, 5576047603741, 5811733744867, 6317414663701, 6513448976101, 6614815335661, 7835972164021, 8333344148677

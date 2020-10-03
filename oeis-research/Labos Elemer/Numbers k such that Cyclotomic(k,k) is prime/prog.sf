@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Numbers k such that Cyclotomic(k,k) (i.e., the value of k-th cyclotomic polynomial at k) is a prime number.
+# https://oeis.org/A070519
+
+# Known terms:
+#   2, 3, 4, 6, 10, 12, 14, 19, 31, 46, 74, 75, 98, 102, 126, 180, 236, 310, 368, 1770, 1858, 3512, 4878, 5730, 7547, 7990, 8636, 9378, 11262
+
+var from = 11262+1
+
+for k in (from .. 1e6) {
+    say "Testing: #{k}"
+    if (cyclotomic(k, k).is_prob_prime) {
+        die "Found: #{k}"
+    }
+}

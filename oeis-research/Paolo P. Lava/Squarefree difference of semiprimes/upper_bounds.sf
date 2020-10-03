@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+func f(n) {
+
+    var count = -1
+
+    while (n.is_semiprime && n.is_squarefree) {
+        var f = n.factor
+        n = (f[1] - f[0])
+        ++count
+    }
+
+    count
+}
+
+
+func a(n) is cached {
+
+    if (n == 0) {
+        return 6
+    }
+
+    if (n <= 10) {
+        return [    6, 34, 82, 226, 687, 4786, 14367, 28738, 373763, 21408927, 158279834][n]
+    }
+
+
+
+    var t = a(n-1)
+    var z;
+
+    loop {
+        z = (1..100 -> first {|x| x.is_prime && (f(x * (t+x)) >= n) })
+
+        if (defined(z)) {
+            break
+        }else {
+            ++t
+        }
+    }
+
+    z * (t + z)
+}
+
+for k in (0..12) {
+    say "a(#{k}) <= #{a(k)}"
+}

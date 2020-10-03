@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# Find the smallest prime factor of 2^(2^prime(n) - 1) - 1.
+# https://oeis.org/A309130
+
+# Known terms:
+#   7, 127, 2147483647, 170141183460469231731687303715884105727, 47, 338193759479, 231733529, 62914441, 2351, 1399, 295257526626031, 18287, 106937, 863, 4703, 138863, 22590223644617
+
+func trial_factor(n, k) {
+
+    if (n.len < 50) {
+        return n.factor
+    }
+
+    #n.ecm_factor
+    n.trial_factor(k)
+}
+
+var n = 15
+var p = prime(n)
+var e = ipow(2, p)-1
+var r = znorder(2, e)
+
+for i in (1..1e6) {
+
+    var k = (i*r + 1)
+    k.is_prime || next
+
+    say "Testing: #{k}"
+    var F = trial_factor(2**k - 1, 1e8)
+
+    for f in F {
+        var t = powmod(2, e, f)
+
+        if (t == 1) {
+            say "[#{k}] Found: #{f}"
+        }
+    }
+}

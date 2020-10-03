@@ -1,0 +1,647 @@
+#!/usr/bin/ruby
+
+var terms = []
+var nums = []
+
+File("b002589.txt").open_r.each{|line|
+    terms << line.nums[-1]
+}
+
+File("nums.txt").open_r.each{|line|
+    nums << line.nums[-1]
+}
+
+terms << (
+    3, 19, 3, 87211, 3, 163, 135433, 272010961, 3, 1459, 139483, 10429407431911334611, 918125051602568899753, 3, 227862073, 3110690934667, 216892513252489863991753, 1102099161075964924744009, 393063301203384521164229656203691748263012766081190297429488962985651210769817
+)
+
+for n in (nums) {
+    var r = (2**n + 1)/n
+
+    assert(r.is_int)
+
+    for k in (2 .. 1000) {
+        if (k*k `divides` r) {
+            die "Found counter-example: #{k}"
+        }
+
+        if (k `divides` r) {
+            r /= k
+        }
+    }
+
+    [3, 19, 163, 1459, 17497, 52489, 87211, 135433, 139483, 1220347, 5419387, 6049243, 28934011, 86093443, 227862073, 272010961].each {|p|
+        if (p `divides` r) {
+            if (p*p `divides` r) {
+                die "Found: #{p}"
+            }
+
+            r /= p
+        }
+    }
+
+    for p in (terms) {
+        if (p `divides` r) {
+
+            if (p*p `divides` r) {
+                die "Found: #{p}"
+            }
+
+            r /= p
+        }
+    }
+
+    say "Testing: #{n} (#{r.len} digits)"
+
+    if (r > 1 && r.is_power) {
+        die "Found: #{n} with power #{r}"
+    }
+
+    50.times {
+        var e = r.pminus1_factor
+
+        if (e.len > 1) {
+            e.pop
+
+            for p in (e) {
+
+                if (p*p `divides` r) {
+                    die "Found: #{p}"
+                }
+
+                if (p.len > 100) {
+                    p = p.ecm_factor[0]
+                }
+
+                if (p*p `divides` r) {
+                    die "Found: #{p}"
+                }
+
+                if (!p.is_prob_prime && (p.len > 100)) {
+                    say "Skipping one factor...";
+                    next
+                }
+
+                say "Testing factor: #{p}"
+                p.is_square_free || die "Divisor not square-free: #{p}"
+
+                for z in (p.factor) {
+                    if (z*z `divides` r) {     #%
+                        die "found: #{z}"
+                    }
+                }
+            }
+
+            e.each {|p| r /= p }
+
+            if (r.is_power) {
+                die "Found: #{n} with power #{r}"
+            }
+        }
+        else {
+            break
+        }
+    }
+}
+
+
+__END__
+for n in (1000000..10000000) {
+    if (powmod(2, n, n) + 1 == n) {
+        say "Testing: #{n}"
+        var r = (2**n + 1)/n
+        var e = r.ecm_factor.grep{_>10000}
+
+        if (e.len > 1) {
+            say "Testing factor: #{e[0]}"
+            if (r %% e[0]**2) {
+                die "found: #{e}"
+            }
+        }
+
+        #for k in (2 .. 10000) {
+        #    if (r %% k*k) {
+        #        die "Found counter-example: #{k}"
+        #    }
+        #}
+    }
+}
+
+
+
+__END__
+func foo(n) {
+    1..n -> count { .moebius == -1 }
+}
+
+for n in (1..6) {
+    say foo(10**n)
+}
+
+__END__
+
+#!/usr/bin/perl
+
+# Daniel "Trizen" Șuteu
+# Date: 25 April 2018
+# https://github.com/trizen
+
+# Efficient algorithm for computing the k-th order Fibonacci numbers.
+
+# See also:
+#   https://oeis.org/A000045    (2-nd order: Fibonacci numbers)
+#   https://oeis.org/A000073    (3-rd order: Tribonacci numbers)
+#   https://oeis.org/A000078    (4-th order: Tetranacci numbers)
+#   https://oeis.org/A001591    (5-th order: Pentanacci numbers)
+
+use 5.020;
+use strict;
+use warnings;
+
+use Math::GMPz;
+use experimental qw(signatures);
+
+sub tribonacci ($n, $m, $k = 3) {
+
+    # Algorithm due to M. F. Hasler
+    # See: https://oeis.org/A302990
+
+    if ($n < $k - 1) {
+        return 1;
+    }
+
+    my @f = map {
+        $_ < $k
+          ? do {
+            my $z = Math::GMPz::Rmpz_init();
+            Math::GMPz::Rmpz_setbit($z, $_);
+            $z;
+          }
+          : Math::GMPz::Rmpz_init_set_ui(1)
+    } 1 .. ($k + 1 );
+
+    my $t = Math::GMPz::Rmpz_init();
+
+    foreach my $i (2 * ++$k - 2 .. $n) {
+        #Math::GMPz::Rmpz_add_ui($t, $t, $i);
+        Math::GMPz::Rmpz_mul_2exp($t, $f[($i - 1) % $k], 1);
+        Math::GMPz::Rmpz_sub($f[$i % $k], $t, $f[$i % $k]);
+        #Math::GMPz::Rmpz_mod_ui($f[$i%$k], $f[$i%$k], $m);
+    }
+
+    return $f[$n % $k];
+}
+
+#say "Tribonacci: ", join(' ', map { kth_order_fibonacci($_, 3) } 0 .. 15);
+#say "Tetranacci: ", join(' ', map { kth_order_fibonacci($_, 4) } 0 .. 15);
+#say "Pentanacci: ", join(' ', map { kth_order_fibonacci($_, 5) } 0 .. 15);
+
+
+say tribonacci(1,1e6);
+say tribonacci(2,1e6);
+say tribonacci(3,1e6);
+say tribonacci(4,1e6);
+say tribonacci(5,1e6);
+say tribonacci(6,1e6);
+say tribonacci(7,1e6);
+
+__END__
+use 5.010;
+use strict;
+#~ use integer;
+
+#~ sub tribonacci {
+    #~ my ($n, $k, $c) = @_;
+    #~ $c->{$n} //= $n <= 3 ? 1 : (
+        #~ tribonacci($n - 1, $k, $c) % $k
+      #~ + tribonacci($n - 2, $k, $c) % $k
+      #~ + tribonacci($n - 3, $k, $c) % $k
+    #~ ) % $k;
+#~ }
+
+my $num = 0;
+my $nth = 124;
+
+for (my ($c, $k) = (1, 1) ; $c <= $nth ; $k += 2) {
+    for (my ($n) = 4 ; ; $n += 3) {
+        my $t1 = tribonacci($n,     $k ) || last;
+        my $t2 = tribonacci($n + 1, $k ) || last;
+        my $t3 = tribonacci($n + 2, $k) || last;
+
+        if ($t1 == 1 and $t2 == 1 and $t3 == 1) {
+            say "$c -> $k";
+            $num = $k;
+            $c += 1;
+            last;
+        }
+    }
+}
+
+say "Final answer: $num";
+
+
+__END__
+for n in (1..1000) {
+    fibonacci(n, 3)
+}
+
+
+
+__END__
+func foo(a,b,c,d, n=10000) {
+    (exp(a/n) ) + (exp(b/n)) + (exp(c/n) ) + (exp(d/n) ) - 4
+}
+
+func find_best(a, b, c, d, min=0) {
+
+    var m = (foo(a, b, c, d) - Num.pi)
+
+    find_best(a+1, b, c, d)
+}
+
+find_best(1, 1, 1, 1)
+
+__END__
+
+for a in (1..10) {
+
+    var b = a
+    var c = a
+    var d = a
+
+    var S = [a, b, c, d]
+    S.all{.is_int} || next
+
+    say ("#{S} -> ", foo(a, b, c, d))
+}
+
+
+
+#say foo(100, 200, 300, 400)
+
+__END__
+#!/usr/bin/perl
+
+# Daniel "Trizen" Șuteu
+# Date: 23 October 2017
+# https://github.com/trizen
+
+# Counting the number of representations for a given number `n` expressed as the sum of four squares.
+
+# Formula:
+#   R(n) = 8 * Sum_{d | n, d != 0 (mod 4)} d
+
+# See also:
+#   https://oeis.org/A000118
+#   https://en.wikipedia.org/wiki/Lagrange's_four-square_theorem
+
+use 5.020;
+use strict;
+use warnings;
+
+use experimental qw(signatures);
+use ntheory qw(is_prime divisor_sum);
+
+sub count_representations_as_four_squares($n) {
+
+    my $count = 8 * divisor_sum($n);
+
+
+    if ($n % 4 == 0) {
+        $count -= 32 * divisor_sum($n >> 2);
+    }
+
+    return $count;
+}
+
+say count_representations_as_four_squares(64658);
+
+
+
+__END__
+foreach my $n (1 .. 20) {
+    say "R($n) = ", count_representations_as_four_squares($n);
+}
+
+__END__
+R(1) = 8
+R(2) = 24
+R(3) = 32
+R(4) = 24
+R(5) = 48
+R(6) = 96
+R(7) = 64
+R(8) = 24
+R(9) = 104
+R(10) = 144
+R(11) = 96
+R(12) = 96
+R(13) = 112
+R(14) = 192
+R(15) = 192
+R(16) = 24
+R(17) = 144
+R(18) = 312
+R(19) = 160
+R(20) = 144
+
+
+__END__
+include b
+
+say b::hi
+say a::hello
+
+
+__END__
+
+
+for n in (1..1e5) {
+    #say n.inverse_totient
+    if (n.inverse_totient_len == n.sigma0) {
+        say n
+    }
+}
+
+__END__
+#!/usr/bin/ruby
+
+
+func foo(n) {
+    sum(1..n, {|k|
+        ramanujan_sum(n, k) * floor(n/k)
+    })
+}
+
+say 20.of(foo)
+say 20.of{.sigma}
+
+#assert_eq(400.of(foo), 400.of{.sigma})
+
+say ramanujan_sum(2**128 - 1, 2**64 - 1)
+
+__END__
+
+for n in (1..1000) {
+    say polygonal_inverse(n)
+}
+
+__END__
+
+bseach(6+75
+
+
+__END__
+
+var n = "40561817703823564929".reverse
+
+say Num(join('',n[0..n.len `by` 2]))
+say Num(join('',n[1..n.len `by` 2]))
+
+
+
+
+__END__
+var n = 1000
+var array = []
+
+for k in (1..1000) {
+    array << k.factor_exp.prod{|p|
+        sum(0..p[1], {|j|
+            p[0]**(j*2)
+        })
+    }
+}
+
+for n in (1..1000) {
+    if (n.sigma(2).is_square) {
+        say n
+    }
+}
+
+say array.grep{.is_square}
+
+
+
+__END__
+var bases = [0,1]
+
+func lsd(n, k=1) {
+
+    variations_with_repetition(bases, k, {|*a|
+
+        var l = Num(a.join) || next
+
+        if (n `divides` l) {
+            return l
+        }
+    })
+
+    return lsd(n, k+1)
+}
+
+#say lsd(1009)
+
+say 30.of { Num(lsd(_+1), 2) }
+
+__END__
+
+say sum(1..1000, {|k| lsd(k) / k })
+
+#say
+
+__END__
+
+func f(n, k) {
+    n.factor_exp.prod { _[0]**k }
+}
+
+func S(n, k) {
+    sum(1..n, {|i|
+        f(i, k)
+    })
+}
+
+#say S(10, 1)
+#say 20.of { S(_, 2) }
+
+#say 30.of { .prime.primes.sum{_*_} - (2*_.prime.primes.sum) }
+
+func g(n) {
+
+    var total = 0
+
+    var s = n.isqrt
+    var u = floor(n/(s+1))
+
+    for k in (1..s) {
+        total += (primes(floor(n/(k+1))+1, floor(n/k)).sum{_*_})
+    }
+
+    for k in (1..u) {
+        total += k*k if k.is_prime
+    }
+
+    total
+}
+
+func h(n) {
+    n.primes.sum{_*_}
+}
+
+say 10.of{h(.prime)}
+say 10.of{g(.prime)}
+
+__END__
+
+func lpf(n) {
+    n == 1 && return 1
+    n.factor[0]
+}
+
+func gpf(n) {
+    n == 1 && return 1
+    n.factor[-1]
+}
+
+func foo(n) {
+    sum(2..n, {|k|
+        gpf(k)
+    })
+}
+
+#~ func foo2(n) {
+    #~ sum(2..n, {|k|
+        #~ lpf(k)
+    #~ })
+#~ }
+
+#~ func bar(n) {
+    #~ var total = 0
+    #~ total += (2 * (n/2))
+
+    #~ for k in (3..n) {
+        #~ if (k.is_prime) {
+            #~ total += (k * ceil(n/(k*(k-1))))
+        #~ }
+    #~ }
+
+    #~ total
+#~ }
+
+#say foo2(1000)
+#say bar(1000)
+#say (2..1000 -> map { lpf(_) }.count(3))
+
+# 2 = floor(n/2)
+# 3 = round((r+1) / 6)      = (5 * 10^n + 1)/3
+# 5 = round((r+1) / 15)     = (6 * 10^n + 1)/(5+4)
+# 7 = round((r+1) / 26.25)  =
+
+#for r in (1..10) {
+    #var r = (10**n )
+    #say [2 .. r -> map { lpf(_) }.count(7), round((r+1) / 26.25)]
+ #   say [2..r -> map(lpf).count(2), as_dec((8 * r + 1)/(7+5))]
+#}
+
+#~ a(n) = floor(n/6) + a(floor(n/6));
+#~ a(6*n) = n + a(n);
+#~ a(n*6^m) = n*(6^m-1)/5 + a(n).
+#~ a(k*6^m) = k*(6^m-1)/5, for 0<=k<6, m>=0.
+
+# 2 = floor(n/2)
+# 3 = Sum_{k>0} floor(n/6^k)
+
+
+func g(n) {
+    2..n -> map(lpf) -> count(3)
+}
+
+say g(1000)
+say g(10000)
+
+say sum(1..1000, {|k|
+    floor(100000 / 6**k)
+})
+
+__END__
+
+#say 20.of(foo)
+#say 20.of(foo).map_cons(2, {|a,b| b-a })
+
+#say foo(1000)
+#var n = 50
+
+#say map(1..n.isqrt, gpf).freq
+#say map(2..n, gpf).freq
+
+#~ say 3*n.ilog(3)
+#~ say 23*n.ilog(23)
+#~ say 19*n.ilog(19)
+#~ say ''
+#~ say n.factorial_power(23)
+#say n.factorial_power(11)
+#say n.factorial_power(43)
+#say n.factorial_power(19)
+#say n.factorial_power(13)
+#say n.factorial_power(5)
+#say n.factorial_power(7)
+
+func bar(n) {
+    #var total = n.primes.sum
+
+    var s = n.isqrt
+    var u = floor(n/(s+1))
+
+    var total = 0
+
+    for k in (2..n) {
+
+        if (k.is_prime) {
+
+            var t = k
+            var count = 0
+
+            while (t <= n) {
+                t *= k
+                ++count
+            }
+
+            total += count*k
+        }
+    }
+
+    total
+}
+
+#func g(n) {
+    #prod(2..n, {|k|
+     #   k.factor[-1]
+    #}).factor_exp.sum { _[1]}
+#}
+
+#say 100.of(g)
+
+
+#say foo(50)
+#say foo2(50)
+#say bar(50)
+
+#say map(2..64, gpf).to_bag.pairs.sort
+#say map(2..64, lpf).to_bag.pairs.sort
+
+#var n = 64
+#say n.factorial_power(2)
+#say n.ilog(2)
+
+#say 20.of(bar)
+
+__END__
+say 30.of(foo)
+say 30.of(foo).map_cons(2, {|a,b| b-a })
+
+#~ say 30.of(foo).map_reduce{|a,b| a+b }
+#~ #say 50.of(foo).map_cons(2, {|a,b| b-a })
+#for n in (1..5) {
+#    say foo(10**n)
+#}

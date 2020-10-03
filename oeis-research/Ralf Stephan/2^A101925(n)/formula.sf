@@ -1,0 +1,51 @@
+#!/usr/bin/ruby
+
+# a(n) = 2^A101925(n).
+# https://oeis.org/A101926
+
+# Formula (Daniel Suteu, Feb 03 2017):
+#   a(n) is the reduced numerator of 2^(2*n+1)*(n!)^2/(2*n+1)/(2*n)!.
+
+# Alternate form:
+#   a(n) is the reduced numerator of (sqrt(π) Γ(n + 1))/Γ(n + 3/2).
+
+# I came across that formula while studying some limits for Pi, related to Wallis product (Product_{k=1..n} (4*k^2)/(4*k^2-1) = Pi/2). (see: A002454)
+
+# In particular:
+#     A002454(n) / (2*n+1)! = A046161(n) / A001803(n)
+#   2*A002454(n) / (2*n+1)! = A101926(n) / A001803(n)
+#   Lim_{n->oo} n*A002454(n) / ((2n+1)!!)^2 = Pi/4
+#   Lim_{n->oo} A002454(n) / A079484(n) = Pi/2
+
+# Since A101926(n) is even and A001803(n) is odd, we get:
+#   A101926(n) = numerator(2*A002454(n) / (2*n+1)!)
+#   A101926(n) = 2 * A046161(n)
+
+# Where:
+#   A046161(n) = 2^A005187(n)          -- see "formula" section
+#   A101926(n) = 2^(1 + A005187(n))    -- by definition
+
+# which proves the identity:
+#   A101926(n) = 2 * A046161(n)
+
+# This program checks the formula against the definition for the first 10^3 terms.
+
+func A005187(n) {
+    2*n - popcount(2*n)
+}
+
+func A101925(n) {
+    A005187(n) + 1
+}
+
+func A101926(n) {
+    2**A101925(n)
+}
+
+for n in (1..1e3) {
+    var t = (2**(2*n + 1) * (n!)**2 / (2*n + 1) / (2*n)!)
+    var num = t.nu
+
+    say [n, num]
+    assert_eq(num, A101926(n))
+}

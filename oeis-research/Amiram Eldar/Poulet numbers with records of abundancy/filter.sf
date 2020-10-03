@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+ARGF.each {|line|
+    if (line =~ /^(\d+)/) {|m|
+        var n = Num(m[0])
+        if (n.is_pseudoprime && n.is_composite) {
+            say n
+        }
+    }
+}

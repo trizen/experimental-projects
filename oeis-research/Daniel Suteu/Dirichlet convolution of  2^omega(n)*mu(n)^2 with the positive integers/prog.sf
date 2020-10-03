@@ -1,0 +1,131 @@
+#!/usr/bin/ruby
+
+# Multiplicative with a(p^e) = p^(e-1) * (p+1).
+# a(n) = psi(n) * Sum_{d|n} mu(d)^2 / psi(d).
+# a(n) = Sum_{d|n} mu(d)^2 * 2^omega(d) * (n/d).
+# a(n) = n * Product_{primes p|n} (1 + 2/p).
+
+# Dirichlet convolution of A074823 with A000027.
+
+# Terms:
+#   1, 4, 5, 8, 7, 20, 9, 16, 15, 28, 13, 40, 15, 36, 35, 32, 19, 60, 21, 56, 45, 52, 25, 80, 35, 60, 45, 72, 31
+
+func a(n) {
+    psi(n) * n.divisors.sum{|d|
+        moebius(d).abs / psi(d)
+    }
+}
+
+func b(n) {
+    n.factor_prod {|p,e|
+        p**(e-1) * (p+2)
+    }
+}
+
+func c(n) {
+     n.divisors.sum{|d|
+         (n/d) * moebius(d).abs * usigma0(d)
+     }
+}
+
+func e(n) {
+    n * n.factor_prod{|p|
+        (1 + 2/p)
+    }
+}
+
+for k in (1..100) {
+    assert_eq([a(k),b(k),c(k),e(k)].uniq.len, 1, k)
+}
+
+
+func f(n) {
+    sum(1..n, {|k|
+        #usigma0(k).is_squarefree ? 1 : 0
+        #1 : 0
+       #gcd(n,k) == moebius(k).abs ? 1 : 0
+       #2**omega(usigma0(k))
+       #usigma0(usigma0(usigma0(usigma0(k))))
+        #usigma0(usigma0(usigma0(k)))
+        #moebius(gcd(n,k)).abs
+        #psi(gcd(n,k))
+        #gcd(n,k) == 1 ? gcd(n,k) : 0
+        #gcd(n,k).usigma0 == usigma0(k) ? k : 0
+        #moebius(gcd(n,k)).abs
+        #gcd(n,k).is_squarefree ? 2**omega(k) : 0
+        #usigma(k) == usigma(n) ? 1 : 0
+        lcm(n,k) == n ? usigma(k) : 0
+        #moebius(psi(k) * moebius(k)).abs
+        #moebius(k).abs * sigma0(k)
+        #lcm(n,k) == n ? moebius(k)*k.psi : 0
+        #gcd(n,k) == 1 ?
+        #moebius(lcm(n,k))
+    })
+
+    #n.divisors.sum{|d|
+    #    psi(n/d) * moebius(d).abs
+    #}
+}
+
+#say 56.of(f)
+
+#say a(20!)
+#say b(20!)
+
+say 30.of(a)
+say 30.of(b)
+say 30.of(c)
+#~ say 30.of(d)
+say 30.of(e)
+say 30.of(f)
+
+#~ say a(3)
+#~ say a(3*3)
+#~ say a(3*3*3)
+#~ say a(3*3*3*3)
+#~ say a(5)
+#~ say a(15)
+
+#~ # p^(e-1)*(p-2).
+#~ say (3**(2-1) * (3+2))
+#~ say (3**(3-1) * (3+2))
+#~ say (3**(4-1) * (3+2))
+
+__END__
+
+# Formula for A326828:
+#   a(n) = Sum_{k=1..n} Sum_{j=1..k} mu(gcd(n,k,j)). - ~~~~
+# https://oeis.org/A326828
+
+
+# --------------------------------
+# Close, but incorrect.
+# --------------------------------
+
+func d(n) {
+    n.divisors.sum{|d|
+        psi(n/d) * moebius(d).abs
+    }
+}
+
+func g(n) {
+    n.divisors.sum{|d|
+        usigma(d)
+    }
+}
+# ---------------------------------
+
+#~ say 30.of(d)
+#~ say 30.of(g)
+
+func b(n) {
+     #Sum_{d divides n} phi(n/d)*(-1)^omega(d)
+     n.divisors.sum {|d|
+         phi(n/d) * (-1)**omega(d)
+     }
+}
+
+for k in (1..1e6) {
+    say k
+    assert_eq(a(k), b(k))
+}

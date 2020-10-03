@@ -1,0 +1,57 @@
+#!/usr/bin/ruby
+
+# Numbers n such that 2^n+5^n is semiprime.
+# https://oeis.org/A122116
+# 3, 6, 8, 12, 14, 16, 17, 19, 28, 38, 47, 52, 64, 101, 274, 466, 1709, 2539, 5591, 6037, 8011
+# a(16)-a(21) from ~~~~
+# a(22) > 15213
+# Cf. A082387.
+
+# Where A082387 = { 3, 17, 19, 47, 101, 1709, 2539, 5591, 6037, 8011, 19373, 26489, 27427, ... }
+
+for n in (15214 .. 1e6) {
+
+    if (n.is_odd && (n < 19373)) {
+        next
+    }
+
+    say "Testing: #{n}"
+
+    if (n.is_odd) {
+        is_prob_prime((2**n + 5**n)/7) || next
+    }
+    else {
+        var N = (2**n + 5**n)
+        var divs = []
+
+        for d in (n.divisors) {
+
+            var g = gcd(2**d + 5**d, N)
+
+            if (g.is_between(2, N-1)) {
+                say [n, g]
+                divs << (g, N/g)
+                divs.uniq.len > 2 && break
+            }
+        }
+
+        divs = divs.uniq
+        divs.len > 2 && next
+
+        if (divs.len == 0) {
+            is_semiprime(N) || next
+        }
+        else {
+            divs.sort.all { .is_prob_prime } || next
+        }
+    }
+
+    die "Found: #{n}"
+
+
+    #if (is_semiprime(2**n + 5**n)) {
+    #if (is_semiprime( (2**n - n + 1) * 2**n + 1)) {
+     #   die "Found: #{n}"
+        #print(n, ", ")
+    #}
+}

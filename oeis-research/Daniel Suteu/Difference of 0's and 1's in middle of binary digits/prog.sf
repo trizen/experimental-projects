@@ -1,0 +1,133 @@
+#!/usr/bin/ruby
+
+# b(2^n - 1) = 0, for all n >= 1.
+
+# Number of 0's minus number of 1's among the edge truncated binary representations of the first n natural numbers.
+
+# By "edge truncated" we mean removing the first and last binary digits.
+
+# See also:
+#   https://oeis.org/A308430    (same process on primes)
+
+func b(n) is cached {
+    return 0 if (n == 0)
+    return 0 if (n == 1)
+    var t = n.as_bin.chars.ft(1, -2)
+    b(n-1) + (t.count('0') - t.count('1'))
+}
+
+say 128.of(b)
+
+__END__
+
+[0, 0, 0, 0, 1, 2, 1, 0, 2, 4, 4, 4, 4, 4, 2, 0, 3, 6, 7, 8, 9, 10, 9, 8, 9, 10, 9, 8, 7, 6, 3, 0, 4, 8, 10, 12, 14, 16, 16, 16, 18, 20, 20, 20, 20, 20, 18, 16, 18, 20, 20, 20, 20, 20, 18, 16, 16, 16, 14, 12, 10, 8, 4, 0, 5, 10, 13, 16, 19, 22, 23, 24, 27, 30, 31, 32, 33, 34, 33, 32, 35, 38, 39, 40, 41, 42, 41, 40, 41, 42, 41, 40, 39, 38, 35, 32, 35, 38, 39, 40, 41, 42, 41, 40, 41, 42, 41, 40, 39, 38, 35, 32, 33, 34, 33, 32, 31, 30, 27, 24, 23, 22, 19, 16, 13, 10, 5, 0]
+
+for k in (1 .. (2**(ilog2(1e4)))) {
+    say b(k)
+}
+
+for k in (1..1e7) {
+    if (b(k) <= 0) {
+        say [k, factor_exp(k+1)]
+    }
+}
+
+__END__
+#say 101.of{|n| b(n+1) }
+for n in (1..10000) {
+    say b(n)
+}
+
+__END__
+
+#~ say b(2**1 - 1)
+#~ say b(2**2 - 1)
+#~ say b(2**3 - 1)
+#~ say b(2**4 - 1)
+#~ say b(2**5 - 1)
+#~ say b(2**6 - 1)
+
+#~ __END__
+
+#~ __END__
+
+for k in (1..1e5) {
+    if (b(k) == 0) {
+        say [k, factor_exp(k+1)]
+    }
+}
+
+
+__END__
+func A070939(n) {
+    n.as_bin.len
+}
+
+func A000120(n) {
+    n.popcount
+}
+
+func b(n) is cached {
+
+    return 0 if (n == 1)
+
+    b(n-1) + (A070939(n) - 2*A000120(n) + 2)
+}
+
+#say 101.of(b)
+
+for k in (1..1000) {
+    say b(k)
+}
+
+
+#b(n) = Sum_{k=2..n} (A070939(k) - 2*A000120(k) + 2).
+
+
+
+#a(n) = Sum_{k=2..n} (A035100(k) - 2*A014499(k) + 2) = Sum_{k=2..n} (A070939(A000040(k)) - 2*A000120(A000040(k)) + 2). - ~~~~
+
+
+
+__END__
+
+func g(n) {
+    var t = n.as_bin.chars.ft(1, -2)
+    t.count('0') - t.count('1')
+}
+
+#say 20.of(g)
+
+for k in (1..10) {
+    say [g(k.prime), k]
+}
+
+__END__
+
+func f(n) is cached {
+    n == 0 && return 0
+    #n ==  && return 0
+    #var t = n.as_bin.chars.ft(1, -2)
+    #f(n-1) + t.count('0') - t.count('1')
+    f(n-1) + g(n.prime)
+
+    #f(n-1) + (1+ilog2(prime(n))) - 2*popcount(prime(n)) + 2
+}
+
+say 200.of(f)
+
+__END__
+#say f(16381.primepi)
+#say (1..20 -> grep{2**_ -1 -> is_prime }.each{say f(primepi(2**_ - 1)) })
+
+#__END__
+#say 40.of(f)
+for k in (1..1e4) {
+    #say f(k)
+    if (f(k) == 0) {
+        say [k, f(k)]
+    }
+
+     #   say k.prime
+   # }
+}

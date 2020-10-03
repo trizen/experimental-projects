@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# Generate larger Carmichael numbers from a set of Carmichael numbers.
+
+# Algorithm:
+#   1) Let n be a Carmichael number and L = lambda(n).
+#   2) Iterate over the positive divisors d of (n-1)/L.
+#   3) If p = d*L+1 is prime and p does not divide n, then n*p is a Carmichael number.
+
+# Note: lambda(n) is the Carmichael Lambda function.
+
+var arr = [
+    561, 1105, 1729, 2465, 2821
+]
+
+for n in (arr) {
+
+    n.len < 100 || next
+
+    #var L = n.factor.map{znorder(2, _)}.lcm
+    var L = lambda(n)
+
+    #sigma0((n-1)/L) <= 1e4 || next
+
+    for d in (divisors((n-1)/L)) {
+        var p = (L*d + 1)
+
+        next if (n%p == 0)
+
+        # p < 2**64 || next
+        p.is_prime || next
+
+        if (is_pseudoprime(n*p)) {
+            say n*p
+            arr << n*p
+            #arr << n*p if (len(n*p) <= 85)
+        }
+    }
+}

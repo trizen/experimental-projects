@@ -1,0 +1,114 @@
+#!/usr/bin/perl
+
+# Carmichael numbers k such that k+1 is divisible by gpf(k)+1, where gpf = A006530.
+# https://oeis.org/A335336
+
+# Find Carmichael numbers m such that gpf(m)+1 divides m+1, where gpf(n) is the greatest prime factor of n.
+
+# isok(n) = my(f=factor(n));
+
+#Richard J.McIntosh and Mitra Dipra, <a href="https://www.sciencedirect.com/science/article/pii/S0022314X14002108">Carmichael numbers with p+1|n+1</a>, Journal of Number Theory, Volume 147, February 2015, Pages 81-91.
+
+# Are there any Carmichael numbers k with exactly four prime factors such that gpf(k)+1 divides k+1?
+
+use 5.020;
+use strict;
+use warnings;
+
+use ntheory qw(:all);
+#use Math::Prime::Util::GMP;
+use Math::GMPz;
+#use Math::AnyNum qw(is_smooth);
+
+#my %table;
+
+while (<>) {
+
+    chomp(my $n = $_);
+    #next if /^\h*#/;
+    #/\S/ or next;
+    #my $n = (split(' ', $_))[-1];
+
+    #$n || next;
+
+   # next if ($n < ~0);
+    #next if length($n) > 30;
+    #next if length($n) <= 30;
+
+    #is_smooth($n, 1e5) || next;
+    #Math::Prime::Util::GMP::is_carmichael($n) || next;
+    #$n = Math::GMPz->new($n);
+
+    $n = Math::GMPz->new($n);
+
+    my $np1 = $n+1;
+    my $pp1 = ((factor($n))[-1])+1;
+
+    if ($np1 % $pp1 == 0) {
+        say "$n";
+    }
+}
+
+__END__
+687979968481
+1928376089641
+2638625591701
+3148470889201
+3152088903601
+14682521533681
+19656816822721
+37333372057201
+47003559452641
+80643055074121
+129235662445121
+140940741166849
+196945133626801
+336301807660741
+345186571310209
+439931062854361
+490464498901105
+531259716925081
+707472049888801
+735691828435201
+778963619135521
+788801817683881
+893955162830521
+1464274069272001
+2251648591728481
+3908308008236941
+5329243598526001
+5581318384852561
+13326785007243841
+33974062308537121
+34032752544117601
+54853966343767501
+68134265628726529
+110142636908589649
+114346331280789301
+258874196100780961
+364059505086209101
+380775595507169941
+627103832138305831
+875815255956300661
+905669264186473501
+908953689898563121
+1309513581297673921
+1403552667045816001
+1777998645730488061
+1965645625719291121
+4564042295765073121
+8605736094003523201
+14666471748992794501
+17907650644750888141
+
+Several terms greater than 2^64:
+
+27453375098872012081
+1553120766503217777601
+2316867089206526090641
+5745765587660958183661
+170845977240460180827001
+211376155831990085740609
+9920799542911938327843841
+375623792044867850082496129
+15853017707070075884775600001

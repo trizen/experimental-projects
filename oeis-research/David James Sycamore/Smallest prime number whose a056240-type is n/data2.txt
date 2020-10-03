@@ -1,0 +1,1250 @@
+Found: n=5 with 6 = {2, 3}
+5
+Found n=5 with 6 = {2, 3}
+Found: n=7 with 10 = {2, 5}
+Found: n=11 with 28 = {2, 2, 7}
+Found n=13 with 22 = {2, 11}
+Found: n=17 with 52 = {2, 2, 13}
+Found n=19 with 34 = {2, 17}
+Found: n=23 with 76 = {2, 2, 19}
+Found: n=29 with 184 = {2, 2, 2, 23}
+Found n=31 with 58 = {2, 29}
+Found: n=37 with 248 = {2, 2, 2, 31}
+Found n=41 with 148 = {2, 2, 37}
+Found n=43 with 82 = {2, 41}
+Found n=47 with 172 = {2, 2, 43}
+Found: n=53 with 376 = {2, 2, 2, 47}
+Found: n=59 with 424 = {2, 2, 2, 53}
+Found n=61 with 118 = {2, 59}
+Found: n=67 with 488 = {2, 2, 2, 61}
+Found n=71 with 268 = {2, 2, 67}
+Found n=73 with 142 = {2, 71}
+Found: n=79 with 584 = {2, 2, 2, 73}
+Found n=83 with 316 = {2, 2, 79}
+Found: n=89 with 664 = {2, 2, 2, 83}
+Found: n=97 with 1335 = {3, 5, 89}
+Found n=101 with 388 = {2, 2, 97}
+Found n=103 with 202 = {2, 101}
+Found n=107 with 412 = {2, 2, 103}
+Found n=109 with 214 = {2, 107}
+Found n=113 with 436 = {2, 2, 109}
+Found: n=127 with 3729 = {3, 11, 113}
+Found n=131 with 508 = {2, 2, 127}
+Found n=137 with 1048 = {2, 2, 2, 131}
+Found n=139 with 274 = {2, 137}
+Found n=149 with 2919 = {3, 7, 139}
+Found n=151 with 298 = {2, 149}
+Found n=157 with 1208 = {2, 2, 2, 151}
+Found n=163 with 1256 = {2, 2, 2, 157}
+Found n=167 with 652 = {2, 2, 163}
+Found n=173 with 1336 = {2, 2, 2, 167}
+Found n=179 with 1384 = {2, 2, 2, 173}
+Found n=181 with 358 = {2, 179}
+Found: n=191 with 3801 = {3, 7, 181}
+Found n=193 with 382 = {2, 191}
+Found n=197 with 772 = {2, 2, 193}
+Found n=199 with 394 = {2, 197}
+Found: n=211 with 6501 = {3, 11, 197}
+211
+Found n=7 with 10 = {2, 5}
+Found n=11 with 28 = {2, 2, 7}
+Found n=13 with 22 = {2, 11}
+Found n=17 with 52 = {2, 2, 13}
+Found n=19 with 34 = {2, 17}
+Found n=23 with 76 = {2, 2, 19}
+Found n=29 with 184 = {2, 2, 2, 23}
+Found n=31 with 58 = {2, 29}
+Found n=37 with 248 = {2, 2, 2, 31}
+Found n=41 with 148 = {2, 2, 37}
+Found n=43 with 82 = {2, 41}
+Found n=47 with 172 = {2, 2, 43}
+Found n=53 with 376 = {2, 2, 2, 47}
+Found n=59 with 424 = {2, 2, 2, 53}
+Found n=61 with 118 = {2, 59}
+Found n=67 with 488 = {2, 2, 2, 61}
+Found n=71 with 268 = {2, 2, 67}
+Found n=73 with 142 = {2, 71}
+Found n=79 with 584 = {2, 2, 2, 73}
+Found n=83 with 316 = {2, 2, 79}
+Found n=89 with 664 = {2, 2, 2, 83}
+Found n=97 with 1335 = {3, 5, 89}
+Found n=101 with 388 = {2, 2, 97}
+Found n=103 with 202 = {2, 101}
+Found n=107 with 412 = {2, 2, 103}
+Found n=109 with 214 = {2, 107}
+Found n=113 with 436 = {2, 2, 109}
+Found n=127 with 3729 = {3, 11, 113}
+Found n=131 with 508 = {2, 2, 127}
+Found n=137 with 1048 = {2, 2, 2, 131}
+Found n=139 with 274 = {2, 137}
+Found n=149 with 2919 = {3, 7, 139}
+Found n=151 with 298 = {2, 149}
+Found n=157 with 1208 = {2, 2, 2, 151}
+Found n=163 with 1256 = {2, 2, 2, 157}
+Found n=167 with 652 = {2, 2, 163}
+Found n=173 with 1336 = {2, 2, 2, 167}
+Found n=179 with 1384 = {2, 2, 2, 173}
+Found n=181 with 358 = {2, 179}
+Found n=191 with 3801 = {3, 7, 181}
+Found n=193 with 382 = {2, 191}
+Found n=197 with 772 = {2, 2, 193}
+Found n=199 with 394 = {2, 197}
+Found n=211 with 6501 = {3, 11, 197}
+Found: n=223 with 7385 = {5, 7, 211}
+Found n=227 with 892 = {2, 2, 223}
+Found n=229 with 454 = {2, 227}
+Found n=233 with 916 = {2, 2, 229}
+Found n=239 with 1864 = {2, 2, 2, 233}
+Found n=241 with 478 = {2, 239}
+Found n=251 with 5061 = {3, 7, 241}
+Found n=257 with 2008 = {2, 2, 2, 251}
+Found n=263 with 2056 = {2, 2, 2, 257}
+Found n=269 with 2104 = {2, 2, 2, 263}
+Found n=271 with 538 = {2, 269}
+Found n=277 with 2168 = {2, 2, 2, 271}
+Found n=281 with 1108 = {2, 2, 277}
+Found n=283 with 562 = {2, 281}
+Found n=293 with 5943 = {3, 7, 283}
+Found: n=307 with 9669 = {3, 11, 293}
+Found n=311 with 1228 = {2, 2, 307}
+Found n=313 with 622 = {2, 311}
+Found n=317 with 1252 = {2, 2, 313}
+Found: n=331 with 10461 = {3, 11, 317}
+Found n=337 with 2648 = {2, 2, 2, 331}
+Found n=347 with 7077 = {3, 7, 337}
+Found n=349 with 694 = {2, 347}
+Found n=353 with 1396 = {2, 2, 349}
+Found n=359 with 2824 = {2, 2, 2, 353}
+Found n=367 with 5385 = {3, 5, 359}
+Found n=373 with 2936 = {2, 2, 2, 367}
+Found n=379 with 2984 = {2, 2, 2, 373}
+Found n=383 with 1516 = {2, 2, 379}
+Found n=389 with 3064 = {2, 2, 2, 383}
+Found n=397 with 5835 = {3, 5, 389}
+Found n=401 with 1588 = {2, 2, 397}
+Found n=409 with 6015 = {3, 5, 401}
+Found n=419 with 8589 = {3, 7, 409}
+Found n=421 with 838 = {2, 419}
+Found n=431 with 8841 = {3, 7, 421}
+Found n=433 with 862 = {2, 431}
+Found n=439 with 3464 = {2, 2, 2, 433}
+Found n=443 with 1756 = {2, 2, 439}
+Found n=449 with 3544 = {2, 2, 2, 443}
+Found n=457 with 6735 = {3, 5, 449}
+Found n=461 with 1828 = {2, 2, 457}
+Found n=463 with 922 = {2, 461}
+Found n=467 with 1852 = {2, 2, 463}
+Found: n=479 with 16345 = {5, 7, 467}
+Found n=487 with 7185 = {3, 5, 479}
+Found n=491 with 1948 = {2, 2, 487}
+Found n=499 with 7365 = {3, 5, 491}
+Found n=503 with 1996 = {2, 2, 499}
+Found n=509 with 4024 = {2, 2, 2, 503}
+Found: n=521 with 17815 = {5, 7, 509}
+Found n=523 with 1042 = {2, 521}
+Found: n=541 with 26571 = {3, 17, 521}
+Found n=547 with 4328 = {2, 2, 2, 541}
+Found n=557 with 11487 = {3, 7, 547}
+Found n=563 with 4456 = {2, 2, 2, 557}
+Found n=569 with 4504 = {2, 2, 2, 563}
+Found n=571 with 1138 = {2, 569}
+Found n=577 with 4568 = {2, 2, 2, 571}
+Found n=587 with 12117 = {3, 7, 577}
+Found n=593 with 4696 = {2, 2, 2, 587}
+Found n=599 with 4744 = {2, 2, 2, 593}
+Found n=601 with 1198 = {2, 599}
+Found n=607 with 4808 = {2, 2, 2, 601}
+Found n=613 with 4856 = {2, 2, 2, 607}
+Found n=617 with 2452 = {2, 2, 613}
+Found n=619 with 1234 = {2, 617}
+Found n=631 with 20361 = {3, 11, 617}
+Found n=641 with 13251 = {3, 7, 631}
+Found n=643 with 1282 = {2, 641}
+Found n=647 with 2572 = {2, 2, 643}
+Found n=653 with 5176 = {2, 2, 2, 647}
+Found n=659 with 5224 = {2, 2, 2, 653}
+Found n=661 with 1318 = {2, 659}
+Found n=673 with 21747 = {3, 11, 659}
+Found n=677 with 2692 = {2, 2, 673}
+Found n=683 with 5416 = {2, 2, 2, 677}
+Found n=691 with 10245 = {3, 5, 683}
+Found n=701 with 14511 = {3, 7, 691}
+Found n=709 with 10515 = {3, 5, 701}
+Found n=719 with 14889 = {3, 7, 709}
+Found n=727 with 10785 = {3, 5, 719}
+Found n=733 with 5816 = {2, 2, 2, 727}
+Found n=739 with 5864 = {2, 2, 2, 733}
+Found n=743 with 2956 = {2, 2, 739}
+Found n=751 with 11145 = {3, 5, 743}
+Found n=757 with 6008 = {2, 2, 2, 751}
+Found n=761 with 3028 = {2, 2, 757}
+Found n=769 with 11415 = {3, 5, 761}
+Found n=773 with 3076 = {2, 2, 769}
+Found n=787 with 25509 = {3, 11, 773}
+Found n=797 with 16527 = {3, 7, 787}
+Found: n=809 with 27895 = {5, 7, 797}
+Found n=811 with 1618 = {2, 809}
+Found n=821 with 17031 = {3, 7, 811}
+Found n=823 with 1642 = {2, 821}
+Found n=827 with 3292 = {2, 2, 823}
+Found n=829 with 1654 = {2, 827}
+Found n=839 with 17409 = {3, 7, 829}
+Found n=853 with 27687 = {3, 11, 839}
+Found n=857 with 3412 = {2, 2, 853}
+Found n=859 with 1714 = {2, 857}
+Found n=863 with 3436 = {2, 2, 859}
+Found: n=877 with 28479 = {3, 11, 863}
+Found n=881 with 3508 = {2, 2, 877}
+Found n=883 with 1762 = {2, 881}
+Found n=887 with 3532 = {2, 2, 883}
+Found: n=907 with 45237 = {3, 17, 887}
+Found n=911 with 3628 = {2, 2, 907}
+Found n=919 with 13665 = {3, 5, 911}
+Found n=929 with 19299 = {3, 7, 919}
+Found n=937 with 13935 = {3, 5, 929}
+Found n=941 with 3748 = {2, 2, 937}
+Found n=947 with 7528 = {2, 2, 2, 941}
+Found n=953 with 7576 = {2, 2, 2, 947}
+Found n=967 with 31449 = {3, 11, 953}
+Found n=971 with 3868 = {2, 2, 967}
+Found n=977 with 7768 = {2, 2, 2, 971}
+Found n=983 with 7816 = {2, 2, 2, 977}
+Found n=991 with 14745 = {3, 5, 983}
+Found n=997 with 7928 = {2, 2, 2, 991}
+Found n=1009 with 34895 = {5, 7, 997}
+Found n=1013 with 4036 = {2, 2, 1009}
+Found n=1019 with 8104 = {2, 2, 2, 1013}
+Found n=1021 with 2038 = {2, 1019}
+Found n=1031 with 21441 = {3, 7, 1021}
+Found n=1033 with 2062 = {2, 1031}
+Found n=1039 with 8264 = {2, 2, 2, 1033}
+Found n=1049 with 21819 = {3, 7, 1039}
+Found n=1051 with 2098 = {2, 1049}
+Found n=1061 with 22071 = {3, 7, 1051}
+Found n=1063 with 2122 = {2, 1061}
+Found n=1069 with 8504 = {2, 2, 2, 1063}
+Found: n=1087 with 69485 = {5, 13, 1069}
+Found n=1091 with 4348 = {2, 2, 1087}
+Found n=1093 with 2182 = {2, 1091}
+Found n=1097 with 4372 = {2, 2, 1093}
+Found n=1103 with 8776 = {2, 2, 2, 1097}
+Found n=1109 with 8824 = {2, 2, 2, 1103}
+Found n=1117 with 16635 = {3, 5, 1109}
+Found n=1123 with 8936 = {2, 2, 2, 1117}
+Found n=1129 with 8984 = {2, 2, 2, 1123}
+Found n=1151 with 64353 = {3, 19, 1129}
+Found n=1153 with 2302 = {2, 1151}
+Found n=1163 with 24213 = {3, 7, 1153}
+Found n=1171 with 17445 = {3, 5, 1163}
+Found n=1181 with 24591 = {3, 7, 1171}
+Found n=1187 with 9448 = {2, 2, 2, 1181}
+Found n=1193 with 9496 = {2, 2, 2, 1187}
+Found n=1201 with 17895 = {3, 5, 1193}
+Found n=1213 with 42035 = {5, 7, 1201}
+Found n=1217 with 4852 = {2, 2, 1213}
+Found n=1223 with 9736 = {2, 2, 2, 1217}
+Found n=1229 with 9784 = {2, 2, 2, 1223}
+Found n=1231 with 2458 = {2, 1229}
+Found n=1237 with 9848 = {2, 2, 2, 1231}
+Found n=1249 with 43295 = {5, 7, 1237}
+Found n=1259 with 26229 = {3, 7, 1249}
+Found: n=1277 with 81835 = {5, 13, 1259}
+Found n=1279 with 2554 = {2, 1277}
+Found n=1283 with 5116 = {2, 2, 1279}
+Found n=1289 with 10264 = {2, 2, 2, 1283}
+Found n=1291 with 2578 = {2, 1289}
+Found n=1297 with 10328 = {2, 2, 2, 1291}
+Found n=1301 with 5188 = {2, 2, 1297}
+Found n=1303 with 2602 = {2, 1301}
+Found n=1307 with 5212 = {2, 2, 1303}
+Found n=1319 with 45745 = {5, 7, 1307}
+Found n=1321 with 2638 = {2, 1319}
+Found n=1327 with 10568 = {2, 2, 2, 1321}
+Found: n=1361 with 123411 = {3, 31, 1327}
+Found n=1367 with 10888 = {2, 2, 2, 1361}
+Found n=1373 with 10936 = {2, 2, 2, 1367}
+Found n=1381 with 20595 = {3, 5, 1373}
+Found n=1399 with 89765 = {5, 13, 1381}
+Found n=1409 with 29379 = {3, 7, 1399}
+Found n=1423 with 46497 = {3, 11, 1409}
+Found n=1427 with 5692 = {2, 2, 1423}
+Found n=1429 with 2854 = {2, 1427}
+Found n=1433 with 5716 = {2, 2, 1429}
+Found n=1439 with 11464 = {2, 2, 2, 1433}
+Found n=1447 with 21585 = {3, 5, 1439}
+Found n=1451 with 5788 = {2, 2, 1447}
+Found n=1453 with 2902 = {2, 1451}
+Found n=1459 with 11624 = {2, 2, 2, 1453}
+Found n=1471 with 51065 = {5, 7, 1459}
+Found n=1481 with 30891 = {3, 7, 1471}
+Found n=1483 with 2962 = {2, 1481}
+Found n=1487 with 5932 = {2, 2, 1483}
+Found n=1489 with 2974 = {2, 1487}
+Found n=1493 with 5956 = {2, 2, 1489}
+Found n=1499 with 11944 = {2, 2, 2, 1493}
+Found n=1511 with 52465 = {5, 7, 1499}
+Found n=1523 with 52885 = {5, 7, 1511}
+Found n=1531 with 22845 = {3, 5, 1523}
+Found n=1543 with 53585 = {5, 7, 1531}
+Found n=1549 with 12344 = {2, 2, 2, 1543}
+Found n=1553 with 6196 = {2, 2, 1549}
+Found n=1559 with 12424 = {2, 2, 2, 1553}
+Found n=1567 with 23385 = {3, 5, 1559}
+Found n=1571 with 6268 = {2, 2, 1567}
+Found n=1579 with 23565 = {3, 5, 1571}
+Found n=1583 with 6316 = {2, 2, 1579}
+Found n=1597 with 52239 = {3, 11, 1583}
+Found n=1601 with 6388 = {2, 2, 1597}
+Found n=1607 with 12808 = {2, 2, 2, 1601}
+Found n=1609 with 3214 = {2, 1607}
+Found n=1613 with 6436 = {2, 2, 1609}
+Found n=1619 with 12904 = {2, 2, 2, 1613}
+Found n=1621 with 3238 = {2, 1619}
+Found n=1627 with 12968 = {2, 2, 2, 1621}
+Found n=1637 with 34167 = {3, 7, 1627}
+Found n=1657 with 83487 = {3, 17, 1637}
+Found n=1663 with 13256 = {2, 2, 2, 1657}
+Found n=1667 with 6652 = {2, 2, 1663}
+Found n=1669 with 3334 = {2, 1667}
+Found n=1693 with 115023 = {3, 23, 1667}
+Found n=1697 with 6772 = {2, 2, 1693}
+Found n=1699 with 3394 = {2, 1697}
+Found n=1709 with 35679 = {3, 7, 1699}
+Found n=1721 with 59815 = {5, 7, 1709}
+Found n=1723 with 3442 = {2, 1721}
+Found n=1733 with 36183 = {3, 7, 1723}
+Found n=1741 with 25995 = {3, 5, 1733}
+Found n=1747 with 13928 = {2, 2, 2, 1741}
+Found n=1753 with 13976 = {2, 2, 2, 1747}
+Found n=1759 with 14024 = {2, 2, 2, 1753}
+Found n=1777 with 114335 = {5, 13, 1759}
+Found n=1783 with 14216 = {2, 2, 2, 1777}
+Found n=1787 with 7132 = {2, 2, 1783}
+Found n=1789 with 3574 = {2, 1787}
+Found n=1801 with 58971 = {3, 11, 1787}
+Found n=1811 with 37821 = {3, 7, 1801}
+Found n=1823 with 63385 = {5, 7, 1811}
+Found n=1831 with 27345 = {3, 5, 1823}
+Found n=1847 with 71409 = {3, 13, 1831}
+Found n=1861 with 60951 = {3, 11, 1847}
+Found n=1867 with 14888 = {2, 2, 2, 1861}
+Found n=1871 with 7468 = {2, 2, 1867}
+Found n=1873 with 3742 = {2, 1871}
+Found n=1877 with 7492 = {2, 2, 1873}
+Found n=1879 with 3754 = {2, 1877}
+Found n=1889 with 39459 = {3, 7, 1879}
+Found n=1901 with 66115 = {5, 7, 1889}
+Found n=1907 with 15208 = {2, 2, 2, 1901}
+Found n=1913 with 15256 = {2, 2, 2, 1907}
+Found: n=1931 with 124345 = {5, 13, 1913}
+Found n=1933 with 3862 = {2, 1931}
+Found n=1949 with 75387 = {3, 13, 1933}
+Found n=1951 with 3898 = {2, 1949}
+Found n=1973 with 111207 = {3, 19, 1951}
+Found n=1979 with 15784 = {2, 2, 2, 1973}
+Found n=1987 with 29685 = {3, 5, 1979}
+Found n=1993 with 15896 = {2, 2, 2, 1987}
+Found n=1997 with 7972 = {2, 2, 1993}
+Found n=1999 with 3994 = {2, 1997}
+Found n=2003 with 7996 = {2, 2, 1999}
+Found n=2011 with 30045 = {3, 5, 2003}
+Found n=2017 with 16088 = {2, 2, 2, 2011}
+Found n=2027 with 42357 = {3, 7, 2017}
+Found n=2029 with 4054 = {2, 2027}
+Found n=2039 with 42609 = {3, 7, 2029}
+Found n=2053 with 67287 = {3, 11, 2039}
+Found n=2063 with 43113 = {3, 7, 2053}
+Found n=2069 with 16504 = {2, 2, 2, 2063}
+Found n=2081 with 72415 = {5, 7, 2069}
+Found n=2083 with 4162 = {2, 2081}
+Found n=2087 with 8332 = {2, 2, 2083}
+Found n=2089 with 4174 = {2, 2087}
+Found n=2099 with 43869 = {3, 7, 2089}
+Found n=2111 with 73465 = {5, 7, 2099}
+Found n=2113 with 4222 = {2, 2111}
+Found n=2129 with 82407 = {3, 13, 2113}
+Found n=2131 with 4258 = {2, 2129}
+Found n=2137 with 17048 = {2, 2, 2, 2131}
+Found n=2141 with 8548 = {2, 2, 2137}
+Found n=2143 with 4282 = {2, 2141}
+Found n=2153 with 45003 = {3, 7, 2143}
+Found n=2161 with 32295 = {3, 5, 2153}
+Found: n=2179 with 140465 = {5, 13, 2161}
+Found: n=2203 with 207005 = {5, 19, 2179}
+Found n=2207 with 8812 = {2, 2, 2203}
+Found n=2213 with 17656 = {2, 2, 2, 2207}
+Found n=2221 with 33195 = {3, 5, 2213}
+Found n=2237 with 86619 = {3, 13, 2221}
+Found n=2239 with 4474 = {2, 2237}
+Found n=2243 with 8956 = {2, 2, 2239}
+Found n=2251 with 33645 = {3, 5, 2243}
+Found n=2267 with 87789 = {3, 13, 2251}
+Found n=2269 with 4534 = {2, 2267}
+Found n=2273 with 9076 = {2, 2, 2269}
+Found n=2281 with 34095 = {3, 5, 2273}
+Found n=2287 with 18248 = {2, 2, 2, 2281}
+Found n=2293 with 18296 = {2, 2, 2, 2287}
+Found n=2297 with 9172 = {2, 2, 2293}
+Found n=2309 with 80395 = {5, 7, 2297}
+Found n=2311 with 4618 = {2, 2309}
+Found n=2333 with 131727 = {3, 19, 2311}
+Found n=2339 with 18664 = {2, 2, 2, 2333}
+Found n=2341 with 4678 = {2, 2339}
+Found n=2347 with 18728 = {2, 2, 2, 2341}
+Found n=2351 with 9388 = {2, 2, 2347}
+Found n=2357 with 18808 = {2, 2, 2, 2351}
+Found n=2371 with 77781 = {3, 11, 2357}
+Found n=2377 with 18968 = {2, 2, 2, 2371}
+Found n=2381 with 9508 = {2, 2, 2377}
+Found n=2383 with 4762 = {2, 2381}
+Found n=2389 with 19064 = {2, 2, 2, 2383}
+Found n=2393 with 9556 = {2, 2, 2389}
+Found n=2399 with 19144 = {2, 2, 2, 2393}
+Found n=2411 with 83965 = {5, 7, 2399}
+Found n=2417 with 19288 = {2, 2, 2, 2411}
+Found n=2423 with 19336 = {2, 2, 2, 2417}
+Found n=2437 with 79959 = {3, 11, 2423}
+Found n=2441 with 9748 = {2, 2, 2437}
+Found n=2447 with 19528 = {2, 2, 2, 2441}
+Found n=2459 with 85645 = {5, 7, 2447}
+Found n=2467 with 36885 = {3, 5, 2459}
+Found n=2473 with 19736 = {2, 2, 2, 2467}
+Found n=2477 with 9892 = {2, 2, 2473}
+Found n=2503 with 170913 = {3, 23, 2477}
+Found n=2521 with 162695 = {5, 13, 2503}
+Found n=2531 with 52941 = {3, 7, 2521}
+Found n=2539 with 37965 = {3, 5, 2531}
+Found n=2543 with 10156 = {2, 2, 2539}
+Found n=2549 with 20344 = {2, 2, 2, 2543}
+Found n=2551 with 5098 = {2, 2549}
+Found n=2557 with 20408 = {2, 2, 2, 2551}
+Found n=2579 with 145749 = {3, 19, 2557}
+Found n=2591 with 90265 = {5, 7, 2579}
+Found n=2593 with 5182 = {2, 2591}
+Found n=2609 with 101127 = {3, 13, 2593}
+Found n=2617 with 39135 = {3, 5, 2609}
+Found n=2621 with 10468 = {2, 2, 2617}
+Found n=2633 with 91735 = {5, 7, 2621}
+Found n=2647 with 86889 = {3, 11, 2633}
+Found n=2657 with 55587 = {3, 7, 2647}
+Found n=2659 with 5314 = {2, 2657}
+Found n=2663 with 10636 = {2, 2, 2659}
+Found n=2671 with 39945 = {3, 5, 2663}
+Found n=2677 with 21368 = {2, 2, 2, 2671}
+Found n=2683 with 21416 = {2, 2, 2, 2677}
+Found n=2687 with 10732 = {2, 2, 2683}
+Found n=2689 with 5374 = {2, 2687}
+Found n=2693 with 10756 = {2, 2, 2689}
+Found n=2699 with 21544 = {2, 2, 2, 2693}
+Found n=2707 with 40485 = {3, 5, 2699}
+Found n=2711 with 10828 = {2, 2, 2707}
+Found n=2713 with 5422 = {2, 2711}
+Found n=2719 with 21704 = {2, 2, 2, 2713}
+Found n=2729 with 57099 = {3, 7, 2719}
+Found n=2731 with 5458 = {2, 2729}
+Found n=2741 with 57351 = {3, 7, 2731}
+Found n=2749 with 41115 = {3, 5, 2741}
+Found n=2753 with 10996 = {2, 2, 2749}
+Found n=2767 with 90849 = {3, 11, 2753}
+Found n=2777 with 58107 = {3, 7, 2767}
+Found n=2789 with 97195 = {5, 7, 2777}
+Found n=2791 with 5578 = {2, 2789}
+Found n=2797 with 22328 = {2, 2, 2, 2791}
+Found n=2801 with 11188 = {2, 2, 2797}
+Found n=2803 with 5602 = {2, 2801}
+Found n=2819 with 109317 = {3, 13, 2803}
+Found n=2833 with 93027 = {3, 11, 2819}
+Found n=2837 with 11332 = {2, 2, 2833}
+Found n=2843 with 22696 = {2, 2, 2, 2837}
+Found n=2851 with 42645 = {3, 5, 2843}
+Found n=2857 with 22808 = {2, 2, 2, 2851}
+Found n=2861 with 11428 = {2, 2, 2857}
+Found n=2879 with 162849 = {3, 19, 2857}
+Found n=2887 with 43185 = {3, 5, 2879}
+Found n=2897 with 60627 = {3, 7, 2887}
+Found n=2903 with 23176 = {2, 2, 2, 2897}
+Found n=2909 with 23224 = {2, 2, 2, 2903}
+Found n=2917 with 43635 = {3, 5, 2909}
+Found n=2927 with 61257 = {3, 7, 2917}
+Found n=2939 with 102445 = {5, 7, 2927}
+Found n=2953 with 96987 = {3, 11, 2939}
+Found n=2957 with 11812 = {2, 2, 2953}
+Found n=2963 with 23656 = {2, 2, 2, 2957}
+Found n=2969 with 23704 = {2, 2, 2, 2963}
+Found n=2971 with 5938 = {2, 2969}
+Found: n=2999 with 341665 = {5, 23, 2971}
+Found n=3001 with 5998 = {2, 2999}
+Found n=3011 with 63021 = {3, 7, 3001}
+Found n=3019 with 45165 = {3, 5, 3011}
+Found n=3023 with 12076 = {2, 2, 3019}
+Found n=3037 with 99759 = {3, 11, 3023}
+Found n=3041 with 12148 = {2, 2, 3037}
+Found n=3049 with 45615 = {3, 5, 3041}
+Found n=3061 with 106715 = {5, 7, 3049}
+Found n=3067 with 24488 = {2, 2, 2, 3061}
+Found n=3079 with 107345 = {5, 7, 3067}
+Found n=3083 with 12316 = {2, 2, 3079}
+Found n=3089 with 24664 = {2, 2, 2, 3083}
+Found n=3109 with 157539 = {3, 17, 3089}
+Found n=3119 with 65289 = {3, 7, 3109}
+Found n=3121 with 6238 = {2, 3119}
+Found n=3137 with 121719 = {3, 13, 3121}
+Found n=3163 with 216453 = {3, 23, 3137}
+Found n=3167 with 12652 = {2, 2, 3163}
+Found n=3169 with 6334 = {2, 3167}
+Found n=3181 with 104511 = {3, 11, 3167}
+Found n=3187 with 25448 = {2, 2, 2, 3181}
+Found n=3191 with 12748 = {2, 2, 3187}
+Found n=3203 with 111685 = {5, 7, 3191}
+Found n=3209 with 25624 = {2, 2, 2, 3203}
+Found n=3217 with 48135 = {3, 5, 3209}
+Found n=3221 with 12868 = {2, 2, 3217}
+Found n=3229 with 48315 = {3, 5, 3221}
+Found n=3251 with 184053 = {3, 19, 3229}
+Found n=3253 with 6502 = {2, 3251}
+Found n=3257 with 13012 = {2, 2, 3253}
+Found n=3259 with 6514 = {2, 3257}
+Found n=3271 with 107481 = {3, 11, 3257}
+Found: n=3299 with 361749 = {3, 37, 3259}
+Found n=3301 with 6598 = {2, 3299}
+Found n=3307 with 26408 = {2, 2, 2, 3301}
+Found n=3313 with 26456 = {2, 2, 2, 3307}
+Found n=3319 with 26504 = {2, 2, 2, 3313}
+Found n=3323 with 13276 = {2, 2, 3319}
+Found n=3329 with 26584 = {2, 2, 2, 3323}
+Found n=3331 with 6658 = {2, 3329}
+Found n=3343 with 109857 = {3, 11, 3329}
+Found n=3347 with 13372 = {2, 2, 3343}
+Found n=3359 with 117145 = {5, 7, 3347}
+Found n=3361 with 6718 = {2, 3359}
+Found n=3371 with 70581 = {3, 7, 3361}
+Found n=3373 with 6742 = {2, 3371}
+Found n=3389 with 131547 = {3, 13, 3373}
+Found n=3391 with 6778 = {2, 3389}
+Found n=3407 with 132249 = {3, 13, 3391}
+Found n=3413 with 27256 = {2, 2, 2, 3407}
+Found n=3433 with 174063 = {3, 17, 3413}
+Found n=3449 with 133887 = {3, 13, 3433}
+Found n=3457 with 51735 = {3, 5, 3449}
+Found n=3461 with 13828 = {2, 2, 3457}
+Found n=3463 with 6922 = {2, 3461}
+Found n=3467 with 13852 = {2, 2, 3463}
+Found n=3469 with 6934 = {2, 3467}
+Found n=3491 with 197733 = {3, 19, 3469}
+Found n=3499 with 52365 = {3, 5, 3491}
+Found n=3511 with 122465 = {5, 7, 3499}
+Found n=3517 with 28088 = {2, 2, 2, 3511}
+Found n=3527 with 73857 = {3, 7, 3517}
+Found n=3529 with 7054 = {2, 3527}
+Found n=3533 with 14116 = {2, 2, 3529}
+Found n=3539 with 28264 = {2, 2, 2, 3533}
+Found n=3541 with 7078 = {2, 3539}
+Found n=3547 with 28328 = {2, 2, 2, 3541}
+Found n=3557 with 74487 = {3, 7, 3547}
+Found n=3559 with 7114 = {2, 3557}
+Found n=3571 with 117381 = {3, 11, 3557}
+Found n=3581 with 74991 = {3, 7, 3571}
+Found n=3583 with 7162 = {2, 3581}
+Found n=3593 with 75243 = {3, 7, 3583}
+Found n=3607 with 118569 = {3, 11, 3593}
+Found n=3613 with 28856 = {2, 2, 2, 3607}
+Found n=3617 with 14452 = {2, 2, 3613}
+Found n=3623 with 28936 = {2, 2, 2, 3617}
+Found n=3631 with 54345 = {3, 5, 3623}
+Found n=3637 with 29048 = {2, 2, 2, 3631}
+Found n=3643 with 29096 = {2, 2, 2, 3637}
+Found n=3659 with 142077 = {3, 13, 3643}
+Found n=3671 with 128065 = {5, 7, 3659}
+Found n=3673 with 7342 = {2, 3671}
+Found n=3677 with 14692 = {2, 2, 3673}
+Found n=3691 with 121341 = {3, 11, 3677}
+Found n=3697 with 29528 = {2, 2, 2, 3691}
+Found n=3701 with 14788 = {2, 2, 3697}
+Found n=3709 with 55515 = {3, 5, 3701}
+Found n=3719 with 77889 = {3, 7, 3709}
+Found n=3727 with 55785 = {3, 5, 3719}
+Found n=3733 with 29816 = {2, 2, 2, 3727}
+Found n=3739 with 29864 = {2, 2, 2, 3733}
+Found n=3761 with 213123 = {3, 19, 3739}
+Found n=3767 with 30088 = {2, 2, 2, 3761}
+Found n=3769 with 7534 = {2, 3767}
+Found n=3779 with 79149 = {3, 7, 3769}
+Found n=3793 with 124707 = {3, 11, 3779}
+Found n=3797 with 15172 = {2, 2, 3793}
+Found n=3803 with 30376 = {2, 2, 2, 3797}
+Found n=3821 with 247195 = {5, 13, 3803}
+Found n=3823 with 7642 = {2, 3821}
+Found n=3833 with 80283 = {3, 7, 3823}
+Found n=3847 with 126489 = {3, 11, 3833}
+Found n=3851 with 15388 = {2, 2, 3847}
+Found n=3853 with 7702 = {2, 3851}
+Found n=3863 with 80913 = {3, 7, 3853}
+Found n=3877 with 127479 = {3, 11, 3863}
+Found n=3881 with 15508 = {2, 2, 3877}
+Found n=3889 with 58215 = {3, 5, 3881}
+Found n=3907 with 252785 = {5, 13, 3889}
+Found n=3911 with 15628 = {2, 2, 3907}
+Found n=3917 with 31288 = {2, 2, 2, 3911}
+Found n=3919 with 7834 = {2, 3917}
+Found n=3923 with 15676 = {2, 2, 3919}
+Found n=3929 with 31384 = {2, 2, 2, 3923}
+Found n=3931 with 7858 = {2, 3929}
+Found n=3943 with 129657 = {3, 11, 3929}
+Found n=3947 with 15772 = {2, 2, 3943}
+Found n=3967 with 201297 = {3, 17, 3947}
+Found n=3989 with 226119 = {3, 19, 3967}
+Found n=4001 with 139615 = {5, 7, 3989}
+Found n=4003 with 8002 = {2, 4001}
+Found n=4007 with 16012 = {2, 2, 4003}
+Found n=4013 with 32056 = {2, 2, 2, 4007}
+Found n=4019 with 32104 = {2, 2, 2, 4013}
+Found n=4021 with 8038 = {2, 4019}
+Found n=4027 with 32168 = {2, 2, 2, 4021}
+Found n=4049 with 229539 = {3, 19, 4027}
+Found n=4051 with 8098 = {2, 4049}
+Found n=4057 with 32408 = {2, 2, 2, 4051}
+Found n=4073 with 158223 = {3, 13, 4057}
+Found n=4079 with 32584 = {2, 2, 2, 4073}
+Found n=4091 with 142765 = {5, 7, 4079}
+Found n=4093 with 8182 = {2, 4091}
+Found n=4099 with 32744 = {2, 2, 2, 4093}
+Found n=4111 with 143465 = {5, 7, 4099}
+Found n=4127 with 160329 = {3, 13, 4111}
+Found n=4129 with 8254 = {2, 4127}
+Found n=4133 with 16516 = {2, 2, 4129}
+Found n=4139 with 33064 = {2, 2, 2, 4133}
+Found n=4153 with 136587 = {3, 11, 4139}
+Found n=4157 with 16612 = {2, 2, 4153}
+Found n=4159 with 8314 = {2, 4157}
+Found n=4177 with 212007 = {3, 17, 4157}
+Found: n=4201 with 396815 = {5, 19, 4177}
+Found n=4211 with 88221 = {3, 7, 4201}
+Found n=4217 with 33688 = {2, 2, 2, 4211}
+Found n=4219 with 8434 = {2, 4217}
+Found n=4229 with 88599 = {3, 7, 4219}
+Found n=4231 with 8458 = {2, 4229}
+Found n=4241 with 88851 = {3, 7, 4231}
+Found n=4243 with 8482 = {2, 4241}
+Found n=4253 with 89103 = {3, 7, 4243}
+Found n=4259 with 34024 = {2, 2, 2, 4253}
+Found n=4261 with 8518 = {2, 4259}
+Found n=4271 with 89481 = {3, 7, 4261}
+Found n=4273 with 8542 = {2, 4271}
+Found n=4283 with 89733 = {3, 7, 4273}
+Found n=4289 with 34264 = {2, 2, 2, 4283}
+Found n=4297 with 64335 = {3, 5, 4289}
+Found: n=4327 with 526809 = {3, 41, 4283}
+4327
+Found n=11 with 28 = {2, 2, 7}
+Found n=13 with 22 = {2, 11}
+Found n=17 with 52 = {2, 2, 13}
+Found n=19 with 34 = {2, 17}
+Found n=23 with 76 = {2, 2, 19}
+Found n=29 with 184 = {2, 2, 2, 23}
+Found n=31 with 58 = {2, 29}
+Found n=37 with 248 = {2, 2, 2, 31}
+Found n=41 with 148 = {2, 2, 37}
+Found n=43 with 82 = {2, 41}
+Found n=47 with 172 = {2, 2, 43}
+Found n=53 with 376 = {2, 2, 2, 47}
+Found n=59 with 424 = {2, 2, 2, 53}
+Found n=61 with 118 = {2, 59}
+Found n=67 with 488 = {2, 2, 2, 61}
+Found n=71 with 268 = {2, 2, 67}
+Found n=73 with 142 = {2, 71}
+Found n=79 with 584 = {2, 2, 2, 73}
+Found n=83 with 316 = {2, 2, 79}
+Found n=89 with 664 = {2, 2, 2, 83}
+Found n=97 with 1335 = {3, 5, 89}
+Found n=101 with 388 = {2, 2, 97}
+Found n=103 with 202 = {2, 101}
+Found n=107 with 412 = {2, 2, 103}
+Found n=109 with 214 = {2, 107}
+Found n=113 with 436 = {2, 2, 109}
+Found n=127 with 3729 = {3, 11, 113}
+Found n=131 with 508 = {2, 2, 127}
+Found n=137 with 1048 = {2, 2, 2, 131}
+Found n=139 with 274 = {2, 137}
+Found n=149 with 2919 = {3, 7, 139}
+Found n=151 with 298 = {2, 149}
+Found n=157 with 1208 = {2, 2, 2, 151}
+Found n=163 with 1256 = {2, 2, 2, 157}
+Found n=167 with 652 = {2, 2, 163}
+Found n=173 with 1336 = {2, 2, 2, 167}
+Found n=179 with 1384 = {2, 2, 2, 173}
+Found n=181 with 358 = {2, 179}
+Found n=191 with 3801 = {3, 7, 181}
+Found n=193 with 382 = {2, 191}
+Found n=197 with 772 = {2, 2, 193}
+Found n=199 with 394 = {2, 197}
+Found n=211 with 6501 = {3, 11, 197}
+Found n=223 with 7385 = {5, 7, 211}
+Found n=227 with 892 = {2, 2, 223}
+Found n=229 with 454 = {2, 227}
+Found n=233 with 916 = {2, 2, 229}
+Found n=239 with 1864 = {2, 2, 2, 233}
+Found n=241 with 478 = {2, 239}
+Found n=251 with 5061 = {3, 7, 241}
+Found n=257 with 2008 = {2, 2, 2, 251}
+Found n=263 with 2056 = {2, 2, 2, 257}
+Found n=269 with 2104 = {2, 2, 2, 263}
+Found n=271 with 538 = {2, 269}
+Found n=277 with 2168 = {2, 2, 2, 271}
+Found n=281 with 1108 = {2, 2, 277}
+Found n=283 with 562 = {2, 281}
+Found n=293 with 5943 = {3, 7, 283}
+Found n=307 with 9669 = {3, 11, 293}
+Found n=311 with 1228 = {2, 2, 307}
+Found n=313 with 622 = {2, 311}
+Found n=317 with 1252 = {2, 2, 313}
+Found n=331 with 10461 = {3, 11, 317}
+Found n=337 with 2648 = {2, 2, 2, 331}
+Found n=347 with 7077 = {3, 7, 337}
+Found n=349 with 694 = {2, 347}
+Found n=353 with 1396 = {2, 2, 349}
+Found n=359 with 2824 = {2, 2, 2, 353}
+Found n=367 with 5385 = {3, 5, 359}
+Found n=373 with 2936 = {2, 2, 2, 367}
+Found n=379 with 2984 = {2, 2, 2, 373}
+Found n=383 with 1516 = {2, 2, 379}
+Found n=389 with 3064 = {2, 2, 2, 383}
+Found n=397 with 5835 = {3, 5, 389}
+Found n=401 with 1588 = {2, 2, 397}
+Found n=409 with 6015 = {3, 5, 401}
+Found n=419 with 8589 = {3, 7, 409}
+Found n=421 with 838 = {2, 419}
+Found n=431 with 8841 = {3, 7, 421}
+Found n=433 with 862 = {2, 431}
+Found n=439 with 3464 = {2, 2, 2, 433}
+Found n=443 with 1756 = {2, 2, 439}
+Found n=449 with 3544 = {2, 2, 2, 443}
+Found n=457 with 6735 = {3, 5, 449}
+Found n=461 with 1828 = {2, 2, 457}
+Found n=463 with 922 = {2, 461}
+Found n=467 with 1852 = {2, 2, 463}
+Found n=479 with 16345 = {5, 7, 467}
+Found n=487 with 7185 = {3, 5, 479}
+Found n=491 with 1948 = {2, 2, 487}
+Found n=499 with 7365 = {3, 5, 491}
+Found n=503 with 1996 = {2, 2, 499}
+Found n=509 with 4024 = {2, 2, 2, 503}
+Found n=521 with 17815 = {5, 7, 509}
+Found n=523 with 1042 = {2, 521}
+Found n=541 with 26571 = {3, 17, 521}
+Found n=547 with 4328 = {2, 2, 2, 541}
+Found n=557 with 11487 = {3, 7, 547}
+Found n=563 with 4456 = {2, 2, 2, 557}
+Found n=569 with 4504 = {2, 2, 2, 563}
+Found n=571 with 1138 = {2, 569}
+Found n=577 with 4568 = {2, 2, 2, 571}
+Found n=587 with 12117 = {3, 7, 577}
+Found n=593 with 4696 = {2, 2, 2, 587}
+Found n=599 with 4744 = {2, 2, 2, 593}
+Found n=601 with 1198 = {2, 599}
+Found n=607 with 4808 = {2, 2, 2, 601}
+Found n=613 with 4856 = {2, 2, 2, 607}
+Found n=617 with 2452 = {2, 2, 613}
+Found n=619 with 1234 = {2, 617}
+Found n=631 with 20361 = {3, 11, 617}
+Found n=641 with 13251 = {3, 7, 631}
+Found n=643 with 1282 = {2, 641}
+Found n=647 with 2572 = {2, 2, 643}
+Found n=653 with 5176 = {2, 2, 2, 647}
+Found n=659 with 5224 = {2, 2, 2, 653}
+Found n=661 with 1318 = {2, 659}
+Found n=673 with 21747 = {3, 11, 659}
+Found n=677 with 2692 = {2, 2, 673}
+Found n=683 with 5416 = {2, 2, 2, 677}
+Found n=691 with 10245 = {3, 5, 683}
+Found n=701 with 14511 = {3, 7, 691}
+Found n=709 with 10515 = {3, 5, 701}
+Found n=719 with 14889 = {3, 7, 709}
+Found n=727 with 10785 = {3, 5, 719}
+Found n=733 with 5816 = {2, 2, 2, 727}
+Found n=739 with 5864 = {2, 2, 2, 733}
+Found n=743 with 2956 = {2, 2, 739}
+Found n=751 with 11145 = {3, 5, 743}
+Found n=757 with 6008 = {2, 2, 2, 751}
+Found n=761 with 3028 = {2, 2, 757}
+Found n=769 with 11415 = {3, 5, 761}
+Found n=773 with 3076 = {2, 2, 769}
+Found n=787 with 25509 = {3, 11, 773}
+Found n=797 with 16527 = {3, 7, 787}
+Found n=809 with 27895 = {5, 7, 797}
+Found n=811 with 1618 = {2, 809}
+Found n=821 with 17031 = {3, 7, 811}
+Found n=823 with 1642 = {2, 821}
+Found n=827 with 3292 = {2, 2, 823}
+Found n=829 with 1654 = {2, 827}
+Found n=839 with 17409 = {3, 7, 829}
+Found n=853 with 27687 = {3, 11, 839}
+Found n=857 with 3412 = {2, 2, 853}
+Found n=859 with 1714 = {2, 857}
+Found n=863 with 3436 = {2, 2, 859}
+Found n=877 with 28479 = {3, 11, 863}
+Found n=881 with 3508 = {2, 2, 877}
+Found n=883 with 1762 = {2, 881}
+Found n=887 with 3532 = {2, 2, 883}
+Found n=907 with 45237 = {3, 17, 887}
+Found n=911 with 3628 = {2, 2, 907}
+Found n=919 with 13665 = {3, 5, 911}
+Found n=929 with 19299 = {3, 7, 919}
+Found n=937 with 13935 = {3, 5, 929}
+Found n=941 with 3748 = {2, 2, 937}
+Found n=947 with 7528 = {2, 2, 2, 941}
+Found n=953 with 7576 = {2, 2, 2, 947}
+Found n=967 with 31449 = {3, 11, 953}
+Found n=971 with 3868 = {2, 2, 967}
+Found n=977 with 7768 = {2, 2, 2, 971}
+Found n=983 with 7816 = {2, 2, 2, 977}
+Found n=991 with 14745 = {3, 5, 983}
+Found n=997 with 7928 = {2, 2, 2, 991}
+Found n=1009 with 34895 = {5, 7, 997}
+Found n=1013 with 4036 = {2, 2, 1009}
+Found n=1019 with 8104 = {2, 2, 2, 1013}
+Found n=1021 with 2038 = {2, 1019}
+Found n=1031 with 21441 = {3, 7, 1021}
+Found n=1033 with 2062 = {2, 1031}
+Found n=1039 with 8264 = {2, 2, 2, 1033}
+Found n=1049 with 21819 = {3, 7, 1039}
+Found n=1051 with 2098 = {2, 1049}
+Found n=1061 with 22071 = {3, 7, 1051}
+Found n=1063 with 2122 = {2, 1061}
+Found n=1069 with 8504 = {2, 2, 2, 1063}
+Found n=1087 with 69485 = {5, 13, 1069}
+Found n=1091 with 4348 = {2, 2, 1087}
+Found n=1093 with 2182 = {2, 1091}
+Found n=1097 with 4372 = {2, 2, 1093}
+Found n=1103 with 8776 = {2, 2, 2, 1097}
+Found n=1109 with 8824 = {2, 2, 2, 1103}
+Found n=1117 with 16635 = {3, 5, 1109}
+Found n=1123 with 8936 = {2, 2, 2, 1117}
+Found n=1129 with 8984 = {2, 2, 2, 1123}
+Found n=1151 with 64353 = {3, 19, 1129}
+Found n=1153 with 2302 = {2, 1151}
+Found n=1163 with 24213 = {3, 7, 1153}
+Found n=1171 with 17445 = {3, 5, 1163}
+Found n=1181 with 24591 = {3, 7, 1171}
+Found n=1187 with 9448 = {2, 2, 2, 1181}
+Found n=1193 with 9496 = {2, 2, 2, 1187}
+Found n=1201 with 17895 = {3, 5, 1193}
+Found n=1213 with 42035 = {5, 7, 1201}
+Found n=1217 with 4852 = {2, 2, 1213}
+Found n=1223 with 9736 = {2, 2, 2, 1217}
+Found n=1229 with 9784 = {2, 2, 2, 1223}
+Found n=1231 with 2458 = {2, 1229}
+Found n=1237 with 9848 = {2, 2, 2, 1231}
+Found n=1249 with 43295 = {5, 7, 1237}
+Found n=1259 with 26229 = {3, 7, 1249}
+Found n=1277 with 81835 = {5, 13, 1259}
+Found n=1279 with 2554 = {2, 1277}
+Found n=1283 with 5116 = {2, 2, 1279}
+Found n=1289 with 10264 = {2, 2, 2, 1283}
+Found n=1291 with 2578 = {2, 1289}
+Found n=1297 with 10328 = {2, 2, 2, 1291}
+Found n=1301 with 5188 = {2, 2, 1297}
+Found n=1303 with 2602 = {2, 1301}
+Found n=1307 with 5212 = {2, 2, 1303}
+Found n=1319 with 45745 = {5, 7, 1307}
+Found n=1321 with 2638 = {2, 1319}
+Found n=1327 with 10568 = {2, 2, 2, 1321}
+Found n=1361 with 123411 = {3, 31, 1327}
+Found n=1367 with 10888 = {2, 2, 2, 1361}
+Found n=1373 with 10936 = {2, 2, 2, 1367}
+Found n=1381 with 20595 = {3, 5, 1373}
+Found n=1399 with 89765 = {5, 13, 1381}
+Found n=1409 with 29379 = {3, 7, 1399}
+Found n=1423 with 46497 = {3, 11, 1409}
+Found n=1427 with 5692 = {2, 2, 1423}
+Found n=1429 with 2854 = {2, 1427}
+Found n=1433 with 5716 = {2, 2, 1429}
+Found n=1439 with 11464 = {2, 2, 2, 1433}
+Found n=1447 with 21585 = {3, 5, 1439}
+Found n=1451 with 5788 = {2, 2, 1447}
+Found n=1453 with 2902 = {2, 1451}
+Found n=1459 with 11624 = {2, 2, 2, 1453}
+Found n=1471 with 51065 = {5, 7, 1459}
+Found n=1481 with 30891 = {3, 7, 1471}
+Found n=1483 with 2962 = {2, 1481}
+Found n=1487 with 5932 = {2, 2, 1483}
+Found n=1489 with 2974 = {2, 1487}
+Found n=1493 with 5956 = {2, 2, 1489}
+Found n=1499 with 11944 = {2, 2, 2, 1493}
+Found n=1511 with 52465 = {5, 7, 1499}
+Found n=1523 with 52885 = {5, 7, 1511}
+Found n=1531 with 22845 = {3, 5, 1523}
+Found n=1543 with 53585 = {5, 7, 1531}
+Found n=1549 with 12344 = {2, 2, 2, 1543}
+Found n=1553 with 6196 = {2, 2, 1549}
+Found n=1559 with 12424 = {2, 2, 2, 1553}
+Found n=1567 with 23385 = {3, 5, 1559}
+Found n=1571 with 6268 = {2, 2, 1567}
+Found n=1579 with 23565 = {3, 5, 1571}
+Found n=1583 with 6316 = {2, 2, 1579}
+Found n=1597 with 52239 = {3, 11, 1583}
+Found n=1601 with 6388 = {2, 2, 1597}
+Found n=1607 with 12808 = {2, 2, 2, 1601}
+Found n=1609 with 3214 = {2, 1607}
+Found n=1613 with 6436 = {2, 2, 1609}
+Found n=1619 with 12904 = {2, 2, 2, 1613}
+Found n=1621 with 3238 = {2, 1619}
+Found n=1627 with 12968 = {2, 2, 2, 1621}
+Found n=1637 with 34167 = {3, 7, 1627}
+Found n=1657 with 83487 = {3, 17, 1637}
+Found n=1663 with 13256 = {2, 2, 2, 1657}
+Found n=1667 with 6652 = {2, 2, 1663}
+Found n=1669 with 3334 = {2, 1667}
+Found n=1693 with 115023 = {3, 23, 1667}
+Found n=1697 with 6772 = {2, 2, 1693}
+Found n=1699 with 3394 = {2, 1697}
+Found n=1709 with 35679 = {3, 7, 1699}
+Found n=1721 with 59815 = {5, 7, 1709}
+Found n=1723 with 3442 = {2, 1721}
+Found n=1733 with 36183 = {3, 7, 1723}
+Found n=1741 with 25995 = {3, 5, 1733}
+Found n=1747 with 13928 = {2, 2, 2, 1741}
+Found n=1753 with 13976 = {2, 2, 2, 1747}
+Found n=1759 with 14024 = {2, 2, 2, 1753}
+Found n=1777 with 114335 = {5, 13, 1759}
+Found n=1783 with 14216 = {2, 2, 2, 1777}
+Found n=1787 with 7132 = {2, 2, 1783}
+Found n=1789 with 3574 = {2, 1787}
+Found n=1801 with 58971 = {3, 11, 1787}
+Found n=1811 with 37821 = {3, 7, 1801}
+Found n=1823 with 63385 = {5, 7, 1811}
+Found n=1831 with 27345 = {3, 5, 1823}
+Found n=1847 with 71409 = {3, 13, 1831}
+Found n=1861 with 60951 = {3, 11, 1847}
+Found n=1867 with 14888 = {2, 2, 2, 1861}
+Found n=1871 with 7468 = {2, 2, 1867}
+Found n=1873 with 3742 = {2, 1871}
+Found n=1877 with 7492 = {2, 2, 1873}
+Found n=1879 with 3754 = {2, 1877}
+Found n=1889 with 39459 = {3, 7, 1879}
+Found n=1901 with 66115 = {5, 7, 1889}
+Found n=1907 with 15208 = {2, 2, 2, 1901}
+Found n=1913 with 15256 = {2, 2, 2, 1907}
+Found n=1931 with 124345 = {5, 13, 1913}
+Found n=1933 with 3862 = {2, 1931}
+Found n=1949 with 75387 = {3, 13, 1933}
+Found n=1951 with 3898 = {2, 1949}
+Found n=1973 with 111207 = {3, 19, 1951}
+Found n=1979 with 15784 = {2, 2, 2, 1973}
+Found n=1987 with 29685 = {3, 5, 1979}
+Found n=1993 with 15896 = {2, 2, 2, 1987}
+Found n=1997 with 7972 = {2, 2, 1993}
+Found n=1999 with 3994 = {2, 1997}
+Found n=2003 with 7996 = {2, 2, 1999}
+Found n=2011 with 30045 = {3, 5, 2003}
+Found n=2017 with 16088 = {2, 2, 2, 2011}
+Found n=2027 with 42357 = {3, 7, 2017}
+Found n=2029 with 4054 = {2, 2027}
+Found n=2039 with 42609 = {3, 7, 2029}
+Found n=2053 with 67287 = {3, 11, 2039}
+Found n=2063 with 43113 = {3, 7, 2053}
+Found n=2069 with 16504 = {2, 2, 2, 2063}
+Found n=2081 with 72415 = {5, 7, 2069}
+Found n=2083 with 4162 = {2, 2081}
+Found n=2087 with 8332 = {2, 2, 2083}
+Found n=2089 with 4174 = {2, 2087}
+Found n=2099 with 43869 = {3, 7, 2089}
+Found n=2111 with 73465 = {5, 7, 2099}
+Found n=2113 with 4222 = {2, 2111}
+Found n=2129 with 82407 = {3, 13, 2113}
+Found n=2131 with 4258 = {2, 2129}
+Found n=2137 with 17048 = {2, 2, 2, 2131}
+Found n=2141 with 8548 = {2, 2, 2137}
+Found n=2143 with 4282 = {2, 2141}
+Found n=2153 with 45003 = {3, 7, 2143}
+Found n=2161 with 32295 = {3, 5, 2153}
+Found n=2179 with 140465 = {5, 13, 2161}
+Found n=2203 with 207005 = {5, 19, 2179}
+Found n=2207 with 8812 = {2, 2, 2203}
+Found n=2213 with 17656 = {2, 2, 2, 2207}
+Found n=2221 with 33195 = {3, 5, 2213}
+Found n=2237 with 86619 = {3, 13, 2221}
+Found n=2239 with 4474 = {2, 2237}
+Found n=2243 with 8956 = {2, 2, 2239}
+Found n=2251 with 33645 = {3, 5, 2243}
+Found n=2267 with 87789 = {3, 13, 2251}
+Found n=2269 with 4534 = {2, 2267}
+Found n=2273 with 9076 = {2, 2, 2269}
+Found n=2281 with 34095 = {3, 5, 2273}
+Found n=2287 with 18248 = {2, 2, 2, 2281}
+Found n=2293 with 18296 = {2, 2, 2, 2287}
+Found n=2297 with 9172 = {2, 2, 2293}
+Found n=2309 with 80395 = {5, 7, 2297}
+Found n=2311 with 4618 = {2, 2309}
+Found n=2333 with 131727 = {3, 19, 2311}
+Found n=2339 with 18664 = {2, 2, 2, 2333}
+Found n=2341 with 4678 = {2, 2339}
+Found n=2347 with 18728 = {2, 2, 2, 2341}
+Found n=2351 with 9388 = {2, 2, 2347}
+Found n=2357 with 18808 = {2, 2, 2, 2351}
+Found n=2371 with 77781 = {3, 11, 2357}
+Found n=2377 with 18968 = {2, 2, 2, 2371}
+Found n=2381 with 9508 = {2, 2, 2377}
+Found n=2383 with 4762 = {2, 2381}
+Found n=2389 with 19064 = {2, 2, 2, 2383}
+Found n=2393 with 9556 = {2, 2, 2389}
+Found n=2399 with 19144 = {2, 2, 2, 2393}
+Found n=2411 with 83965 = {5, 7, 2399}
+Found n=2417 with 19288 = {2, 2, 2, 2411}
+Found n=2423 with 19336 = {2, 2, 2, 2417}
+Found n=2437 with 79959 = {3, 11, 2423}
+Found n=2441 with 9748 = {2, 2, 2437}
+Found n=2447 with 19528 = {2, 2, 2, 2441}
+Found n=2459 with 85645 = {5, 7, 2447}
+Found n=2467 with 36885 = {3, 5, 2459}
+Found n=2473 with 19736 = {2, 2, 2, 2467}
+Found n=2477 with 9892 = {2, 2, 2473}
+Found n=2503 with 170913 = {3, 23, 2477}
+Found n=2521 with 162695 = {5, 13, 2503}
+Found n=2531 with 52941 = {3, 7, 2521}
+Found n=2539 with 37965 = {3, 5, 2531}
+Found n=2543 with 10156 = {2, 2, 2539}
+Found n=2549 with 20344 = {2, 2, 2, 2543}
+Found n=2551 with 5098 = {2, 2549}
+Found n=2557 with 20408 = {2, 2, 2, 2551}
+Found n=2579 with 145749 = {3, 19, 2557}
+Found n=2591 with 90265 = {5, 7, 2579}
+Found n=2593 with 5182 = {2, 2591}
+Found n=2609 with 101127 = {3, 13, 2593}
+Found n=2617 with 39135 = {3, 5, 2609}
+Found n=2621 with 10468 = {2, 2, 2617}
+Found n=2633 with 91735 = {5, 7, 2621}
+Found n=2647 with 86889 = {3, 11, 2633}
+Found n=2657 with 55587 = {3, 7, 2647}
+Found n=2659 with 5314 = {2, 2657}
+Found n=2663 with 10636 = {2, 2, 2659}
+Found n=2671 with 39945 = {3, 5, 2663}
+Found n=2677 with 21368 = {2, 2, 2, 2671}
+Found n=2683 with 21416 = {2, 2, 2, 2677}
+Found n=2687 with 10732 = {2, 2, 2683}
+Found n=2689 with 5374 = {2, 2687}
+Found n=2693 with 10756 = {2, 2, 2689}
+Found n=2699 with 21544 = {2, 2, 2, 2693}
+Found n=2707 with 40485 = {3, 5, 2699}
+Found n=2711 with 10828 = {2, 2, 2707}
+Found n=2713 with 5422 = {2, 2711}
+Found n=2719 with 21704 = {2, 2, 2, 2713}
+Found n=2729 with 57099 = {3, 7, 2719}
+Found n=2731 with 5458 = {2, 2729}
+Found n=2741 with 57351 = {3, 7, 2731}
+Found n=2749 with 41115 = {3, 5, 2741}
+Found n=2753 with 10996 = {2, 2, 2749}
+Found n=2767 with 90849 = {3, 11, 2753}
+Found n=2777 with 58107 = {3, 7, 2767}
+Found n=2789 with 97195 = {5, 7, 2777}
+Found n=2791 with 5578 = {2, 2789}
+Found n=2797 with 22328 = {2, 2, 2, 2791}
+Found n=2801 with 11188 = {2, 2, 2797}
+Found n=2803 with 5602 = {2, 2801}
+Found n=2819 with 109317 = {3, 13, 2803}
+Found n=2833 with 93027 = {3, 11, 2819}
+Found n=2837 with 11332 = {2, 2, 2833}
+Found n=2843 with 22696 = {2, 2, 2, 2837}
+Found n=2851 with 42645 = {3, 5, 2843}
+Found n=2857 with 22808 = {2, 2, 2, 2851}
+Found n=2861 with 11428 = {2, 2, 2857}
+Found n=2879 with 162849 = {3, 19, 2857}
+Found n=2887 with 43185 = {3, 5, 2879}
+Found n=2897 with 60627 = {3, 7, 2887}
+Found n=2903 with 23176 = {2, 2, 2, 2897}
+Found n=2909 with 23224 = {2, 2, 2, 2903}
+Found n=2917 with 43635 = {3, 5, 2909}
+Found n=2927 with 61257 = {3, 7, 2917}
+Found n=2939 with 102445 = {5, 7, 2927}
+Found n=2953 with 96987 = {3, 11, 2939}
+Found n=2957 with 11812 = {2, 2, 2953}
+Found n=2963 with 23656 = {2, 2, 2, 2957}
+Found n=2969 with 23704 = {2, 2, 2, 2963}
+Found n=2971 with 5938 = {2, 2969}
+Found n=2999 with 341665 = {5, 23, 2971}
+Found n=3001 with 5998 = {2, 2999}
+Found n=3011 with 63021 = {3, 7, 3001}
+Found n=3019 with 45165 = {3, 5, 3011}
+Found n=3023 with 12076 = {2, 2, 3019}
+Found n=3037 with 99759 = {3, 11, 3023}
+Found n=3041 with 12148 = {2, 2, 3037}
+Found n=3049 with 45615 = {3, 5, 3041}
+Found n=3061 with 106715 = {5, 7, 3049}
+Found n=3067 with 24488 = {2, 2, 2, 3061}
+Found n=3079 with 107345 = {5, 7, 3067}
+Found n=3083 with 12316 = {2, 2, 3079}
+Found n=3089 with 24664 = {2, 2, 2, 3083}
+Found n=3109 with 157539 = {3, 17, 3089}
+Found n=3119 with 65289 = {3, 7, 3109}
+Found n=3121 with 6238 = {2, 3119}
+Found n=3137 with 121719 = {3, 13, 3121}
+Found n=3163 with 216453 = {3, 23, 3137}
+Found n=3167 with 12652 = {2, 2, 3163}
+Found n=3169 with 6334 = {2, 3167}
+Found n=3181 with 104511 = {3, 11, 3167}
+Found n=3187 with 25448 = {2, 2, 2, 3181}
+Found n=3191 with 12748 = {2, 2, 3187}
+Found n=3203 with 111685 = {5, 7, 3191}
+Found n=3209 with 25624 = {2, 2, 2, 3203}
+Found n=3217 with 48135 = {3, 5, 3209}
+Found n=3221 with 12868 = {2, 2, 3217}
+Found n=3229 with 48315 = {3, 5, 3221}
+Found n=3251 with 184053 = {3, 19, 3229}
+Found n=3253 with 6502 = {2, 3251}
+Found n=3257 with 13012 = {2, 2, 3253}
+Found n=3259 with 6514 = {2, 3257}
+Found n=3271 with 107481 = {3, 11, 3257}
+Found n=3299 with 361749 = {3, 37, 3259}
+Found n=3301 with 6598 = {2, 3299}
+Found n=3307 with 26408 = {2, 2, 2, 3301}
+Found n=3313 with 26456 = {2, 2, 2, 3307}
+Found n=3319 with 26504 = {2, 2, 2, 3313}
+Found n=3323 with 13276 = {2, 2, 3319}
+Found n=3329 with 26584 = {2, 2, 2, 3323}
+Found n=3331 with 6658 = {2, 3329}
+Found n=3343 with 109857 = {3, 11, 3329}
+Found n=3347 with 13372 = {2, 2, 3343}
+Found n=3359 with 117145 = {5, 7, 3347}
+Found n=3361 with 6718 = {2, 3359}
+Found n=3371 with 70581 = {3, 7, 3361}
+Found n=3373 with 6742 = {2, 3371}
+Found n=3389 with 131547 = {3, 13, 3373}
+Found n=3391 with 6778 = {2, 3389}
+Found n=3407 with 132249 = {3, 13, 3391}
+Found n=3413 with 27256 = {2, 2, 2, 3407}
+Found n=3433 with 174063 = {3, 17, 3413}
+Found n=3449 with 133887 = {3, 13, 3433}
+Found n=3457 with 51735 = {3, 5, 3449}
+Found n=3461 with 13828 = {2, 2, 3457}
+Found n=3463 with 6922 = {2, 3461}
+Found n=3467 with 13852 = {2, 2, 3463}
+Found n=3469 with 6934 = {2, 3467}
+Found n=3491 with 197733 = {3, 19, 3469}
+Found n=3499 with 52365 = {3, 5, 3491}
+Found n=3511 with 122465 = {5, 7, 3499}
+Found n=3517 with 28088 = {2, 2, 2, 3511}
+Found n=3527 with 73857 = {3, 7, 3517}
+Found n=3529 with 7054 = {2, 3527}
+Found n=3533 with 14116 = {2, 2, 3529}
+Found n=3539 with 28264 = {2, 2, 2, 3533}
+Found n=3541 with 7078 = {2, 3539}
+Found n=3547 with 28328 = {2, 2, 2, 3541}
+Found n=3557 with 74487 = {3, 7, 3547}
+Found n=3559 with 7114 = {2, 3557}
+Found n=3571 with 117381 = {3, 11, 3557}
+Found n=3581 with 74991 = {3, 7, 3571}
+Found n=3583 with 7162 = {2, 3581}
+Found n=3593 with 75243 = {3, 7, 3583}
+Found n=3607 with 118569 = {3, 11, 3593}
+Found n=3613 with 28856 = {2, 2, 2, 3607}
+Found n=3617 with 14452 = {2, 2, 3613}
+Found n=3623 with 28936 = {2, 2, 2, 3617}
+Found n=3631 with 54345 = {3, 5, 3623}
+Found n=3637 with 29048 = {2, 2, 2, 3631}
+Found n=3643 with 29096 = {2, 2, 2, 3637}
+Found n=3659 with 142077 = {3, 13, 3643}
+Found n=3671 with 128065 = {5, 7, 3659}
+Found n=3673 with 7342 = {2, 3671}
+Found n=3677 with 14692 = {2, 2, 3673}
+Found n=3691 with 121341 = {3, 11, 3677}
+Found n=3697 with 29528 = {2, 2, 2, 3691}
+Found n=3701 with 14788 = {2, 2, 3697}
+Found n=3709 with 55515 = {3, 5, 3701}
+Found n=3719 with 77889 = {3, 7, 3709}
+Found n=3727 with 55785 = {3, 5, 3719}
+Found n=3733 with 29816 = {2, 2, 2, 3727}
+Found n=3739 with 29864 = {2, 2, 2, 3733}
+Found n=3761 with 213123 = {3, 19, 3739}
+Found n=3767 with 30088 = {2, 2, 2, 3761}
+Found n=3769 with 7534 = {2, 3767}
+Found n=3779 with 79149 = {3, 7, 3769}
+Found n=3793 with 124707 = {3, 11, 3779}
+Found n=3797 with 15172 = {2, 2, 3793}
+Found n=3803 with 30376 = {2, 2, 2, 3797}
+Found n=3821 with 247195 = {5, 13, 3803}
+Found n=3823 with 7642 = {2, 3821}
+Found n=3833 with 80283 = {3, 7, 3823}
+Found n=3847 with 126489 = {3, 11, 3833}
+Found n=3851 with 15388 = {2, 2, 3847}
+Found n=3853 with 7702 = {2, 3851}
+Found n=3863 with 80913 = {3, 7, 3853}
+Found n=3877 with 127479 = {3, 11, 3863}
+Found n=3881 with 15508 = {2, 2, 3877}
+Found n=3889 with 58215 = {3, 5, 3881}
+Found n=3907 with 252785 = {5, 13, 3889}
+Found n=3911 with 15628 = {2, 2, 3907}
+Found n=3917 with 31288 = {2, 2, 2, 3911}
+Found n=3919 with 7834 = {2, 3917}
+Found n=3923 with 15676 = {2, 2, 3919}
+Found n=3929 with 31384 = {2, 2, 2, 3923}
+Found n=3931 with 7858 = {2, 3929}
+Found n=3943 with 129657 = {3, 11, 3929}
+Found n=3947 with 15772 = {2, 2, 3943}
+Found n=3967 with 201297 = {3, 17, 3947}
+Found n=3989 with 226119 = {3, 19, 3967}
+Found n=4001 with 139615 = {5, 7, 3989}
+Found n=4003 with 8002 = {2, 4001}
+Found n=4007 with 16012 = {2, 2, 4003}
+Found n=4013 with 32056 = {2, 2, 2, 4007}
+Found n=4019 with 32104 = {2, 2, 2, 4013}
+Found n=4021 with 8038 = {2, 4019}
+Found n=4027 with 32168 = {2, 2, 2, 4021}
+Found n=4049 with 229539 = {3, 19, 4027}
+Found n=4051 with 8098 = {2, 4049}
+Found n=4057 with 32408 = {2, 2, 2, 4051}
+Found n=4073 with 158223 = {3, 13, 4057}
+Found n=4079 with 32584 = {2, 2, 2, 4073}
+Found n=4091 with 142765 = {5, 7, 4079}
+Found n=4093 with 8182 = {2, 4091}
+Found n=4099 with 32744 = {2, 2, 2, 4093}
+Found n=4111 with 143465 = {5, 7, 4099}
+Found n=4127 with 160329 = {3, 13, 4111}
+Found n=4129 with 8254 = {2, 4127}
+Found n=4133 with 16516 = {2, 2, 4129}
+Found n=4139 with 33064 = {2, 2, 2, 4133}
+Found n=4153 with 136587 = {3, 11, 4139}
+Found n=4157 with 16612 = {2, 2, 4153}
+Found n=4159 with 8314 = {2, 4157}
+Found n=4177 with 212007 = {3, 17, 4157}
+Found n=4201 with 396815 = {5, 19, 4177}
+Found n=4211 with 88221 = {3, 7, 4201}
+Found n=4217 with 33688 = {2, 2, 2, 4211}
+Found n=4219 with 8434 = {2, 4217}
+Found n=4229 with 88599 = {3, 7, 4219}
+Found n=4231 with 8458 = {2, 4229}
+Found n=4241 with 88851 = {3, 7, 4231}
+Found n=4243 with 8482 = {2, 4241}
+Found n=4253 with 89103 = {3, 7, 4243}
+Found n=4259 with 34024 = {2, 2, 2, 4253}
+Found n=4261 with 8518 = {2, 4259}
+Found n=4271 with 89481 = {3, 7, 4261}
+Found n=4273 with 8542 = {2, 4271}
+Found n=4283 with 89733 = {3, 7, 4273}
+Found n=4289 with 34264 = {2, 2, 2, 4283}
+Found n=4297 with 64335 = {3, 5, 4289}
+Found n=4327 with 526809 = {3, 41, 4283}
+Found n=4337 with 90867 = {3, 7, 4327}
+Found n=4339 with 8674 = {2, 4337}
+Found n=4349 with 91119 = {3, 7, 4339}
+Found n=4357 with 65235 = {3, 5, 4349}
+Found n=4363 with 34856 = {2, 2, 2, 4357}
+Found n=4373 with 91623 = {3, 7, 4363}
+Found n=4391 with 284245 = {5, 13, 4373}
+Found n=4397 with 35128 = {2, 2, 2, 4391}
+Found n=4409 with 153895 = {5, 7, 4397}
+Found n=4421 with 154315 = {5, 7, 4409}
+Found n=4423 with 8842 = {2, 4421}
+Found n=4441 with 225471 = {3, 17, 4421}
+Found n=4447 with 35528 = {2, 2, 2, 4441}
+Found n=4451 with 17788 = {2, 2, 4447}
+Found n=4457 with 35608 = {2, 2, 2, 4451}
+Found n=4463 with 35656 = {2, 2, 2, 4457}
+Found n=4481 with 290095 = {5, 13, 4463}
+Found n=4483 with 8962 = {2, 4481}
+Found n=4493 with 94143 = {3, 7, 4483}
+Found n=4507 with 148269 = {3, 11, 4493}
+Found n=4513 with 36056 = {2, 2, 2, 4507}
+Found n=4517 with 18052 = {2, 2, 4513}
+Found n=4519 with 9034 = {2, 4517}
+Found n=4523 with 18076 = {2, 2, 4519}
+Found n=4547 with 419709 = {3, 31, 4513}
+4547

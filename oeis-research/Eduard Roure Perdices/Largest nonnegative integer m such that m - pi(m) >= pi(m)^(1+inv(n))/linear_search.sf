@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# a(n) is the largest nonnegative integer m such that m - pi(m) >= pi(m)^(1 + 1/n).
+# https://oeis.org/A334599
+
+# New terms found:
+# a( 9) = 1553240096780862
+# a(10) = 246080334487930558
+
+func pi(x) {
+    Num(`/tmp/primecount #{x}`)
+}
+
+var n = 10
+var m = prev_prime(246080334487930558-10000)
+var c = pi(m)
+
+assert_eq(pi(100), 25)
+
+loop {
+
+    ++m
+    ++c if m.is_prime
+
+    if (m - c >= c**(1 + 1/n)) {
+        say [n, c, m]
+    }
+}

@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+
+# Generate imprimitive Carmichael numbers with n prime factors.
+
+func is_imprimitive(n) {
+    n.factor.gcd_by { .dec }**2 > lambda(n)
+}
+
+func generate_imprimitive(p, m) {
+
+    for z in (2..100) {
+
+        var arr = []
+
+        for k in (1 .. 2.sqrt**z) {
+            k.is_smooth(5) || next
+            var r = (2*k*p + 1)
+            if (r.is_prime && (r.dec.gpf == p)) {
+                arr << r
+            }
+        }
+
+        var t = binomial(arr.len, m)
+
+        t >= m  || next
+        t < 1e6 || break
+
+        var count = 0
+        say "# Combinations: #{t}"
+
+        arr.combinations(m, {|*a|
+            with (a.prod) { |C|
+                if (C.is_carmichael) {
+                    say C
+                    say "# Imprimitive with p = #{p}: #{C}" if is_imprimitive(C)
+                }
+            }
+            break if (++count > 1e5)
+        })
+    }
+}
+
+for p in (primes(100..457)) {
+     say "# p = #{p}"
+     generate_imprimitive(p,10)
+}

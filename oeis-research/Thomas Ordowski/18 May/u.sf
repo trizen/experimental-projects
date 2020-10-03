@@ -1,0 +1,82 @@
+#!/usr/bin/ruby
+
+# When p is a prime S(p) == -1 (mod p).
+# When p*q is a squarefree semiprime S(p*q) == (mod p*q).
+
+# ((p-1) * (q-1) + p^(p*q-1) * (q-1) + q^(p*q - 1) * (p-1)) (mod p*q)
+
+func S(n) {
+    map(1..^n, {|k|
+        powmod(k, (n-1), n)
+    }).freq
+}
+
+func fastS(n) {
+    Hash(n.divisors.map {|d|
+        [powmod(d, (n-1), n), euler_phi(n/d)]
+    }.flat...)
+}
+
+func Snum(n) {
+    sum(1..^n, {|k|
+        powmod(k, (n-1), n)
+    }) % n
+}
+
+func fastSnum(n) {
+    n.divisors.sum {|d|
+        powmod(d, (n-1), n) * euler_phi(n/d)
+    } % n
+}
+
+say Snum(561)
+say fastSnum(561)
+
+say Snum(1105)
+say fastSnum(1105)
+
+__END__
+(n) = Sum_{k=1..n} gcd(n, k) * phi(n / gcd(n, k)), where phi(k) is the Euler totient function. - Daniel Suteu, Jun 15 2018
+
+a(n) = Sum_{d|n} d * phi(n/d)^2, where phi(k) is the Euler totient function. - Daniel Suteu, Jun 17 2018
+
+p^(k-1) * ((p-1) * p^k + 1).
+
+#~ say fastSnum(16046641)
+
+__END__
+S(561) = 290
+S(1105) = 734
+S(1729) = 1258
+S(2465) = 1742
+S(2821) = 2110
+S(6601) = 5210
+S(8911) = 7036
+
+#~ say S(561)
+#~ say fastS(561)
+
+var str = "
+S(16046641) = 14123661
+S(16778881) = 12009864
+S(17098369) = 16858238
+S(17236801) = 17009098
+S(17316001) = 16870670
+S(17586361) = 15629649
+S(17812081) = 14481769
+S(18162001) = 13384248
+S(18307381) = 17004481
+S(18900973) = 14643537
+S(19384289) = 19080158
+S(19683001) = 17433969
+S(20964961) = 18167065
+S(21584305) = 15871469
+S(22665505) = 16557229
+S(23382529) = 23001598
+".findall(/(\d+)/).flat.map{Num(_)}
+
+str.each_slice(2, {|a,b|
+    #say [a,b]
+    say "S(#{a}) == #{b}"
+    assert_eq(fastS(a), b)
+})

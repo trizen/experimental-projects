@@ -1,0 +1,50 @@
+#!/usr/bin/ruby
+
+# Generate Carmichael numbers of special form.
+
+func generate(a,b,c) {
+    var from = ((2**64 -> root(3) / (a*b*c).root(3) -> int))
+    from.is_even || ++from
+    from..Inf `by` 2 -> lazy.map {|m| (a*m + 1) * (b*m + 1) * (c*m + 1) }.grep { .is_carmichael }.first(100).each { .say }
+}
+
+DATA.each {|line|
+    if (line =~ /a,b,c\s*=\s*(\d+),(\d+),(\d+)/) {|m|
+        say ''
+        say line
+        generate(Num(m[0]), Num(m[1]), Num(m[2]))
+    }
+}
+
+__END__
+
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,53.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,55.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,61.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,67.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,19.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,23.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,39.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,51.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,57.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,63.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,65.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,69.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,5.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,7.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,9.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,11.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,13.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,15.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,17.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,21.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,25.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,27.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,29.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,31.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,37.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,41.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,43.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,45.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,47.
+# N=(am+1)(bm+1)(cm+1) is a Carmichael number, where a,b,c = 1,2,49.

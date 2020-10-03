@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+# Amiram Eldar and Thomas Ordowski, Jul 27 2019:
+#   Conjecutre: For n > 2, n divides a(n-2) if and only if n is a prime.
+#   Problem: are there primes p > 3 such that p^2 divides a(p-2)?
+
+# Checked up to 1000000.
+
+# See:
+#   https://oeis.org/A064169
+
+var from = 1000000
+var H    = harmonic(from-2)
+
+for n in (from .. from+1e6) {
+
+    say "Testing: #{n}"
+
+    var (nu,de) = H.nude
+    var t = nu-de
+
+    if (n `divides` t) {
+        assert(n.is_prime, n)
+    }
+    else {
+        assert(n.is_composite, n)
+    }
+
+    if (n.is_prime) {
+        if (n*n `divides` t) {
+            die "Counter-example: #{n}"
+        }
+    }
+
+    H += (n-1).inv
+}

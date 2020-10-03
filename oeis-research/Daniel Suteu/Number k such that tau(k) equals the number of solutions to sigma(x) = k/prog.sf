@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+# Number k such that tau(k) equals the number of solutions to sigma(x) = k.
+
+# Sequence related to:
+#   https://oeis.org/A305058
+
+# Known terms:
+#   1, 31, 24192, 57600, 430080, 1059840, 1080000, 1436400, 1446336, 1676160, 1713600, 1956864, 2045952, 2086560, 2213568, 2301696, 2673216, 2688336, 3566592, 3618816, 3935232, 4069440, 4584960, 5296896, 5673024, 5692032, 5695488, 5760720
+
+for k in (1..5760720) {
+    if (k.inverse_sigma.len == k.sigma0) {
+        print(k, ", ")
+    }
+}

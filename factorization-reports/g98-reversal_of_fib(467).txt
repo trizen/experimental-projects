@@ -1,0 +1,38 @@
+Number: reversal_of_fib(467)
+N = 35909516414870092985055297757847596301329860024172013073328604216188122630274408109928668571609671 (98 digits)
+Divisors found:
+r1=5024871741190641807830587088064869 (pp34)
+r2=7146354825439055715339651803296011125700407301171039527446169659 (pp64)
+Version: Msieve v. 1.53 (SVN unknown)
+Total time: 1.43 hours.
+Factorization parameters were as follows:
+# reversal of fib(467) -- cf. A099954
+n:35909516414870092985055297757847596301329860024172013073328604216188122630274408109928668571609671
+# norm 1.914458e-13 alpha -4.588224 e 1.464e-08 rroots 2
+skew: 7798699.05
+c0: -25962640502955320442465354600
+c1: -2898555130124802332478
+c2: -2498853353724039
+c3: -466823864
+c4: 48
+Y0: -930029156109644854637717
+Y1: 3949134451483
+type: gnfs
+Factor base limits: 1800000/1800000
+Large primes per side: 3
+Large prime bits: 26/26
+Sieved algebraic special-q in [0, 0)
+Total raw relations: 4816728
+Relations: 268034 relations
+Pruned matrix : 159843 x 160069
+Polynomial selection time: 0.02 hours.
+Total sieving time: 1.32 hours.
+Total relation processing time: 0.03 hours.
+Matrix solve time: 0.05 hours.
+time per square root: 0.01 hours.
+Prototype def-par.txt line would be: gnfs,97,4,58,1500,0.003,0.4,220,15,10000,2000,1800000,1800000,26,26,48,48,2.5,2.5,100000
+total time: 1.43 hours.
+
+processors: 2, speed: 2.69GHz
+Linux-5.4.2-arch1-1-x86_64-with-glibc2.2.5
+Running Python 2.7

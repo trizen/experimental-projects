@@ -1,0 +1,85 @@
+#!/usr/bin/ruby
+
+# Smallest number m such that the GCD of the x's that satisfy sigma(x)=m is n.
+# https://oeis.org/A241625
+
+# Known terms:
+#   1, 3, 4, 7, 6, 6187272, 8, 15, 13, 196602, 8105688, 28, 14
+
+# Upper-bounds for a(144):
+#   a(144) <= {5334186182, 320692161764, 404350986572, 724592550812, 921030858722, 1138698021812, 7340065485194, 10562405788532, 405101345685452, 1058995989058904, 1293672253540082, 1991013491138282, 2643933035123354, 15645437418062582}
+
+#var easy = Set( 1, 2, 3, 4, 5, 7, 8, 9, 12, 13, 18, 19, 22, 27, 29, 32, 36, 37, 43, 45, 49, 50, 61, 64, 67, 72, 73, 81, 91, 98, 100, 101, 106, 109, 121, 128, 129, 133, 134, 137, 146, 148, 149, 152, 157, 162, 163, 169, 171, 173, 192, 193, 197, 199, 200, 202, 211, 217, 218, 219)
+
+func a(n, from=1) {
+
+    for k in (from .. 1e13) {
+
+        say "Testing: #{k}" if (1000 `divides` k)
+        var t = k.inverse_sigma.gcd
+
+        if (t == n) {
+            return k
+        }
+
+        #if ((t > 13) && (t < 200)) {
+            #say "a(#{t}) = #{k}" if !easy.has(t)
+            #return k if ((t == 14) || (t == 15))
+        #}
+    }
+}
+
+# a(144) <= 921030858722
+# a(144) <= 2440369552322
+
+#~ for k in (2..30) {
+    #~ say "Tesitng: #{k}"
+    #~ for j in (1..4) {
+        #~ for i in (1..4){
+            #~ var n = (2**k * 31**j * 19**i)
+            #~ if (inverse_sigma(n).gcd == 15) {
+                #~ die ("Found: ", n)
+            #~ }
+        #~ }
+    #~ }
+#~ }
+
+
+#~ __END__
+#var arr = [3, 5, 7, 11, 17, 19, 23, 29, 31, 47, 53, 59, 71, 79, 89, 107, 127, 149, 179, 191, 199, 239, 269]
+#var arr = [2, 13, 23, 29, 31, 83, 127, 269, 1153]
+#var arr = [2, 3, 5, 7, 13, 17, 19, 97]
+#var arr = [2, 3, 5, 7, 11, 17, 31, 71, 127]
+var arr = [2, 3, 5, 7, 11, 13, 17, 19, 29, 31, 41, 71, 97, 127, 251, 449, 4801]
+
+for k in (1..30) {
+    say "Testing: #{k}"
+    arr.combinations_with_repetition(k, {|*a|
+
+        if (a.prod > 1e9) {
+            if (inverse_sigma(a.prod).gcd ~~ [14,15,144]) {
+                say (a.prod)
+            }
+        }
+    })
+}
+
+#say a(144)
+
+#say a(14,1000341000)
+#for k in (6..100) {
+#    say ("a(#{k}) = ", a(k))
+#}
+#10000.range.map{.inverse_totient.gcd}.uniq.sort.grep{.is_prime}.say
+
+#~ var table = Hash()
+
+#~ for k in (1..1e4) {
+    #~ var t = k.inverse_totient.gcd
+
+    #~ if (!table.has(t)) {
+        #~ table{t} = k
+    #~ }
+#~ }
+
+#~ say table.keys.map{.to_i}.sort.map{table{_}}

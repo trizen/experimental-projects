@@ -1,0 +1,31 @@
+https://www.primepuzzles.net/puzzles/puzz_171.htm
+
+
+For the question 2, Phil Carmody wrote (11/5/2002):
+
+Jim wanted to see how fast my gensv could tackle puzzle 171, and so I ran it for 7 minutes on my alpha, and got the following:
+
+k=216818853118725
+
+ptest(k*8128+1), 1
+ptest(k*8128*2+1), 1
+ptest(k*8128*4+1), 1
+ptest(k*8128*8+1),1
+ptest(k*8128*16+1), 1
+ptest(k*8128*32+1), 1
+ptest(k*8128*64+1), 1
+ptest(k*8128*127+1),1
+ptest(k*8128*254+1),1
+Pest(k*8128*508+1), 1
+ptest(k*8128*1016+1),1
+ptest(k*8128*2032+1),1
+ptest(k*8128*4064+1),1
+
+The numbers aren't proved prime, but have passed 2 different fermat tests and 10 MR tests each. It took 40 minutes to verify the minimality, as with gensv it tests numbers out of order so you've got to wait for a block to complete. I'm not going to tackle the 17-term problem, as 17 gets a bit hard.
+
+
+OEIS: https://oeis.org/A319008
+
+Terms: 1, 2136, 13494274080, 216818853118725
+
+Perfect numbers: 6, 28, 496, 8128, 33550336

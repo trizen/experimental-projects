@@ -1,0 +1,11 @@
+Number: c78
+N = 185270892231517455300010802685518696134060127053586069752231337451543274149361 (78 digits)
+Divisors found:
+r1=294867429305841469646403585379 (pp30)
+r2=628319284593997534711118228533689699946768028059 (pp48)
+Version: Msieve v. 1.53 (SVN Unversioned directory)
+Completed using mpqs mode
+
+processors: 2, speed: 2.48GHz
+Linux-5.2.7-arch1-1-ARCH-x86_64-with-glibc2.2.5
+Running Python 2.7

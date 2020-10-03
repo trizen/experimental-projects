@@ -1,0 +1,175 @@
+#!/usr/bin/ruby
+
+func T1(n) {
+    sum(1..n, {|k|
+      k.sigma0/2 * floor(n/k) * floor(1 + n/k)
+    })
+}
+
+func T2(n) {
+    sum(1..n, {|k|
+      k.sigma * floor(n/k)
+    })
+}
+
+say 30.of { T1(_) }
+#say 30.of { T2(_) }
+
+
+
+
+
+#say ''
+#say 30.of { T2(_) }
+#say ''
+#say (30.of { T1(_) } ~Z- 30.of { T2(_) } -> map{.abs})
+
+#say (zeta(3# - 1)**2 / zeta(3))
+
+#say project_euler3(100).sort.map{.as_rat}.freq.sort_by {|a,b| b }.map{[Num(_[0]),_[1]]}.sort
+
+#for n in (1..10) {
+#    say project_euler(n)
+#}
+
+
+#say sum(1..100, {|k| sum_totient(100//k) })
+
+#say sum_totient(1000)
+#say sum_totient(10000)
+#say sum_totient(100000)
+#say sum_totient(1000000)
+
+
+__END__
+
+#!/usr/bin/ruby
+
+func F(x) {
+    #faulhaber_sum(n, 1)
+    sum(1..x, {|n|
+        euler_phi(n) / n
+    })
+ #   faulhaber_sum(x, 1)
+    #(bernoulli(2, x+1) - bernoulli(2, 0)) / 2
+}
+
+func F2(n) {
+    faulhaber_sum(n, 1)
+    #(bernoulli(2, n+1) - bernoulli(2)) / 2
+}
+
+func g(n) {
+     n * n.divisors.sum {|d| euler_phi(d)/d }
+}
+
+func G_1(x) {
+    var t1 = sum(1..x.isqrt, {|n| euler_phi(n)/n * floor(x/n) })
+    var t2 = sum(1..x.isqrt, {|n| F(x/n) })
+    var t3 = (F(x.sqrt) * x.isqrt)
+
+    t1 + t2 - t3
+}
+
+func G_0(x) {
+    var t1 = sum(1..x.sqrt, {|n|
+        g(n)/n * F2(x/n)
+    })
+
+    var t2 = sum(1..x.sqrt, {|n|
+        n * G_1(x/n)
+    })
+
+    var t3 = (F2(x.sqrt) * G_1(x.sqrt))
+
+    t1 + t2 - t3
+}
+
+func G_0_2(n) {
+    sum(1..n, {|k|
+        euler_phi(k) * floor(n/k) * (floor(n/k) + 1) / 2  #F2(x/n)
+    })
+}
+
+#~ func sum_totient2(n) is cached {
+    #~ sum(1..n, {|k|
+        #~ k.rad.factor.each { |p| k -= k//p }
+        #~ k
+    #~ })
+#~ }
+
+var N = 1000
+
+var k = smallest_k(N)
+
+say k
+say sum(1 .. k, {|i| totient_iter(i, N) })
+
+say sum_totient(N)
+say sum_totient2(N)
+
+say ''
+say  sum_totient2(N)/sum_totient(N)
+say  sum_totient(N)/sum_totient2(N)
+
+__END__
+#~ func ramanujan_sum(k, n) {
+    #~ sum(1..k -> grep {|a| is_coprime(a,k) }, {|a| exp(Num.tau.i * (a / k) * n) })
+#~ }
+
+#~ for N in (1..30) {
+    #~ var sum = 0
+    #~ for k in (1..N) {
+        #~ for n in (k .. N) {
+            #~ sum += ramanujan_sum(k, n)
+        #~ }
+    #~ }
+    #~ say sum.round+1
+#~ }
+
+#~ __END__
+#~ use 5.014;
+#~ use ntheory qw(ramanujan_sum);
+
+#~ foreach my $N(1..10) {
+    #~ my $sum = 0;
+    #~ foreach my $k(1..$N) {
+
+#~ foreach my $n($k..$N) {
+        #~ $sum += ramanujan_sum($k, $n);
+    #~ }
+#~ }
+    #~ #print "$sum, ";
+    #~ say $sum;
+#~ }
+
+#~ __END__
+
+#~ for n in (1..10) {
+    #~ say (sum(1..n, {|k| mobius(k)*floor(n/k)*floor(1 + n/k) }) / 2)
+#~ }
+
+#~ __END__
+var sum = 0
+
+for N in (1..100) {
+
+    var table = []
+    for n in (1 .. N/3) {
+    for j in (1 .. n) {
+        table << gcd(n, j)
+    }
+}
+
+    sum += (table.freq(){1} || 0)
+
+    print (table.freq(){1}, ", ")
+    #say table.freq(){2}
+}
+
+say ''
+say sum
+
+#say ''
+
+# 2, 4, 6, 10, 12, 18, 22, 28, 32

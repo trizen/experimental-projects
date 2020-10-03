@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Numbers k such that prime(k+1) + Sum_{j=1..k} 2^prime(j) is prime, where prime(j) is the j-th prime.
+# https://oeis.org/A326576
+
+# Known terms:
+#   1, 2, 6, 42, 155
+
+# No other terms bellow 86111.
+
+var sum = 0
+var prev_p = 2
+
+for (var p = 3; true; p.next_prime!){
+
+    say "Testing: #{p}"
+    sum += 2**prev_p
+
+    if (p >= 86111 && is_prob_prime(sum + p)) {
+        say ("Found: ", p.primepi-1)
+        die "!!!New term!!!" if (p.primepi-1 > 155)
+    }
+
+    prev_p = p
+}

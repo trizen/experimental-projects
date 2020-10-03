@@ -1,0 +1,6 @@
+#!/usr/bin/ruby
+
+var s = File("examples_for_a(4).txt").read
+var a = eval("%n(#{s})")
+
+a.uniq.sort.join("\n").say

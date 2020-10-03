@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# Numerators: https://oeis.org/A136675
+# Primes:     https://oeis.org/A136683
+
+func a(n) is cached {
+
+    return 0 if (n == 0)
+    return 1 if (n == 1)
+
+    a(n-1)*(n**3) + ((-1)**(n+1))*((n-1)!**3)
+}
+
+func f(n) {
+    var t = a(n)
+    t / gcd(t, n!**3)
+}
+
+say 10.of(a)
+say 10.of(f)
+
+for n in (6842..15000) {
+    say "Testing: #{n}"
+    if (f(n).is_prob_prime) {
+        say "Prime: #{n}"
+        die "Record: #{n}" if (n > 6725)
+    }
+}

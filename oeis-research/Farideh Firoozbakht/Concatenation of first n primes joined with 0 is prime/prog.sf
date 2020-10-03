@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Numbers n such that concatenation of first n primes, separated by zeros, is prime.
+# https://oeis.org/A082549
+
+# Known terms:
+#   1, 9, 15, 25, 59, 444
+
+# Next term >= 5686
+
+# Heuristically, the next term should be close to 8000.
+
+for n in (5686..7000) {
+    var t = primes(prime(n)).join('0').to_i
+    say "Testing: #{n} -- length #{t.len}"
+    if (t.is_prob_prime) {
+        die "Found: #{n}"
+    }
+}

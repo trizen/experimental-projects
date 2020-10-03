@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+func isok(n) {
+    n.is_prime && return false
+    n.is_square_free || return false
+
+    var t = rad(n+1)
+
+    n.factor.all { |p|
+        rad(p+1) == t
+    }
+}
+
+for n in (1..1e9) {
+    if (isok(n)) {
+        say n
+    }
+}

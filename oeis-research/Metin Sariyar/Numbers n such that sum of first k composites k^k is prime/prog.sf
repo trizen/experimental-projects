@@ -1,0 +1,56 @@
+#!/usr/bin/ruby
+
+# Numbers k such that Sum_{j=1...k} composite(j)^composite(j) is prime, where composite(j) is the j-th composite number.
+# https://oeis.org/A308610
+
+# Known terms: 7, 194, 219
+
+# If it exists, a(4) > 19000.
+
+func a(n) {
+
+    var from = 1
+    var comp = 4
+    var total = 0
+
+    while (from < n) {
+
+        total += comp**comp
+
+        ++from
+        ++comp
+
+        while (!comp.is_composite) {
+            ++comp
+        }
+    }
+
+    total += comp**comp
+
+    return (total, comp)
+}
+
+# k = 19046 is not a term!
+
+# Strong candidate: 19137
+
+var from = 19137
+var (total, comp) = a(from)
+
+for k in (from .. 1e6) {
+
+    ++comp
+    ++from
+
+    while (!comp.is_composite) {
+        ++comp
+    }
+
+    total += comp**comp
+
+    say "Testing: #{from} (digits: #{total.len})"
+
+    if (total.is_prob_prime) {
+        die "Found: #{from}"
+    }
+}

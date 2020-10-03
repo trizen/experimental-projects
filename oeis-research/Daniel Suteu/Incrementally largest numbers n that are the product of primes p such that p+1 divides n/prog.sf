@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+
+# Incrementally largest terms of a(n).
+
+# See also:
+#   https://oeis.org/A322702 -- a(n) is the product of primes p such that p+1 divides n.
+
+func a(n) {
+    n.divisors.map{.dec}.grep{.is_prime}.prod
+}
+
+var max = 0
+for n in (2..1e6 `by` 2) {
+    with (a(n)) {|t|
+        if (t > max) {
+            max = t
+            say "#{n} -> #{max}"
+        }
+    }
+}

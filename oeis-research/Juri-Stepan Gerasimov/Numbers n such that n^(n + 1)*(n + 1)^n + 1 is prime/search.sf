@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Numbers n such that n^(n + 1)*(n + 1)^n + 1 is prime
+# https://oeis.org/A328217
+
+# Known terms:
+#   1, 2, 14, 22, 120
+
+# a(6) > 3400
+
+for n in (3400 .. 1e6) {
+
+    say "Testing: #{n}"
+
+    if (n**(n + 1) * (n + 1)**n + 1 -> is_prob_prime) {
+        die "Found: #{n}" if (n > 120)
+    }
+}

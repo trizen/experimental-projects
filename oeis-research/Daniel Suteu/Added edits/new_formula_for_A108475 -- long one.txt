@@ -1,0 +1,20 @@
+
+# Added
+# https://oeis.org/A108475
+
+# 1, 2, 15, 84, 493, 2870, 16731, 97512, 568345, 3312554, 19306983, 112529340, 655869061, 3822685022, 22280241075, 129858761424, 756872327473, 4411375203410, 25711378892991
+
+a(n) = (-1)^n * Re(sqrt(1+i) * cos((n + 1/2) * acos(i)) * sin(n * acos(i)) + 1), where i = sqrt(-1). - ~~~~
+
+# Sidef program
+
+func foo(n) {
+    (-1)**n * real(sqrt(1 + 1i) * cos((n + 1/2) * acos(1i)) * sin(n * acos(1i)) + 1)
+}
+
+say 30.of(foo)
+
+
+# Bonus:
+
+a(n) = (-1)^(n+1) * Re(Sum_{k=1..2*n} T_k(sqrt(-1))), where T_k(x) are the Chebyshev polynomials of first kind. - ~~~~

@@ -1,0 +1,154 @@
+#!/usr/bin/ruby
+
+# Author: Daniel "Trizen" Șuteu
+# Date: 21 September 2018
+# https://github.com/trizen
+
+# A new algorithm for generating Fibonacci pseudoprimes.
+
+# See also:
+#   https://oeis.org/A081264 -- Odd Fibonacci pseudoprimes.
+#   https://oeis.org/A212424 -- Frobenius pseudoprimes with respect to Fibonacci polynomial x^2 - x - 1.
+
+func fibonacci_pseudoprimes(limit, callback) {
+
+    var table = Hash()
+
+    #var r = 1e20.irand
+
+    for p in (primes(1e5)) {
+    #for p in (primes(1e5)) {
+        for d in (p - p.legendre(5) -> divisors) {
+            #if (fibmod(d, p) == 0) {
+                table{d} := [] << p
+            #}
+        }
+    }
+
+    #gather {
+    var seen = Hash()
+
+        table.each_v { |a|
+
+            var L = a.len
+            L > 1 || next
+            L < 8 || next
+
+            for k in (2..L) {
+                a.subsets(k, {|*t|
+                    var num = t.prod
+                    if (!seen{num}) {
+                        callback(num)
+                        seen{num} = true
+                    }
+                })
+            }
+        }
+   # }.uniq
+}
+
+func is_fibonacci_pseudoprime(n) {
+    fibmod(n - n.legendre(5), n) == 0
+}
+
+func BPSW_primality_test(n) {
+
+    return false if (n <= 1)
+    return true  if (n == 2)
+    return false if n.is_power
+
+   # 2.powmod(n-1, n) == 1 || return false
+
+    var Q
+    for k in (2 .. Inf) {
+        var D = ((-1)**k * (2*k + 1))
+
+        if (D.kronecker(n) == -1) {
+            Q = (1 - D)/4
+            break
+        }
+    }
+
+    var d = (n + 1)
+    var s = d.valuation(2)
+
+    var(U1 = 1)
+    var(V1 = 2, V2 = 1)
+    var(Q1 = 1, Q2 = 1)
+
+    for bit in (d.as_bin.first(-s - 1).chars) {
+
+        Q1 = (Q1 * Q2)%n
+
+        if (bit) {
+            Q2 = (Q1 * Q)%n
+            U1 = (U1 * V2)%n
+            V1 = (V2*V1 - Q1)%n
+            V2 = (V2*V2 - 2*Q2)%n
+        }
+        else {
+            Q2 = Q1
+            U1 = (U1*V1 - Q1)%n
+            V2 = (V2*V1 - Q1)%n
+            V1 = (V1*V1 - 2*Q2)%n
+        }
+    }
+
+    Q1 = (Q1 * Q2)%n
+    Q2 = (Q1 * Q)%n
+    U1 = (U1*V1 - Q1)%n
+    V1 = (V2*V1 - Q1)%n
+    Q1 = (Q1 * Q2)%n
+
+    return true if U1.is_congruent(0, n)
+    return true if V1.is_congruent(0, n)
+
+    s.times {
+        U1 = (U1 * V1)%n
+        V1 = (V1*V1 - 2*Q1)%n
+        Q1 = (Q1 * Q1)%n
+
+        return true if V1.is_congruent(0, n)
+    }
+
+    return false
+}
+
+func PSW_primality_test(n) {
+
+    return false if (n <= 1)
+    return true  if (n == 2)
+    return false if n.is_power
+
+   # 2.powmod(n-1, n) == 1 || return false
+
+    var P = (1..Inf -> first_by {|k|
+        n.kronecker(k*k + 4) == -1
+    })
+
+    lucasUmod(P, -1, n+1, n) == 0
+}
+
+fibonacci_pseudoprimes(100, {|n|
+
+    if (powmod(2, n-1, n) == 1) {
+        say "Fermat pseudoprime: #{n}"
+
+        if (BPSW_primality_test(n)) {
+            die "BPSW counter-example: #{n}"
+        }
+
+        if (PSW_primality_test(n)) {
+            die "PSW counter-example: #{n}"
+        }
+
+        if (n.legendre(5) == -1) {
+            say "Almost found a special pseudoprime: #{n}"
+            Sys.sleep(1)
+
+            if (is_fibonacci_pseudoprime(n)) {
+                die "Found a special pseudoprime: #{n}"
+            }
+        }
+    }
+})

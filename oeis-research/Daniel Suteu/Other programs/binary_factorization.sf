@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+# A binary search factorization algorithm. (concept only)
+
+func binfactor(n) {
+
+    var a = 2
+    var b = 3*n.isqrt
+
+    loop {
+        var v = (a*b)
+
+        #say ("Testing: ", [a,b])
+
+        if (gcd(a,n).is_between(2, n-1)) {
+            return gcd(a, n)
+        }
+
+        if (gcd(b,n).is_between(2, n-1)) {
+            return gcd(b, n)
+        }
+
+        if (v > n) {
+            a = floor(n/b)-powmod(b, -a, n)
+            (a,b) = (b,a)
+        }
+        elsif (v < n) {
+            a = floor(n/b)+powmod(b, -a, n)
+            (a,b) = (b,a)
+        }
+        else {
+            say "Found: #{a} * #{b}"
+            return [a,b]
+        }
+
+        a = a.abs
+        b = b.abs
+    }
+}
+
+say binfactor(43*97)
+say binfactor(503*863)
+say binfactor(313*757)
+say binfactor(6959*7789)
+say binfactor(2**64 + 1)
+say binfactor(1650813863)
+
+#say binfactor(508234490633)
+#say binfactor(2**128 + 1)

@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Integers k such that k is equal to the sum of the nonprime proper divisors of k.
+# https://oeis.org/A331805
+
+# Numbers of the form (2^p-1)*(2^(p-1))*((2^p-1)^2-2), where the values of p are given by the intersection of A091515 and A000043, are also terms.
+# Currently, only four such values of p are known: {2, 3, 7, 19}.
+
+func isok(n) {
+    n.sigma - n - n.prime_sigma == n
+}
+
+for k in (1..100) {
+
+    k.is_mersenne_prime || next
+    is_prime((2**k - 1)**2 - 2) || next
+
+    var t = (2**(k-1) * (2**k - 1) * ((2**k - 1)**2 - 2))
+
+    if (isok(t)) {
+        say "Found: #{t}"
+    }
+}
+
+__END__
+Found: 42
+Found: 1316
+Found: 131080256
+Found: 37778715690312487141376

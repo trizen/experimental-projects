@@ -1,0 +1,57 @@
+#!/usr/bin/ruby
+
+func g(n) {
+    is_prime(n) ? 1 : 0
+}
+
+func f(n) {
+    n.divisors.sum{|d|
+        g(d) * g(n/d)
+    }
+}
+
+func a(n) {
+    2*n.isqrt.primes.sum{|p|
+        primepi(floor(n/p))
+    } - primepi(n.isqrt)**2
+}
+
+func b(n) {
+    2*semiprime_count(n) - primepi(n.isqrt)
+}
+
+func c(n) {
+    (a(n) + primepi(n.isqrt))/2
+}
+
+say 100.of(f).accumulate
+say 100.of(a)
+say 100.of(b)
+
+say a(10**9)
+say b(10**9)
+
+say semiprime_count(10**9)
+
+#say ((a(10**9) + primepi(1e9.isqrt))/2)
+say 30.of {|n| a(n) + primepi(n.isqrt) }
+
+say ''
+
+say 30.of(c)
+say 30.of { .semiprime_count }
+
+say c(10**9 + 7)
+say semiprime_count(10**9 + 7)
+
+__END__
+Partial sums of A230595: sum of the Dirichlet convolution of the characteristic function of primes (A010051) with itself from 1 to n.
+
+a(n) = Sum_{k=1..n} Sum_{d|k} A010051(d) * A010051(k/d).
+a(n) = 2*Sum_{p prime <= sqrt(n)} A000720(floor(n/p)) - A000720(floor(sqrt(n)))^2.
+a(n) = 2*A072000(n) - A000720(floor(sqrt(n))).
+
+
+PARI
+
+a(n) = my(s=sqrtint(n)); 2*sum(k=1, s, if(isprime(k), primepi(n\k), 0)) - primepi(s)^2;

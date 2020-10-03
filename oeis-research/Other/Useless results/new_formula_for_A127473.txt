@@ -1,0 +1,19 @@
+
+
+# https://oeis.org/A127473
+
+# 1, 1, 4, 4, 16, 4, 36, 16, 36, 16, 100, 16, 144, 36, 64, 64, 256, 36, 324
+
+a(n) = Sum_{k=1..n} gcd(n, k) * c_n(k), where c_n(k) is the Ramanujan's sum function given in A054533. - ~~~~
+
+
+
+# Sidef program
+
+func foo(n) {
+    sum(1..n, {|k|
+        gcd(n, k) * ramanujan_sum(n, k)
+    })
+}
+
+say 20.of { foo(_) }

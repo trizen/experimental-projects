@@ -1,0 +1,8 @@
+
+# This is the b253598.txt text file.
+# A253598: a(n) = least Lucas-Carmichael number which is divisible by the n-th number of all numbers which could be a divisor of a Lucas-Carmichael number.
+# Dated 12 February 2015.
+
+7710848622399
+
+# This is the end of the b text file.

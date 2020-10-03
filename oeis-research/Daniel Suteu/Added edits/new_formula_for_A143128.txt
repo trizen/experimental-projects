@@ -1,0 +1,8 @@
+
+# Added
+# https://oeis.org/A143128
+
+a(n) = Sum_{k=1..n} k^2/2 * floor(n/k) * floor(1 + n/k). - ~~~~
+
+
+func a(n) { sum(1..n, {|k| k**2 / 2 * floor(n/k) * floor(1 + n/k) }) }.
