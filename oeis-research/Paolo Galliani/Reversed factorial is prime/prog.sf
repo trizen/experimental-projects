@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+# https://oeis.org/A303937
+#   3, 5, 19, 254, 266
+
+# a(6) >= 7475
+
+for k in (7475 .. 1e6) {
+    say "Testing #{k}"
+    if (Num(k! - 1 -> to_s.flip).is_prob_prime) {
+        die "Found: #{k}"
+    }
+}

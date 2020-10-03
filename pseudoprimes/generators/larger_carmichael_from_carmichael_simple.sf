@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+
+# Generate larger Fermat pseudoprimes to base 2 from smaller pseudoprimes.
+
+ARGF.each {|line|
+
+    var n = line.nums.tail || next
+    var L = n.lambda
+
+    for d in ((n.dec / L).divisors) {
+
+        var p = (L*d + 1)
+
+        p.is_prime || next
+        p `divides` n && next
+
+        assert(is_carmichael(n*p))
+        say n*p
+    }
+}

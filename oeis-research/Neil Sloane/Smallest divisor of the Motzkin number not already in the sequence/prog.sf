@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+# Daniel "Trizen" Șuteu
+# Date: 25 July 2019
+
+# a(n) is the smallest divisor of the Motzkin number A001006(n) not already in the sequence.
+# https://oeis.org/A309201
+
+# This program is pretty fast up to a(191). It takes a little bit of time to warm-up (about ~6 seconds).
+
+# Terms found:
+#   1, 2, 4, 3, 7, 17, 127, 19, 5, 547, 13, 15511, 15, 6, 9, 284489, 57, 1089397, 12, 73, 11, 21, 35, 63, 119, 6417454619, 38, 107, 31, 1483, 497461, 4644523115569, 51, 10, 37, 953467954114363, 1601, 370537, 1063, 1301337253214147, 43, 18, 1951, 520497658389713341, 23, 36, 14, 191, 27, 54, 108, 19309, 8677, 9784446754140634766237, 1721, 3779, 29, 81, 30, 14272615101443758386561991, 751, 223, 20, 1091, 67, 89, 73699, 243, 191231, 2767707670909, 219, 419053, 59, 28, 179118077, 153, 79, 114, 76, 21601542741503, 41, 2129, 271, 95, 167, 177, 323, 85, 20648893, 34, 173, 38543, 47, 14251, 97, 1663, 33, 102, 60, 350809, 103, 1129, 133, 885927349, 53, 577, 109, 349423, 445, 68, 41251619, 137, 646937, 80149, 1508803, 2990083, 7493, 523, 77, 211, 181, 42, 126, 2683, 381, 112331, 459, 2344631, 43080419, 162, 324, 531, 2351, 45, 321, 1095911508397, 139, 90, 189, 573, 71, 22, 251, 100447, 229, 4793, 84, 105, 151, 567, 1493, 413, 519, 49, 26, 147, 441, 457, 135, 399, 163, 2689, 70, 1301, 83, 511, 39, 9379860319, 601, 228, 1097, 557, 366783629417993, 7759, 272197510742683, 357, 267, 238, 171, 91, 5431873, 39076493, 749, 245, 813, 98, 714, 255, 971, 204, 118
+
+# There is no Motzkin number divisible by 8. Therefore, A309201 is not a permutation of the positive integers.
+
+# Eu Sen-Peng & Liu Shu-Chung & Yeh, Yeong-nan proved in 2008 that no Motzkin number
+# is a multiple of 8, in their paper "Catalan and Motzkin numbers modulo 4 and 8".
+# https://www.math.sinica.edu.tw/www/file_upload/mayeh/2008CatalanandMotzkinnumbersmodulo4and8.pdf
+
+var table = Set(1)
+print(1, ", ")
+
+func mot() {    # traslation of the Sage program by Peter Luschny from https://oeis.org/A001006
+
+    var (a, b, n) = (0, 1, 1)
+
+    loop {
+        var M = b//n        #/
+
+        if (M > 1) {
+            var f = M.trial_factor(1e8).first(-1)       # find the prime factors < 10^8
+
+            if (f && (var d = f.prod.divisors.first { !table.has(_) }) && (d < 1e8)) {      # true if M has a new divisor < 10^8
+                table << d
+                print(d, ", ")
+            }
+            else {
+                var d = M.divisors.first { !table.has(_) }      # otherwise, do it the hard way, by fully factorizing M
+                table << d
+                print(d, ", ")
+            }
+        }
+
+        n += 1
+        (a, b) = (b, (3*(n-1)*n*a + (2*n - 1)*n*b) // ((n+1)*(n-1)))        #/
+    }
+}
+
+mot()

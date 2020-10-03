@@ -1,0 +1,94 @@
+#!/usr/bin/ruby
+
+# Daniel "Trizen" Șuteu
+# Date: 04 April 2019
+# https://github.com/trizen
+
+# A sublinear algorithm for computing the summatory function of the Liouville function (partial sums of the Liouville function).
+
+# Defined as:
+#
+#   L(n) = Sum_{k=1..n} λ(k)
+#
+# where λ(k) is the Liouville function.
+
+# Example:
+#   L(10^1) = 0
+#   L(10^2) = -2
+#   L(10^3) = -14
+#   L(10^4) = -94
+#   L(10^5) = -288
+#   L(10^6) = -530
+#   L(10^7) = -842
+#   L(10^8) = -3884
+#   L(10^9) = -25216
+#   L(10^10) = -116026
+
+# OEIS sequences:
+#   https://oeis.org/A008836 -- Liouville's function lambda(n) = (-1)^k, where k is number of primes dividing n (counted with multiplicity).
+#   https://oeis.org/A090410 -- L(10^n), where L(n) is the summatory function of the Liouville function.
+
+# See also:
+#   https://en.wikipedia.org/wiki/Liouville_function
+
+func liouville_sum(n) {
+
+    var lookup_size = (2 * n.iroot(3)**2)
+
+    var liouville_lookup = [0]
+    var liouville_sum_lookup = [0]
+
+    for k in (1..lookup_size) {
+        liouville_sum_lookup[k] = (liouville_sum_lookup[k-1] + (liouville_lookup[k] = liouville(k)))
+    }
+
+    var cache = Hash()
+
+    func (n) {
+
+        if (n <= lookup_size) {
+            return liouville_sum_lookup[n]
+        }
+
+        if (cache.has(n)) {
+            return cache{n}
+        }
+
+        var s = n.isqrt
+        var M = n.isqrt
+
+        for k in (2 .. floor(n/(s+1))) {
+            M -= __FUNC__(floor(n/k))
+        }
+
+        for k in (1..s) {
+            M -= (liouville_sum_lookup[k] * (floor(n/k) - floor(n/(k+1))))
+        }
+
+        cache{n} = M
+    }(n)
+}
+
+func liouville_sum_test(n) {  # formula in terms of the Mertens function
+    sum(1..n.isqrt, {|k|
+        mertens(floor(n / k**2))
+    })
+}
+
+var a = 1000.of(liouville_sum)
+#var b = 1000.of(liouville_sum_test)
+#say b
+say a
+
+#assert_eq(a, b)
+
+__END__
+for n in (1 .. 6) {    # takes ~1.4 seconds
+
+    var L1 = liouville_sum(10**n)
+    var L2 = liouville_sum_test(10**n)
+
+    assert_eq(L1, L2)
+
+    say ("L(10^#{n}) = ", L1)
+}

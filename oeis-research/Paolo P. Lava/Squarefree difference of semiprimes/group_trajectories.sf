@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+var table = Hash()
+
+func f(n, k) {
+
+
+    while (n.is_semiprime && n.is_squarefree) {
+        var f = n.factor
+        n = (f[1] - f[0])
+        table{n} := [] << [k, f[1]]
+    }
+}
+
+
+each_kv([6, 34, 82, 226, 687, 4786, 14367, 28738, 373763, 21408927, 158279834, 2690757467], {|k,v|
+    say "#{k} = #{f(v,k)}"
+    #assert_eq(k, eval(f(k)))
+})
+
+say table

@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# Find emirps to different bases.
+
+# See also:
+#   https://oeis.org/A006567 -- Emirps (primes whose reversal is a different prime)
+#   https://oeis.org/A080790 -- Binary emirps, primes whose binary reversal is a different prime
+
+func isok(n,b=10) {
+    n.is_prime || return false
+
+    var d = n.digits(b)
+    d == d.flip && return false     # must not be a palindrome
+
+    d.flip.digits2num(b).is_prime
+}
+
+func a(n) {
+    2..Inf -> first { isok(_,n) }
+}
+
+# a(n) is the smallest emirp in base n.
+#   11, 5, 7, 7, 11, 11, 13, 11, 13, 13, 17, 17, 17, 17, 23, 23, 29, 29, 23, 23, 31, 29, 37, 29, 29, 31, 43, 31, 37, 41, 43, 43, 37, 37, 41, 41, 43, 41, 47, 43, 47, 47, 53, 59, 59, 53, 53, 53, 53, 53, 73, 67, 59, 61, 61, 61, 67, 71, 67, 67, 67, 73, 67, 67, 71, 71, 83, 71, 73, 79, 97, 79, 101, 83, 79, 83, 89, 83, 83, 83, 97, 89, 89, 97, 97, 107, 103, 101, 97, 97, 97, 97, 97, 97, 103, 101, 103, 101, 107
+
+# The corresponding reversed primes in base n, are:
+#   13, 7, 13, 11, 31, 29, 41, 19, 31, 23, 61, 53, 43, 31, 113, 103, 199, 191, 61, 43, 199, 139, 313, 101, 79, 109, 421, 59, 211, 311, 353, 331, 103, 71, 181, 149, 191, 79, 281, 83, 211, 173, 397, 631, 599, 283, 241, 197, 151, 103, 1093, 743, 271, 331, 281, 229, 523, 709, 421, 367, 311, 631, 193, 131, 331, 269, 1021, 139, 211, 569, 1801, 439, 1999, 601, 229, 463, 859, 317, 241, 163, 1231, 499, 421, 1021, 947, 1741, 1321, 1069, 631, 547, 461, 373, 283, 191, 673, 389, 491, 199, 701
+
+for k in (2..100) {
+    print(a(k).digits(k).flip.digits2num(k), ", ")
+    #say a(k).digits(k).flip.digits2num(k)
+}
+
+say ''
+
+# Binary emirps:
+#   11, 13, 23, 29, 37, 41, 43, 47, 53, 61, 67, 71, 83, 97
+say 100.range.grep { isok(_, 2) }
+
+# Binary emirps reversed:
+#   13, 11, 29, 23, 41, 37, 53, 61, 43, 47, 97, 113, 101, 67
+say 100.range.grep { isok(_, 2) }.map { .digits(2).flip.digits2num(2) }
+
+# Emirps in base-10 reversed
+#   31, 71, 13, 73, 17, 37, 97, 79, 701, 311, 941, 751, 761, 971, 991
+say 200.range.grep { isok(_, 10) }.map { .digits(10).flip.digits2num(10) }

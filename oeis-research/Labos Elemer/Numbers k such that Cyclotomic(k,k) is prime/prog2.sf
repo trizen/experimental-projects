@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Numbers k such that Cyclotomic(2k,k) is prime.
+# https://oeis.org/A088817
+
+# Known terms:
+#   1, 2, 3, 4, 5, 9, 17, 36, 157, 245, 352, 3977
+
+# No other terms < 4700.
+
+var from = 5286
+
+for k in (from .. 1e6) {
+    say "Testing: #{k}"
+    if (cyclotomic(2*k, k).is_prob_prime) {
+        die "Found: #{k}"
+    }
+}

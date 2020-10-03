@@ -1,0 +1,7 @@
+
+# Added
+# https://oeis.org/A174405
+
+# 1, 4, 11, 22, 43, 64, 107, 150, 211, 274, 385, 462, 619, 748
+
+a(n) = Sum_{k=1..n} k * phi(k) * floor(n/k), where phi(k) is the Euler totient function. - ~~~~

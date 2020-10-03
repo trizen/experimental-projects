@@ -1,0 +1,7 @@
+# This is the b110885.txt text file.
+# A110885: Lucas-Carmichael numbers n that are not == 11 mod 12. There are 101 Lucas-Carmichael numbers out to 2*m+1, m=2*10^6 and all but the above 9 are 11 mod 12.
+# Dated 12 February 2015.
+
+1000880193
+
+# This is the end of the b text file.

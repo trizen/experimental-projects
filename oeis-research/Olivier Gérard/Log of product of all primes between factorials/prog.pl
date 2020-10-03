@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+
+# Floor of log of product of all primes between n!+1 and (n+1)!.
+# https://oeis.org/A294196
+
+use 5.014;
+use Math::GMPz qw();
+use Math::MPFR qw(MPFR_RNDZ);
+use ntheory qw(forprimes factorial);
+
+# Found: 5747983086
+# 5.74798308646055753958179224127889028750360012054443359375e9
+
+for my $n (2..100) {
+
+    my $f = Math::MPFR::Rmpfr_init2(192);
+    my $t = Math::MPFR::Rmpfr_init2(192);
+
+    Math::MPFR::Rmpfr_set_ui($f, 0, MPFR_RNDZ);
+
+    forprimes {
+
+        # This is faster:
+        Math::MPFR::Rmpfr_add_d($f, $f, log($_), MPFR_RNDZ);
+
+        # This is slower, but safer:
+        #Math::MPFR::Rmpfr_log_ui($t, $_, MPFR_RNDZ);
+        #Math::MPFR::Rmpfr_add($f, $f, $t, MPFR_RNDZ);
+
+    } factorial($n)+1, factorial($n+1);
+
+    my $z = Math::GMPz->new();
+    Math::MPFR::Rmpfr_get_z($z, $f, MPFR_RNDZ);
+    say "a($n) = $z";
+}
+
+__END__
+floor(2.708050201102210063908160009304992854595184326171875)        = 2
+floor(1.58219013184670267424536405087565071880817413330078125e1)    = 15
+floor(8.78467057394090264921260313712991774082183837890625e1)       = 87
+floor(5.7909293494132683743913503349176608026027679443359375e2)     = 579
+floor(4.27665691765426937553939978897687979042530059814453125e3)    = 4276
+floor(3.510370378495620281711353527498431503772735595703125e4)      = 35103
+floor(3.22168829509597230003947743171011097729206085205078125e5)    = 322168
+floor(3.264471900314986902611025243459152989089488983154296875e6)   = 3264471
+floor(3.62858429959180599316805881926484289579093456268310546875e7) = 36285842
+floor(4.390703929518619554556124739974620752036571502685546875e8)   = 439070392
+floor(5.7479830864605575396509351548957056365907192230224609375e9)  = 5747983086

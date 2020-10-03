@@ -1,0 +1,161 @@
+#!/usr/bin/ruby
+
+# Partial sums of A095112: sum of the Dirichlet convolution of the characteristic function of the prime powers (A069513) with the positive integers (A000027) from 1 to n.
+# https://oeis.org/A328893
+
+# a(n) = Sum_{k=1..n} k * A025528(floor(n/k)).
+# a(n) = Sum_{k=1..n} Sum_{d|k} d * A069513(k/d).
+# a(n) = (1/2)*Sum_{k=1..n} A069513(k) * floor(n/k) * floor(1+n/k).
+
+func a(n) {
+    sum(1..n, {|k|
+        k * prime_power_count(floor(n/k))
+    })
+}
+
+func b(n) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            d * (is_prime_power(k/d) ? 1 : 0)
+        }
+    })
+}
+
+func c(n) {
+    (1/2) * sum(1..n, {|k|
+        is_prime_power(k) ? floor(n/k)*floor(1 + n/k) : 0
+    })
+}
+
+say 20.of(a)
+say 20.of(b)
+say 20.of(c)
+
+__END__
+
+func f(n,m) {
+    n.factor_sum {|p,k|
+        sum(1..k, {|j|
+            n**m / p**(m*j)
+        })
+    }
+}
+
+func S(n, m) {
+    sum(1..n, {|k|
+        f(k,m)
+    })
+}
+
+func G(n,m) {
+    sum(1..n, {|k|
+        is_prime_power(k) ? faulhaber(floor(n/k), m) : 0
+    })
+}
+
+func T(n,m) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            is_prime_power(k/d) ? d**m : 0
+        }
+    })
+}
+
+say 30.of { S(_, 2) }
+say 30.of { G(_, 2) }
+say 30.of { T(_, 2) }
+
+__END__
+#say S(1e4, 0)
+
+func Q(s) {
+    1e6.primes.sum {|p|
+        1 / float(p**s - 1)
+    }
+}
+
+var m = 1
+say G(1e4, m)
+say Q(m+1)*faulhaber(1e4, m)
+
+
+#In general, for m >= 0, if we define f(n,m) = Sum_{p^k|n} Sum_{j=1..k} n^m/p^(m*j) (cf. A322664), then Sum_{k=1..n} f(k,m) = Sum_{k=1..n} A069513(k) * F_m(floor(n/k)), where F_m(x) are the Faulhaber polynomials defined as F_m(x) = (Bernoulli(m+1, x+1) - Bernoulli(m+1, 1)) / (m+1).
+
+#Additionally, for m >= 1, Sum_{k=1..n} f(k,m) ~ Q(m+1) * n^(m+1)/(m+1), where Q(s) = Sum_{p prime} 1/(p^s - 1).
+
+
+__END__
+
+# In general, if we define f(n,m) = Sum_{p^k|n} Sum_{j=1..k} n^m/p^(m*j) (Cf. A322664), then Sum_{k=1..n} f(k,m) = Sum_{prime powers p^k <= n} F_m(floor(n/p^k)), where F_m(x) are the Faulhaber polynomials defined as F_m(x) = (Bernoulli(m+1, x+1) - Bernoulli(m+1, 1)) / (m+1).
+# Additionally, Sum_{k=1..n} f(k,m) ~ Q(m+1) * n^(m+1)/(m+1), where Q(s) = Sum_{p prime} 1/(p^s - 1).
+
+
+
+# Partial sums of A095112: sum of the Dirichlet convolution of the characteristic function of the prime powers (A069513) with the positive integers (A000027) from 1 to n.
+
+
+
+
+# a(n) = (1/2)*Sum_{p prime power <= n} floor(n/p) * floor(1 + n/p).
+
+# Partial sums of A095112.
+
+# a(n) ~ A154945 * n*(n+1)/2.
+# a(n) = Sum_{k=1..n} k * A025528(floor(n/k)).
+# a(n) = Sum_{k=1..n} Sum_{d|k} d * A069513(k/d).
+# a(n) = (1/2)*Sum_{k=1..n} A069513(k) * floor(n/k) * floor(1+n/k).
+
+# Cf. A022559, A322068.
+
+# (PARI) a(n) = sum(k=1, n, if(isprimepower(k), (n\k) * (1+n\k), 0))/2;
+
+# (PARI) ppcount(n) = sum(k=1, logint(n,2), primepi(sqrtnint(n, k))); \\ A025528
+# f(n) = n*(n+1)/2; \\ A000217
+# a(n) = my(s=sqrtint(n)); sum(k=1, s, if(isprimepower(k), f(n\k), 0) + k*ppcount(n\k)) - f(s)*ppcount(s);
+
+func a(n) {
+    sum(1..n, {|k|
+        k * prime_power_count(floor(n/k))
+    })
+}
+
+func b(n) {
+    sum(1..n, {|k|
+        k.is_prime_power ? faulhaber(floor(n/k), 1) : 0
+    })
+}
+
+func c(n) {
+    sum(1..n, {|k|
+        bigomega(k,1)
+    })
+}
+
+func d(n) {
+    sum(1..n, {|k|
+        k.divisors.sum {|d|
+            is_prime_power(k/d) ? d : 0
+        }
+    })
+}
+
+func f(n) {
+    sum(1 .. n.isqrt, {|k|
+        (k.is_prime_power ? faulhaber(floor(n/k), 1) : 0) + k*prime_power_count(floor(n/k))
+    }) - faulhaber(n.isqrt,1)*prime_power_count(n.isqrt)
+}
+
+func g(n) {
+    #Sum_{k=1..n} bigomega(gcd(n,k))
+    sum(1..n, {|k|
+
+    })
+}
+
+say 20.of(a)
+say 20.of(b)
+say 20.of(c)
+say 20.of(d)
+say 20.of(f)
+
+#~ say 20.of { .factorial.bigomega }.accumulate

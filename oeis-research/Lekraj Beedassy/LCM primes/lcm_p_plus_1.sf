@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Primes p such that lcm(1,2,3,...,p-2,p-1,p) + 1 is prime.
+# https://oeis.org/A154525
+
+# Terms found: 55291
+
+# From: 55351
+
+for (var p = 55351; true; p.next_prime!) {
+    say "Testing: #{p}"
+    var c = consecutive_lcm(p)
+    if (c+1 -> is_prob_prime) {
+        die "Found: #{p}"
+    }
+}

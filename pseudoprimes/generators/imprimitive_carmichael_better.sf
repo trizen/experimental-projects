@@ -1,0 +1,68 @@
+#!/usr/bin/ruby
+
+# Generate imprimitive Carmichael numbers with n prime factors.
+
+func is_imprimitive(n) {
+    n.factor.gcd_by { .dec }**2 > lambda(n)
+}
+
+func generate_imprimitive(p, m) {
+
+    for z in (2..100) {
+
+        var arr = []
+
+        for k in (1 .. 2.sqrt**z) {
+            k.is_smooth(5) || next
+            k.rad.gpf >= 3 || next
+            #next if (2*5 > 40)
+            var r = (2*k*p + 1)
+            #r > 400 || next
+
+            if (r.is_prime && (r.dec.gpf == p)) {
+                arr << r
+            }
+        }
+
+        #arr = arr.grep { _ > 10_000}
+
+      #  var copy = arr.clone
+       # arr || next
+
+      #  for k in (2..copy.max.ilog2) {
+
+       # arr = copy.grep{ _ > 2**k}
+       # next if (arr == copy)
+
+        var t = binomial(arr.len, m)
+
+        t >= m  || next
+        t < 1e6 || break
+
+        #~ arr = arr.last(19448)
+
+        var count = 0
+        say "# [#{z}] Combinations: #{t}"
+
+        #~ denominations = arr
+        #~ change(m)
+
+        arr.combinations(m, {|*a|
+            with (a.prod) { |C|
+                #break if (C > 325533792014488126487416882038879701391121)
+                #break if (C.gpf / C.lpf > 40)
+                if (C.is_carmichael) {
+                    say C
+                    say "# Imprimitive with p = #{p}: #{C}" if is_imprimitive(C)
+                }
+            }
+            #break if (++count > 1e5)
+        })
+      #  }
+    }
+}
+
+for p in (primes(11..457)) {
+     say "# p = #{p}"
+     generate_imprimitive(p,9)
+}

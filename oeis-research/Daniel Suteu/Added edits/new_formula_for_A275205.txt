@@ -1,0 +1,5 @@
+
+# Added
+# https://oeis.org/A275205
+
+a(n) = Sum_{k=1..n} k * mu(k) * floor(n/k), where mu(k) is the Moebius function. - ~~~~

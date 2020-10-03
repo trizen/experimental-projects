@@ -1,0 +1,18 @@
+
+# Added
+# https://oeis.org/A058026
+
+#   1, 0, 1, 0, 3, 0, 5, 0, 3, 0, 9, 0, 11, 0, 3, 0, 15, 0, 17, 0, 5, 0
+
+a(n) = phi(n) * Sum_{d|n} mu(d) / phi(d), where mu(k) is the Moebius function and phi(k) is the Euler totient function. - ~~~~
+
+
+# Sidef program
+
+func foo(n) {
+    euler_phi(n) * n.divisors.sum { |d|
+        mobius(d) / euler_phi(d)
+    }
+}
+
+say 30.of { foo(_) }

@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest Fermat pseudoprime to base 2 such that gpf(p-1) = prime(n) for all prime factors p of a(n).
+
+# a(1)  = 4369
+# a(2)  = 1387
+# a(3)  = 341
+# a(4)  = 3277
+# a(5)  = 2047
+# a(6)  = 8321
+# a(7)  = 31621
+# a(8)  = 104653
+# a(9)  = 280601
+# a(10) = 13747
+# a(11) = 2081713
+# a(12) = 88357
+# a(13) = 8902741
+# a(14) = 741751
+# a(15) = 665333
+# a(16) = 680627
+# a(17) = 2008597
+# a(18) = 1252697
+# a(19) = 3235699
+# a(20) = 1293337
+
+# Lower bound:
+#   a(n) >= (2*p + 1)*(2*3*p + 1), where p = prime(n).
+
+func a(n) {
+    var p = prime(n)
+    var from = (2*p + 1)*(2*3*p + 1)
+    from..Inf -> first {|k|
+        k.is_composite && k.is_pseudoprime(2) && k.factor.all { .dec.gpf == p }
+    }
+}
+
+for n in (1..10) {
+    say ("a(#{n}) = ", a(n))
+}

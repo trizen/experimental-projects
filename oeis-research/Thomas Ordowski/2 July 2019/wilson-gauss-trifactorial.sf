@@ -1,0 +1,102 @@
+#!/usr/bin/ruby
+
+#~ func gauss(m) {
+    #~ prod(1..m, {|k|
+        #~ if (gcd(k, m) == 1) {
+            #~ k
+        #~ }
+        #~ else {
+            #~ 1
+        #~ }
+    #~ })
+#~ }
+
+#~ say gauss(13**2)
+
+#~ var p = 43
+#~ var t = mfactorial(3*p + kronecker(p, 3), 3)
+#~ var g = gcd(t, gauss(p**2))
+
+#~ say t/g
+
+#~ __END__
+
+#~ for p in (4..1e6) {
+    #~ #if ((2*k - 1)!! % k**2 - k**2 == -k) {
+    #~ #if (mfactorial(3*p - kronecker(p, 3), 3) % p**2 - p**2 / 2 == -p) {
+    #~ if (mfactorial(3*p + kronecker(p, 3), 3)  -> is_congruent(-p, p**2)) {
+        #~ say p
+
+        #~ if (!p.is_prime) {
+            #~ die "Counter-example: #{p}"
+        #~ }
+    #~ }
+    #~ elsif (p.is_prime) {
+        #~ die "Missed a prime: #{p}"
+    #~ }
+#~ }
+
+# (3*k + kronecker(k, 3)) (-3)^floor(((3*k + kronecker(k, 3)) - 1)/3) (1 - (3*k + kronecker(k, 3))/3)_floor(((3*k + kronecker(k, 3)) - 1)/3)
+
+#~ for k in (primes(2, 43)) {
+    #~ say [k,
+
+        #~ (k-1)! % k,
+        #~ mfactorial(3*k + kronecker(k, 3), 3) % k**2 / k,
+
+        #~ #mfactorial(3*k - 2*kronecker(k, 3), 3) % k**2 / k,
+
+        #~ var t = (mfactorial(3*(k+1) - 1, 3) % k**2)
+
+        #~ t.is_congruent(k, k**2)
+
+        #~ #mfactorial(3*k + kronecker(k, 3), 3) % k**2 / k,
+
+        #~ #k! % k**2 / k
+    #~ ]
+#~ }
+
+#~ __END__
+
+
+for p in (primes(2, 100)) {
+#for p in (3..10) {
+    #~ say [
+     #~ p, mfactorial(3*p - kronecker(p, 3), 3) % p**2 - p**2 / 2 ,
+        #~ mfactorial(3*p - kronecker(p, 3), 3)  -> is_congruent(-2*p, p**2)
+     #~ ]
+
+    say [
+        p, mfactorial(3*p + kronecker(p, 3), 3) % p**2 - p**2,
+           mfactorial(3*p + kronecker(p, 3), 3) -> is_congruent(-p, p**2)
+     ]
+
+    #~ say [
+        #~ p, mfactorial(3*p + kronecker(p, 3), 3) % p**2 / p,
+        #~ #mfactorial(3*p + kronecker(p, 3), 3)  -> is_congruent(-p, p**2)
+     #~ ]
+
+    #~ say [
+        #~ p, mfactorial(3*p - kronecker(p, 5), 1) % p**3 / p
+    #~ ]
+
+    #say [p, mfactorial(3*p - kronecker(p, 3), 3)   ]
+    #say [p, mfactorial(3*p - 3, 3) % p**2 ]
+}
+
+__END__
+
+#For p > 2, (2p-1)!! == -p (mod p^2) if and only if p is prime.
+
+Hi,
+
+The following statement should also be provable:
+
+For p > 3, f_3(3p + (p/3)) == -p (mod p^2) if and only if p is prime.
+
+where (p/3) is the Jacobi symbol and f_3(n) are the triple factorial numbers: f_3(n) = A007661(n).
+
+
+
+
+#~ By Wilson's theorem, ((p - 1)/2)!^2 == (-1)^((p + 1)/2) (mod p) for each prime number p. Hence, if p == 3 (mod 4), then ((p - 1)/2)! == +-1 (mod p).

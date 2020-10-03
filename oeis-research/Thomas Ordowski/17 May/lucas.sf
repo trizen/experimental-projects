@@ -1,0 +1,130 @@
+#!/usr/bin/ruby
+
+# Author: Daniel "Trizen" Șuteu
+# Date: 17 May 2019
+# https://github.com/trizen
+
+# Generalization of the Lucas U and V sequences to higher orders.
+
+# See also:
+#   https://en.wikipedia.org/wiki/Lucas_sequence
+#   https://en.wikipedia.org/wiki/Generalizations_of_Fibonacci_numbers
+
+func fibonacci_matrix(k) {
+    Matrix.build(k,k, {|i,j|
+        ((i == k-1) || (i == j-1)) ? 1 : 0
+    })
+}
+
+func lucasU_kth_order(k, n, m, *params) {
+    var A = fibonacci_matrix(k)
+    A[-1] = params.flip
+    var B = A.powmod(n, m)
+    B.flat
+}
+
+func lucasV_kth_order(k, n, m, *params) {
+    var A = fibonacci_matrix(k)
+    A[-1] = params.flip
+    var V = Matrix.column_vector(2, params.ft(0,-2)...)
+    var B = A.powmod(n, m)*V
+    B.flat
+}
+
+func lucas_factorization(n, B) {
+
+    say "=> Factoring: #{n}"
+
+    var t = (consecutive_lcm(B))
+
+    for k in (2..3) {
+
+        say "Testing: #{k}"
+
+        #var params = [k.of { irand(-n, n) }...]
+        var params = k.of { 1 }
+
+        var A = lucasU_kth_order(k, t, n, params...)
+
+        #A.combinations(2, {|*a|
+        for F in (A) {
+            #var F = powmod(a, k, n)
+            var g = gcd(F, n)
+
+            if (g.is_between(2, n-1)) {
+                say [k, g, params]
+            }
+        }
+        #})
+    }
+
+    ''
+}
+
+#say lucas_factorization(2**128 + 1, 1e4)
+
+
+
+#__END__
+
+#say lucas_factorization(257221 * 470783,                700);    #=> 470783           (p+1 is  700-smooth)
+say lucas_factorization(333732865481 * 1632480277613,  3000);    #=> 333732865481     (p-1 is 3000-smooth)
+say lucas_factorization(1124075136413 * 3556516507813, 4000);    #=> 1124075136413    (p+1 is 4000-smooth)
+say lucas_factorization(6555457852399 * 7864885571993,  700);    #=> 6555457852399    (p-1 is  700-smooth)
+say lucas_factorization(7553377229 * 588103349,         800);    #=> 7553377229       (p+1 is  800-smooth)
+
+
+__END__
+
+#var primes = [107369011, 401704559, 706490791, 164607299, 631186321, 31383337, 967528379, 353325409, 363278177, 323205763]
+#say primes.map { lucasV_kth_order(3, _, _, 1, 0,1) }
+
+var list = []
+
+for p in (89.primes) {
+    var t = lucasU_kth_order(4, 2**p , 2**p - 1, -4,-1,-1,-1)
+    say [p, t]
+    list << p if (t == 0)
+}
+
+say [2, 3, 5, 7, 13, 17, 19, 31, 61, 89]
+say list
+
+
+
+__END__
+
+say 15.of {|n| lucasU_kth_order(2, n, 1e20, 1, 1) }        # Fibonacci numbers
+say 15.of {|n| lucasU_kth_order(2, n, 1e20, 2, 1) }        # Pell numbers
+say 15.of {|n| lucasU_kth_order(2, n, 1e20, 3, -2) }       # Mersenne numbers (2^x - 1)
+
+say ''
+
+say 15.of {|n| lucasV_kth_order(2, n, 1e20, 1, 1) }        # Lucas numbers
+say 15.of {|n| lucasV_kth_order(2, n, 1e20, 2, 1) }        # Lucas-Pell numbers
+say 15.of {|n| lucasV_kth_order(2, n, 1e20, 3, -2) }       # Number of the form 2^x + 1
+
+say ''
+
+say 15.of {|n| lucasU_kth_order(3, n, 1e20, 1, 1, 1) }     # Tribonacci numbers
+say 15.of {|n| lucasV_kth_order(3, n, 1e20, 1, 1, 1) }     # Lucas-Tribonacci numbers (A141036)
+
+say ''
+
+say 15.of {|n| lucasU_kth_order(4, n, 1e20, 1, 1, 1, 1) }  # Tetranacci numbers
+say 15.of {|n| lucasV_kth_order(4, n, 1e20, 1, 1, 1, 1) }  # Lucas-Tetranacci numbers
+
+__END__
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
+[0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, 33461, 80782]
+[0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383]
+
+[2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843]
+[2, 2, 6, 14, 34, 82, 198, 478, 1154, 2786, 6726, 16238, 39202, 94642, 228486]
+[2, 3, 5, 9, 17, 33, 65, 129, 257, 513, 1025, 2049, 4097, 8193, 16385]
+
+[0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927]
+[2, 1, 1, 4, 6, 11, 21, 38, 70, 129, 237, 436, 802, 1475, 2713]
+
+[0, 0, 0, 1, 1, 2, 4, 8, 15, 29, 56, 108, 208, 401, 773]
+[2, 1, 1, 1, 5, 8, 15, 29, 57, 109, 210, 405, 781, 1505, 2901]

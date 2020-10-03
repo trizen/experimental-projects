@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+# Let b(n) be the smallest odd composite k such that q^((k-1)/2) == -1 (mod k) for every prime q <= prime(n).
+
+func isok(n, k) {
+    n.prime.primes.all {|q|
+        powmod(q, (k-1)/2, k) == k-1
+    }
+}
+
+say isok(7, 614796634515444067)

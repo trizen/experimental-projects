@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+
+
+
+#~ func isok(m) {
+
+#~ }
+
+func U(k, m) {
+    k.divisors.first(-1).map{|d|
+        d*k*m - 1
+    }
+}
+
+# 8128: mult = 2**6 * 5
+
+#multiplier = 2*2*2*2
+
+#say U(8128, 1).each{.factor_exp.say}
+
+#__END__
+# multiple = 5 * 2**4
+
+for p in ([3,5,7,11,19,137,3461]) {
+
+    #for m in (1..) {
+    #    say [m, U(8128, m).map{_%17}]
+    #}
+    say [p, 1..p -> lazy.map {|m| [m*3*5, U(8128, m*3*5).map{_==p ? p : _%p}] }.first { _[1].contains(0).not }]
+
+}
+
+# mult = 3 * 5
+
+# 496: 3*5*7*10

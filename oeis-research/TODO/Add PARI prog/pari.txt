@@ -1,0 +1,4 @@
+
+a(n) = 1 + 2*Im((1 + i)^n), where i is the imaginary unit. - ~~~~
+
+a(n) = 1 + 2*imag((1 + I)^n); \\ ~~~~

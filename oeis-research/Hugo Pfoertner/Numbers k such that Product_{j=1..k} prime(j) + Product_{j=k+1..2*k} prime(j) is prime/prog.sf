@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+
+# Numbers k such that Product_{j=1..k} prime(j) + Product_{j=k+1..2*k} prime(j) is prime.
+# https://oeis.org/A329532
+
+# Numbers k such that A002110(k) + A002110(2*k) / A002110(k) is prime. - ~~~~
+
+# Known terms:
+#     1, 2, 3, 4, 24, 25, 45, 59, 1238
+
+# Found term:
+#   a(10) = 2635
+
+for k in (2636 .. 1e6) {
+    say "Testing: #{k}"
+
+    var u = pn_primorial(2*k)
+    var t = pn_primorial(k)
+
+    if (u/t + t -> is_prob_prime) {
+        die "Found: #{k}"
+    }
+}

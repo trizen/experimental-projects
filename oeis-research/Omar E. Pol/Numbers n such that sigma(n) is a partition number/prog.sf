@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Numbers n such that sigma(n) is a partition number.
+# https://oeis.org/A252891
+
+var arr = []
+
+for k in (1..10000) {
+    var inv = k.partitions.inverse_sigma
+
+    arr += inv
+
+    if (arr.len >= 200) {
+        arr.sort.each_kv{|k,v|
+            say "#{k+1} #{v}"
+        }
+        break
+    }
+}

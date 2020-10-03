@@ -1,0 +1,23 @@
+
+digits2num(arr, base) = sum(k=1, #arr, base^(k-1) * arr[k]);
+
+is_left_truncatable(n, base) = {
+    my(ok=1);
+    for(k=1, #n, if(!isprime(digits2num(n[1..k], base)), ok=0; break));
+    ok;
+}
+
+generate_from_prefix(p, base) = {
+    my(seq = [p]);
+    for(n=1, base-1, my(t=concat(n, p)); if(isprime(digits2num(t, base)), seq=concat(seq, select(v -> is_left_truncatable(v, base), generate_from_prefix(t, base)))));
+    seq;
+}
+
+both_truncatable_primes_in_base(base) = {
+    my(t=[]);
+    my(P=primes(primepi(base-1)));      \\ primes < base
+    for(k=1, #P, t = concat(t, generate_from_prefix([P[k]], base)));
+    t; vector(#t, k, digits2num(t[k], base));
+}
+
+a(n) = vecmax(both_truncatable_primes_in_base(n));  \\ for n >= 3

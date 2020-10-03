@@ -1,0 +1,130 @@
+#!/usr/bin/ruby
+
+# Conjecture: partial sums of A298826. (with changed sign for each second term)
+
+# a(n) = Sum_{k=1..n} A174863(floor(n/k)).
+# a(n) = Sum_{k=1..n} Sum_{d|k} (-1)^omega(d).
+# a(n) = Sum_{k=1..n} (-1)^omega(k) * floor(n/k).
+
+# Conjecture: a(n) = Sum_{k=1..n} (-1)^(k+1) * A298826(k).
+
+# Terms:
+#   1, 1, 1, 0, 0, 0, 0, -2, -3, -3, -3, -3, -3, -3, -3, -6, -6, -6, -6, -6, -6, -6, -6, -6, -7, -7, -9, -9, -9, -9, -9, -13, -13, -13, -13, -12, -12, -12, -12, -12, -12, -12, -12, -12, -12, -12, -12, -12, -13, -13, -13, -13, -13, -13, -13, -13, -13, -13, -13
+
+# OEIS:
+#   https://oeis.org/A298826  -- a(n) = A298825(n)/n.
+#   https://oeis.org/A174863  -- Little omega analog to Liouville's function L(n).
+#   https://oeis.org/A306408  -- a(n) = Sum_{d|n} (-1)^omega(n/d) * d.
+
+func f(n) {
+    n.divisors.sum{|d|
+        (-1)**omega(d)
+    }
+}
+
+func A174863(n) {
+    sum(1..n, {|k|
+        (-1)**omega(k)
+    })
+}
+
+func a(n) {
+    sum(1..n, {|k|
+        A174863(floor(n/k))
+    })
+}
+
+func a2(n) {
+    sum(1..n, {|k|
+        f(k)
+    })
+}
+
+func a3(n) {
+    sum(1..n, {|k|
+        (-1)**omega(k) * floor(n/k)
+    })
+}
+
+say 30.of(a)
+say 30.of(a2)
+say 30.of(a3)
+
+__END__
+
+
+func f2(n) {
+    sum(1..n, {|k|
+        (-1)**omega(k) * floor(n/k)
+    })
+}
+
+say 100.of(f2).map_cons(2,{|a,b| b-a })
+
+__END__
+
+#say 20.of(f2).accumulate
+500.of(f2).each{|k|
+    say k
+
+}
+
+__END__
+#say 200.of(f2)
+
+func a(n) {
+    #~ n.factor_prod{|p,e|
+         #~ p**e - (p**e - 1)/(p-1)
+    #~ }
+    1..n -> sum{|k|
+        #k.moebius
+        (-1)**omega(k)
+    }
+}
+
+func b(n) {
+    n * n.divisors.sum{|d|
+        (-1)**(bigomega(d) - omega(d)) / d
+    }
+}
+
+func c(n) {
+    n * n.divisors.sum{|d|
+        (-1)**bigomega(d) / d
+    }
+}
+
+say 20.of(a)
+say 20.of(b)
+say 20.of(c)
+
+func f(n) {
+    sum(1..n, {|k|
+        a(floor(n/k))
+    })
+}
+
+func g(n) {
+    sum(1..n, {|k|
+        b(floor(n/k))
+    })
+}
+
+func h(n) {
+    sum(1..n, {|k|
+        c(floor(n/k))
+    })
+}
+
+say ''
+
+say 20.of(f)
+say 20.of(g)
+say 20.of(h)
+
+#say f(1000)
+#say f(1000)
+
+#say sum(1..1000, {|d|
+#    d.sigma0
+#})

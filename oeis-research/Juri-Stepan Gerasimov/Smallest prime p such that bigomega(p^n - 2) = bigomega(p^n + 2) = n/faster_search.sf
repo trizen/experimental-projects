@@ -1,0 +1,101 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest prime p such that Omega(p^n - 2) = Omega(p^n) = Omega(p^n + 2) where Omega = A001222.
+# https://oeis.org/A328445
+
+# Known terms:
+#   5, 11, 127, 401, 1487, 1153, 6199, 10301, 22193, 72277
+
+# Find upper-bounds for a(n).
+
+# For a(11), searched up to 11988617 with limit = 1e6 and factor limit = 50.
+
+# a(11) <= 12617153
+# a(11) <= 1301423
+
+func a(n) {
+
+    var limit = 2e7
+
+    for (var p = 160553; true; p = next_prime(p)) {
+
+        say "Testing: #{p}"
+
+        var k = p**n
+        var f1 = trial_factor(k-2, limit)||next
+
+        if (f1.len > n) {
+            next
+        }
+
+        if (f1.len < n) {
+            f1[-1].is_prime && next
+            f1[-1].ilog(limit) + f1.len > n || next
+        }
+
+        if (f1.len == n) {
+            f1[-1].is_prime || next
+        }
+
+        f1.len >= 6 || next
+
+        var f2 = trial_factor(k+2, limit)||next
+
+        if (f2.len > n) {
+            next
+        }
+
+        if (f2.len < n) {
+            f2[-1].is_prime && next
+            f2[-1].ilog(limit) + f2.len > n || next
+        }
+
+        if (f2.len == n) {
+            f2[-1].is_prime || next
+        }
+
+        f2.len >= 6 || next
+
+        var lim1 = f1.len
+
+        if (lim1 >= 8) {
+            lim1 = 75
+        }
+        elsif (lim1 >= 7) {
+            lim1 = 70
+        }
+        else {
+            lim1 = 65
+        }
+
+        say ['F1', f1]
+
+        f1 = f1.map { .is_prime ? _ : (.len < lim1 ? (.factor...) : _) }
+
+        f1.len == n || next
+        f1.all{.is_prime} || next
+
+        var lim2 = f2.len
+
+        if (lim2 >= 8) {
+            lim2 = 75
+        }
+        elsif (lim2 >= 7) {
+            lim2 = 70
+        }
+        else {
+            lim2 = 65
+        }
+
+        say ['F2', f2]
+
+        f2 = f2.map { .is_prime ? _ : (.len < lim2 ? (.factor...) : _) }
+
+        f2.len == n || next
+        f2.all{.is_prime} || next
+
+        return p
+    }
+}
+
+say a(11)

@@ -1,0 +1,72 @@
+#!/usr/bin/ruby
+
+# Author: Daniel "Trizen" Șuteu
+# Date: 21 September 2018
+# https://github.com/trizen
+
+# A new algorithm for generating Fibonacci pseudoprimes.
+
+# See also:
+#   https://oeis.org/A081264 -- Odd Fibonacci pseudoprimes.
+#   https://oeis.org/A212424 -- Frobenius pseudoprimes with respect to Fibonacci polynomial x^2 - x - 1.
+
+func fibonacci_pseudoprimes(limit) {
+
+    var table = Hash()
+
+    File("b018188.txt").open_r.each {|line|
+
+        var p = (line.nums[1] || next)
+
+        for d in (p - p.legendre(5) -> divisors) {
+            if (fibmod(d, p) == 0) {
+                table{d} := [] << p
+            }
+        }
+    }
+
+    for p in (primes(1_000_000)) {
+        for d in (p - p.legendre(5) -> divisors) {
+            if (fibmod(d, p) == 0) {
+                table{d} := [] << p
+            }
+        }
+    }
+
+    gather {
+        table.each_v { |a|
+
+            a.uniq!
+
+            var L = a.len
+            L > 1 || next
+
+            for k in (2..L) {
+                a.subsets(k, {|*t|
+                    take(t.prod)
+                })
+            }
+        }
+    }.uniq
+}
+
+func is_fibonacci_pseudoprime(n) {
+    fibmod(n - n.legendre(5), n) == 0
+}
+
+var pseudoprimes = fibonacci_pseudoprimes(10000)
+
+pseudoprimes.each {|n|
+
+    say "Testing: #{n}"
+
+    assert(is_fibonacci_pseudoprime(n))
+
+    if (n.legendre(5) == -1) {
+        if (powmod(2, n-1, n) == 1) {
+            die "Found a special pseudoprime: #{n}"
+        }
+    }
+}
+
+#say pseudoprimes.sort

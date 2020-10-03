@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+for n in (1..100) {
+    for m in (1 .. n) {
+        var k = n
+        for f in (m.divisors) {
+            k.remove!(f)
+        }
+        say k
+    }
+}

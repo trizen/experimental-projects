@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# a(n) is the least k such that prime(k) * 2^(10^n) - 1 is prime.
+# https://oeis.org/A126716
+
+# Known terms:
+#    2, 3, 51, 657, 6255
+
+# a(5) >= primepi(2129)
+
+var n = 5
+var t = 2**(10**n)
+
+for p in (primes(2129, 1e6)) {
+    say "Testing: #{p}"
+    if (t*p - 1 -> is_prob_prime) {
+        die "Found: #{p.primepi}"
+    }
+}

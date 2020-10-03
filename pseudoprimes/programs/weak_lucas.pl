@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+
+# Find strong Lucas pseudoprimes that are not extra-strong Lucas pseudoprimes.
+
+# The first few terms, are:
+#   5459, 16109, 18971, 22499, 24569, 25199, 58519, 97439, 115639, 130139, 158399, 176399, 176471, 192509, 197801, 224369, 230691, 243629, 253259
+
+# There are more than 136014 such terms below 2^64.
+
+use 5.020;
+use strict;
+use warnings;
+
+use ntheory qw(:all);
+use Math::GMPz;
+
+my %seen;
+
+while (<>) {
+    next if /^\h*#/;
+    /\S/ or next;
+    my $n = (split(' ', $_))[-1];
+
+    $n || next;
+
+    next if ($n < ~0);
+
+    is_pseudoprime($n, 2) && next;
+    is_strong_lucas_pseudoprime($n) || next;
+    is_extra_strong_lucas_pseudoprime($n) && next;
+
+    say $n if !$seen{$n}++;
+}
+
+__END__
+Some examples greater than 2^64:
+
+20408982770556851329
+20568342387213435209
+23670706525594498439
+24847222806013007489
+26086391151191854649
+29068260741176977039
+33151779267787421639
+36870561701473163999
+39984382030247659439
+41323030592365869719
+55315344601090493639
+56054136269755951799
+57727823262395133229
+57877454423821667039
+59219085813138083699
+59481665238642827729
+60741844475142237041
+62233144753874792039
+66935800363893170219
+77429723166908158049
+81737863165920691199
+96850125428211990449

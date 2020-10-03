@@ -1,0 +1,78 @@
+#!/usr/bin/ruby
+
+# Author: Daniel "Trizen" Șuteu
+# Date: 10 August 2020
+# https://github.com/trizen
+
+# Recursively generate Carmichael numbers from a given input numbers, using its lambda value.
+
+func generate(n) {
+
+    n.is_cyclic || return nil
+
+    var L = n.lambda
+
+    return nil if (L.sigma0 > 1e4)
+
+    var P = L.divisors.map { .inc }.grep {
+        (_>2) && (!.divides(L)) &&
+            #.is_congruent(3,8) &&
+            #kronecker(5,_).is_mone &&
+            .is_prime &&
+            .is_coprime(n) &&
+            is_cyclic(n*_)
+    }
+
+    var r = n%L
+    var arr = []
+
+    P.each {|p|
+        if ((p*r)%L == 1) {
+            arr << n*p
+            say arr.tail
+        }
+    }
+
+    static k = 3
+
+    if (binomial(P.len, k) < 1e5) {
+        P.combinations(k, {|*a|
+            if ((r*a.prod)%L -> is_one) {
+                arr << n*a.prod
+                say arr.tail
+            }
+        })
+    }
+
+    arr.each {|k|
+        generate(k)
+    }
+}
+
+#1..1e6 -> each { generate(_) }
+
+#__END__
+ARGF.each {|n|
+
+
+    n = n.nums.last
+    n || next
+
+    (n.is_odd && n>1e6 && n.is_composite) || next
+
+    #n.is_smooth(1e7) || next
+    next if n.is_rough(1e7)
+
+    if (n.len > 40) {
+        #next if (n.is_rough(1e7))
+        n.is_smooth(1e7) || next
+    }
+
+    #n.is_smooth(1e7) || n.len<50 || next
+    #k.len < 50 || next
+    #k.is_carmichael || next
+
+    generate.cache
+    generate(n)
+    generate.uncache
+}

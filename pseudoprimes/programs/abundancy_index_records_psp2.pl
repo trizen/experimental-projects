@@ -1,0 +1,88 @@
+#!/usr/bin/perl
+
+# Poulet numbers (Fermat pseudoprimes to base 2) k that have an abundancy index sigma(k)/k that is larger than the abundancy index of all smaller Poulet numbers.
+# https://oeis.org/A328691
+
+# Known terms:
+#   341, 561, 645, 18705, 2113665, 2882265, 81722145, 9234602385, 19154790699045, 43913624518905, 56123513337585, 162522591775545, 221776809518265, 3274782926266545, 4788772759754985
+
+use 5.020;
+use strict;
+use warnings;
+
+use ntheory qw(:all);
+use Math::Prime::Util::GMP;
+
+use Math::GMPz;
+use Math::GMPq;
+use Math::MPFR;
+
+my %seen;
+my $max = 0;
+
+while (<>) {
+    next if /^\h*#/;
+    /\S/ or next;
+    my $n = (split(' ', $_))[-1];
+
+    $n || next;
+
+    #next if $n < ~0;
+    #next if length($n) > 65;
+
+    $n = Math::GMPz->new($n);
+    $n % (3*5*17*23*29*43*53*89) == 0 or next;
+
+    Math::Prime::Util::GMP::is_pseudoprime($n,2) || next;
+
+    #say "Testing: $n";
+
+    my $t = Math::GMPq->new(0);
+    my $sigma = divisor_sum($n);
+    Math::GMPq::Rmpq_set_str($t, "$sigma", 10);
+    Math::GMPq::Rmpq_div_z($t, $t, $n);
+
+    #if ($t > $max) {
+    #if ($t >= 2) {
+    if ($t >= 1.9) {
+        #die "Found: $n";
+        say $n;
+        #printf "%.4f abundancy: $n\n", Math::MPFR->new($t) if !$seen{$n}++;
+        $max = $t;
+    }
+}
+
+__END__
+1.1261 abundancy: 341
+1.5401 abundancy: 561
+1.6372 abundancy: 645
+1.6937 abundancy: 18705
+1.7087 abundancy: 2113665
+1.7266 abundancy: 2882265
+1.8003 abundancy: 81722145
+1.8162 abundancy: 9234602385
+1.8211 abundancy: 19154790699045
+1.8236 abundancy: 43913624518905
+1.8459 abundancy: 56123513337585
+1.8632 abundancy: 162522591775545
+1.9036 abundancy: 221776809518265
+1.9106 abundancy: 3274782926266545
+1.9449 abundancy: 4788772759754985
+1.9452 abundancy: 38353281032877674865
+1.9452 abundancy: 2638294879881771254145
+1.9454 abundancy: 24773130788808935997465
+1.9454 abundancy: 429388072625313108651345
+1.9459 abundancy: 633708839387221385771985
+1.9594 abundancy: 4426632427184293146004185
+1.9786 abundancy: 30289748358904212366572385
+1.9814 abundancy: 728017010426459878356936705
+1.9842 abundancy: 34742187522900518220477982065
+1.9856 abundancy: 296874628838164374175009735905
+1.9888 abundancy: 282385466973939051351462060010785
+1.9893 abundancy: 303874597856107607075523212740305
+1.9967 abundancy: 95232935093163427870007414104051665
+2.0027 abundancy: 3470207934739664512679701940114447720865
+2.0027 abundancy: 35681625351759414447784656906886402710161726145
+2.0036 abundancy: 18324199296528369643710689094829325758885303308048705
+2.0036 abundancy: 3521782835397676946933688469202532605577443098683804760065
+2.0075 abundancy: 4480869812756224982980361246336523683775981809514868335105

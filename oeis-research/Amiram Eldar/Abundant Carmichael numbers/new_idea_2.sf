@@ -1,0 +1,158 @@
+#!/usr/bin/ruby
+
+# Try to generate an abundant Carmichael number.
+
+func a(L) {
+    L.divisors.map{.inc}.grep{.is_odd && .is_prime}.grep { |p| L%p != 0 }
+}
+
+#var good_prod = 495088126122885
+#var good_prod = 387623715
+#var good_prod = 19976310800932286865
+#var good_prod = 2799500171953451613547965
+#var good_primes = good_prod.factor
+
+#var good_primes = [3, 5, 17, 23, 29, 53, 83, 89]
+#var good_primes = [3, 5, 17, 23, 29, 53, 89]
+#var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 353]
+#var good_primes = [3, 5, 17, 23, 29, 53, 59, 83, 89, 113, 353]
+#var good_primes = [3, 5, 17, 23, 29, 53, 59, 83, 89]
+
+#var good_primes = [3, 5, 17, 23, 29, 53, 89, 113, 257, 353]
+#var good_primes = [3, 5, 17, 23, 29, 53, 89, 113, 257, 353, 617]
+#var good_primes = [3, 5, 17, 23, 29, 53, 89, 113, 353]
+#var good_primes = [3, 5, 17, 23, 29, 53, 83, 113, 353]
+#var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 353, 449]
+#var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 257, 353, 617, 1409, 2003]
+
+var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197]
+
+var good_prod = good_primes.prod
+
+#good_primes.pop
+#good_prod = good_primes.prod
+
+var arr = [
+
+    #main_prime.factor.lcm{.dec}
+    #495088126122885 * good_prod -> rad
+    #1..100 -> map { _ * good_prod }...
+    #2306304 * good_prod -> rad
+
+    #144144, 144144, 720720, 1585584, 2306304, 11531520, 11531520, 15135120, 25369344, 31279248, 80720640, 80720640, 126846720, 126846720, 126846720, 126846720, 126846720, 126846720, 126846720, 149909760, 149909760, 149909760, 149909760, 149909760, 149909760, 149909760, 149909760, 157549392, 329801472, 887927040, 1049368320, 1049368320, 1233872640, 1233872640, 1233872640, 1533692160, 1649007360, 1649007360, 1649007360, 1649007360, 1649007360, 1649007360, 1649007360, 1815061248, 2048142096, 2410087680, 6146300160, 16040344320, 31331139840, 40971490560, 40971490560, 106525875456, 473034481920, 745681128192, 6149448264960, 6149448264960
+    #2024, 1188, 7201568, 15542912, 285824, 5789168, 4352299952
+    #139678448, 1240624, 7771456, 7771456, 2626624, 10506496, 15542912, 10506496
+
+    147090944, 202250048, 257409152, 294181888, 374902528, 514818304, 1029636608, 1231886656
+].map{ _ }.grep{ .sigma0 < 1e6 }.uniq.sort_by{ a(_).len }
+
+# 16016 -- lcm
+
+# 720, 792, 864, 1440, 4320, 5040, 7560, 10080, 11232, 30240, 50400, 55440
+# 1440, 5040, 8640, 10080, 11232, 12960, 13440, 14400, 15120, 30240, 50400, 846720
+
+for n in (arr) {
+
+#ARGF.each {|n|
+    #n.to_i!
+    #n > 1e7 || next
+    #n.is_smooth(1e6) || next
+
+    if (n.sigma0 > 1e6) {
+        say "n = #{n} has too many divisors -- stopping"
+        break
+    }
+
+    var primes = a(n) #.grep{.inc.is_smooth(20)}
+    next if (primes.len < 20)
+
+    good_primes.all {|p|
+        primes.has(p)
+    } || next
+
+    primes = primes.grep { _ > good_primes.max }
+    #primes = primes.grep { !good_primes.has(_) }
+
+
+
+    # 176
+
+    #for k in (min(primes.len>>1, 24) `downto` 3) {
+    #var good_primes = Set(3, 5, 17, 23, 89)
+    #var good_primes = Set(3, 5, 17, 23, 29, 53, 83, 89)
+    #var good_primes = Set(3, 5, 17, 23, 29, 53, 89, 113, 127)
+    #var good_primes = Set(3, 5, 17, 23, 29, 53, 89, 113, 257, 353)
+    #var good_primes = Set(3, 5, 17)
+
+   # var good_prod = good_primes.prod
+    primes -= good_primes
+    var t = primes.prod
+
+    say "# Primes: #{n} -> #{primes.len}"
+
+    #~ for k in (1..10) {
+        #~ var count = 0
+        #~ primes.combinations(k, {|*list|
+            #~ var v = list.prod*good_prod
+
+            #~ if (v.is_pseudoprime) {
+                #~ say "Fermat: #{v}" if !v.is_carmichael
+
+                #~ if (v.is_abundant and v<3470207934739664512679701940114447720865) {
+                    #~ say "Smaller abundant Fermat: #{v}"
+                #~ }
+
+                #~ if (v > 18446744073709551616) {
+                    #~ say v if v.is_carmichael
+                #~ }
+            #~ }
+
+            #~ break if (++count > 1e5)
+        #~ })
+    #~ }
+
+    #next
+
+    #var good_primes = Set(3, 5, 17, 23, 29, 53, 89)
+
+    for k in (primes.len `downto` 1) {
+
+        next if (primes.len-k + good_primes.len > 25)
+
+        say "Combination: #{k} of #{primes.len}"
+
+        var count = 0
+        primes.combinations(k, {|*list|
+
+            var l = list.prod
+            var v = (good_prod * t/l)
+
+            if (v % n == 1) {
+                say v
+            }
+
+            v = (good_prod * l)
+
+            if (v%n == 1) {
+                say v
+            }
+
+            #~ if (v.is_pseudoprime) {
+                #~ say "Fermat: #{v}" if !v.is_carmichael
+
+                #~ if (v.is_abundant and v<3470207934739664512679701940114447720865) {
+                    #~ say "Smaller abundant Fermat: #{v}"
+                #~ }
+
+                #~ if (v.is_carmichael) {
+                    #~ say v if (v > 2**64)
+                    #~ if (is_abundant(v)) {
+                        #~ die "Found abundant: #{v}"
+                    #~ }
+                #~ }
+            #~ }
+
+            break if (++count > 1e5)
+        })
+    }
+}

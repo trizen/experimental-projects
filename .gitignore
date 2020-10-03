@@ -1,0 +1,119 @@
+!Build/
+.last_cover_stats
+/META.yml
+/META.json
+/MYMETA.*
+*.o
+*.pm.tdy
+*.bs
+
+# Devel::Cover
+cover_db/
+
+# Devel::NYTProf
+nytprof.out
+
+# Dizt::Zilla
+/.build/
+
+# Module::Build
+_build/
+Build
+Build.bat
+
+# Module::Install
+inc/
+
+# ExtUtils::MakeMaker
+/blib/
+/_eumm/
+/*.gz
+/Makefile
+/Makefile.old
+/MANIFEST.bak
+/pm_to_blib
+/*.zip
+
+# Sloane's gap
+sloane-gap/*.zip
+
+# Pseudoprimes from http://ntheory.org/pseudoprimes.html
+pseudoprimes/oeis-pseudoprimes/danaj-*
+
+# OEIS b-file for oeis-autoload
+oeis-autoload/bfiles/
+
+# Other stuff
+oeis-names.txt
+oeis-stripped.txt
+chess-bot/ChessCom/
+chess-bot/Lichess/
+chess-bot/TestFiles/
+chess-bot/chesscom.db
+chess-bot/crop-test.png
+chess-bot/lichess.db
+chess-bot/orig-test.png
+privim/
+primo/
+/*.asm
+gnfs/TODO/
+gnfs/C*
+gnfs/.params
+gnfs/ggnfs.log
+gnfs/spairs.add
+gnfs/spairs.save.gz
+factordb/cache/
+factordb/a.sf
+factordb/x.sf
+factordb/almost_repunit.sf
+factordb/siqs.pl
+factordb/xalt.pl
+factordb/factors.txt
+factordb/numbers.txt
+aliquot-sequences/elf_files/
+aliquot-sequences/graphs/
+
+# Too large files
+oeis-research/Daniel Suteu/Smallest Fermat base-2 pseudoprime such that gpf(p-1) = prime(n)/nogaps_fermat.txt
+
+# Cache stuff
+oeis-drafts/cache
+oeis-drafts/links.html
+
+# Secret stuff
+pseudoprimes/smooth-primes/
+pseudoprimes/orig-oeis/
+factorization/
+
+# oeis-research
+oeis-research/primecount
+oeis-research/primesieve
+oeis-research/primesum
+oeis-research/ecmpi
+oeis-research/FactorizationGNFS/
+oeis-research/Prime indexed primes/primecount
+oeis-research/Sum of primes divisible by n/primecount
+oeis-research/Sum of primes divisible by n/primesum
+oeis-research/Euler polynomial divisble by multiplicity n
+oeis-research/Modulo p strictly increasing/z
+
+# pseudoprimes
+pseudoprimes/primes/
+pseudoprimes/filter_pseudoprimes.sf
+pseudoprimes/smooth-primes/100-smooth.txt
+pseudoprimes/smooth-primes/1000-smooth.txt
+pseudoprimes/carmichael_1e18.txt
+pseudoprimes/carmichael_2^64.txt
+pseudoprimes/psps-below-2-to-64.txt.bz2
+pseudoprimes/fermat_gt_1e18.txt
+pseudoprimes/all_fermat.txt
+pseudoprimes/programs/cache/backup/*.db
+pseudoprimes/programs/cache/*.db
+pseudoprimes/programs/cache/*.storable
+pseudoprimes/generators/lucas_psp_lambdas.txt
+pseudoprimes/generators/fermat_lambdas.txt
+pseudoprimes/generators/carmichael_lambdas.txt
+pseudoprimes/generators/carmichael_lambdas_2^64.txt
+pseudoprimes/generators/lucas-carmichael_lambdas.txt
+#pseudoprimes/oeis-pseudoprimes/fermat_with_large_gpf.txt
+#pseudoprimes/oeis-pseudoprimes/carmichael_with_large_gpf.txt

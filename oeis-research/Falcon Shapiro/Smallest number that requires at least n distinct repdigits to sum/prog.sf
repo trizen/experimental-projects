@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number that requires at least n distinct repdigits to sum.
+# https://oeis.org/A336759
+
+# Known terms:
+#   1, 10, 21, 309, 2108, 21996
+
+var n = 5
+var limit = 21996
+
+var arr = []
+
+for k in (1..9) {
+    for j in (1..limit.len) {
+        arr << Num("#{k}"*j)
+    }
+}
+
+arr = arr.grep { _ < limit }.uniq.sort
+
+var seen = Hash()
+
+for k in (1..n) {
+    arr.combinations(k, {|*a|
+        var t = a.sum
+
+        if (seen.has(t)) {
+            seen{t} = k if (k < seen{t})
+        }
+        else {
+            seen{t} = k
+        }
+    })
+}
+
+var z = seen.grep_v{ _ == n }.keys.map{.to_n}.min
+
+say [z, seen{z}]

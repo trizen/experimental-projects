@@ -1,0 +1,71 @@
+#!/usr/bin/ruby
+
+# Numbers of the form N = a+b+c such that N^3 = concat(a,b,c); a, b, c > 0.
+# https://oeis.org/A328198
+
+# Terms of A328198:
+#   8, 45, 1611, 4445, 4544, 4949, 5049, 5455, 5554, 7172, 19908, 55556, 60434, 77778, 422577, 427868, 461539, 478115, 488214, 494208, 543752, 559846, 598807, 664741, 757835, 791505, 807598, 4927940, 5555555, 6183170
+
+# Cubes of the form N^3 = concat(a,b,c) with N = a+b+c;  a, b, c > 0.
+# https://oeis.org/A328200
+
+# Terms of A328200:
+#   512, 91125, 4181062131, 87824421125, 93824221184, 121213882349, 128711132649, 162324571375, 171323771464, 368910352448, 7890107061312, 171471879319616, 220721185826504, 470511577514952, 75460133084214033, 78330233506116032, 98316229404133819, 109294197946170875
+
+# Triples (a,b,c) such that (a+b+c)^3 = concat(a,b,c), a, b, c > 0, ordered by size of this value.
+# https://oeis.org/A328199
+
+func isok(n) {
+
+    var N = n**3
+    var d = N.digits.flip
+    var e = d.end
+
+    for i in (0 .. e) {
+
+        var a = d.ft(0,i).join.to_i
+        break if (a > n)
+
+        for j in (i+1 .. e) {
+
+            next if (d[i+1] == 0)
+            var b = d.ft(i+1,j).join.to_i
+            break if (b > n)
+
+            for k in (j+1 .. e) {
+
+                next if (d[j+1] == 0)
+                var c = d.ft(j+1).join.to_i
+                break if (c > n)
+
+                var s = (a+b+c)
+
+                if (s == n) {
+                    say "cbrt(#{N}) = #{a} + #{b} + #{c} = #{s}"
+                    return true
+                }
+                elsif (s > n) {
+                    return false
+                }
+            }
+        }
+    }
+
+    return false
+}
+
+for n in (1..1e6) {
+    isok(n)
+}
+
+__END__
+cbrt(512) = 5 + 1 + 2 = 8
+cbrt(91125) = 9 + 11 + 25 = 45
+cbrt(4181062131) = 418 + 1062 + 131 = 1611
+cbrt(87824421125) = 878 + 2442 + 1125 = 4445
+cbrt(93824221184) = 938 + 2422 + 1184 = 4544
+cbrt(121213882349) = 1212 + 1388 + 2349 = 4949
+cbrt(128711132649) = 1287 + 1113 + 2649 = 5049
+cbrt(162324571375) = 1623 + 2457 + 1375 = 5455
+cbrt(171323771464) = 1713 + 2377 + 1464 = 5554
+cbrt(368910352448) = 3689 + 1035 + 2448 = 7172

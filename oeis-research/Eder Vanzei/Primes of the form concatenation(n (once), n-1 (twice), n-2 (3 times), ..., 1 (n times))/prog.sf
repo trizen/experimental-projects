@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# Primes in A323426.
+# https://oeis.org/A331265
+
+# Known terms:
+#   211, 322111, 4332221111
+
+# Next term, if it exists, is greater than A323426(k), with k = 309, which has more than 10^5 number of digits.
+
+func a(n) {
+    var t = ""
+    for k in (1..n) {
+        t += ("#{n - k + 1}" * k)
+    }
+    t.to_i
+}
+
+for k in (310..1e5) {
+    var t = a(k)
+    say "Testing: #{k} -- len: #{t.len}"
+
+    if (t.is_prob_prime) {
+        say "Prime found for k = #{k}"
+
+        if (k > 4) {
+            die "New term found: #{k}"
+        }
+    }
+}
+
+__END__
+...
+Testing: 301 -- len: 108732
+Testing: 302 -- len: 109530
+Testing: 303 -- len: 110331
+Testing: 304 -- len: 111135
+Testing: 305 -- len: 111942
+Testing: 306 -- len: 112752
+Testing: 307 -- len: 113565
+Testing: 308 -- len: 114381
+Testing: 309 -- len: 115200
+Testing: 310 -- len: 116022
+^C
+3450.34s user 5.55s system 93% cpu 1:01:23.04 total

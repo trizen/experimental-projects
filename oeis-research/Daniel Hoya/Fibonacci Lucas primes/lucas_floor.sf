@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+# https://oeis.org/draft/A307736
+# Integers k such that ceiling(Lucas(k)/log(k)) is prime.
+# 12286, 14334
+
+# https://oeis.org/draft/A307737
+# Integers k such that ceiling(Fibonacci(k)/log(k)) is prime.
+# 5762, 8430, 8814,
+
+# https://oeis.org/draft/A307729
+# Integers k such that floor(Fibonacci(k)/log(k)) is prime.
+
+# https://oeis.org/draft/A307728
+# Integers k such that floor(Lucas(k) / log(k)) is prime.
+
+func f(n) {
+    var l = lucas(n)
+    local Num!PREC = 4*(l.len+10)
+    floor(l / log(n)).int
+}
+
+STDOUT.autoflush(1)
+
+for k in (44626..1e6) {
+    say "Testing: #{k}"
+    if (f(k).is_prob_prime) {
+        say "Found: #{k}"
+        die "new term: #{k}" if (k > 18699)
+    }
+}

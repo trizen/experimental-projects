@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+# Numbers n such that 2^n + 3^n is a semiprime.
+# https://oeis.org/A050244
+# a(34) > 23194.
+
+for k in (23194..1e6) {
+
+    say "Testing: #{k}"
+
+    if (is_semiprime(3**k + 2**k)) {
+        die "Found: #{k}"
+    }
+}
+
+# Numbers m such that 4^m - m is a semiprime.
+# https://oeis.org/A252657
+# Next term >= 483                  -- http://factordb.com/index.php?id=1100000000251223208
+
+# Numbers m such that 10^m - m is a semiprime.
+# https://oeis.org/A252663
+# 107, 117, 143, 149, 177,
+
+# Numbers m such that m*10^m + 1 is a semiprime.
+# https://oeis.org/A216378
+# 111, 117, 123, 181, 184, 187,
+
+# Numbers k such that 1 + (product of first k primes) is a semiprime.
+# https://oeis.org/A085725
+# 76,
+
+# Numbers n such that 3^n-2 is a semiprime.
+# https://oeis.org/A080892
+# Next term >= 658                  -- http://factordb.com/index.php?id=1000000000018245962
+
+# Numbers n such that Pell(n) is a semiprime.
+# https://oeis.org/A250292
+# Next term >= 709                   -- http://factordb.com/index.php?id=1100000000707746051

@@ -1,0 +1,17 @@
+#!/usr/bin/ruby
+
+var n = 7136306
+var P = primes(20000)
+
+say (n, " -> ", P.grep {|p|
+    var t = (p * (p + n))
+    t.is_semiprime && !t.is_square
+}.grep {|p|
+
+    var w = (p * (n + p))
+
+    P.any {|q|
+        var t = (q * (q + w))
+        t.is_semiprime && !t.is_square
+    }
+})

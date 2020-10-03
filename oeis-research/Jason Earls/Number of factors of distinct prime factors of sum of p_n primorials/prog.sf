@@ -1,0 +1,37 @@
+#!/usr/bin/ruby
+
+# Number of distinct prime factors of (p[1]*...*p[n])+(p[n+1]*...*p[2n]), where p[n] is the n-th prime.
+# https://oeis.org/A093429
+
+# a(n) = A001221(A002110(n) + A002110(2*n) / A002110(n)). - ~~~~
+
+# Terms a(1)-a(54):
+#    1, 1, 1, 1, 2, 2, 2, 3, 2, 3, 2, 2, 3, 2, 2, 4, 3, 2, 6, 3, 4, 4, 3, 1, 1, 3, 3, 3, 3, 2, 4, 3, 3, 3, 3, 5, 4, 2, 3, 3, 5, 3, 7, 4, 1, 4, 3, 4, 3, 6, 2, 4, 3, 3
+
+func a(n) {
+    pn_primorial(2*n)/pn_primorial(n) + pn_primorial(n)
+}
+
+for k in (1 .. 1e6) {
+
+    var u = pn_primorial(2*k)
+    var t = pn_primorial(k)
+
+    var m = (u/t + t)
+
+    print(m.omega, ", ")
+}
+
+47 3
+48 4
+49 3
+50 6
+51 2
+52 4
+53 3
+54 3
+55
+56 4
+57 5
+58
+59 1

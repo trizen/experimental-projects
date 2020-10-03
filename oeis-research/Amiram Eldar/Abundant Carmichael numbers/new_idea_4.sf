@@ -1,0 +1,120 @@
+#!/usr/bin/ruby
+
+# Erdos construction method for Carmichael numbers:
+#   1. Choose an integer L with many prime factors.
+#   2. Let P be the set of primes d+1, where d|L and d+1 does not divide L.
+#   3. Find a subset S of P such that prod(S) == 1 (mod L). Then prod(S) is a Carmichael number.
+
+#var L = 720
+#for L in (1e3..1e4) {
+#for L in (14322, 1919190, 56786730, 140100870, 209191710, 2328255930, 2381714790, 7225713885390, 9538864545210, 21626561658972270, 446617991732222310, 115471236091149548610, 5145485882746933233510, 14493038256293268734790) {
+
+#var good_lambda = 147090944*47*19
+#var good_lambda = 1517684360192
+var good_lambda = 137971305472**2
+#var good_lambda = (1029636608*19*47)**2
+
+for k in (good_lambda.divisors.flip) {
+#for k in (137971305472) {
+#for L in ([2, 2, 2, 2, 2, 2, 2, 2, 7, 7, 11, 13, 41].prod) {
+
+    #var L = (18386368 * k)
+    #var L = (4596592 * k)
+    var L = (good_lambda / k)
+
+    #var good_primes = [3, 5, 17, 23, 29, 53]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 353, 449, 617]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 257, 353, 617]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 89, 113, 197, 257, 353, 419, 449, 617, 2003]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 89, 113, 197, 257, 353]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 353, 617, 1409, 2003, 2549, 10193, 16073, 202049, 275969, 18386369]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 353, 617, 1409, 2003, 2549, 10193, 16073, 202049, 18386369]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 353, 1373, 2003, 2297, 2549, 4019]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 353, 617]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 257, 353, 617, 1409, 2003, 2549]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 353, 617, 2003, 2549]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 257, 353, 449, 617, 1409, 2003, 2297, 2549, 3137, 3329, 4019]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 257, 353, 449, 617, 1409, 2003, 2297, 2549, 3137, 3329, 4019, 7547, 9857]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 197, 353, 617, 2297, 3137, 4019, 7547, 8009, 9857]
+
+    var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 353, 617, 2003, 2549]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 257, 353, 617, 1409, 2003, 2549, 3137, 9857, 10193, 16073, 68993, 202049, 1500929, 18386369]
+    #var good_primes = [3, 5, 17, 23, 29, 53, 83, 89, 113, 353, 617, 2003, 2549, 3137, 9857, 10193, 16073, 68993, 202049, 1500929, 18386369]
+
+    var P = L.divisors.map { .inc }.grep { .is_odd && .is_prime }.grep {|p| L%p != 0 }
+
+    var prefix = good_primes.prod
+    P.prod % prefix == 0 || next
+    P = P.grep { is_coprime(_, prefix) }
+
+    var Q = P.grep { _ > 113 }
+    var t = Q.prod
+
+    say "Testing: #{L} with k = #{k}"
+    say "Has #{P.len} good divisors"
+
+    for k in (1..Q.len) {
+
+        good_primes.len + (Q.len-k) >= 25 || next
+        good_primes.len + (Q.len-k) >  35 && next
+
+        say "[1] Combination: #{k} with #{good_primes.len + (Q.len - k)} prime factors = #{binomial(Q.len, k)}"
+
+        var count = 0
+        Q.combinations(k, {|*S|
+            if (t/S.prod * prefix % L == 1) {
+                say (t/S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+
+        var count = 0
+        Q.flip.combinations(k, {|*S|
+            if (t/S.prod * prefix % L == 1) {
+                say (t/S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+
+        var count = 0
+        Q.shuffle.combinations(k, {|*S|
+            if (t/S.prod * prefix % L == 1) {
+                say (t/S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+    }
+
+    for k in (P.len `downto` 1) {
+
+        good_primes.len + k >= 25 || next
+        good_primes.len + k >  35 && next
+
+        say "[2] Combination: #{k} with #{good_primes.len + k} prime factors = #{binomial(P.len, k)}"
+
+        var count = 0
+        P.combinations(k, {|*S|
+            if (S.prod * prefix % L == 1) {
+                say (S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+
+        var count = 0
+        P.flip.combinations(k, {|*S|
+            if (S.prod * prefix % L == 1) {
+                say (S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+
+        var count = 0
+        P.shuffle.combinations(k, {|*S|
+            if (S.prod * prefix % L == 1) {
+                say (S.prod * prefix)
+            }
+            break if (++count >= 1e4);
+        })
+    }
+}

@@ -1,0 +1,24 @@
+
+# Added
+# https://oeis.org/A089466
+
+# 1, 1, 3, 18, 163, 1950, 28821, 505876, 10270569, 236644092, 6098971555
+
+a(n) = n! * Sum_{k=0..floor(n/2)} (-1/2)^k * n^(n - 2*k) / (k! * (n - 2*k)!). - ~~~~
+
+
+a(n) = n! * sum(k=0, n\2, (-1/2)^k * n^(n - 2*k) / (k! * (n - 2*k)!)); \\ ~~~~
+
+
+# Program Sidef:
+
+func foo(n) {
+    n! * sum(0..floor(n/2), {|k|
+        (-1/2)**k * n**(n - 2*k) / (k! * (n - 2*k)!)
+    })
+}
+
+say 20.of(foo)
+
+
+# a(n) ~ sqrt(2*pi*n) * (n/e)^n * sum((-1/2)^k * n^(n-2*k) / (sqrt(2*pi*k) * (k/e)^k * sqrt(2*pi*(n-2*k)) * ((n-2*k)/e)^(n-2*k)), {k=0, floor(n/2)})

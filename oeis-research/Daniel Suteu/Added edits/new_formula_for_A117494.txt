@@ -1,0 +1,17 @@
+
+# Added
+# https://oeis.org/A117494
+
+# 0, 1, 1, 1, 1, 3, 1, 2, 2, 5, 1, 4, 1, 7, 6, 4, 1, 8, 1, 6, 8, 11, 1, 8, 4
+
+# a(n) = Sum_{distinct primes p dividing n} phi(n/p), where phi(k) is the Euler totient function. - ~~~~
+# (PARI) a(n) = my(f=factor(n)[, 1]); sum(k=1, #f, eulerphi(n/f[k])); \\ ~~~~
+
+
+func foo(n) {
+    n.factor_exp.map{_[0]}.sum {|p|
+      euler_phi(n/p)
+    }
+}
+
+say 50.of(foo)

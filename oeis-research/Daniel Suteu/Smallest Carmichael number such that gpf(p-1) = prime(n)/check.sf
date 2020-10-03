@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+ARGF.each{|line|
+    var (n,k) = line.nums...
+
+    n || next
+    k || next
+
+    var p = n.prime
+
+    assert(k.is_carmichael)
+    assert(k.factor.all {|q| gpf(q-1) == p })
+}
+
+say ":: Test passed!"

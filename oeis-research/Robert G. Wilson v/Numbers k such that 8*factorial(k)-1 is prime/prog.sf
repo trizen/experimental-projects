@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Numbers k such that 8*k! - 1 is prime.
+# https://oeis.org/draft/A180629
+
+# Tested to 4700. - Robert G. Wilson v, Sep 27 2010
+# Tested to 5127. - Jinyuan Wang, Feb 03 2020
+
+# a(19) > 6058.
+
+for k in (6059 .. 1e9) {
+    say "Testing: #{k}"
+    if (is_prob_prime(8*k! - 1)) {
+        die "Found: #{k}"
+    }
+}

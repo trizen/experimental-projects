@@ -1,0 +1,50 @@
+#!/usr/bin/ruby
+
+# Numbers n such that 2^n - 1 is not squarefree, but 2^d - 1 is squarefree for every proper divisor d of n.
+# https://oeis.org/A237043
+
+func f(k) {
+    k.divisors.first(-1).grep{_ < 300}.all {|d|
+        #is_prob_squarefree(2**d - 1, 1e8)
+        is_squarefree(2**d - 1)
+    }
+}
+
+#~ From ~~~~: (Start)
+#~ The following numbers are also in the sequence: {1755, 2265, 2485, 2756, 3081, 3164, 4112, 6757, 8251, 13861, 18533}.
+#~ Probably, the following numbers are also terms: {3422, 5253, 6806, 8164, 9316, 11342, 12550, 15025, 15026, 17030, 17404, 17468, 18145, 19670, 19701, 22052}. (End)
+
+# 6, 20, 21, 110, 136, 155, 253, 602, 657, 812, 889, 979, 1081, 2265, 2485, 2756, 3081, 3164, 3422, 4112, 5253, 6757, 6806, 8164, 8251, 9316, 11342, 12550, 13861, 15025, 15026, 17030, 17404, 17468, 18145, 18533, 19670, 19701, 22052, 25484, 26602, 28395, 28441, 29756
+
+for k in (
+
+3422, 5253, 6806, 8164, 9316, 11342, 12550, 15025, 15026, 17030, 17404, 17468, 18145, 19670, 19701, 22052
+
+) {
+    var t = (2**k - 1)
+
+    if (!t.is_prob_squarefree(1e6) && f(k)) {
+        say k
+    }
+    else {
+        say "Counter-example: #{k}"
+    }
+}
+
+__END__
+
+func f(k) {
+    k.divisors.first(-1).all {|d|
+        is_prob_squarefree(2**d - 1, 1e6)
+    }
+}
+
+for k in (22052..1e6) {
+    var t = (2**k - 1)
+
+    if (!t.is_prob_squarefree(1e6) && f(k)) {
+        say k
+    }
+}
+
+# 6, 20, 21, 110, 136, 155, 253, 364, 602, 657, 812, 889, 979, 1081,

@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest Carmichael number such that gpf(p-1) = prime(n) for all prime factors p of a(n), or 0 if no such number exists.
+
+# a(2) = 1729
+# a(3) = 252601
+# a(4) = 1152271
+# a(5) = 1615681
+# a(6) = 4335241
+# a(7) = 172947529
+
+# Lower bound for n > 2:
+#   a(n) >= (2*p + 1)*(2*3*p + 1)*(2*7*p + 1), where p = prime(n).
+
+func a(n) {
+    var p = prime(n)
+    var from = (2*p + 1)*(2*3*p + 1)*(2*7*p + 1)
+    from = 1 if(n == 2)
+    from..Inf -> first {|k|
+        k.is_composite && k.is_carmichael && k.factor.all { .dec.gpf == p }
+    }
+}
+
+for n in (2..10) {
+    say ("a(#{n}) = ", a(n))
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+
+for n in (1..9000) {
+    next if n.is_prime
+    var t = (2**n - 1)
+
+    if (is_fermat_pseudoprime(t, 2)) {
+        say n
+    }
+}

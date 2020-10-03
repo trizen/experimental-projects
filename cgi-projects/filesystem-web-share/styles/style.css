@@ -1,0 +1,242 @@
+
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #131516;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #FFFFFF;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+    color: #FFFFFF;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+h3 {
+    font-size: 1em;
+}
+
+a {
+    text-decoration: none;
+    border-bottom: 1px dotted #CCCCCC;
+    color: #FFFFFF;
+}
+
+a.popup {
+                position:relative;
+                z-index:24;
+                color:#000000;
+                text-decoration:none;
+ }
+
+
+
+a.popup span {display:none; }
+
+ a.popup:hover span {
+                display:block;
+                position:absolute;
+                bottom:35px; left:45px;
+                padding:3px;
+                border:1px solid #000000;
+                background-color:#E4E4E4; color:#000;
+}
+
+a:hover {
+    margin: 0 3px 0 0;
+    border-bottom: none;
+}
+
+/* Header */
+
+#logo {
+    width: 98%;
+    height: 88px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+#logo h1, #logo p {
+    float: left;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+#logo h1 {
+    padding: 30px 0 0 0;
+    text-transform: lowercase;
+    font-weight: normal;
+    font-size: 3em;
+}
+
+#logo p {
+    text-transform: uppercase;
+    padding: 52px 0 0 3px;
+    font-size: 10px;
+    color: #616161;
+}
+
+#logo a {
+    border: none;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+/* Menu */
+
+#menu {
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+#menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#menu li {
+    display: inline;
+    background: #131516;
+}
+
+#menu a {
+    display: block;
+    float: left;
+    background: #1F1F1F;
+    margin: 0 3px 0 0;
+    padding: 8px 15px 10px 15px;
+    border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #CCCCCC;
+}
+
+#menu a:hover {
+    background: #000000;
+    margin: 0 3px 0 0;
+    padding: 8px 15px 10px 15px;
+    color: #FFFFFF;
+}
+
+#menu .current_page_item a {
+    background: #000000;
+    margin: 0 3px 0 0;
+    padding: 8px 15px 10px 15px;
+    color: #FFFFFF;
+}
+
+/* Wrapper */
+
+#wrapper {
+    background: #000000;
+}
+
+/* Page */
+
+#page {
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+/* Latest Post */
+
+#latest-post {
+    padding: 20px;
+    border: 1px solid #E7E7E7;
+}
+
+/* Content */
+
+#content {
+    float: left;
+    width: 100%;
+}
+
+.post {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    line-height: 200%;
+}
+
+.post h1 {
+    font-weight: normal;
+    font-size: 30px;
+}
+
+.post h2 {
+    font-size: 24px;
+}
+
+.title a {
+    border-bottom: none;
+}
+
+.title a:hover {
+    border-bottom: 1px dotted #CCCCCC;
+}
+
+.byline {
+    border-top: 1px solid #0A8A0A;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+}
+
+.entry {
+}
+
+.links {
+    font-size: 11px;
+    background: #0A8A0A;
+}
+
+.links a {
+    margin-left: 15px;
+    padding-left: 10px;
+    background: url(/images/img02.gif) no-repeat left 50%;
+    border: none;
+}
+
+.links a:hover {
+}
+
+.links .comments {
+}
+
+/* Footer */
+
+#footer {
+    height: 50px;
+}
+
+#footer p {
+    margin: 0;
+    padding: 20px 0 0 0;
+    text-align: center;
+    font-size: smaller;
+    color: #FFFFFF;
+}
+
+#footer a {
+    color: #FFFFFF;
+}

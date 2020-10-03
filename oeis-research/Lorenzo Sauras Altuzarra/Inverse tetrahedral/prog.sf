@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+local Num!PREC = 1024
+
+func inverse_tetrahedral(n) {
+    (sqrt(3) * sqrt(243*n**2 - 1) + 27*n)**(1/3) / 3**(2/3) + 1/(3**(1/3) * (sqrt(3) * sqrt(243*n**2 - 1) + 27*n)**(1/3)) - 1
+}
+
+#func isok(k, n) {
+#    assert(binomial(k+2, 3) >= n!)
+#    assert(!(binomial(k+1, 3) >= n!))
+#    return true
+#}
+
+func find(k, n) {
+     #a(n) = while (k*(k+1)*(k+2)/6 < n!, k++); k;
+
+     while (binomial(k+2, 3) < n!) {
+         ++k
+     }
+
+     return k
+}
+
+for k in (1..50) {
+
+    var t = find(int(inverse_tetrahedral(k!)), k)
+
+    #~ if (binomial(t+2, 3) == k!) {
+        #~ say "Special: #{k}"
+    #~ }
+
+    print(t, ", ")
+
+    #print(ceil(inverse_tetrahedral(k!)), ", ")
+    #isok(t, k)
+    #print(t, ", ")
+}
+
+
+
+
+# (sqrt(3) sqrt(243 n^2 - 1) + 27 n)^(1/3)/3^(2/3) + 1/(3^(1/3) (sqrt(3) sqrt(243 n^2 - 1) + 27 n)^(1/3)) - 1
+
+#  (sqrt(3) * sqrt(243*(n!)^2 - 1) + 27*n!)^(1/3) / 3^(2/3) + 1/(3^(1/3) * (sqrt(3) * sqrt(243 * (n!)^2 - 1) + 27 * n!)^(1/3)) - 1
+
+# a(n) = ceiling((sqrt(3) * sqrt(243*(n!)^2 - 1) + 27*n!)^(1/3) / 3^(2/3) + 1/(3^(1/3) * (sqrt(3) * sqrt(243 * (n!)^2 - 1) + 27 * n!)^(1/3)) - 1). - ~~~~

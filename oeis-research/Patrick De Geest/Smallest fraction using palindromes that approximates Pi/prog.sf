@@ -1,0 +1,88 @@
+#!/usr/bin/ruby
+
+# Smallest fraction using palindromes that approximates 'Pi' to at least n digits after the decimal point.
+
+# https://oeis.org/A048429 -- numerators
+# https://oeis.org/A048430 -- denominators
+
+func next_palindrome (n, b=10) {
+
+    var d = n.digits(b)
+    var l = d.end
+    var i = (((d.len+1)>>1) - 1)
+
+    while ((i >= 0) && (d[i] == b-1)) {
+        d[i,l-i] = (0,0)
+        --i
+    }
+
+    if (i >= 0) {
+        d[i]++
+        d[l-i] = d[i]
+    }
+    else {
+        d = (d.len+1).of(0)
+        d[0,-1] = (1,1)
+    }
+
+    d.digits2num(b)
+}
+
+func a(n) {
+    var pi = Num.pi
+
+    var pi_s = pi.to_s.first(n+2)
+    var pi_r = pi.round(-(n-1))
+
+    var l = Num(pi_s).rat_approx.de.len
+    var p = Num('1' + '0'*(l-2) + '1')
+
+    func check(t) {
+        t.to_s.is_palindrome && (t/p -> as_float.begins_with(pi_s))
+    }
+
+    loop {
+
+        with (pi_r * p -> floor) { |t|
+            return [t.to_i, p] if check(t)
+        }
+
+        #~ with(pi_r * p -> ceil) { |t|
+            #~ return [t.to_i, p] if check(t)
+        #~ }
+
+        with (pi * p -> round) {|t|
+            return [t.to_i, p] if check(t)
+        }
+
+        p = next_palindrome(p)
+    }
+}
+
+var nums = [22, 22, 666, 666, 1186811, 1633361, 7327237, 204656402, 971292179, 32418381423, 185295592581, 5760554550675, 6259909099526, 148967656769841]
+var dens = [7, 7, 212, 212, 377773, 519915, 2332332, 65144156, 309171903, 10319091301, 58981418985, 1833641463381, 1992590952991, 47417877871474]
+
+for k in (1..10) {
+
+    var (n,d) = a(k)...
+    var w = nums[k-1]/dens[k-1]
+
+    say "a(#{k}) = #{n}/#{d} = #{n/d}"
+
+    if (n/d != w) {
+        say "\n\tHowever, the smallest such fraction is #{w.as_rat}\n"
+    }
+
+    #assert_eq(nums[k-1], n)
+    #assert_eq(dens[k-1], d)
+}
+
+__END__
+a(3) = 666/212 = 3.14150943396226415094339622641509433962264150943
+a(4) = 666/212 = 3.14150943396226415094339622641509433962264150943
+a(5) = 1186811/377773 = 3.14159826138977640011329555050255047343245811638
+a(6) = 1633361/519915 = 3.1415923756767933219853245242010713289672350288
+a(7) = 7327237/2332332 = 3.14159262060461375138702380278622425966800609862
+a(8) = 204656402/65144156 = 3.14159265491136303922641963463307437738544037626
+a(9) = 971292179/309171903 = 3.14159265306847757119766475027971736487322394235
+a(10) = 32418381423/10319091301 = 3.14159265359522571007824829400644528709553666929

@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Search for: "Values of m such that N=(am+1)(bm+1)(cm+1)"
+#             "Numbers m such that N=(am+1)(bm+1)(cm+1)"
+
+var (a,b,c) = (1,2,49)
+
+var arr = [
+
+660, 2718, 12420, 57990, 82980, 89448, 127080, 142368, 174120, 184998, 202638, 216750
+
+]
+
+var C = arr.map {|m|
+    (a*m + 1) * (b*m + 1) * (c*m + 1)
+}
+
+assert(C.all{.is_carmichael})
+assert(C.all{.omega == 3})
+
+C.each{.say}

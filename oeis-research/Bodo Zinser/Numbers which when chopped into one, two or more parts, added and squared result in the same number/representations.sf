@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# A perfect square N has a splitting representation (S) if it's possible to segment
+# the decimal representation of N into a list of integers L, such that sum(L) = sqrt(n).
+
+# See also:
+#   https://oeis.org/A104113
+#   https://projecteuler.net/problem=719
+
+func S_representation(n) {
+
+    var v = n.isqrt
+    var D = n.digits
+
+    for k in (1 .. D.len>>1) {
+        combinations(D.len, k, {|*indices|
+            var t = D.segment(indices...)
+            if (t.sum{.digits2num} == v) {
+                return t
+            }
+        })
+    }
+
+    return []
+}
+
+File(ARGV[0] \\ "data.txt").open_r.each{|line|
+    var n = line.nums.tail
+    n > 1 || next
+    var arr = S_representation(n)
+    assert(arr.len > 0)
+    say ("sqrt(#{n}) = ", arr.flip.map{.digits2num}.grep.join(' + '))
+}

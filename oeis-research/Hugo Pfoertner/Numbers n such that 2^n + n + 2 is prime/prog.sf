@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+# Numbers n such that 2^n + n + 2 is prime.
+# https://oeis.org/A309328
+
+# a(12) >= 41347
+
+for n in (41347..1e6) {
+
+    say "Testing: #{n}"
+
+    if (is_prob_prime(n.ipow2 + n + 2)) {
+        die "Found: #{n}"
+    }
+}

@@ -1,0 +1,63 @@
+#!/usr/bin/ruby
+
+# Least number k > 0 such that the numerator of Sum_{i=1..k} 1/prime(i)^n is a prime.
+# https://oeis.org/A126225
+
+# a(11) >= 1019
+# a(12) >= 273
+
+func a(n) {
+    var sum = 0
+
+    for k in (1..1e6) {
+
+        sum += (1 / prime(k)**n)
+        var num = sum.nu
+        var size = num.ilog10
+
+        if (k < 1019) {
+            next
+        }
+
+        say "[#{n}] Testing: #{k} -- #{size}"
+
+        if (size > 5000) {
+            if (num.trial_factor(1e6).len > 1) {
+                say "1e6 - factor"
+                next
+            }
+
+            if (num.trial_factor(1e7).len > 1) {
+                say "1e7 - factor"
+                next
+            }
+
+            if (num.trial_factor(1e8).len > 1) {
+                say "1e8 - factor"
+                next
+            }
+        }
+
+        if (size > 20_000) {
+            if (num.trial_factor(2e8).len > 1) {
+                say "2e8 - factor"
+                next
+            }
+
+            if (num.trial_factor(3e8).len > 1) {
+                say "3e8 - factor"
+                next
+            }
+        }
+
+        say "- primality test"
+
+        if (num.is_prob_prime) {
+            die "\nFound: #{k}\n"
+            #return k
+        }
+    }
+}
+
+var k = 11
+say [k, a(k)]

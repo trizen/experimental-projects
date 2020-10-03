@@ -1,0 +1,149 @@
+#!/usr/bin/ruby
+
+# Partial sums of A162510.
+
+# a(n) = Sum_{k=1..n} 2^(bigomega(k) - omega(k)).
+
+# a(n) = Sum_{k=1..n} A008683(k) * A069205(floor(n/k)).
+# a(n) = Sum_{k=1..n} A061142(k) * A002321(floor(n/k)).
+
+# a(n) = {1, 2, 3, 5, 6, 7, 8, 12, 14, 15, 16, 18, 19, 20, 21, 29, 30, 32, 33, 35, 36, 37, 38, 42, 44, 45, 49, 51, 52, ...}
+
+func b(n) {
+    n.divisors.sum{|d|
+        2**(bigomega(d) - omega(d))
+    }
+}
+
+func a(n) {
+    2**(bigomega(n) - omega(n))
+}
+
+func R(n) {
+    sum(1..n, {|k|
+        a(k)
+    })
+}
+
+func f(n) {
+
+    var s = n.isqrt
+
+    sum(1..s, {|k|
+        (a(k)*floor(n/k) + R(floor(n/k)))
+    }) - R(s)*s
+}
+
+#say 30.of(a).accumulate
+say 30.of(b).accumulate
+
+say 30.of(f)
+
+#say 20.of(R)
+
+func g(n) {
+    sum(1..n, {|k|
+        R(floor(n/k))
+    })
+}
+
+func g2(n) {
+    sum(1..n, {|k|
+        2**(bigomega(k) - omega(k))
+    })
+}
+
+func g3(n){
+    sum(1..n, {|k|
+        k.divisors.sum{|d|
+            mu(d) * 2**bigomega(k/d)
+        }
+    })
+}
+
+func f4(n) {
+    sum(1..n, {|k|
+        2**bigomega(k)
+    })
+}
+
+func g4(n) {
+    sum(1..n, {|k|
+        mu(k) * f4(floor(n/k))
+    })
+}
+
+func g5(n) {
+    sum(1..n, {|k|
+        #k.divisors.sum{|d|
+        #    mu(d) * 2**bigomega(k/d)
+        #}
+        mertens(floor(n/k)) * 2**bigomega(k)
+    })
+}
+
+say 30.of(g)
+
+say ''
+
+say 30.of(g2)
+say 30.of(g3)
+say 30.of(g4)
+say 30.of(g5)
+
+func g6(n) {
+    sum(1..n, {|k|
+        g5(floor(n/k))
+    })
+}
+
+#say 30.of(g6)
+
+#say 20.of { 2**bigomega(_) }
+
+__END__
+func g5(n) {
+    sum(1..n.isqrt, {|k|
+       mu(k)**2 * (2*sum(1..floor(n/(k*k)).isqrt, {|l|
+            floor(n / (k*k*l))
+        }) - floor(n/(k*k)).isqrt**2)
+    })
+}
+
+say ''
+
+say 30.of(g5)
+say 30.of(g5).map_cons(2, {|a,b| b-a })
+
+func g6(n) {
+    sum(1..n, {|k|
+        k.divisors.sum{|d|
+            sigma0(k/d) * is_square(d) * mu(isqrt(d))**2
+        }
+    })
+}
+
+say 30.of(g6)
+
+__END__
+var z2p = -0.93754825431584375370257409456786497790
+var z4p = -0.068911265896125379848829365587440827150
+
+for k in (1..10) {
+    var n = 10**k
+    say (g5(n), " -> ", n*zeta(2)*zeta(4) * log(n) )
+}
+
+#a(n)=sum(k=1, sqrtint(n), moebius(k)*(2*sum(l=1, sqrtint(n\(k*k)), n\(k*k*l))-sqrtint(n\(k*k))^2));
+
+#say 30.of { 2**(bigomega(_) - omega(_)) }.accumulate
+
+#~ for k in (1..10) {
+    #~ say g2(10**k)
+#~ }
+
+#~ func g5(n) {
+    #~ sum(1..n, {|k|
+
+    #~ })
+#~ }

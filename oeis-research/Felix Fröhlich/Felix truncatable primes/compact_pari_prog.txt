@@ -1,0 +1,5 @@
+digitsToNum(d, base) = sum(k=1, #d, base^(k-1) * d[k]);
+isLeftTruncatable(d, base) = my(ok=1); for(k=1, #d, if(!isprime(digitsToNum(d[1..k], base)), ok=0; break)); ok;
+generateFromPrefix(p, base) = my(seq = [p]); for(n=1, base-1, my(t=concat(n, p)); if(isprime(digitsToNum(t, base)), seq=concat(seq, select(v -> isLeftTruncatable(v, base), generateFromPrefix(t, base))))); seq;
+bothTruncatablePrimesInBase(base) = my(t=[]); my(P=primes(primepi(base-1))); for(k=1, #P, t=concat(t, generateFromPrefix([P[k]], base))); vector(#t, k, digitsToNum(t[k], base));
+a(n) = vecmax(bothTruncatablePrimesInBase(n)); \\ for n>=3; ~~~~

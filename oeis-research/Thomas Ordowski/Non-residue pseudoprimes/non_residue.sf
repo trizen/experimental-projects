@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+func non_residue(n) {
+    for p in (2..1e9) {
+        sqrtmod(p, n) || return p
+    }
+}
+
+var arr = [3277, 3281, 121463, 491209, 11530801, 512330281, 15656266201, 139309114031, 7947339136801, 72054898434289, 334152420730129, 17676352761153241, 172138573277896681]
+
+for k,v in (arr.kv) {
+    say [k+1, prime(k+1), non_residue(v)]
+}
+
+say "\nFactors: ";
+
+arr.each {|n|
+    say [n, n.factor.map{non_residue(_)}]
+}

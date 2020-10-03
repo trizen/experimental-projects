@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+func foo(n) {
+
+    var count = 0
+    var cons = false
+    while (n != 1) {
+        ++count
+
+        if (n %% 3) {       #%
+            n //= 3         #/
+            cons = false
+        }
+        else {
+            if (cons) {
+                return -1
+            }
+            n = floor(n * sqrt(3)).int
+            cons = true
+        }
+    }
+
+    count
+
+}
+
+[696922987, 1207106023, 2090768962, 3632578906, 6291811228, 10897736719, 18875433685].each{|k|
+    say (k, " => ", foo(k))
+}

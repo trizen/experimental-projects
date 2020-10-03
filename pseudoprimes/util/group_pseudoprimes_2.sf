@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+var LC = File('lucas_carmichael.txt').open_w
+var L  = File('lucas.txt').open_w
+var F  = File('fermat.txt').open_w
+var C  = File('carmichael.txt').open_w
+var O  = File('other.txt').open_w
+
+[LC, L, F, C, O].each { .autoflush(true) }
+
+ARGF.each {|line|
+    var n = line.to_i || next
+
+    n.is_prime && next
+
+    if (n.is_smooth(1e6) && n.is_lucas_carmichael) {
+        say "Lucas-Carmichael: #{n}"
+        LC.say(n)
+    }
+    elsif (n.is_carmichael) {
+        say "Carmichael: #{n}"
+        C.say(n)
+    }
+    elsif (n.is_pseudoprime) {
+        say "Fermat: #{n}"
+        F.say(n)
+    }
+    elsif (n.is_lucas_pseudoprime || n.is_strong_lucas_pseudoprime || n.is_stronger_lucas_pseudoprime || n.is_strongish_lucas_pseudoprime) {
+        say "Lucas: #{n}"
+        L.say(n)
+    }
+    else {
+        O.say(n)
+    }
+}

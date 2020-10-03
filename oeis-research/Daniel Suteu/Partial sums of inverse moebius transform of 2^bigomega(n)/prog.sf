@@ -1,0 +1,68 @@
+#!/usr/bin/ruby
+
+# Partial sums of A182139.
+
+# a(n) = Sum_{k=1..n} A069205(floor(n/k)).
+# a(n) = Sum_{k=1..n} Sum_{d|k} 2^bigomega(d).
+# a(n) = Sum_{k=1..n} 2^bigomega(k) * floor(n/k).
+
+# a(n) = {0, 1, 4, 7, 14, 17, 26, 29, 44, 51, 60, 63, 84, 87, 96, 105, 136, 139, 160, 163, ...}
+
+# Cf. A061503.
+
+# Formulas for: a(n) = Sum_{k=1..n} 2^bigomega(k):
+#   a(n) = Sum_{k=1..n} A335073(floor(n/k)).
+#   a(n) = Sum_{k=1..n} 2^(bigomega(k) - omega(k)) * floor(n/k).
+
+func f(n) {
+    n.divisors.sum{|d|
+        2**(bigomega(d) - omega(d))
+    }
+}
+
+func a(n) {
+    sum(1..n, {|k|
+        f(k)
+    })
+}
+
+say 20.of(f)
+say 20.of(a)
+
+func g(n) {
+    sum(1..n, {|k|
+        a(floor(n/k))
+    })
+}
+
+say 20.of(g)
+
+say 20.of {|n|
+    n.divisors.sum{|d|
+        2**bigomega(d)
+    }
+}
+
+func foo(n) {
+    sum(1..n, {|k|
+        2**bigomega(k)
+    })
+}
+
+func bar(n) {
+    sum(1..n, {|k|
+        foo(floor(n/k))
+    })
+}
+
+func baz(n) {
+    sum(1..n, {|k|
+        2**bigomega(k) * floor(n/k)
+    })
+}
+
+say ''
+
+say 20.of(foo)
+say 20.of(bar)
+say 20.of(baz)

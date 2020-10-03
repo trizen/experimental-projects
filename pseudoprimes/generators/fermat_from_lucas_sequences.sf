@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Extract Fermat pseudoprimes from Lucas sequences.
+
+var seen = Set()
+
+for k in (1..1e3), P in (-5 .. 5), Q in (-5 .. 5), n in [lucasU(P, Q, k), lucasV(P, Q, k)] {
+    var trial_limit = 1e7
+    var f = n.trial_factor(trial_limit).first(-1)
+
+    while (f.prod.sigma0 > 1e4) {
+        f = n.trial_factor(trial_limit /= 10).first(-1)
+    }
+
+    f || next
+    var D = f.prod.divisors
+
+    for d in (D) {
+        var z = n/d
+        if (z > 2**64 && z.is_pseudoprime) {
+
+            next if seen.has(z)
+            next if z.is_prov_prime
+
+            seen << z
+            say z
+        }
+    }
+}

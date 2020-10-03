@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+#~ Let a'(n) be the smallest odd prime p such that b^((p-1)/2) == 1 (mod p) for every natural b < prime(n).
+#~ Let b'(n) be the smallest odd composite k such that b^((k-1)/2) == 1 (mod k) for every natural b < prime(n).
+
+func a(n) {
+    var primes = (2 .. n.prime-1)
+    3..Inf `by` 2 -> lazy.grep{.is_prime}.first {|p|
+        primes.all {|q|
+            powmod(q, (p-1)/2, p) == 1
+        }
+    }
+}
+
+func b(n) {
+    var primes = (2 .. n.prime-1)
+    3..Inf `by` 2 -> lazy.grep{!.is_prime}.first {|k|
+        primes.all {|q|
+            powmod(q, (k-1)/2, k) == 1
+        }
+    }
+}
+
+# a'(n) = A000229(n)
+# b'(n) = {9, 341, 1729, 1729, 46657, 46657, 162401, 399001, 399001, 399001, 399001, 488881, 3057601, 3057601, ...}
+
+#~ for k in (1..100) {
+    #~ print(a(k), ", ")
+#~ }
+
+for k in (1..100) {
+    print(a(k), ", ")
+}
+
+# a(n) = {3, 5, 17, 17, 17, 83, 167, 167, 227, 2273, 5297, 5297, 69467, 69467, 116387, ...}
+# Beside the first term, a(n) is equivalent to A237437.
+
+
+# a(n) = {3, 5, 43, 43, 67, 67, 163, 163, 163, 163, 163, 163, 74093, 170957, 360293, 679733, 2004917, 2004917, ...}
+# a(n) appears to be already in the OEIS as A191089.
+
+# b(n) = {3277, 1530787, ...}

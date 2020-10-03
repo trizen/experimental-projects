@@ -1,0 +1,69 @@
+#!/usr/bin/ruby
+
+# Sequence by Wesley Ivan Hurt:
+#   a(n) = Sum_{i=1..n} denominator(n^i/i).
+
+# OEIS:
+#   https://oeis.org/A279911
+
+# Interesting formula:
+#   a(p^k) = (p^(2*k+1) + p + 2) / (2*(p+1)), for prime powers p^k.
+
+func a(n) {
+    sum(1..n, {|k|
+        gcd(n,k) == 1 ? k : k.divisors.last_by {|d| gcd(d,n) == 1 }
+    })
+}
+
+say 20.range.grep{.is_prime_power}.map(a)
+# (p^(2*k+1) + p + 2) / (2*(p+1)),
+
+say 20.range.grep{.is_prime_power}.map {|pp|
+
+    var p = pp.prime_root
+    var k = pp.prime_power
+
+    #(p**(2*k + 1) + p + 2) / (2*p + 2)
+    k==2 ? (cyclotomic(10, p)+1 / 2) : ((p**(2*k + 1) + p + 2) / (2*p + 2))
+}
+
+var k = 14
+
+var a = 20.of {|n|
+    (n**(k*2 + 1) + n + 2) / (2*(n+1))
+}
+
+for n in (1..100) {
+    var t = 20.of {|x|
+        cyclotomic(n, x) + 1 / 2
+    }
+
+    if (t == a) {
+        say "Found: #{n}"
+    }
+}
+
+__END__
+
+# For k such that 2k+1 is prime,
+# the values of n in cyclotomic(n,x) are the even semiprimes.
+
+k =  2 -> (cyclotomic(10, n)+1)/2
+k =  3 -> (cyclotomic(14, n)+1)/2
+k =  5 -> (cyclotomic(22, n)+1)/2
+k =  6 -> (cyclotomic(26, n)+1)/2
+k =  8 -> (cyclotomic(34, n)+1)/2
+k =  9 -> (cyclotomic(38, n)+1)/2
+k = 11 -> (cyclotomic(46, n)+1)/2
+k = 14 -> (cyclotomic(58, n)+1)/2
+
+
+say 20.of{|n|
+    #n.is_prime_power ? (cyclotomic(10, n.prime_root)+1 / 2) : a(n)
+    #cyclotomic(10, n.prime)+1 / 2
+
+
+    #n.factor_map {|p|
+    #    cyclotomic(10, p)+1 / 2
+    #}.sum
+}

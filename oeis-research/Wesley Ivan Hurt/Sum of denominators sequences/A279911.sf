@@ -1,0 +1,301 @@
+#!/usr/bin/ruby
+
+# Sequence by Wesley Ivan Hurt:
+#   a(n) = Sum_{i=1..n} denominator(n^i/i).
+
+# OEIS:
+#   https://oeis.org/A279911
+
+# Formulas (discovered on 28 July 2019):
+#   a(prime(n)) = A072205(n), where prime(n) is the n-th prime.
+#   a(p^k) = (p^(2*k+1) + p + 2) / (2*p + 2), for prime powers p^k.
+#   a(n) = Sum_{k=1..n} gcd(m, k), where m = denominator(n^n / n!) = A095996(n).
+#   a(n) = Sum_{k=1..n} f(n,k), where f(n,k) is the largest divisor d of k such that gcd(d, n) = 1.
+
+# a(p^k) = (1/2) * (2 + Sum_{j=1..2*k} p^j * (-1)^j)
+
+# PARI programs:
+#   a(n) = sum(k=1, n, if(gcd(n, k) == 1, k, denominator(n^k/k)));
+#   a(n) = sum(k=1, n, if(gcd(n, k) == 1, k, vecmax(select(d->gcd(d, n) == 1, divisors(k)))));
+#   a(n) = my(f=factor(n)[,1]); sum(k=1, n, if(gcd(n, k) == 1, k, gcd(vector(#f, j, k / f[j]^valuation(k, f[j]))))); \\ fastest
+
+# Question:
+#   Is it possible to create a faster formula for computing a(n)? Perhaps, by using the divisors of n?
+
+# See also:
+#   https://trizenx.blogspot.com/2018/08/interesting-formulas-and-exercises-in.html
+
+func f(n) {
+    sum(1..n, {|k|
+      de(n**k / k)
+    })
+}
+
+func g(n) {        # I'm pretty pleased with this, but I feel we can do better
+    sum(1..n, {|k|
+        gcd(n, k) == 1 ? k : k.divisors.flip.first {|d| gcd(d, n) == 1 }
+    })
+}
+
+func g2(n) {
+    var t = denominator(n**n / n!)
+
+    1..n -> sum {|k|
+        gcd(n,k) == 1 ? k : gcd(t, k)
+    }
+}
+
+func g3(n) {
+    var t = (n! / n.factor_prod{|p|
+        p**sum(1..n.ilog(p), {|k|
+            floor(n / p**k)
+        })
+    })
+
+    1..n -> sum {|k|
+        gcd(n,k) == 1 ? k : gcd(t, k)
+    }
+}
+
+func g4(n) {        # currently, the most efficient formula
+    var F = n.factor_map{|p| p }
+
+    sum(1..n, {|k|
+        gcd(n, k) == 1 ? k : F.gcd{|p| k.remdiv(p) }
+    })
+}
+
+func f(p, k) {
+    (1.. 2*k -> sum {|j|
+        p**j * (-1)**j
+    } + 2) / 2
+}
+
+func g(p, k) {
+     (p**(2*k + 1) + p + 2) / (2*p + 2)
+}
+
+say 8.of { f(5, _) }
+say 8.of { g(5, _) }
+
+assert_eq(8.of { f(3, _) }, 8.of { g(3**_) })
+assert_eq(8.of { g(3, _) }, 8.of { g(3**_) })
+
+say 20.of(f)
+say 20.of(g)
+
+say f(5040)        #=> 4630526
+say g(5040)        #=> 4630526
+
+for k in (1..200) {
+    assert_eq(f(k), var t = g(k))
+    assert_eq(t, g2(k))
+    assert_eq(t, g3(k))
+    assert_eq(t, g4(k))
+}
+
+__END__
+for k in (1..5) {
+    for n in (1..k) {
+        print(denominator(n**k / k), ", ")
+    }
+}
+
+# a(n) = gcd(n,A027642(n)) = denominator(A031971(n)/n). - ~~~~
+
+# a(n) = 2 iff n is even and exists in A226872.
+
+#~ func f(n) {
+    #~ n.divisors.grep{|p|
+        #~ p+1 -> is_prime
+    #~ }.prod {|p|
+        #~ p+1
+    #~ }
+#~ }
+
+#~ say 20.of(f).map_kv{|k,v| gcd(k,v) }
+
+# a(n) = sum(k=1, n, denominator(n^k/k));
+# a(n) = sum(k=1, n, if(gcd(n,k) == 1, k, denominator(n^k/k)));
+# a(n) = sum(k=1, n, if(gcd(n,k) == 1, k, vecmax(select(d->gcd(d, n) == 1, divisors(k)))));
+
+
+#~ __END__
+
+#~ for n in (1..2000) {
+    #~ say (n, " ", gcd(n, n.bern.de))
+#~ }
+
+
+#~ __END__
+
+func r(n) {
+        #map(1..n, {|k|
+    #    gcd(n, k) == 1 ? k : de(n**k / k)
+    #})
+
+    map(1..n -> grep{|k| gcd(n, k) != 1 }, {|k|
+        [k, de(n**k / k)]
+    })
+}
+
+func f(n) {
+
+    sum(1..n, {|k|
+      gcd(n, k) == 1 ? k : de(n/k)
+    })
+
+
+    #~ n.faulhaber(1) - n.divisors.sum {|d|
+        #~ euler_phi(n/d)
+    #~ }
+}
+
+func f2(n) {
+    sum(1..n, {|k|
+      de(n**k / k)
+    })
+}
+
+say r(24)
+
+say f(24)
+say f2(24)
+
+__END__
+
+
+
+func f3(n) {
+    #sum(
+}
+
+say f(5040).sum
+say f2(5040)
+
+#say f(3**3)
+#say f(3**3).sum
+
+#say 20.of(f)
+#say 20.of(f2)
+
+#say f(3**2)
+
+__END__
+# a(p^k) = (p^(2*k+1) + p + 2) / (2*p + 2), for prime powers p^k. - ~~~~
+
+# a(n) = sum(k=1, n, denominator(n^k/k));
+
+func g(n) {
+    n.factor_map {|p,e|
+        #(p**e * (p-1)) / 2 + 1
+
+        #p**(e-1) * (p**(e+1) * (p+1)) / 2 + 1
+      #  p**(e-1) * ((p**(e+1) + 1) - 1)
+
+        #p**(e-1) * ((p-1) * p**e + 1)
+        #p**(e-1) * ((p-1) * p**(e-1) + 1)
+
+        #faulhaber(p**e - p**(e-1), 1) + 1
+
+        #faulhaber(p**(e-1) * ((p-1)  ) * p**(e-1) + 1, 1)
+        #p**(e-1) * ((p-1) + 1)
+
+        #(p-1)**(e+1) * ((p-1)**e + (p-1)**(e+1)  ) + 1
+        #((p-1)/2)**e * ((p-1)**e + (p+1)**(e) ) / 2 + 1#
+        #p**e
+        #((p**2)**e + p)/(p+1)
+
+#        1/8 * p**(2*e + 1) + 5/8
+
+        # ORIG: (p**(2*e + 1) + (p+2)) / (p*2 + 2)
+
+        # SIMPLE: (p**(2*e + 1) + p + 2) / (2*(p + 1))
+
+         (p**(2*e + 1) + p + 2) / (2*(p + 1))
+
+         #(p**(2*e + 1) + p + 2) / (2*(p+1))
+        #(p**(e + 1) + p + 2) / (2*(p+1))
+
+        #(p**(2*e + 1) + p + 2) / (2*(p+1))
+
+        #(p**(2*e + 1) / (2*(p+1)))
+
+        #(p**e)**2 * p / (2*(p+1)) + (p / (2*(p+1))) + (1 / (p+1))
+
+        #(p**(2*e + 1) / (2*(p+1))) + (p / (2*(p+1))) + (1 / (p+1))
+    }.lcm
+}
+
+#~ for k in (1..10000) {
+
+    #~ if (k.is_prime_power) {
+        #~ say "Testing: #{k}"
+        #~ assert_eq(f(k), g(k))
+    #~ }
+#~ }
+
+#~ __END__
+var n = 3
+
+say 10.of { f(n**_) }
+say 10.of { g(n**_) }
+
+say ''
+
+var n = 6
+
+say 5.of { f(n**_) }
+say 5.of { g(n**_) }
+
+__END__
+func g(n) {
+    n.factor_prod {|p,k|
+        p-1 `divides` n ? p : 1
+    }
+}
+
+say 20.of(f)
+
+__END__
+
+#say f(24)
+#say g(24)
+
+for k in (1..1000) {
+    if (g(k) == 6) {
+        print(k, ", ")
+    }
+}
+
+
+#say 20.of(g)
+
+#say f(1240)
+#say g(1240)
+
+__END__
+#say 20.of(f)
+#fork
+for k in (1..2000) {
+    say "#{k} #{f(k)}"
+}
+
+__END__
+
+#say 300.of(f)
+
+#~ say f(9940)
+var n = 18
+
+say f(2).sum.as_frac
+say f(3).sum.as_frac
+say f(4).sum.as_frac
+say f(5).sum.as_frac
+say f(6).sum.as_frac
+
+__END__
+say f(n)
+say f(n**2)
+say f(n**3)
+say f(n**4)
