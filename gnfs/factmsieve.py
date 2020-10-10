@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # factmsieve.py - A Python driver for GGNFS and MSIEVE
 #
 # Copyright (c) 2010, Brian Gladman

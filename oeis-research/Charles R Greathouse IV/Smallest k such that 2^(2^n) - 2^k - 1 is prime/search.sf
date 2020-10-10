@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Smallest k such that 2^(2^n) - 2^k - 1 is prime, or 0 if no such k exists.
+# https://oeis.org/A232565
+
+# Known terms:
+#       0, 1, 2, 4, 2, 8, 18, 76, 32, 151, 692, 592, 154, 580, 27365
+
+# a(16) > 6226.
+
+var n = 16
+var v = (2**(2**n) - 1)
+
+var from = 6227
+
+for k in (from .. 1e9) {
+    say "Testing: #{k}"
+    if (v - (1<<k) -> is_prob_prime) {
+        die "Found: #{k}\n"
+    }
+}

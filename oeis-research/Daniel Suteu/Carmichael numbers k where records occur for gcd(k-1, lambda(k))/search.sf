@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# Composite numbers k where records occur for:
+#
+#   lcm(gcd(k-1, lcm({p-1})), gcd(k+1, lcm({p+1})))
+#
+# where p are prime factors dividing k.
+
+var max = 0
+
+for k in (1..1e9) {
+
+    k.is_composite || next
+
+    var f = k.factor
+    var g = lcm(gcd(k-1, f.lcm{.dec}), gcd(k+1, f.lcm{.inc}))
+
+    if (g > max) {
+        max = g
+        print(k, ", ")
+    }
+}
+
+__END__
+
+4, 8, 15, 35, 63, 343, 377, 559, 1023, 1025, 8911, 16511, 25345, 139231, 1084159, 1556479,
+4, 8, 9, 15, 35, 119, 195, 209, 231, 286, 377, 1105, 2015, 2465, 5719, 8695, 9879, 19669, 22359, 25345, 75701, 139231,
+4, 8, 15, 35, 104, 119, 195, 209, 231, 286, 1105, 2015, 2465, 5719, 8695, 9879, 19669, 22359, 25345, 75701, 139231,
