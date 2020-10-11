@@ -6,12 +6,15 @@
 # Known terms:
 #       0, 1, 2, 4, 2, 8, 18, 76, 32, 151, 692, 592, 154, 580, 27365
 
-# a(16) > 6226.
+# Found:
+#   a(16) = 11267
 
-var n = 16
+# a(17) > 12
+
+var n = 17
 var v = (2**(2**n) - 1)
 
-var from = 6227
+var from = 13
 
 for k in (from .. 1e9) {
     say "Testing: #{k}"
