@@ -9,22 +9,7 @@
 use 5.014;
 use ntheory qw(:all);
 
-use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
-use Sidef;
-
-my $sidef = Sidef->new;
-
-sub sidef_sqrtmod {
-    my ($x, $y) = @_;
-
-    my $code = <<"EOT";
-    sqrtmod($x, $y)
-EOT
-
-    ${$sidef->execute_code(
-        $code
-    )->to_s} eq "NaN";
-}
+use Math::Sidef;
 
 sub a {
     my ($n) = @_;
@@ -34,9 +19,9 @@ sub a {
 
     for(my $k = 1;;++$k) {
 
-        if (!((gcd($p, $k) == 1) && (sidef_sqrtmod($p, $k))) ||
+        if (!((gcd($p, $k) == 1) && (!Math::Sidef::sqrtmod($p, $k))) ||
         (vecany {
-            (gcd($_, $k) == 1) && (sidef_sqrtmod($_, $k))
+            (gcd($_, $k) == 1) && (!Math::Sidef::sqrtmod($_, $k))
         } @primes)
         ) {
 
