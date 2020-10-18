@@ -36,13 +36,12 @@
 use 5.014;
 use ntheory qw(:all);
 
-use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
-use Sidef;
+use Math::Sidef qw(composite);
 
 my $k = 966501096625-1e6;
 my $p = nth_prime($k);
 
-my $from = Sidef::Types::Number::Number->new($k)->composite->get_value;
+my $from = composite($k)->numify;
 
 say "From: $from";
 
