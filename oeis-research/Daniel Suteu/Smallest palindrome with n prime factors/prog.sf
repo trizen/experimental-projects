@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# Several palindromic sequences insprited by A046399
+
+func a(n) {
+    for(var k = 1; true; k = next_palindrome(k, 2)) {
+        if (k.bigomega == n) {
+            return k
+        }
+    }
+}
+
+for k in (1..100) {
+    print(a(k), ", ")
+}
+
+__END__
+
+# Smallest palindrome in base 2 such that omega(n) = n
+3, 15, 165, 1365, 36465, 2731365, 60555495, 2745542085, 169598898105, 6635247253635
+
+# Smallest palindrome in base 2 such that bigomega(n) = n
+3, 9, 27, 189, 891, 4617, 13851, 96957, 880875, 32932575, 3129597, 40684761, 178387029, 2319031377, 32758908975, 458971520427, 1533014371917
+
+# Smallest squarefree palindrome in base 2 such that omega(n) = n
+3, 15, 165, 1365, 36465, 3784935, 60555495, 2745542085, 169598898105, 6635247253635
+
+# Smallest palindrome in base n (with n >= 2) such that bigomega(n) = n
+9, 8, 150, 72, 160, 128, 6561, 39200, 8448, 84672, 2213120, 616448, 4308480, 165888, 98930753649, 114633792, 213614592, 630669312, 11144921088, 41227386880, 49892556800, 2023096320,
+
+# Smallest palindrome in base n (with n >= 2) such that omega(n) = n
+15, 130, 546, 16926, 693770, 24166860, 83445180, 1378887510, 231645546132
+
+# Smallest squarefree palindrome in base n (with n >= 2) such that omega(n) = n
+15, 130, 546, 16926, 693770, 33833910, 2181570690, 1378887510, 438024420834, 14830177998090
