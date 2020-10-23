@@ -1,0 +1,12 @@
+#!/usr/bin/ruby
+
+# Primes p such that, starting with p, 10 consecutive primes = {1,2,3,4,5,6,7,8,9,10} modulo 11.
+# https://oeis.org/A338374
+
+var arr = [23700022897, 60962211883, 92728531127, 197520193069, 359754461617, 498393445859, 628772434951, 715117260463, 1053978912361, 1113788109127, 1188162419291, 1562407603483]
+
+assert(arr.all{.is_prime})
+
+for p in (arr) {
+    say assert_eq(primes(p, p+1e6).first(10).map{ _  % 11 }, @(1..10))
+}
