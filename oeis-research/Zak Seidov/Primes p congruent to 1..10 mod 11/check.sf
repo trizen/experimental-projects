@@ -8,5 +8,9 @@ var arr = [23700022897, 60962211883, 92728531127, 197520193069, 359754461617, 49
 assert(arr.all{.is_prime})
 
 for p in (arr) {
-    say assert_eq(primes(p, p+1e6).first(10).map{ _  % 11 }, @(1..10))
+    say assert_eq(primes(p, p+1e5).first(10).map{ _  % 11 }, @(1..10))
+}
+
+arr.each{|p|
+    primes(p, p+1e5).first(10).map{_ % 11}.say
 }

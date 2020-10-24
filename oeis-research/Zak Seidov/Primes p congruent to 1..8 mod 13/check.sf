@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Primes p such that 8 consecutive primes starting with p are {1,2,3,4,5,6,7,8} modulo 13.
+# https://oeis.org/A338394
+
+var arr = [5129602609, 40602028559, 69528307577, 129007460609, 236659873633, 322320688171, 371170549153]
+
+assert(arr.all{.is_prime})
+
+for p in (arr) {
+    assert_eq(primes(p, p+1e5).first(8).map{_ % 13}, @(1..8))
+}
+
+arr.each{|p|
+    primes(p, p+1e5).first(12).map{_ % 13}.say
+}
