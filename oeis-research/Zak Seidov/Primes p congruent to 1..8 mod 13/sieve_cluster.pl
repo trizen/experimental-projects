@@ -13,7 +13,9 @@ use experimental qw(signatures);
 
 # Also in the sequence with {1..9} modulo 13:
 #   1824535827869
+#   14161747729169
 #   60628028874089
+#   67754204383529
 #   81240600887759
 #   93595283908439
 
