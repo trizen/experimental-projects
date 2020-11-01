@@ -132,7 +132,7 @@ foreach my $id (@all_ids) {
     my $tname = $name;
 
     if ($more) {
-        $tname = "<b>$tname</b>";
+        $tname = "<big><b>$tname</b></big>";
     }
 
     say $fh "<pre>" . $tname . " -- $author</pre>";
