@@ -585,6 +585,7 @@ Highly experimental personal projects.
             * [prog.pl](./oeis-research/Muniru%20A%20Asiru/Primes%20of%20the%20form%205^k%20+%202*k/prog.pl)
     * [Naohiro Nomoto](./oeis-research/Naohiro%20Nomoto)
         * [Smallest number m such that sigma(x)*x = m has n solutions](./oeis-research/Naohiro%20Nomoto/Smallest%20number%20m%20such%20that%20sigma(x)*x%20=%20m%20has%20n%20solutions)
+            * [from perfect numbers.sf](./oeis-research/Naohiro%20Nomoto/Smallest%20number%20m%20such%20that%20sigma(x)*x%20=%20m%20has%20n%20solutions/from_perfect_numbers.sf)
             * [smooth generate.pl](./oeis-research/Naohiro%20Nomoto/Smallest%20number%20m%20such%20that%20sigma(x)*x%20=%20m%20has%20n%20solutions/smooth_generate.pl)
     * [Neil Sloane](./oeis-research/Neil%20Sloane)
         * [Carmichael numbers of special form](./oeis-research/Neil%20Sloane/Carmichael%20numbers%20of%20special%20form)
