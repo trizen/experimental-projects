@@ -17,7 +17,18 @@ use ntheory qw(:all);
 #use Math::AnyNum qw(:overload);
 
 sub check_valuation ($n, $p) {
-1
+
+    if ($p == 2) {
+        return 1;
+    }
+
+    if ($p == 3 or $p == 5 or $p == 7 or $p == 13) {
+        return valuation($n, $p) < 5;
+    }
+
+    #valuation($n, $p) < 1;
+    modint($n, $p) != 0;
+
 
     #~ if ($p == 2) {
         #~ return valuation($n, $p) < 22;
@@ -76,7 +87,9 @@ sub smooth_numbers ($limit, $primes) {
 sub isok ($n) {
     my $count = 0;
     #map { divisor_sum($_, 0) * $_ ==  } divisors($n)
-    foreach my $d(divisors($n)) {
+    my $s = sqrtint($n);
+    foreach my $d (divisors($n)) {
+        last if ($d > $s);
         if (mulint(divisor_sum($d), $d) == $n) {
             ++$count;
         }
@@ -236,9 +249,7 @@ foreach my $n (@$h) {
 
     my $k = mulint($n, divisor_sum($n));
 
-    push @{$table{$k}}, $n;
-
-    if (scalar(@{$table{$k}}) >= 5) {
+    if (++$table{$k} >= 6) {
 
         my $p = isok($k);
 
