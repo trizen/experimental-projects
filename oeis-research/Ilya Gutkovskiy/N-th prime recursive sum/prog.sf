@@ -1,0 +1,27 @@
+#!/usr/bin/ruby
+
+# a(0) = 1; for n > 0, a(n) = Sum_{k=0..n-1} prime(a(k)) * prime(a(n-k-1)).
+# https://oeis.org/A338816
+
+# Known terms:
+#   1, 4, 28, 477, 15054, 716619, 46386636, 3829544473, 386956394842, 46498297487679
+
+# New terms:
+#   6503866348955704, 1041432998153210277
+
+func prime(n) is cached {
+    Num(`./primecount -n #{n}`.strip) || n.prime
+}
+
+func a(n) is cached {
+
+    return 1 if (n == 0)
+
+    sum(^n, {|k|
+        prime(a(k)) * prime(a(n - k - 1))
+    })
+}
+
+for n in (1..11) {
+    say "a(#{n}) = #{a(n)}"
+}

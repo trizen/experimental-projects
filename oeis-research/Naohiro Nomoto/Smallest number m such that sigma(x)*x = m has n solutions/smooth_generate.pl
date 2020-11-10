@@ -23,11 +23,11 @@ sub check_valuation ($n, $p) {
     }
 
     if ($p == 3 or $p == 5 or $p == 7 or $p == 13) {
-        return valuation($n, $p) < 5;
+        return valuation($n, $p) < 10;
     }
 
     #valuation($n, $p) < 1;
-    modint($n, $p) != 0;
+    Math::Prime::Util::GMP::modint($n, $p) != 0;
 
 
     #~ if ($p == 2) {
@@ -68,7 +68,7 @@ sub smooth_numbers ($limit, $primes) {
 
         foreach my $n (@h) {
             if ($n * $p < $limit and check_valuation($n, $p)) {
-                push @h, mulint($n, $p);
+                push @h, Math::Prime::Util::GMP::mulint($n, $p);
             }
         }
     }
@@ -87,10 +87,10 @@ sub smooth_numbers ($limit, $primes) {
 sub isok ($n) {
     my $count = 0;
     #map { divisor_sum($_, 0) * $_ ==  } divisors($n)
-    my $s = sqrtint($n);
-    foreach my $d (divisors($n)) {
+    my $s = Math::Prime::Util::GMP::sqrtint($n);
+    foreach my $d (Math::Prime::Util::GMP::divisors($n)) {
         last if ($d > $s);
-        if (mulint(divisor_sum($d), $d) == $n) {
+        if (Math::Prime::Util::GMP::mulint(Math::Prime::Util::GMP::sigma($d), $d) eq $n) {
             ++$count;
         }
     }
@@ -156,7 +156,7 @@ use List::Util qw(uniq);
 
 #my $h = smooth_numbers(10**15, [2, 7, 11, 13, 17, 19, 29, 31, 41, 71, 97, 127, 251, 449, 4801]);
 #my $h = smooth_numbers(10**12, [2, 3, 5, 7, 13, 17, 19, 29, 31, 61, 89, 107, 127, 521]);
-my $h = smooth_numbers(1e16, [sort {$a <=> $b} uniq(
+my $h = smooth_numbers(~0, [sort {$a <=> $b} uniq(
 
 #2, 3, 5, 7, 13, 31, 127
 #2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127, 521
@@ -176,7 +176,7 @@ my $h = smooth_numbers(1e16, [sort {$a <=> $b} uniq(
 
 #@{primes(100)},
 
-2, 3, 7, 31, 19, 29, 127, 8191, #131071,
+2, 3, 7, 31, 19, 29, 43, 127, 8191, 131071,
 
 #2, 3, 7, 11, 13, 19, 23, 31,
 #@{primes(60)},
@@ -247,7 +247,7 @@ foreach my $n (@$h) {
 
    $n % 2 == 0 or next;
 
-    my $k = mulint($n, divisor_sum($n));
+    my $k = Math::Prime::Util::GMP::mulint(Math::Prime::Util::GMP::sigma($n), $n);
 
     if (++$table{$k} >= 6) {
 
