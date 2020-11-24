@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# Numbers k such that the average number of odd divisors of {1..k} is an integer.
+# https://oeis.org/A339009
+
+# Known terms:
+#   1, 2, 165, 170, 1274, 9437, 69720, 69732, 69734, 69736, 515230, 515236, 515246, 28132043, 28132063, 28132079
+
+# The sequence also includes: 83860580242, 4578632504347, 4578632504465, 4578632504515
+
+func a(n) {
+    dirichlet_hyperbola(n) - dirichlet_hyperbola(n>>1)
+}
+
+func b(n) {
+    # Asymptotic formula from A060831 due to Vaclav Kotesovec, Jan 30 2019.
+    n*(log(2*n) + 2*Num.EulerGamma - 1) / 2
+}
+
+var mult = 15
+say "Mult : #{mult}"
+
+var from = bsearch_le(2, 1e30, {|k|
+    b(k) <=> mult*k
+})
+
+say "From : #{from}\n"
+var start = from
+
+#~ var start = bsearch_le(from-10000, from+10000, {|k|
+    #~ a(k) <=> mult*k
+#~ })
+
+#~ say "Start: #{start}\n"
+
+var total = a(start - 10000 - 1)
+
+for k in (start-10000 .. start+10000) {
+
+    total += sigma0(k >> k.valuation(2))
+
+    if (k `divides` total) {
+        say "Found: #{k}"
+    }
+}
