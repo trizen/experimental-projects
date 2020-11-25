@@ -1087,6 +1087,7 @@ Highly experimental personal projects.
         * [lehmar totient conjecture.pl](./pseudoprimes/programs/lehmar_totient_conjecture.pl)
         * [lehmar totient conjecture cached.pl](./pseudoprimes/programs/lehmar_totient_conjecture_cached.pl)
         * [lehmar totient weak numbers cached.pl](./pseudoprimes/programs/lehmar_totient_weak_numbers_cached.pl)
+        * [lehmar totient weak numbers native.pl](./pseudoprimes/programs/lehmar_totient_weak_numbers_native.pl)
         * [lucas(n)==2 mod n.pl](./pseudoprimes/programs/lucas(n)==2_mod_n.pl)
         * [lucas-carmichael-fermat pseudoprime cached.pl](./pseudoprimes/programs/lucas-carmichael-fermat_pseudoprime_cached.pl)
         * [lucas-carmichael conjecture.pl](./pseudoprimes/programs/lucas-carmichael_conjecture.pl)
