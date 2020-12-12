@@ -31,7 +31,9 @@ while (<>) {
     next if $n > ~0;
 
     #~ next if $n < ~0;
-    #~ next if length($n) > 25;
+    #~ next if length($n) > 30;
+
+    gcd($n, 16294579238595022365) > 1 or next;
 
     my $phi = euler_phi($n);
     my $nm1 = subint($n,1);
