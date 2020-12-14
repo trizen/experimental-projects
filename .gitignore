@@ -72,6 +72,7 @@ factordb/factors.txt
 factordb/numbers.txt
 aliquot-sequences/elf_files/
 aliquot-sequences/graphs/
+factordb/factordb_diff_power.pl
 
 # Too large files
 oeis-research/Daniel Suteu/Smallest Fermat base-2 pseudoprime such that gpf(p-1) = prime(n)/nogaps_fermat.txt
