@@ -135,7 +135,7 @@ foreach my $x (2 .. 30) {
                 my $h = sum(@mpq[0 .. $#d]);
 
                 if (Math::GMPq::Rmpq_integer_p(scalar(@d) / $$h)) {
-                    say "\nFound: $n -> $t\n";
+                    say "Found: $n -> $t";
 
                     #die "NEW TERM: $n -> $t\n" if ($t > 63626653506);
                 }

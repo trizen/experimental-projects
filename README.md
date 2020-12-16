@@ -202,6 +202,7 @@ Highly experimental personal projects.
             * [conjectured search.pl](./oeis-research/Daniel%20Lignon/Composite%20numbers%20for%20which%20the%20harmonic%20mean%20of%20proper%20divisors%20is%20an%20integer/conjectured_search.pl)
             * [conjectured search.sf](./oeis-research/Daniel%20Lignon/Composite%20numbers%20for%20which%20the%20harmonic%20mean%20of%20proper%20divisors%20is%20an%20integer/conjectured_search.sf)
             * [conjectured search inverse sigma.pl](./oeis-research/Daniel%20Lignon/Composite%20numbers%20for%20which%20the%20harmonic%20mean%20of%20proper%20divisors%20is%20an%20integer/conjectured_search_inverse_sigma.pl)
+            * [conjectured smooth search.pl](./oeis-research/Daniel%20Lignon/Composite%20numbers%20for%20which%20the%20harmonic%20mean%20of%20proper%20divisors%20is%20an%20integer/conjectured_smooth_search.pl)
     * [Daniel Suteu](./oeis-research/Daniel%20Suteu)
         * [Agrawal's conjecture pseudoprimes](./oeis-research/Daniel%20Suteu/Agrawal's%20conjecture%20pseudoprimes)
             * [other bases.pl](./oeis-research/Daniel%20Suteu/Agrawal's%20conjecture%20pseudoprimes/other_bases.pl)
