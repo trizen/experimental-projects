@@ -6,6 +6,8 @@
 # Known terms:
 #   1645, 88473, 63626653506
 
+# These are numbers n such that sigma(n)-1 divides n*(tau(n)-1).
+
 # Conjecture: all terms are of the form n*(sigma(n)-1) where sigma(n)-1 is prime. - Chai Wah Wu, Dec 15 2020
 
 # If the above conjecture is true, then a(4) > 10^14.
@@ -17,9 +19,6 @@
 
 use 5.014;
 use ntheory qw(:all);
-use Math::AnyNum qw(sum);
-
-my @mpq;
 
 foreach my $y (1 .. 1000) {
 
@@ -31,19 +30,10 @@ foreach my $y (1 .. 1000) {
 
             is_prime($u) || next;
 
-            my $t = mulint($u, $n);
-            my @d = divisors($t);
+            my $m = mulint($u, $n);
 
-            pop @d;
-
-            foreach my $i (0 .. $#d) {
-                Math::GMPq::Rmpq_set_ui(($mpq[$i] //= Math::GMPq::Rmpq_init()), 1, $d[$i]);
-            }
-
-            my $h = sum(@mpq[0 .. $#d]);
-
-            if (Math::GMPq::Rmpq_integer_p(scalar(@d) / $$h)) {
-                say "Found: $n -> $t";
+            if (modint(mulint($m, divisor_sum($m, 0) - 1), divisor_sum($m) - 1) == 0) {
+                say "\tFound: $n -> $m";
             }
         }
     }

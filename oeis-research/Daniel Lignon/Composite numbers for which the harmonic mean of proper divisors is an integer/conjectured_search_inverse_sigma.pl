@@ -6,6 +6,8 @@
 # Known terms:
 #   1645, 88473, 63626653506
 
+# These are numbers n such that sigma(n)-1 divides n*(tau(n)-1).
+
 # Conjecture: all terms are of the form n*(sigma(n)-1) where sigma(n)-1 is prime. - Chai Wah Wu, Dec 15 2020
 
 # If the above conjecture is true, then a(4) > 10^14.
@@ -21,7 +23,6 @@ use strict;
 use warnings;
 
 use ntheory qw(:all);
-use Math::AnyNum qw(sum);
 use List::Util qw(uniq);
 use experimental qw(signatures);
 
@@ -88,7 +89,6 @@ sub inverse_sigma {
     uniq(@$results);
 }
 
-my @mpq;
 my $count = 0;
 
 my $FROM = 8e7;
@@ -118,27 +118,17 @@ foreach my $x (2 .. 30) {
 
                 is_prime($u) || next;
 
-                my $t = mulint($u, $n);
-                my @d = divisors($t);
+                my $m = mulint($u, $n);
 
                 if (++$count >= 1000) {
-                    say "Testing: $n -> $t";
+                    say "Testing: $n -> $m";
                     $count = 0;
                 }
 
-                pop @d;
-
-                foreach my $i (0 .. $#d) {
-                    Math::GMPq::Rmpq_set_ui(($mpq[$i] //= Math::GMPq::Rmpq_init()), 1, $d[$i]);
+                if (modint(mulint($m, divisor_sum($m, 0) - 1), divisor_sum($m) - 1) == 0) {
+                    say "\tFound: $k -> $m";
                 }
 
-                my $h = sum(@mpq[0 .. $#d]);
-
-                if (Math::GMPq::Rmpq_integer_p(scalar(@d) / $$h)) {
-                    say "Found: $n -> $t";
-
-                    #die "NEW TERM: $n -> $t\n" if ($t > 63626653506);
-                }
             }
         }
     }
