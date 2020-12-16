@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+# Numbers that are not powers of primes (A024619) whose harmonic mean of their proper unitary divisors is an integer.
+# https://oeis.org/A335270
+
+# Conjecture: all terms have the form n*(usigma(n)-1) where usigma(n)-1 is prime.
+
+for k in (1..1e9) {
+
+    var p = k.usigma.dec
+
+    p.is_prime || next
+
+    var m = (k * p)
+    var o = m.omega
+
+    o > 1 || next
+
+    if (m.usigma.dec `divides` m*o.ipow2.dec) {
+        say [k, m]
+    }
+}
+
+__END__
+[12, 228]
+[35, 1645]
+[75, 7725]
+[231, 88473]
+[108558, 20295895122]
+[120620, 22550994580]
