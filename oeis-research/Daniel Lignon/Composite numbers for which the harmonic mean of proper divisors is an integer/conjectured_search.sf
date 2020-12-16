@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# Composite numbers for which the harmonic mean of proper divisors is an integer.
+# https://oeis.org/A247077
+
+# Known terms:
+#   1645, 88473, 63626653506
+
+# Conjecture: all terms are of the form n*(sigma(n)-1) where sigma(n)-1 is prime. - Chai Wah Wu, Dec 15 2020
+
+# If the above conjecture is true, then a(4) > 10^14.
+
+# This program assumes that the above conjecture is true.
+
+for n in (1e7..1e8) {
+    with (n.sigma.dec) {|t|
+        if (t.is_prime) {
+            var k = (n * t)
+            var d = k.divisors
+            d.pop
+            if (Math.harmonic_mean(d...).is_int) {
+                say [n, k]
+            }
+        }
+    }
+}
+
+__END__
+[35, 1645]
+[231, 88473]
+[171366, 63626653506]
