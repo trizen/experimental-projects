@@ -91,45 +91,26 @@ sub inverse_sigma {
 
 my $count = 0;
 
-my $FROM = 8e7;
-my $TO   = 1e9;
+forprimes {
 
-#~ $FROM = 1;
-#~ $TO = 1e4;
+    my $p = $_;
 
-#use Math::AnyNum qw(:overload);
+    foreach my $n (inverse_sigma($p + 1)) {
 
-#foreach my $k ($FROM .. $TO) {
+        #~ is_smooth($n, 20) || next;
+        #~ $n >= 1e7 or next;
 
-foreach my $x (2 .. 30) {
-    foreach my $y (2 .. 30) {
+        next if ($p == $n);
 
-        foreach my $k (grep { $_ < 1e14 } map { mulint(powint($x, $_), $y) } 1 .. 50) {
+        my $m = mulint($p, $n);
 
-            # say "Trying: $k";
+        if (++$count >= 10000) {
+            say "Testing: $n -> $m";
+            $count = 0;
+        }
 
-            foreach my $n (inverse_sigma(divisor_sum($k))) {
-
-                is_smooth($n, 100) || next;
-
-                # $n >= $FROM or next;
-
-                my $u = divisor_sum($n) - 1;
-
-                is_prime($u) || next;
-
-                my $m = mulint($u, $n);
-
-                if (++$count >= 1000) {
-                    say "Testing: $n -> $m";
-                    $count = 0;
-                }
-
-                if (modint(mulint($m, divisor_sum($m, 0) - 1), divisor_sum($m) - 1) == 0) {
-                    say "\tFound: $k -> $m";
-                }
-
-            }
+        if (modint(mulint($m, divisor_sum($m, 0) - 1), mulint(divisor_sum($n), ($p+1)) - 1) == 0) {
+            say "\tFound: $p -> $m";
         }
     }
-}
+} 1, 1e10;
