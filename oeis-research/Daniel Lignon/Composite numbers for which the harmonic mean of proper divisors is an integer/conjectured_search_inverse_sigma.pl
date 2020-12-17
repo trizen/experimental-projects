@@ -26,8 +26,6 @@ use ntheory qw(:all);
 use List::Util qw(uniq);
 use experimental qw(signatures);
 
-binmode(STDOUT, ':utf8');
-
 sub inverse_sigma {
     my ($n) = @_;
 

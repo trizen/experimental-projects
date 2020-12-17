@@ -136,6 +136,7 @@ Highly experimental personal projects.
         * [Numbers that are not powers of primes whose harmonic mean of their proper unitary divisors is an integer](./oeis-research/Amiram%20Eldar/Numbers%20that%20are%20not%20powers%20of%20primes%20whose%20harmonic%20mean%20of%20their%20proper%20unitary%20divisors%20is%20an%20integer)
             * [search.pl](./oeis-research/Amiram%20Eldar/Numbers%20that%20are%20not%20powers%20of%20primes%20whose%20harmonic%20mean%20of%20their%20proper%20unitary%20divisors%20is%20an%20integer/search.pl)
             * [search.sf](./oeis-research/Amiram%20Eldar/Numbers%20that%20are%20not%20powers%20of%20primes%20whose%20harmonic%20mean%20of%20their%20proper%20unitary%20divisors%20is%20an%20integer/search.sf)
+            * [search inverse usigma.pl](./oeis-research/Amiram%20Eldar/Numbers%20that%20are%20not%20powers%20of%20primes%20whose%20harmonic%20mean%20of%20their%20proper%20unitary%20divisors%20is%20an%20integer/search_inverse_usigma.pl)
             * [smooth generate.pl](./oeis-research/Amiram%20Eldar/Numbers%20that%20are%20not%20powers%20of%20primes%20whose%20harmonic%20mean%20of%20their%20proper%20unitary%20divisors%20is%20an%20integer/smooth_generate.pl)
         * [Poulet numbers with records of abundancy](./oeis-research/Amiram%20Eldar/Poulet%20numbers%20with%20records%20of%20abundancy)
             * [append factors.pl](./oeis-research/Amiram%20Eldar/Poulet%20numbers%20with%20records%20of%20abundancy/append_factors.pl)
