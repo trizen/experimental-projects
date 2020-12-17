@@ -37,8 +37,8 @@ foreach my $k (2 .. 1e9) {
         $count = 0;
     }
 
-    if (modint(mulint($m, ((1 << $o) - 1)), usigma($m) - 1) == 0) {
-        say "Found: $k -> $m";
+    if (modint(mulint($m, ((1 << $o) - 1)), mulint(usigma($k), $p+1) - 1) == 0) {
+        say "\tFound: $k -> $m";
         die "New term: $k -> $m\n" if ($m > 22550994580);
     }
 }
