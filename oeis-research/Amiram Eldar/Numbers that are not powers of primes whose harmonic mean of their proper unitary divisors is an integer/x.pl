@@ -60,8 +60,9 @@ my $count = 0;
 
 forprimes {
 
-    my $p = $_;
+    my $p = 2*$_ + 1;
 
+if (is_prime($p)) {
     foreach my $k (inverse_usigma($p + 1)) {
 
         #~ is_smooth($n, 20) || next;
@@ -81,7 +82,15 @@ forprimes {
             say "\tFound: $k -> $m";
         }
     }
-} 1, 1e10;
+}
+} 5685054143, 1e10;
+
+
+# Testing: 2561440319 -> 1207145418 -> 3092030944561308342
+# Testing: 11370108287 -> 9939743093 -> 113015955312370311691
+
+# From: 257223167
+# From: 3488210431
 
 __END__
 Found: 12 -> 228

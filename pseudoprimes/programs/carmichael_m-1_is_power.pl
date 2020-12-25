@@ -11,6 +11,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 
 my %seen;
+my $z = Math::GMPz::Rmpz_init();
 
 while (<>) {
     next if /^\h*#/;
@@ -19,11 +20,10 @@ while (<>) {
 
     $n || next;
 
-    if ($n > ((~0) >> 1)) {
-        $n = Math::GMPz->new("$n");
-    }
+    Math::GMPz::Rmpz_set_str($z, $n, 10);
+    Math::GMPz::Rmpz_sub_ui($z, $z, 1);
 
-    if (is_power($n - 1) and is_carmichael($n)) {
+    if (Math::GMPz::Rmpz_perfect_power_p($z) and is_carmichael($n)) {
         say $n if !$seen{$n}++;
     }
 
