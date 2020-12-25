@@ -34,6 +34,11 @@ my $lim = 970000000000000;
 #~ my $k = 7;
 #~ my $lim = 1000000000;
 
+#~ my $k = 6;
+#~ my $lim = 25233137;
+
+my %seen;
+
 while (my ($key, $value) = each %db) {
 
     my @factors = split(' ', $value);
@@ -46,6 +51,7 @@ while (my ($key, $value) = each %db) {
             my ($U, $V) = Math::Prime::Util::GMP::lucas_sequence(Math::Prime::Util::GMP::mulint($p, $p), $k, -1, $p);
 
             if ($V == $k) {
+                next if $seen{$p}++;
                 say "\nFound: $p\n";
             }
         }
