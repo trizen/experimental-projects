@@ -39,8 +39,8 @@ while (<>) {
     if (is_pseudoprime($t, 2)) {
         say $n if !$seen{$n}++;
 
-        my $t = Math::GMPz->new($n)+1;
-        if (($t & ($t-1)) != 0) {
+        my $t = Math::GMPz->new($n) + 1;
+        if (($t & ($t - 1)) != 0) {
             die "\nTerm of new form found: $n\n\n";
         }
     }

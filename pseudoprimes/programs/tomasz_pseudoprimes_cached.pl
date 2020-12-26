@@ -20,7 +20,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-fermat.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 while (my ($n, $value) = each %$numbers) {
 

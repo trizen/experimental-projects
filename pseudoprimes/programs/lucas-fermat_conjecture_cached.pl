@@ -17,10 +17,10 @@ use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
-my $fermat_file = "cache/factors-fermat.storable";
+my $fermat_file           = "cache/factors-fermat.storable";
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
 
-my $fermat = retrieve($fermat_file);
+my $fermat           = retrieve($fermat_file);
 my $lucas_carmichael = retrieve($lucas_carmichael_file);
 
 foreach my $key (keys %$lucas_carmichael) {

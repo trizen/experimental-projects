@@ -16,14 +16,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $table = retrieve($storable_file);
+my $table         = retrieve($storable_file);
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::Prime::Util::GMP::vecprod(map{ ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 }
 
-sub my_carmichael_lambda($factors) {  # assumes n is squarefree
-    Math::Prime::Util::GMP::lcm(map{ ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+sub my_carmichael_lambda ($factors) {    # assumes n is squarefree
+    Math::Prime::Util::GMP::lcm(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 }
 
 my @results;
@@ -38,7 +38,7 @@ while (my ($key, $value) = each %$table) {
     Math::GMPz::Rmpz_set_str($u, $key, 10);
     Math::GMPz::Rmpz_sub_ui($u, $u, 1);
 
-    my $phi = my_euler_phi(\@factors);
+    my $phi    = my_euler_phi(\@factors);
     my $lambda = my_carmichael_lambda(\@factors);
 
     Math::GMPz::Rmpz_set_str($v, $phi, 10);

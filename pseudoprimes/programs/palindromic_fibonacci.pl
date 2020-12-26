@@ -16,7 +16,7 @@ use experimental qw(signatures);
 
 my %seen;
 
-sub is_fibonacci_pseudoprime($n) {
+sub is_fibonacci_pseudoprime ($n) {
     (lucas_sequence($n, 1, -1, Math::GMPz->new($n) - kronecker($n, 5)))[0] == 0;
 }
 
@@ -29,7 +29,7 @@ while (<>) {
 
     $n || next;
 
-    ($n eq reverse($n)) or next;
+    ($n eq reverse($n))          or next;
     is_fibonacci_pseudoprime($n) or next;
 
     next if $seen{$n}++;

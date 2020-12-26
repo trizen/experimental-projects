@@ -12,7 +12,7 @@ use Math::GMPz;
 use experimental qw(signatures);
 use Math::Prime::Util::GMP;
 
-sub count_fails($k) {
+sub count_fails ($k) {
 
     my $count = 0;
     my $base  = 2;

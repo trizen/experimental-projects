@@ -163,6 +163,8 @@ Highly experimental personal projects.
         * [Brazilian primes constant](./oeis-research/Bernard%20Schott/Brazilian%20primes%20constant)
             * [eff.pl](./oeis-research/Bernard%20Schott/Brazilian%20primes%20constant/eff.pl)
             * [prog.pl](./oeis-research/Bernard%20Schott/Brazilian%20primes%20constant/prog.pl)
+        * [Largest prime whose decimal expansion consists of the concatenation of the largest n-digit primes](./oeis-research/Bernard%20Schott/Largest%20prime%20whose%20decimal%20expansion%20consists%20of%20the%20concatenation%20of%20the%20largest%20n-digit%20primes)
+            * [prog.sf](./oeis-research/Bernard%20Schott/Largest%20prime%20whose%20decimal%20expansion%20consists%20of%20the%20concatenation%20of%20the%20largest%20n-digit%20primes/prog.sf)
         * [Smallest number m such that tau(k) * k = m has n solutions](./oeis-research/Bernard%20Schott/Smallest%20number%20m%20such%20that%20tau(k)%20*%20k%20=%20m%20has%20n%20solutions)
             * [smooth generate.pl](./oeis-research/Bernard%20Schott/Smallest%20number%20m%20such%20that%20tau(k)%20*%20k%20=%20m%20has%20n%20solutions/smooth_generate.pl)
     * [Bodo Zinser](./oeis-research/Bodo%20Zinser)

@@ -39,7 +39,7 @@ while (<>) {
     #~ my ($U,$V) = (lucas_sequence($n, -5, 5, $n + 1));
 
     #~ if ($U == 0 or $V == 1) {
-        #~ say "Almost counter-example: $n";
+    #~ say "Almost counter-example: $n";
     #~ }
 }
 

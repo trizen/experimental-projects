@@ -22,20 +22,20 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
-my $lucas_carmichael = retrieve($lucas_carmichael_file);
+my $lucas_carmichael      = retrieve($lucas_carmichael_file);
 
 my %table;
 
-sub my_lucas_carmichael_lambda($factors) {
-    lcm(map{Math::GMPz->new($_)+1} @$factors);
+sub my_lucas_carmichael_lambda ($factors) {
+    lcm(map { Math::GMPz->new($_) + 1 } @$factors);
 }
 
 my %seen;
 
-foreach my $n (sort {$a <=> $b } map{Math::GMPz->new($_)}  keys %$lucas_carmichael) {
+foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } keys %$lucas_carmichael) {
 
     my @factors = split(' ', $lucas_carmichael->{$n});
-    my $lambda = my_lucas_carmichael_lambda(\@factors);
+    my $lambda  = my_lucas_carmichael_lambda(\@factors);
 
     #~ next if ($lambda < 1e10);
     #~ next if ($lambda > ~0);

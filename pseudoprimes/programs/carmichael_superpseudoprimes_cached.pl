@@ -22,17 +22,17 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $super_psp_file = "cache/factors-superpsp.storable";
+my $super_psp_file  = "cache/factors-superpsp.storable";
 
 my $carmichael = retrieve($carmichael_file);
-my $super_psp = retrieve($super_psp_file);
+my $super_psp  = retrieve($super_psp_file);
 
 my %table;
 
-foreach my $n( sort {$a <=> $b } map{Math::GMPz->new($_)}  grep { exists $carmichael->{$_} } keys %$super_psp) {
+foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } grep { exists $carmichael->{$_} } keys %$super_psp) {
 
     my @factors = split(' ', $super_psp->{$n});
-    my $count = scalar(@factors);
+    my $count   = scalar(@factors);
 
     next if ($count <= 4);
     next if (exists $table{$count});
@@ -43,7 +43,6 @@ foreach my $n( sort {$a <=> $b } map{Math::GMPz->new($_)}  grep { exists $carmic
 foreach my $count (sort { $a <=> $b } keys %table) {
     say "a($count) <= $table{$count}";
 }
-
 
 __END__
 

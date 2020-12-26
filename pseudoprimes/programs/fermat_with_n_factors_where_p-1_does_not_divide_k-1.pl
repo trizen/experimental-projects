@@ -27,7 +27,7 @@ while (<>) {
     next if (length($n) > 40);
 
     is_pseudoprime($n, 2) || next;
-    is_smooth($n, 1e5) || next;
+    is_smooth($n, 1e5)    || next;
 
     if ($n > ((~0) >> 1)) {
         $n = Math::GMPz->new("$n");

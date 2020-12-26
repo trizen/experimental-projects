@@ -22,10 +22,10 @@ while (<>) {
     next if $n < ~0;
     next if length($n) > 40;
 
-    is_pseudoprime($n,2) || next;
+    is_pseudoprime($n, 2) || next;
     $n = Math::GMPz->new($n);
 
-    if (powmod(2, $n, $n*($n-1)) == 2) {
+    if (powmod(2, $n, $n * ($n - 1)) == 2) {
         say $n;
     }
 }

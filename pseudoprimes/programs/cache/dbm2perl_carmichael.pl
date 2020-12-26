@@ -13,24 +13,44 @@ use Math::Prime::Util::GMP;
 
 eval { require GDBM_File };
 
-my $cache_db = "factors.db";
+my $cache_db      = "factors.db";
 my $storable_file = "factors-carmichael.storable";
 
 dbmopen(my %cache_db, $cache_db, 0444)
   or die "Can't create/access database <<$cache_db>>: $!";
 
 sub my_is_carmichael ($n, $factors) {
-    my $nm1 = Math::GMPz->new($n)-1;
-    return if not vecall { Math::GMPz::Rmpz_divisible_p($nm1, Math::GMPz->new($_)-1) } @$factors;
+    my $nm1 = Math::GMPz->new($n) - 1;
+    return if not vecall { Math::GMPz::Rmpz_divisible_p($nm1, Math::GMPz->new($_) - 1) } @$factors;
     scalar(uniq(@$factors)) == scalar(@$factors);
 }
 
 sub my_is_carmichael_fast ($n, $factors) {
     my $nm1 = Math::Prime::Util::GMP::subint($n, 1);
     return if not vecall {
-        Math::Prime::Util::GMP::modint($nm1, ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1)) eq '0'
-    } @$factors;
+        Math::Prime::Util::GMP::modint($nm1, ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1)) eq '0'
+    }
+    @$factors;
     scalar(uniq(@$factors)) == scalar(@$factors);
+}
+
+{
+    my $nm1 = Math::GMPz::Rmpz_init();
+    my $pm1 = Math::GMPz::Rmpz_init();
+
+    sub my_is_carmichael_faster ($n, $factors) {
+        Math::GMPz::Rmpz_set_str($nm1, $n, 10);
+        Math::GMPz::Rmpz_sub_ui($nm1, $nm1, 1);
+        return if not vecall {
+            ($_ < ~0) ? Math::GMPz::Rmpz_divisible_ui_p($nm1, $_ - 1) : do {
+                Math::GMPz::Rmpz_set_str($pm1, $_, 10);
+                Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
+                Math::GMPz::Rmpz_divisible_p($nm1, $pm1);
+            }
+        }
+        @$factors;
+        scalar(uniq(@$factors)) == scalar(@$factors);
+    }
 }
 
 my $table = {};
@@ -45,10 +65,11 @@ say "# Checking database...";
 while (my ($key, $value) = each %cache_db) {
 
     next if exists $table->{$key};
-    Math::Prime::Util::GMP::is_pseudoprime($key,2) || next;
+
+    #~ Math::Prime::Util::GMP::is_pseudoprime($key,2) || next;
 
     my @factors = split(' ', $value);
-    if (scalar(@factors) >= 3 and my_is_carmichael_fast($key, \@factors)) {
+    if (scalar(@factors) >= 3 and my_is_carmichael_faster($key, \@factors)) {
         $table->{$key} = $value;
     }
 }

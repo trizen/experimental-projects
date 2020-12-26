@@ -35,6 +35,7 @@ while (<>) {
     }
 
     divisor_sum($n, 0) <= $sigma0_limit or next;
+
     #divisor_sum($n, 0) <= 2**17 and next;
 
     $seen{$n} = 1;

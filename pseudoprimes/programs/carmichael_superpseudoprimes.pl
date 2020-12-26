@@ -22,7 +22,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 sub is_super_poulet ($n, @factors) {
-    Math::Prime::Util::GMP::powmod(2, Math::Prime::Util::GMP::gcd(map { $_-1 } @factors), $n) eq '1';
+    Math::Prime::Util::GMP::powmod(2, Math::Prime::Util::GMP::gcd(map { $_ - 1 } @factors), $n) eq '1';
 }
 
 my %table;
@@ -37,7 +37,7 @@ while (<>) {
     next if $n < ~0;
     next if length($n) > 65;
 
-    Math::Prime::Util::GMP::is_pseudoprime($n,2) || next;
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
 
     #$n = Math::GMPz::Rmpz_init_set_str($n, 10);
 
@@ -50,7 +50,7 @@ while (<>) {
     #say "Testing: $n";
 
     my @factors = Math::Prime::Util::GMP::factor($n);
-    my $count = scalar(@factors);
+    my $count   = scalar(@factors);
 
     next if ($count <= 4);
 

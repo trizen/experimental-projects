@@ -19,6 +19,7 @@ use experimental qw(signatures);
 
 #my $storable_file = "cache/factors-carmichael.storable";
 my $storable_file = "cache/factors-fermat.storable";
+
 #my $storable_file = "cache/factors-lucas-carmichael.storable";
 
 my $table = retrieve($storable_file);
@@ -52,7 +53,8 @@ while (my ($key, $value) = each %$table) {
                     $seen{$z} = 1;
                 }
 
-            } $len, $k;
+            }
+            $len, $k;
         }
     }
 }

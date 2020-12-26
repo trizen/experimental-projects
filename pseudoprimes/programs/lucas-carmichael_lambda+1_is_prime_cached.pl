@@ -16,17 +16,17 @@ use experimental qw(signatures);
 use List::Util qw(uniq);
 
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
-my $lucas_carmichael = retrieve($lucas_carmichael_file);
+my $lucas_carmichael      = retrieve($lucas_carmichael_file);
 
 my %table;
 
-sub my_lucas_carmichael_lambda($factors) {
-    Math::Prime::Util::GMP::lcm(map{ Math::Prime::Util::GMP::addint($_, 1) } @$factors);
+sub my_lucas_carmichael_lambda ($factors) {
+    Math::Prime::Util::GMP::lcm(map { Math::Prime::Util::GMP::addint($_, 1) } @$factors);
 }
 
 sub is_lucas_carmichael ($n, $factors) {
-    my $np1 = Math::GMPz->new($n)+1;
-    return if not vecall { Math::GMPz::Rmpz_divisible_p($np1, Math::GMPz->new($_)+1) } @$factors;
+    my $np1 = Math::GMPz->new($n) + 1;
+    return if not vecall { Math::GMPz::Rmpz_divisible_p($np1, Math::GMPz->new($_) + 1) } @$factors;
     scalar(uniq(@$factors)) == scalar(@$factors);
 }
 
@@ -37,8 +37,8 @@ foreach my $n (keys %$lucas_carmichael) {
     #length($n) > 100 or next;
 
     my @factors = split(' ', $lucas_carmichael->{$n});
-    my $lambda = my_lucas_carmichael_lambda(\@factors);
-    my $p = Math::Prime::Util::GMP::addint($lambda, 1);
+    my $lambda  = my_lucas_carmichael_lambda(\@factors);
+    my $p       = Math::Prime::Util::GMP::addint($lambda, 1);
 
     #if (Math::Prime::Util::GMP::modint($n,$p) > 0 and is_prime($p)) {
     if (Math::Prime::Util::GMP::gcd($n, $p) == 1) {

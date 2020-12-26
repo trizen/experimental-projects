@@ -27,7 +27,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-fermat.storable";
-my $fermat = retrieve($storable_file);
+my $fermat        = retrieve($storable_file);
 
 my @results;
 
@@ -44,7 +44,7 @@ while (my ($key, $value) = each %$fermat) {
     }
 }
 
-@results = sort {$a <=> $b} @results;
+@results = sort { $a <=> $b } @results;
 
 foreach my $n (@results) {
     say $n;

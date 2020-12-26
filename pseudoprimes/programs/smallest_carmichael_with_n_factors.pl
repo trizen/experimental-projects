@@ -25,17 +25,17 @@ while (<>) {
     #next if $n < ~0;
     #next if length($n) >= 35;
 
-    Math::Prime::Util::GMP::is_pseudoprime($n,2) || next;
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
     $n = Math::GMPz::Rmpz_init_set_str($n, 10);
-    is_smooth($n, 1e4) || next;
+    is_smooth($n, 1e4)                        || next;
     Math::Prime::Util::GMP::is_carmichael($n) || next;
 
     #say "Testing: $n";
 
     my @factors = Math::Prime::Util::GMP::factor($n);
-    my $count = scalar(@factors);
+    my $count   = scalar(@factors);
 
-   # next if ($count < 7);
+    # next if ($count < 7);
 
     if (exists $table{$count}) {
         next if ($table{$count} < $n);
@@ -47,7 +47,7 @@ while (<>) {
 
 say "\nFinal results:";
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%2d) <= %s\n", $k, $table{$k});
 }
 

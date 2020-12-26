@@ -40,11 +40,11 @@ local $| = 1;
 
 # Tuning parameters
 use constant {
-              MASK_LIMIT                => 200,          # show Cn if n > MASK_LIMIT, where n ~ log_10(N)
+              MASK_LIMIT                => 200,         # show Cn if n > MASK_LIMIT, where n ~ log_10(N)
               LOOK_FOR_SMALL_FACTORS    => 1,
               LOOK_FOR_SPECIAL_FORMS    => 1,
-              SCRAPE_FACTORDB           => 1,            # factorize with factorDB by scrapping instead of API
-              MAX_SIZE                  => 1e4,          # ignore numbers with length() greater than this
+              SCRAPE_FACTORDB           => 1,           # factorize with factorDB by scrapping instead of API
+              MAX_SIZE                  => 1e4,         # ignore numbers with length() greater than this
               TRIAL_DIVISION_LIMIT      => 1_000_000,
               PHI_FINDER_ITERATIONS     => 100_000,
               FERMAT_ITERATIONS         => 100_000,
@@ -364,7 +364,7 @@ sub siqs_build_matrix ($factor_base, $smooth_relations) {
     return \@matrix;
 }
 
-sub siqs_build_matrix_opt($M) {
+sub siqs_build_matrix_opt ($M) {
 
     # Convert the given matrix M of 0s and 1s into a list of numbers m
     # that correspond to the columns of the matrix.
@@ -478,7 +478,7 @@ sub siqs_factor_from_square ($n, $square_indices, $smooth_relations) {
     return Math::GMPz->new(gcd($sqrt1 - $sqrt2, $n));
 }
 
-sub siqs_find_more_factors_gcd(@numbers) {
+sub siqs_find_more_factors_gcd (@numbers) {
     my %res;
 
     foreach my $i (0 .. $#numbers) {
@@ -603,7 +603,7 @@ sub siqs_choose_range ($n) {
     return sprintf('%.0f', exp(sqrt(log($n) * log(log($n))) / 2));
 }
 
-sub siqs_choose_nf($n) {
+sub siqs_choose_nf ($n) {
 
     # Choose parameters nf (sieve of factor base)
 
@@ -612,7 +612,7 @@ sub siqs_choose_nf($n) {
     return sprintf('%.0f', exp(sqrt(log($n) * log(log($n))))**(sqrt(2) / 4));
 }
 
-sub siqs_choose_nf2($n) {
+sub siqs_choose_nf2 ($n) {
 
     # Choose parameters nf (sieve of factor base)
     $n = "$n";
@@ -973,6 +973,7 @@ sub fibonacci_factorization ($n, $bound) {
         }
 
         return undef;
+
         #say "=> Lucas p±1...";
         #return lucas_factorization($n, Math::GMPz::Rmpz_init_set_str($d, 10));
     }
@@ -1202,6 +1203,7 @@ sub pollard_pm1_ntheory_factor ($n, $max_iter) {
     my ($p, $q) = Math::Prime::Util::GMP::pminus1_factor($n, $max_iter);
     return $p if defined($q);
     return undef;
+
     #return pollard_pm1_factorial_find_factor($n, $max_iter);
 }
 
@@ -1218,6 +1220,7 @@ sub pollard_rho_ntheory_factor ($n, $max_iter) {
       : (Math::Prime::Util::GMP::pbrent_factor($n, $max_iter));
     return $p if defined($q);
     return undef;
+
     #return pollard_rho_find_factor($n, $max_iter >> 1);
 }
 
@@ -1650,13 +1653,13 @@ sub find_small_factors ($rem, $factors) {
         },
 
         #~ sub {
-            #~ say "=> Phi finder method...";
-            #~ phi_finder_factor($rem, PHI_FINDER_ITERATIONS);
+        #~ say "=> Phi finder method...";
+        #~ phi_finder_factor($rem, PHI_FINDER_ITERATIONS);
         #~ },
 
         #~ sub {
-            #~ say "=> Fermat's method...";
-            #~ fermat_find_factor($rem, FERMAT_ITERATIONS);
+        #~ say "=> Fermat's method...";
+        #~ fermat_find_factor($rem, FERMAT_ITERATIONS);
         #~ },
 
         sub {
@@ -1665,8 +1668,8 @@ sub find_small_factors ($rem, $factors) {
         },
 
         #~ sub {
-            #~ say "=> CFRAC simple...";
-            #~ simple_cfrac_find_factor($rem, CFRAC_ITERATIONS);
+        #~ say "=> CFRAC simple...";
+        #~ simple_cfrac_find_factor($rem, CFRAC_ITERATIONS);
         #~ },
 
         sub {
@@ -1678,8 +1681,8 @@ sub find_small_factors ($rem, $factors) {
         },
 
         #~ sub {
-            #~ say "=> Pollard rho (11M)...";
-            #~ pollard_rho_ntheory_factor($rem, int sqrt(1e11));
+        #~ say "=> Pollard rho (11M)...";
+        #~ pollard_rho_ntheory_factor($rem, int sqrt(1e11));
         #~ },
 
         sub {
@@ -1958,7 +1961,7 @@ sub find_all_prime_factors ($n, $factors) {
     my $g = Math::GMPz::Rmpz_init();
     Math::GMPz::Rmpz_gcd($g, $n, $t);
 
-    my $rem = $n/$g;
+    my $rem = $n / $g;
 
     if ($g > $rem or ($g > ~0 and length("$rem") < 80)) {
         say ":: Factoring with ntheory (small factors)...";
@@ -2303,7 +2306,7 @@ sub verify_prime_factors ($n, $factors) {
     sort { $a <=> $b } @$factors;
 }
 
-sub factorize($n) {
+sub factorize ($n) {
 
     # Factorize the given integer n >= 1 into its prime factors.
 
@@ -2380,7 +2383,7 @@ sub factorize($n) {
     return verify_prime_factors($n, $factors);
 }
 
-sub prefactorization($n, $factors) {
+sub prefactorization ($n, $factors) {
 
     if (length("$n") <= 45) {
         say ":: Factoring $n with ntheory (<45 len)...";
@@ -2397,7 +2400,7 @@ sub prefactorization($n, $factors) {
     my $g = Math::GMPz::Rmpz_init();
     Math::GMPz::Rmpz_gcd($g, $n, $t);
 
-    my $rem = $n/$g;
+    my $rem = $n / $g;
 
     if ($g > $rem or ($g > ~0 and length("$rem") < 80) or length("$rem") <= 50) {
         say ":: Factoring $n with ntheory (small factors)...";
@@ -2405,7 +2408,7 @@ sub prefactorization($n, $factors) {
         push @$factors, ntheory::factor($g);
         push @$factors, ntheory::factor($rem);
 
-        @$factors = map { Math::GMPz->new("$_") } @$factors;
+        @$factors = map  { Math::GMPz->new("$_") } @$factors;
         @$factors = sort { $a <=> $b } @$factors;
 
         return 1;
@@ -2434,11 +2437,13 @@ while (<>) {
 
     next if ($n < ~0);
     next if length($n) > MAX_SIZE;
+
     #next if length($n) > 1000;
 
     my $len = length($n);
 
     next if exists($cache_db{$n});
+
     #is_pseudoprime($n, 2) && next;
 
     my @factors;
@@ -2447,14 +2452,14 @@ while (<>) {
         @factors = Math::Prime::Util::GMP::factor($n);
     }
     else {
-         $n = Math::GMPz::Rmpz_init_set_str($n, 10);
+        $n = Math::GMPz::Rmpz_init_set_str($n, 10);
     }
 
     #~ if (   (Math::GMPz::Rmpz_popcount($n + 1) == 1)
-        #~ or (Math::GMPz::Rmpz_popcount($n - 1) == 1)
-        #~ or (Math::GMPz::Rmpz_popcount(($n * 3) - 1) == 1)
-        #~ or (Math::GMPz::Rmpz_popcount(($n * 3) + 1) == 1)) {
-        #~ next;
+    #~ or (Math::GMPz::Rmpz_popcount($n - 1) == 1)
+    #~ or (Math::GMPz::Rmpz_popcount(($n * 3) - 1) == 1)
+    #~ or (Math::GMPz::Rmpz_popcount(($n * 3) + 1) == 1)) {
+    #~ next;
     #~ }
 
     #next if is_smooth($n, 1e7);
@@ -2469,8 +2474,7 @@ while (<>) {
 
     if (    scalar(@factors) > 1
         and (vecall { is_prime($_) } @factors)
-        and Math::GMPz->new(vecprod(@factors)) == Math::GMPz->new($n)
-    ) {
+        and Math::GMPz->new(vecprod(@factors)) == Math::GMPz->new($n)) {
         say ":: Successfully factorized!";
         $cache_db{"$n"} = join(' ', @factors);
     }

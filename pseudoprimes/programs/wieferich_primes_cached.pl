@@ -63,7 +63,14 @@ while (my ($key, $value) = each %db) {
     next if $factors[-1] < $lim;
 
     foreach my $p (@factors) {
-        if ($p > $lim and Math::Prime::Util::GMP::powmod($base, Math::Prime::Util::GMP::subint($p, 1), Math::Prime::Util::GMP::mulint($p, $p)) eq '1') {
+        if (
+            $p > $lim
+            and Math::Prime::Util::GMP::powmod(
+                                               $base,
+                                               Math::Prime::Util::GMP::subint($p, 1),
+                                               Math::Prime::Util::GMP::mulint($p, $p)
+            ) eq '1'
+          ) {
             say "\nFound: $p\n";
         }
     }

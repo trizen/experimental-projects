@@ -16,14 +16,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
-my $lucas_carmichael = retrieve($lucas_carmichael_file);
+my $lucas_carmichael      = retrieve($lucas_carmichael_file);
 
-foreach my $key(sort { log($a) <=> log($b) } keys %$lucas_carmichael) {
+foreach my $key (sort { log($a) <=> log($b) } keys %$lucas_carmichael) {
 
     my $n = Math::GMPz->new($key);
 
-    my $dec = $n-1;
-    my $k = scalar grep { Math::GMPz::Rmpz_divisible_p($dec, Math::GMPz->new($_)-1) } split(' ', $lucas_carmichael->{$key});
+    my $dec = $n - 1;
+    my $k = scalar grep { Math::GMPz::Rmpz_divisible_p($dec, Math::GMPz->new($_) - 1) } split(' ', $lucas_carmichael->{$key});
 
     if ($k >= 3) {
         if ($k >= 4) {

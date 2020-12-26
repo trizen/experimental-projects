@@ -22,6 +22,7 @@ while (<>) {
     $n || next;
 
     next if $n > ~0;
+
     #next if (length($n) > 40);
 
     if (is_pseudoprime($n, 2) and !is_carmichael($n)) {

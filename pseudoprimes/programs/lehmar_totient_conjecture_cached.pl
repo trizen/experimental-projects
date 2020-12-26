@@ -15,14 +15,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($carmichael_file);
+my $carmichael      = retrieve($carmichael_file);
 
 sub odd_part ($n) {
     $n >> valuation($n, 2);
 }
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::GMPz->new(Math::Prime::Util::GMP::vecprod(map{ Math::Prime::Util::GMP::subint($_, 1) } @$factors));
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::GMPz->new(Math::Prime::Util::GMP::vecprod(map { Math::Prime::Util::GMP::subint($_, 1) } @$factors));
 }
 
 while (my ($key, $value) = each %$carmichael) {
@@ -41,7 +41,7 @@ while (my ($key, $value) = each %$carmichael) {
     #say "Checking: $n";
 
     my $phi = my_euler_phi(\@factors);
-    my $nm1 = $n-1;
+    my $nm1 = $n - 1;
 
     if (odd_part($nm1) == odd_part($phi)) {
         die "[1] Counter-example: $n";

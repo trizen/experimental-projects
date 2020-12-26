@@ -19,9 +19,10 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use Math::Prime::Util::GMP qw(is_prob_prime is_pseudoprime is_lucas_pseudoprime is_extra_strong_lucas_pseudoprime is_almost_extra_strong_lucas_pseudoprime);
+use Math::Prime::Util::GMP
+  qw(is_prob_prime is_pseudoprime is_lucas_pseudoprime is_extra_strong_lucas_pseudoprime is_almost_extra_strong_lucas_pseudoprime);
 
-sub is_fibonacci_pseudoprime($n) {
+sub is_fibonacci_pseudoprime ($n) {
     (Math::Prime::Util::GMP::lucas_sequence($n, 1, -1, Math::Prime::Util::GMP::subint($n, kronecker($n, 5))))[0] == 0;
 }
 
@@ -61,17 +62,17 @@ while (<>) {
         or is_extra_strong_lucas_pseudoprime($n)
         or is_almost_extra_strong_lucas_pseudoprime($n)) {
 
-    #if (1) {
+        #if (1) {
 
-        foreach my $k (1..9) {
+        foreach my $k (1 .. 9) {
             my $t = $n . ('9' x $k);
             is_prob_prime($t) && next;
             if (   is_lucas_pseudoprime($t)
                 or is_extra_strong_lucas_pseudoprime($t)
-                or is_almost_extra_strong_lucas_pseudoprime($t)
-            ) {
+                or is_almost_extra_strong_lucas_pseudoprime($t)) {
                 say $t;
             }
+
             #elsif (is_fibonacci_pseudoprime($t)) {
             #    say $t;
             #}

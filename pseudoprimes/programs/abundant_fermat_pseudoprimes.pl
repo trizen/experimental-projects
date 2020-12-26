@@ -21,18 +21,19 @@ while (<>) {
     $n || next;
 
     next if $n < ~0;
+
     #next if length($n) > 60;
     #next if length($n) <= 65;
 
     $n = Math::GMPz->new($n);
-    $n % (3*5*17*23*29*43) == 0 or next;
+    $n % (3 * 5 * 17 * 23 * 29 * 43) == 0 or next;
 
     is_pseudoprime($n, 2) || next;
 
     #is_smooth($n, 1e8) || next;
     #is_smooth($n, 1e6) || next;
 
-    if (divisor_sum($n) > 2*$n) {
+    if (divisor_sum($n) > 2 * $n) {
         say $n;
     }
 }

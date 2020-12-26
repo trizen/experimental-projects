@@ -11,7 +11,7 @@ use List::Util qw(uniq);
 use experimental qw(signatures);
 use ntheory qw(lucas_sequence);
 
-sub isok($n) {
+sub isok ($n) {
     (lucas_sequence($n, 1, -1, $n + 2))[0] == 1;
 }
 
@@ -23,9 +23,9 @@ while (<>) {
     my $n = (split(' ', $_))[-1];
 
     next if ($n <= 6479);
-    next if ($n > ((~0)>>1));
+    next if ($n > ((~0) >> 1));
 
-    if (isok($n) && isok($n+1)) {
+    if (isok($n) && isok($n + 1)) {
         push @terms, $n;
     }
 }

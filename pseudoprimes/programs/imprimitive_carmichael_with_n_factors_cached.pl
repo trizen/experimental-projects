@@ -19,12 +19,12 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 my %table;
 
 sub is_imprimitive_carmichael ($factors) {
-    my @df = map { ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors;
+    my @df = map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors;
 
     my $gcd = Math::GMPz->new(Math::Prime::Util::GMP::gcd(@df));
     my $lcm = Math::GMPz->new(Math::Prime::Util::GMP::lcm(@df));
@@ -66,7 +66,7 @@ while (my ($key, $value) = each %$numbers) {
 
 say "\nFinal results:";
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%2d) <= %s\n", $k, $table{$k});
 }
 

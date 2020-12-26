@@ -10,11 +10,11 @@ use strict;
 use warnings;
 
 use Math::Prime::Util::GMP qw(
-    is_pseudoprime
-    is_lucas_pseudoprime
-    is_extra_strong_lucas_pseudoprime
-    is_almost_extra_strong_lucas_pseudoprime
-);
+  is_pseudoprime
+  is_lucas_pseudoprime
+  is_extra_strong_lucas_pseudoprime
+  is_almost_extra_strong_lucas_pseudoprime
+  );
 
 while (<>) {
     next if /^\h*#/;
@@ -24,14 +24,13 @@ while (<>) {
     $n || next;
 
     next if ($n < 1e14);
+
     #next if length($n) > 40;
 
     is_pseudoprime($n, 2) && next;
 
-    if (
-                is_almost_extra_strong_lucas_pseudoprime($n)
-        and not is_extra_strong_lucas_pseudoprime($n)
-    ) {
+    if (is_almost_extra_strong_lucas_pseudoprime($n)
+        and not is_extra_strong_lucas_pseudoprime($n)) {
         say $n;
     }
 }

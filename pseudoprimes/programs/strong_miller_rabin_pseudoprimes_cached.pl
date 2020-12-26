@@ -19,7 +19,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $fermat_file = "cache/factors-fermat.storable";
-my $fermat = retrieve($fermat_file);
+my $fermat      = retrieve($fermat_file);
 
 my @terms;
 
@@ -27,7 +27,7 @@ while (my ($n) = each %$fermat) {
 
     next if length($n) > 100;
 
-    if (is_strong_pseudoprime($n,2)) {
+    if (is_strong_pseudoprime($n, 2)) {
         push @terms, Math::GMPz->new($n);
     }
 }
