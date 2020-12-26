@@ -24,7 +24,7 @@ while (<>) {
         $n = Math::GMPz->new("$n");
     }
 
-    if (is_carmichael(2*$n + 1)) {
+    if (is_carmichael(2 * $n + 1)) {
         say "Candidate: $n";
 
         if (is_carmichael($n)) {

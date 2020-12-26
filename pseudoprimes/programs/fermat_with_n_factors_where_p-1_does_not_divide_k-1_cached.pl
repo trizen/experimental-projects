@@ -17,13 +17,13 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-fermat.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 my %table;
 
 while (my ($key, $value) = each %$numbers) {
 
-    my @f = split(' ', $value);
+    my @f     = split(' ', $value);
     my $omega = scalar(@f);
 
     next if ($omega < 9);

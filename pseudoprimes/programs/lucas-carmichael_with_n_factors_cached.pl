@@ -14,14 +14,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
-my $lucas_carmichael = retrieve($lucas_carmichael_file);
+my $lucas_carmichael      = retrieve($lucas_carmichael_file);
 
 my %table;
 
-foreach my $n (sort { $a <=> $b } map{Math::GMPz->new($_)} keys %$lucas_carmichael) {
+foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } keys %$lucas_carmichael) {
 
     my @factors = split(' ', $lucas_carmichael->{$n});
-    my $key = scalar(@factors);
+    my $key     = scalar(@factors);
 
     next if ($key < 15);
 

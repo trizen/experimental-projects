@@ -21,10 +21,11 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($carmichael_file);
+my $carmichael      = retrieve($carmichael_file);
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::GMPz->new(Math::Prime::Util::GMP::vecprod(map{ ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors));
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::GMPz->new(
+              Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors));
 }
 
 my $q = Math::GMPq->new(0);
@@ -37,13 +38,14 @@ while (my ($key, $value) = each %$carmichael) {
     my @factors = split(' ', $value);
 
     scalar(@factors) >= 9 or next;
+
     #$factors[-1] < ~0 or next;
 
     my $phi = my_euler_phi(\@factors);
 
     Math::GMPq::Rmpq_set_str($q, Math::Prime::Util::GMP::subint($key, 1), 10);
     Math::GMPq::Rmpq_set_den($q, $phi);
-    Math::GMPq::Rmpq_canonicalize($q);     # n is a cyclic number, therefore gcd(n,phi(n)) = 1
+    Math::GMPq::Rmpq_canonicalize($q);    # n is a cyclic number, therefore gcd(n,phi(n)) = 1
 
     Math::MPFR::Rmpfr_set_q($f, $q, 0);
 

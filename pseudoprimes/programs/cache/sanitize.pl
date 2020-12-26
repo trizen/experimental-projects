@@ -16,7 +16,7 @@ dbmopen(my %cache_db, $cache_db, 0666)
 
 while (my ($key, $value) = each %cache_db) {
 
-    my $n = Math::GMPz::Rmpz_init_set_str($key, 10);
+    my $n       = Math::GMPz::Rmpz_init_set_str($key, 10);
     my @factors = map { Math::GMPz::Rmpz_init_set_str($_, 10) } split(' ', $value);
 
     if (scalar(@factors) <= 1) {

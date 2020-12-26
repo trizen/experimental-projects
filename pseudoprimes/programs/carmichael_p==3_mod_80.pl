@@ -37,7 +37,7 @@ sub pretest ($n) {
     return 1;
 }
 
-sub isok($n) {    # Carmichael number
+sub isok ($n) {    # Carmichael number
 
     pretest($n)                               || return;
     Math::Prime::Util::GMP::is_carmichael($n) || return;

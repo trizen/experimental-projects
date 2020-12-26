@@ -22,7 +22,7 @@ my $cache_db = "cache/factors.db";
 dbmopen(my %db, $cache_db, 0444)
   or die "Can't create/access database <<$cache_db>>: $!";
 
-my $k = 1;
+my $k   = 1;
 my $lim = 970000000000000;
 
 #~ my $k = 2;

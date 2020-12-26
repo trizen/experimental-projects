@@ -28,8 +28,8 @@ while (<>) {
     Math::Prime::Util::GMP::is_carmichael($n) || next;
     $n = Math::GMPz->new($n);
 
-    my $inc = $n+1;
-    my $k = scalar grep { $inc % ($_+1) == 0 } Math::Prime::Util::GMP::factor($n);
+    my $inc = $n + 1;
+    my $k   = scalar grep { $inc % ($_ + 1) == 0 } Math::Prime::Util::GMP::factor($n);
 
     if ($k >= 3) {
         say "$k: $n";

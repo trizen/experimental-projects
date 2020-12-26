@@ -23,7 +23,8 @@ sub my_is_carmichael_fast ($n, $factors) {
     my $nm1 = Math::Prime::Util::GMP::subint($n, 1);
     return if not vecall {
         Math::Prime::Util::GMP::modint($nm1, ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1)) eq '0'
-    } @$factors;
+    }
+    @$factors;
     scalar(uniq(@$factors)) == scalar(@$factors);
 }
 
@@ -43,6 +44,7 @@ while (my ($k, $v) = each %$superpsp) {
                 say $n;
             }
 
-        } scalar(@factors), $k;
+        }
+        scalar(@factors), $k;
     }
 }

@@ -23,7 +23,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $table = retrieve($storable_file);
+my $table         = retrieve($storable_file);
 
 sub is_chebyshev_pseudoprime ($n) {
 
@@ -47,12 +47,15 @@ while (my ($key, $value) = each %$table) {
 
     #is_chebyshev_pseudoprime($n) || next;
 
-    if (vecall {
-        Math::GMPz::Rmpz_set_str($p, $_, 10);
-        Math::GMPz::Rmpz_mul($p, $p, $p);
-        Math::GMPz::Rmpz_sub_ui($p, $p, 1);
-        Math::GMPz::Rmpz_congruent_p($n, $one, $p);
-    } split(' ', $value)) {
+    if (
+        vecall {
+            Math::GMPz::Rmpz_set_str($p, $_, 10);
+            Math::GMPz::Rmpz_mul($p, $p, $p);
+            Math::GMPz::Rmpz_sub_ui($p, $p, 1);
+            Math::GMPz::Rmpz_congruent_p($n, $one, $p);
+        }
+        split(' ', $value)
+      ) {
         say $n;
     }
 }

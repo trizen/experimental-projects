@@ -52,24 +52,27 @@ while (<>) {
     $n || next;
 
     next if $n < ~0;
+
     #next if length($n) > 65;
 
     $n = Math::GMPz->new($n);
-    $n % (3*5*17*23*29) == 0 or $n % (5*7*13*17*19*23) == 0 or next;
+    $n % (3 * 5 * 17 * 23 * 29) == 0 or $n % (5 * 7 * 13 * 17 * 19 * 23) == 0 or next;
 
     Math::Prime::Util::GMP::is_carmichael($n) || next;
 
     #say "Testing: $n";
 
-    my $t = Math::GMPq->new(0);
+    my $t     = Math::GMPq->new(0);
     my $sigma = divisor_sum($n);
     Math::GMPq::Rmpq_set_str($t, "$sigma", 10);
     Math::GMPq::Rmpq_div_z($t, $t, $n);
 
     if ($t > $max) {
-    #if ($t > 1.9) {
-    #if ($t > 2) {
+
+        #if ($t > 1.9) {
+        #if ($t > 2) {
         printf "%.4f abundancy: $n\n", Math::MPFR->new($t) if !$seen{$n}++;
+
         #say $n;
         $max = $t;
     }

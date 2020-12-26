@@ -16,7 +16,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-superpsp.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 sub is_super_pseudoprime ($n, @bases) {
 

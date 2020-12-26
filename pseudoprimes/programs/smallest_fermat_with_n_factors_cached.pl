@@ -14,14 +14,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-fermat.storable";
-my $fermat = retrieve($storable_file);
+my $fermat        = retrieve($storable_file);
 
 my %table;
 
 while (my ($key, $value) = each %$fermat) {
 
     my @factors = split(' ', $value);
-    my $count = scalar(@factors);
+    my $count   = scalar(@factors);
 
     next if ($count < 13);
 
@@ -34,7 +34,7 @@ while (my ($key, $value) = each %$fermat) {
     $table{$count} = $n;
 }
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%3d) <= %s\n", $k, $table{$k});
 }
 

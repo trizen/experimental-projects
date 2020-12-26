@@ -14,14 +14,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($storable_file);
+my $carmichael    = retrieve($storable_file);
 
 my %table;
 
 while (my ($key, $value) = each %$carmichael) {
 
     my @factors = split(' ', $value);
-    my $count = scalar(@factors);
+    my $count   = scalar(@factors);
 
     next if ($count < 13);
 
@@ -34,7 +34,7 @@ while (my ($key, $value) = each %$carmichael) {
     $table{$count} = $n;
 }
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%3d) <= %s\n", $k, $table{$k});
 }
 

@@ -24,11 +24,11 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($storable_file);
+my $carmichael    = retrieve($storable_file);
 
 my @results;
 
-while (my($key, $value) = each %$carmichael) {
+while (my ($key, $value) = each %$carmichael) {
 
     my $rem = Math::Prime::Util::GMP::modint($key, 80);
 
@@ -41,7 +41,7 @@ while (my($key, $value) = each %$carmichael) {
     }
 }
 
-@results = sort {$a <=> $b} @results;
+@results = sort { $a <=> $b } @results;
 
 foreach my $n (@results) {
     say $n;

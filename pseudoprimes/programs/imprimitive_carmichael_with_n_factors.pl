@@ -48,7 +48,7 @@ while (<>) {
     $n = Math::GMPz::Rmpz_init_set_str($n, 10);
 
     is_smooth($n, 1e6) || next;
-    is_carmichael($n) || next;
+    is_carmichael($n)  || next;
 
     my @factors = factor($n);
     my $omega   = scalar(@factors);

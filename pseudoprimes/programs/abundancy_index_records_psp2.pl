@@ -31,13 +31,13 @@ while (<>) {
     #next if length($n) > 65;
 
     $n = Math::GMPz->new($n);
-    $n % (3*5*17*23*29*43*53*89) == 0 or next;
+    $n % (3 * 5 * 17 * 23 * 29 * 43 * 53 * 89) == 0 or next;
 
-    Math::Prime::Util::GMP::is_pseudoprime($n,2) || next;
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
 
     #say "Testing: $n";
 
-    my $t = Math::GMPq->new(0);
+    my $t     = Math::GMPq->new(0);
     my $sigma = divisor_sum($n);
     Math::GMPq::Rmpq_set_str($t, "$sigma", 10);
     Math::GMPq::Rmpq_div_z($t, $t, $n);
@@ -45,8 +45,10 @@ while (<>) {
     #if ($t > $max) {
     #if ($t >= 2) {
     if ($t >= 1.9) {
+
         #die "Found: $n";
         say $n;
+
         #printf "%.4f abundancy: $n\n", Math::MPFR->new($t) if !$seen{$n}++;
         $max = $t;
     }

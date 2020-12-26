@@ -13,7 +13,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $table = retrieve($storable_file);
+my $table         = retrieve($storable_file);
 
 my @results;
 
@@ -33,8 +33,8 @@ while (my ($key, $value) = each %$table) {
     }
 }
 
-@results = map { Math::GMPz->new($_) } @results;
-@results = sort {$a <=> $b} @results;
+@results = map  { Math::GMPz->new($_) } @results;
+@results = sort { $a <=> $b } @results;
 
 foreach my $n (@results) {
     say $n;

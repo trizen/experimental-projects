@@ -27,7 +27,8 @@ sub is_lucas_carmichael_1 ($n) {
 }
 
 sub is_lucas_carmichael_2 ($n) {
-    vecprod(map { $_ - 1 } grep { is_prime($_ - 1) } map { Math::GMPz->new("$_") } Math::Prime::Util::GMP::divisors($n + 1)) % $n == 0;
+    vecprod(map { $_ - 1 } grep { is_prime($_ - 1) } map { Math::GMPz->new("$_") } Math::Prime::Util::GMP::divisors($n + 1))
+      % $n == 0;
 }
 
 while (<>) {
@@ -38,11 +39,12 @@ while (<>) {
     $n || next;
 
     next if $n < ~0;
+
     #next if ($n < ~0);
 
     Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
-    is_smooth($n, 1e5) || next;
-    Math::Prime::Util::GMP::is_carmichael($n) || next;
+    is_smooth($n, 1e5)                            || next;
+    Math::Prime::Util::GMP::is_carmichael($n)     || next;
 
     if ($n > ((~0) >> 1)) {
         $n = Math::GMPz->new("$n");

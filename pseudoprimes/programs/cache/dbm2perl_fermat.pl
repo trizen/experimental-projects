@@ -11,7 +11,7 @@ use Math::Prime::Util::GMP;
 
 eval { require GDBM_File };
 
-my $cache_db = "factors.db";
+my $cache_db      = "factors.db";
 my $storable_file = "factors-fermat.storable";
 
 dbmopen(my %cache_db, $cache_db, 0444)

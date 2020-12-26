@@ -36,7 +36,7 @@ while (<>) {
     }
 
     is_lucas_carmichael($n) || next;
-    is_square_free($n) || next;
+    is_square_free($n)      || next;
 
     my $key = scalar(factor($n));
 

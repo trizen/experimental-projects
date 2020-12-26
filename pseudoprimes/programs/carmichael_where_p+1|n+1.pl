@@ -28,8 +28,8 @@ while (<>) {
     Math::Prime::Util::GMP::is_carmichael($n) || next;
     $n = Math::GMPz->new($n);
 
-    my $inc = $n+1;
-    my $k = scalar grep { $inc % ($_+1) == 0 } factor($n);
+    my $inc = $n + 1;
+    my $k   = scalar grep { $inc % ($_ + 1) == 0 } factor($n);
 
     if (not exists $table{$k}) {
         say "a($k) <= $n";

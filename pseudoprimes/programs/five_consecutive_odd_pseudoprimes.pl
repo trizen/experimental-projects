@@ -17,19 +17,19 @@ while (<>) {
 
     $n || next;
     next if ($n < ~0);
-    (substr($n, -1) & 1) || next;       # must be odd
+    (substr($n, -1) & 1) || next;    # must be odd
 
     if ($n > ((~0) >> 1)) {
         $n = Math::GMPz->new("$n");
     }
 
-    for (my $j = -8; $j <= 8; $j += 2) {
+    for (my $j = -8 ; $j <= 8 ; $j += 2) {
 
-        my $ok = 1;
-        my $from = $n+$j;
-        my $to = $from+8;
+        my $ok   = 1;
+        my $from = $n + $j;
+        my $to   = $from + 8;
 
-        for (my $k = $from; $k <= $to; $k += 2) {
+        for (my $k = $from ; $k <= $to ; $k += 2) {
             if (not is_pseudoprime($k, 2)) {
                 $ok = 0;
                 last;

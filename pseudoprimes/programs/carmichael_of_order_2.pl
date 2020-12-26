@@ -44,7 +44,7 @@ while (<>) {
 
     #next if length($n) > 55;
 
-    is_pseudoprime($n, 2) || next;
+    is_pseudoprime($n, 2)        || next;
     is_chebyshev_pseudoprime($n) || next;
 
     if ($n > ((~0) >> 1)) {

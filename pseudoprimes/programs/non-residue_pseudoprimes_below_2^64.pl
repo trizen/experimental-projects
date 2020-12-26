@@ -39,7 +39,7 @@ while (1) {
         next if ($table{$q} < $n);
     }
 
-    if (powmod($q, ($n-1)>>1, $n) == $n-1) {
+    if (powmod($q, ($n - 1) >> 1, $n) == $n - 1) {
         $table{$q} = $n;
         my $k = prime_count($q);
         say "a($k) <= $n";
@@ -48,7 +48,7 @@ while (1) {
 
 say "\nFinal results:";
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     my $n = prime_count($k);
     printf("a(%2d) <= %s\n", $n, $table{$k});
 }

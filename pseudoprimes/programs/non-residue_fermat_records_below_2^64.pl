@@ -23,7 +23,7 @@ sub least_nonresidue_odd ($n) {    # for odd n
 
     my @factors = map { $_->[0] } factor_exp($n);
 
-    foreach my $p(@primes) {
+    foreach my $p (@primes) {
         (vecall { kronecker($p, $_) == 1 } @factors) || return $p;
     }
 
@@ -63,7 +63,7 @@ while (1) {
 
 say "\nFinal results:";
 
-foreach my $k(sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     my $n = prime_count($k);
     printf("a(%2d) = %s\n", $n, $table{$k});
 }

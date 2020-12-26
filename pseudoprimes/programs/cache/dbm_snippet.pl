@@ -18,6 +18,7 @@ my $count = 0;
 
 while (my ($key, $value) = each %db) {
     if (is_pseudoprime($key, 2)) {
+
         #my @factors = split(' ', $value);
         #say "$key -> [@$value]";
         ++$count;

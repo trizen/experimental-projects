@@ -27,6 +27,7 @@ while (<>) {
     $n || next;
 
     next if $n < 1008003203999;
+
     #next if ($n < ~0);
 
     is_pseudoprime($n, 2) && next;
@@ -37,10 +38,10 @@ while (<>) {
     }
 
     is_lucas_carmichael($n) || next;
-    is_square_free($n) || next;
+    is_square_free($n)      || next;
 
-    my $inc = $n-1;
-    my $k = scalar grep { $inc % ($_-1) == 0 } Math::Prime::Util::GMP::factor($n);
+    my $inc = $n - 1;
+    my $k   = scalar grep { $inc % ($_ - 1) == 0 } Math::Prime::Util::GMP::factor($n);
 
     if ($k >= 3) {
         if ($k >= 4) {

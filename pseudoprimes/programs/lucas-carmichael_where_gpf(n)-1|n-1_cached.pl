@@ -13,14 +13,14 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-lucas-carmichael.storable";
-my $table = retrieve($storable_file);
+my $table         = retrieve($storable_file);
 
-foreach my $key (sort {log($a) <=> log($b)} keys %$table) {
+foreach my $key (sort { log($a) <=> log($b) } keys %$table) {
 
-    my $n = Math::GMPz->new($key);
-    my $nm1 = $n-1;
+    my $n   = Math::GMPz->new($key);
+    my $nm1 = $n - 1;
 
-    if (Math::GMPz::Rmpz_divisible_p($nm1, Math::GMPz->new((split(' ', $table->{$key}))[-1])-1)) {
+    if (Math::GMPz::Rmpz_divisible_p($nm1, Math::GMPz->new((split(' ', $table->{$key}))[-1]) - 1)) {
         say $n;
     }
 }

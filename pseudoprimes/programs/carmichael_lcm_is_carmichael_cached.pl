@@ -14,15 +14,16 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($carmichael_file);
+my $carmichael      = retrieve($carmichael_file);
 
 my %table;
 
-sub my_carmichael_lambda($factors) {
-    Math::Prime::Util::GMP::lcm(map{ Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+sub my_carmichael_lambda ($factors) {
+    Math::Prime::Util::GMP::lcm(map { Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 }
 
 my @c = grep { (split(' ', $carmichael->{$_}))[-1] <= 6e2 } keys %$carmichael;
+
 #~ my @c = grep { (split(' ', $carmichael->{$_}))[0] > 1e9 } keys %$carmichael;
 #~ my @c = grep { (split(' ', $carmichael->{$_}))[1] <= 11 } keys %$carmichael;
 
@@ -34,10 +35,12 @@ say "# ", binomial(scalar(@c), 2);
 forcomb {
 
     my $c = Math::Prime::Util::GMP::lcm(@c[@_]);
+
     #~ my $c = Math::Prime::Util::GMP::gcd(@c[@_]);
 
     if ($c > ~0 and not exists $carmichael->{$c} and Math::Prime::Util::GMP::is_carmichael($c)) {
         say $c;
         $carmichael->{$c} = 1;
     }
-} scalar(@c), 2;
+}
+scalar(@c), 2;

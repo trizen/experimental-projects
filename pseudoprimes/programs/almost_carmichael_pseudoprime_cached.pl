@@ -15,11 +15,11 @@ use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
-my $fermat_file = "cache/factors-fermat.storable";
+my $fermat_file     = "cache/factors-fermat.storable";
 my $carmichael_file = "cache/factors-carmichael.storable";
 
 my $carmichael = retrieve($carmichael_file);
-my $fermat = retrieve($fermat_file);
+my $fermat     = retrieve($fermat_file);
 
 my @terms;
 

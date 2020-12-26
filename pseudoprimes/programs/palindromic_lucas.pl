@@ -21,7 +21,7 @@ while (<>) {
 
     $n || next;
 
-    ($n eq reverse($n)) or next;
+    ($n eq reverse($n))                     or next;
     (lucas_sequence($n, 1, -1, $n))[1] == 1 or next;
 
     next if $seen{$n}++;

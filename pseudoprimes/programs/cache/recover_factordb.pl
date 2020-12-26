@@ -24,7 +24,7 @@ my $table = retrieve($storable_file);
 
 my $count = 0;
 
-while(my ($key, $value) = each %$table) {
+while (my ($key, $value) = each %$table) {
     if (not exists $db{$key}) {
         $db{$key} = $value;
     }

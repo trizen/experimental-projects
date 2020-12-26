@@ -48,7 +48,7 @@ foreach my $n (@nums) {
     say "Testing: $n";
 
     my $phi = euler_phi($n);
-    my $nm1 = $n-1;
+    my $nm1 = $n - 1;
 
     if (odd_part($nm1) == odd_part($phi)) {
         die "[1] Counter-example: $n\n";

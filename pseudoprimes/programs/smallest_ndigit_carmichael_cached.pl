@@ -14,7 +14,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($storable_file);
+my $carmichael    = retrieve($storable_file);
 
 my %table;
 

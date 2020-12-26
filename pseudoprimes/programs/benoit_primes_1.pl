@@ -18,14 +18,21 @@ use ntheory qw(vecall);
 use Math::Prime::Util::GMP qw(:all);
 use experimental qw(signatures);
 
-sub isok($k) {
+sub isok ($k) {
     powmod(2, $k, divint(vecprod($k, subint($k, 1), subint($k, 2)), 6)) eq '2';
 }
 
-(vecall { isok($_) } (5, 37, 101, 44101, 3766141, 8122501, 18671941, 35772661, 36969661, 208168381, 425420101, 725862061, 778003381, 818423101, 1269342901, 9049716901, 27221068981)) || die "error";
+(
+ vecall { isok($_) } (
+                      5,         37,        101,        44101,      3766141,   8122501,
+                      18671941,  35772661,  36969661,   208168381,  425420101, 725862061,
+                      778003381, 818423101, 1269342901, 9049716901, 27221068981
+                     )
+)
+  || die "error";
 
 my $storable_file = "cache/factors-fermat.storable";
-my $fermat = retrieve($storable_file);
+my $fermat        = retrieve($storable_file);
 
 while (my ($k, $v) = each %$fermat) {
     if (isok($k)) {

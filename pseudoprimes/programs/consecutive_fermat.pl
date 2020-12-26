@@ -20,6 +20,7 @@ while (<>) {
 
     next if ($n < ~0);
     next if length($n) > 100;
+
     #next if ($n > ~0);
 
     is_pseudoprime($n, 2) || next;
@@ -28,7 +29,7 @@ while (<>) {
 
     my $p = Math::GMPz->new(next_prime($n));
 
-    for(my $k = $n+2; $k < $p; $k+=2) {
+    for (my $k = $n + 2 ; $k < $p ; $k += 2) {
         if (is_pseudoprime($k, 2)) {
             say "Found: $n";
         }

@@ -14,6 +14,7 @@ use warnings;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
+
 #use Math::Sidef qw(trial_factor);
 #use List::Util qw(uniq);
 
@@ -36,7 +37,7 @@ while (<>) {
     gcd($n, 16294579238595022365) > 1 or next;
 
     my $phi = euler_phi($n);
-    my $nm1 = subint($n,1);
+    my $nm1 = subint($n, 1);
 
     if (vecany { Math::Prime::Util::GMP::modint(Math::Prime::Util::GMP::mulint($nm1, $_), $phi) == 0 } factor($nm1)) {
         if (!$seen{$n}++) {
@@ -48,7 +49,7 @@ while (<>) {
 
 say "\n=> Final results:\n";
 
-@terms = sort {$a <=> $b} @terms;
+@terms = sort { $a <=> $b } @terms;
 say for @terms;
 
 __END__

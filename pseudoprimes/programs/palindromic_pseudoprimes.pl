@@ -22,7 +22,7 @@ while (<>) {
 
     $n || next;
 
-    ($n eq reverse($n)) or next;
+    ($n eq reverse($n))   or next;
     is_pseudoprime($n, 2) or next;
 
     next if $seen{$n}++;

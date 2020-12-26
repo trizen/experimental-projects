@@ -20,10 +20,10 @@ use Math::Sidef qw(trial_factor);
 use List::Util qw(uniq);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($carmichael_file);
+my $carmichael      = retrieve($carmichael_file);
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::Prime::Util::GMP::vecprod(map{ ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 }
 
 my $TRIAL_LIMIT = 1e3;
@@ -35,6 +35,7 @@ my $phi = Math::GMPz::Rmpz_init();
 while (my ($key, $value) = each %$carmichael) {
 
     length($key) <= 50 or next;
+
     #~ Math::Prime::Util::GMP::gcd($key, 3*5*7) > 1 or next;
 
     my @factors = split(' ', $value);
@@ -42,7 +43,7 @@ while (my ($key, $value) = each %$carmichael) {
     $factors[0] < 100 or next;
 
     Math::GMPz::Rmpz_set_str($phi, my_euler_phi(\@factors), 10);
-    Math::GMPz::Rmpz_set_str($n, $key, 10);
+    Math::GMPz::Rmpz_set_str($n,   $key,                    10);
     Math::GMPz::Rmpz_sub_ui($nm1, $n, 1);
 
     my %seen;

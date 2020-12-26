@@ -21,10 +21,11 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $fermat_file = "cache/factors-fermat.storable";
-my $fermat = retrieve($fermat_file);
+my $fermat      = retrieve($fermat_file);
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::GMPz->new(Math::Prime::Util::GMP::vecprod(map{ ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors));
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::GMPz->new(
+              Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors));
 }
 
 my $q = Math::GMPq->new(0);
@@ -37,6 +38,7 @@ while (my ($key, $value) = each %$fermat) {
     my @factors = split(' ', $value);
 
     scalar(@factors) >= 9 or next;
+
     #$factors[-1] < ~0 or next;
 
     my $phi = my_euler_phi(\@factors);

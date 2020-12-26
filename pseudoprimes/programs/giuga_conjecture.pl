@@ -27,7 +27,7 @@ while (<>) {
     $n || next;
 
     is_pseudoprime($n, 2) || next;
-    is_smooth($n, 3e6) || next;
+    is_smooth($n, 3e6)    || next;
 
     Math::Prime::Util::GMP::is_carmichael($n) || next;
     $n = Math::GMPz->new("$n");

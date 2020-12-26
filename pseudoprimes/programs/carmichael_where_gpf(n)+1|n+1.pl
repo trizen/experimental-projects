@@ -20,15 +20,16 @@ while (<>) {
     $n || next;
 
     next if ($n < ~0);
+
     #next if length($n) > 30;
     #next if length($n) <= 30;
 
-    is_smooth($n, 1e5) || next;
+    is_smooth($n, 1e5)                        || next;
     Math::Prime::Util::GMP::is_carmichael($n) || next;
     $n = Math::GMPz->new($n);
 
-    my $np1 = $n+1;
-    my $pp1 = Math::GMPz->new((Math::Prime::Util::GMP::factor($n))[-1])+1;
+    my $np1 = $n + 1;
+    my $pp1 = Math::GMPz->new((Math::Prime::Util::GMP::factor($n))[-1]) + 1;
 
     if ($np1 % $pp1 == 0) {
         say $n;

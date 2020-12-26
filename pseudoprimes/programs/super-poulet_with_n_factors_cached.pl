@@ -17,7 +17,7 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-superpsp.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 # a(7)  <= 1842158622953082708177091
 # a(8)  <= 192463418472849397730107809253922101
@@ -32,7 +32,7 @@ my %table;
 foreach my $n (sort { log($a) <=> log($b) } keys %$numbers) {
 
     my @factors = split(' ', $numbers->{$n});
-    my $count = scalar @factors;
+    my $count   = scalar @factors;
 
     next if ($count < 7);
 

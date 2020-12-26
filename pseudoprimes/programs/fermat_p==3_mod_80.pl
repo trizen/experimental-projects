@@ -36,7 +36,7 @@ sub pretest ($n) {
     return 1;
 }
 
-sub isok($n) {
+sub isok ($n) {
     pretest($n) || return;
 
     #say "Candidate: $n";

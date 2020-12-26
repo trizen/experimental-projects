@@ -1,12 +1,10 @@
 #!/usr/bin/perl
 
-# Least imprimitive Carmichael number (A328935) with n prime factors.
-# https://oeis.org/A328938
-
-# Imprimitive Carmichael numbers, are Carmichael numbers m such that if m = p_1 * p_2 * ... *p_k is the prime factorization of m then g(m) = gcd(p_1 - 1, ..., p_k - 1) > sqrt(lambda(m)), where lambda is the Carmichael lambda function.
+# The smallest Carmichael number k such that phi(k) does not divide (k-1)^n, where phi is the Euler totient function.
+# https://oeis.org/A207080
 
 # Known terms:
-#   294409, 167979421, 1152091655881, 62411762908817281, 1516087654274358001
+#   561, 2821, 838201, 41471521, 45496270561, 776388344641, 344361421401361, 375097930710820681, 330019822807208371201
 
 use 5.020;
 use strict;
@@ -19,24 +17,25 @@ use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 my $storable_file = "cache/factors-carmichael.storable";
-my $numbers = retrieve($storable_file);
+my $numbers       = retrieve($storable_file);
 
 my %table;
 
-sub my_euler_phi ($factors) {   # assumes n is squarefree
-    Math::GMPz->new(Math::Prime::Util::GMP::vecprod(map{ Math::Prime::Util::GMP::subint($_, 1) } @$factors));
+sub my_euler_phi ($factors) {    # assumes n is squarefree
+    Math::GMPz::Rmpz_init_set_str(Math::Prime::Util::GMP::vecprod(map { Math::Prime::Util::GMP::subint($_, 1) } @$factors),
+                                  10);
 }
 
 sub smallest_power ($k, $phi) {
 
     my $z = Math::GMPz::Rmpz_init();
 
-    foreach my $n (1..100) {
+    foreach my $n (1 .. 100) {
 
         Math::GMPz::Rmpz_powm_ui($z, $k, $n, $phi);
 
         if (Math::GMPz::Rmpz_sgn($z) == 0) {
-            return $n-1;
+            return $n - 1;
         }
     }
 
@@ -49,9 +48,9 @@ while (my ($key, $value) = each %$numbers) {
 
     my @factors = split(' ', $value);
 
-    my $n = Math::GMPz::Rmpz_init_set_str($key, 10);
-    my $phi = my_euler_phi(\@factors);
-    my $power = smallest_power($n-1, $phi);
+    my $n     = Math::GMPz::Rmpz_init_set_str($key, 10);
+    my $phi   = my_euler_phi(\@factors);
+    my $power = smallest_power($n - 1, $phi);
 
     next if ($power < 8);
 
@@ -63,7 +62,7 @@ while (my ($key, $value) = each %$numbers) {
 
 say "\nFinal results:";
 
-foreach my $k (sort {$a <=> $b} keys %table) {
+foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%2d) <= %s\n", $k, $table{$k});
 }
 
