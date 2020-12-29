@@ -39,7 +39,7 @@ while (<>) {
     my $phi = euler_phi($n);
     my $nm1 = subint($n, 1);
 
-    if (vecany { Math::Prime::Util::GMP::modint(Math::Prime::Util::GMP::mulint($nm1, $_), $phi) == 0 } factor($nm1)) {
+    if (vecany { modint(mulint($nm1, $_), $phi) == 0 } factor($nm1)) {
         if (!$seen{$n}++) {
             say $n;
             push @terms, $n;

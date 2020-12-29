@@ -1,0 +1,27 @@
+#!/usr/bin/ruby
+
+# Quadratically perfect numbers: numbers k such that (sigma(k) - 2k)^2 = sigma(k).
+# https://oeis.org/A339599
+
+# Known terms:
+#   1, 3, 66, 491536
+
+# Question: are there only four terms in this sequence?
+# The next term, if it exists, is greater than 2^32.
+
+var lower_bound = 2**32
+
+for v in (721500..1e7) {
+
+    v.sqr.inverse_sigma.each {|k|
+
+        k > lower_bound || next
+
+        say "[#{v}] Testing: #{k}"
+
+        var t = k.sigma
+        if ((t - (k+k)).sqr == t) {
+            die "Found: #{k}\n"
+        }
+    }
+}
