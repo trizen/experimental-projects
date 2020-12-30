@@ -55,6 +55,7 @@ Highly experimental personal projects.
             * [prog.sf](./oeis-research/Altug%20Alkan/a(n)%20is%20the%20smallest%20k%20such%20that%20psi(k)%20=%20factorial(n)/prog.sf)
         * [A(n) is the smallest k such that usigma(k) = primorial(n)](./oeis-research/Altug%20Alkan/a(n)%20is%20the%20smallest%20k%20such%20that%20usigma(k)%20=%20primorial(n))
             * [prog.sf](./oeis-research/Altug%20Alkan/a(n)%20is%20the%20smallest%20k%20such%20that%20usigma(k)%20=%20primorial(n)/prog.sf)
+            * [upper-bounds.sf](./oeis-research/Altug%20Alkan/a(n)%20is%20the%20smallest%20k%20such%20that%20usigma(k)%20=%20primorial(n)/upper-bounds.sf)
         * [Carmichael numbers n such that n-1 is a perfect power](./oeis-research/Altug%20Alkan/Carmichael%20numbers%20n%20such%20that%20n-1%20is%20a%20perfect%20power)
             * [prog.pl](./oeis-research/Altug%20Alkan/Carmichael%20numbers%20n%20such%20that%20n-1%20is%20a%20perfect%20power/prog.pl)
             * [smooth.pl](./oeis-research/Altug%20Alkan/Carmichael%20numbers%20n%20such%20that%20n-1%20is%20a%20perfect%20power/smooth.pl)
