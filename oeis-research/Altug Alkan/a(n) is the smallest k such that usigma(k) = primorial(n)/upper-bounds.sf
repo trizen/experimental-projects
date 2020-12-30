@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k such that usigma(k) = A002110(n), or 0 if no such k exists.
+# https://oeis.org/A291356
+
+# Some upper-bounds:
+#   a(23) <= ? (probably 0)
+#   a(24) <= 15845827930897033847100358400905538
+#   a(25) <= 1537045309297012283168734764887837378
+#   a(26) <= 225805929074906531781879580005340473248
+#   a(27) <= ? (probably 0)
+#   a(28) <= 2526893408093537885026065541257916699957568
+
+var n = 24
+var prim = n.pn_primorial
+var nums = squarefree(1, 10000).grep{ .is_smooth(n.prime) }
+
+for k in (nums) {
+
+    var t = (prim/k - 1)
+
+    for v in (1..15) {
+        var u = (t << v)
+        if (u.usigma == prim) {
+            say u
+        }
+    }
+}
