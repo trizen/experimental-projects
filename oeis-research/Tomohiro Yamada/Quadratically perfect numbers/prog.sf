@@ -11,15 +11,16 @@
 
 var lower_bound = 2**32
 
-for v in (721500..1e7) {
+for v in (731800..1e7) {
 
-    v.sqr.inverse_sigma.each {|k|
+    var t = v.sqr
+
+    t.inverse_sigma.each {|k|
 
         k > lower_bound || next
 
         say "[#{v}] Testing: #{k}"
 
-        var t = k.sigma
         if ((t - (k+k)).sqr == t) {
             die "Found: #{k}\n"
         }
