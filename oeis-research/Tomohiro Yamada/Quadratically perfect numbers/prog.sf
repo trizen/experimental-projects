@@ -11,7 +11,7 @@
 
 var lower_bound = 2**32
 
-for v in (731800..1e7) {
+for v in (759598..1e7) {
 
     var t = v.sqr
 
