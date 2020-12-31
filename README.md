@@ -915,6 +915,7 @@ Highly experimental personal projects.
             * [prog.pl](./oeis-research/TODO/Primes%20between%20composite%20numbers/prog.pl)
     * [Tomohiro Yamada](./oeis-research/Tomohiro%20Yamada)
         * [Quadratically perfect numbers](./oeis-research/Tomohiro%20Yamada/Quadratically%20perfect%20numbers)
+            * [prog.pl](./oeis-research/Tomohiro%20Yamada/Quadratically%20perfect%20numbers/prog.pl)
             * [prog.sf](./oeis-research/Tomohiro%20Yamada/Quadratically%20perfect%20numbers/prog.sf)
     * [Tony Davie](./oeis-research/Tony%20Davie)
         * [Numbers n such that 2^n + 5 is prime](./oeis-research/Tony%20Davie/Numbers%20n%20such%20that%202^n%20+%205%20is%20prime)
