@@ -1,5 +1,14 @@
 #!/usr/bin/perl
 
+# Quadratically perfect numbers: numbers k such that (sigma(k) - 2k)^2 = sigma(k).
+# https://oeis.org/A339599
+
+# Known terms:
+#   1, 3, 66, 491536
+
+# Question: are there only four terms in this sequence?
+# The next term, if it exists, is greater than 2^32.
+
 # Computing the inverse of the sigma_k(n) function, for any k >= 1.
 # Translation of invphi.gp ver. 2.1 by Max Alekseyev.
 
@@ -64,20 +73,24 @@ sub inverse_sigma ($N, $k = 1) {
     ($N == 1) ? (1) : dynamicPreimage($N, cook_sigma($N, $k));
 }
 
+my $count = 0;
 my $lower_bound = powint(2, 32);
 
-for my $v (759598..1e7) {
+for my $v (3237120..1e7) {
 
-    my $t = powint($v, 2);
+    my $t = mulint($v, $v);
 
-    foreach my $k(inverse_sigma($t)) {
+    foreach my $k (inverse_sigma($t)) {
 
         $k > $lower_bound or next;
 
-        say "[$v] Testing: $k";
+        if (++$count > 1e4) {
+            say "[$v] Testing: $k";
+            $count = 0;
+        }
 
         if (powint($t - 2*$k, 2) == $t) {
-            say "Found: $k\n";
+            die "Found: $k\n";
         }
     }
 }
