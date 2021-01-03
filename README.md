@@ -1039,6 +1039,8 @@ Highly experimental personal projects.
         * [almost abundant carmichael.pl](./pseudoprimes/programs/almost_abundant_carmichael.pl)
         * [almost carmichael pseudoprime.pl](./pseudoprimes/programs/almost_carmichael_pseudoprime.pl)
         * [almost carmichael pseudoprime cached.pl](./pseudoprimes/programs/almost_carmichael_pseudoprime_cached.pl)
+        * [antti lehmer problem.pl](./pseudoprimes/programs/antti_lehmer_problem.pl)
+        * [antti lehmer problem smooth numbers.pl](./pseudoprimes/programs/antti_lehmer_problem_smooth_numbers.pl)
         * [benoit primes 1.pl](./pseudoprimes/programs/benoit_primes_1.pl)
         * [benoit primes 2.pl](./pseudoprimes/programs/benoit_primes_2.pl)
         * [binary period pseudoprimes.pl](./pseudoprimes/programs/binary_period_pseudoprimes.pl)

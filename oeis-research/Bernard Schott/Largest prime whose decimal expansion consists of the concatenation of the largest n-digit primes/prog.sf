@@ -7,7 +7,7 @@
 #   a(1) = 7 = A003618(1), and a(2) = 797 is the concatenation of A003618(1) and A003618(2); are there other similar terms a(n) with n > 30 that are the concatenation of A003618(1), A003618(2),..., A003618(n)?
 
 # Daniel Suteu, Dec 26 2020:
-#   No other such prime exists for n <= 360. If another such prime exists, then it has more than 64980 digits.
+#   No other such prime exists for n <= 389. If another such prime exists, then it has more than 75855 digits.
 
 # Let's define b(n) to be the concatenation of the first n terms of A003618.
 # I will use the symbol "|" to mean concatenation.
@@ -73,7 +73,7 @@ func a(n) {
     #~ say "#{n} #{a(n)}"
 #~ }
 
-for n in (300..1000) {
+for n in (390..1000) {
 
     var p = n.of { f(_+1) }.join.to_i
 
@@ -81,8 +81,9 @@ for n in (300..1000) {
 
     if (p.is_prob_prime) {
         say "Found prime for n = #{n}"
-        if (n > 1e6) {
-            die "New term for n = #{n}"
+
+        if (n > 3) {
+            die "Found prime for n = #{n}"
         }
     }
 }
