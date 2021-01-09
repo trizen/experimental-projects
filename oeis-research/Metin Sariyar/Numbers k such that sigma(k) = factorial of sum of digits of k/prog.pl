@@ -37,39 +37,54 @@ use Math::GMPz;
 #use Memoize qw(memoize);
 #memoize('inverse_sigma');
 
-my %lookup_mpz;
+sub dynamicPreimage ($N, $L) {
 
-sub mpz_object ($n) {
-    $lookup_mpz{$n} //= Math::GMPz::Rmpz_init_set_str("$n", 10);
-}
+    my %r = (1 => [1]);
 
-my %seen;
+    foreach my $l (@$L) {
+        my %t;
 
-sub inverse_sigma ($n, $m = 3) {
+        foreach my $pair (@$l) {
+            my ($x, $y) = @$pair;
 
-    return [1] if ($n == 1);
-
-    if (exists $seen{"$n $m"}) {
-        return $seen{"$n $m"};
-    }
-
-    my @R;
-    foreach my $d (map { mpz_object($_) } grep { $_ >= $m } divisors($n)) {
-        foreach my $p (map { $_->[0] } factor_exp($d - 1)) {
-            my $P = $d * ($p - 1) + 1;
-            my $k = valuation($P, $p) - 1;
-            next if (($k < 1) || ($P != $p**($k + 1)));
-            my $z = $p**$k;
-            foreach my $v (@{inverse_sigma($n / $d, $d)}) {
-                if ($v % $p != 0) {
-                    push @R, $v * $z;
+            foreach my $d (divisors(divint($N, $x))) {
+                if (exists $r{$d}) {
+                    push @{$t{mulint($x, $d)}}, map { mulint($_, $y) } @{$r{$d}};
                 }
             }
         }
+        while (my ($k, $v) = each %t) {
+            push @{$r{$k}}, @$v;
+        }
     }
 
-    #@R = uniq(@R);
-    $seen{"$n $m"} = \@R;
+    return if not exists $r{$N};
+    sort { $a <=> $b } @{$r{$N}};
+}
+
+sub cook_sigma ($N, $k) {
+    my %L;
+
+    foreach my $d (divisors($N)) {
+
+        next if ($d == 1);
+
+        foreach my $p (map { $_->[0] } factor_exp(subint($d, 1))) {
+
+            my $q = addint(mulint($d, subint(powint($p, $k), 1)), 1);
+            my $t = valuation($q, $p);
+
+            next if ($t <= $k or ($t % $k) or $q != powint($p, $t));
+
+            push @{$L{$p}}, [$d, powint($p, subint(divint($t, $k), 1))];
+        }
+    }
+
+    [values %L];
+}
+
+sub inverse_sigma ($N, $k = 1) {
+    ($N == 1) ? (1) : dynamicPreimage($N, cook_sigma($N, $k));
 }
 
 # 2301403000, 2320213000, 2410132000, 3201112210, 4000014202,
@@ -81,7 +96,7 @@ sub inverse_sigma ($n, $m = 3) {
 
 my @values;
 
-foreach my $t (1..12) {
+foreach my $t (1..13) {
 
     say "Processing: $t";
     my $n = factorial($t);
@@ -89,7 +104,7 @@ foreach my $t (1..12) {
     #say "Processing: $n";
     #(my @inv = inverse_sigma($n)) || next;
 
-    foreach my $k (@{inverse_sigma($n)}) {
+    foreach my $k (inverse_sigma($n)) {
 
         #say "Testing: $k";
         if (vecsum(split(//, $k)) == $t) {
@@ -110,19 +125,19 @@ say '';
 
 __END__
 
-Terems for sum of digits = 1..12 (took ~3 seconds):
+Terems for sum of digits = 1..12:
     1, 20132, 2005210, 2007010, 2030212, 2203102, 22121210, 33200201, 220000026, 230110302
 
 
-Terms for sum of digits = 13 (took ~12 seconds):
+Terms for sum of digits = 13:
     2301403000, 2320213000, 2410132000, 3201112210, 4000014202
 
 
-Terms for sum of digits = 15 (took ~2 minutes):
+Terms for sum of digits = 15:
     400230021120, 414102021000, 430011013020, 532010011110
 
 
-Terms for sum of digits = 16 (took ~4.5 minutes):
+Terms for sum of digits = 16:
     10001300332030, 10010123111032, 10030302411010, 10060311020110, 10120001550010, 20002100200081, 20105032001011
 
 

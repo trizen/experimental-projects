@@ -128,79 +128,54 @@ use List::Util qw(uniq);
 
 binmode(STDOUT, ':utf8');
 
-sub inverse_sigma {
-    my ($n) = @_;
+sub dynamicPreimage ($N, $L) {
 
-    my %cache;
-    my %factor_cache;
-    my %divisor_cache;
+    my %r = (1 => [1]);
 
-    my $results = sub ($n, $m) {
+    foreach my $l (@$L) {
+        my %t;
 
-        return [1] if ($n == 1);
+        foreach my $pair (@$l) {
+            my ($x, $y) = @$pair;
 
-        my $key = "$n $m";
-        if (exists $cache{$key}) {
-            return $cache{$key};
-        }
-
-        my (@R, @D);
-        $divisor_cache{$n} //= [divisors($n)];
-
-        foreach my $d (@{$divisor_cache{$n}}) {
-            if ($d >= $m) {
-
-                push @D, $d;
-
-                $factor_cache{$d} //= do {
-                    my %factors;
-                    @factors{factor($D[-1] - 1)} = ();
-                    [keys %factors];
-                };
-            }
-        }
-
-        foreach my $d (@D) {
-            foreach my $p (@{$factor_cache{$d}}) {
-
-                my $r = $d * ($p - 1) + 1;
-                my $k = valuation($r, $p) - 1;
-                next if ($k < 1);
-
-                my $s = powint($p, $k + 1);
-                next if ($r != $s);
-                my $z = powint($p, $k);
-
-                my $u   = $n / $d;
-                my $arr = __SUB__->($u, $d);
-
-                #~ if (@$arr == 1 and is_prime($arr->[0])) {
-                    #~ return [];
-                #~ }
-
-                #~ if (@$arr > 1) {
-                    #~ my $g = gcd(@$arr);
-                    #~ return ($cache{$key} = []) if ($g < 14);
-                #~ }
-
-                foreach my $v (@$arr) {
-                    if ($v % $p != 0) {
-                        push @R, $v * $z;
-
-                        #~ if (uniq(@R) > 1) {
-                            #~ my $g = gcd(@R);
-                            #~ return ($cache{$key} = []) if ($g < 14);
-                        #~ }
-                    }
+            foreach my $d (divisors(divint($N, $x))) {
+                if (exists $r{$d}) {
+                    push @{$t{mulint($x, $d)}}, map { mulint($_, $y) } @{$r{$d}};
                 }
             }
         }
+        while (my ($k, $v) = each %t) {
+            push @{$r{$k}}, @$v;
+        }
+    }
 
-        $cache{$key} = \@R;
-      }
-      ->($n, 3);
+    return if not exists $r{$N};
+    sort { $a <=> $b } @{$r{$N}};
+}
 
-    uniq(@$results);
+sub cook_sigma ($N, $k) {
+    my %L;
+
+    foreach my $d (divisors($N)) {
+
+        next if ($d == 1);
+
+        foreach my $p (map { $_->[0] } factor_exp(subint($d, 1))) {
+
+            my $q = addint(mulint($d, subint(powint($p, $k), 1)), 1);
+            my $t = valuation($q, $p);
+
+            next if ($t <= $k or ($t % $k) or $q != powint($p, $t));
+
+            push @{$L{$p}}, [$d, powint($p, subint(divint($t, $k), 1))];
+        }
+    }
+
+    [values %L];
+}
+
+sub inverse_sigma ($N, $k = 1) {
+    ($N == 1) ? (1) : dynamicPreimage($N, cook_sigma($N, $k));
 }
 
 my %easy;
