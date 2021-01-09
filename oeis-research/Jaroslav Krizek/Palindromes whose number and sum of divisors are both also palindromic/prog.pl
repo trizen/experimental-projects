@@ -20,27 +20,59 @@
 use 5.020;
 use strict;
 use warnings;
-#x =
+
 use ntheory qw(:all);
 use experimental qw(signatures);
-use List::Util qw(uniq);
 #use Math::AnyNum qw(:overload);
 
-sub inverse_sigma ($n, $m = 3) {
+sub dynamicPreimage ($N, $L) {
 
-    return (1) if ($n == 1);
+    my %r = (1 => [1]);
 
-    my @R;
-    foreach my $d (grep { $_ >= $m } divisors($n)) {
-        foreach my $p (map { $_->[0] } factor_exp($d - 1)) {
-            my $P = $d * ($p - 1) + 1;
-            my $k = valuation($P, $p) - 1;
-            next if (($k < 1) || ($P != $p**($k + 1)));
-            push @R, map { $_ * $p**$k } grep { $_ % $p != 0; } __SUB__->($n/$d, $d);
+    foreach my $l (@$L) {
+        my %t;
+
+        foreach my $pair (@$l) {
+            my ($x, $y) = @$pair;
+
+            foreach my $d (divisors(divint($N, $x))) {
+                if (exists $r{$d}) {
+                    push @{$t{mulint($x, $d)}}, map { mulint($_, $y) } @{$r{$d}};
+                }
+            }
+        }
+        while (my ($k, $v) = each %t) {
+            push @{$r{$k}}, @$v;
         }
     }
 
-    return uniq(@R);
+    return if not exists $r{$N};
+    sort { $a <=> $b } @{$r{$N}};
+}
+
+sub cook_sigma ($N, $k) {
+    my %L;
+
+    foreach my $d (divisors($N)) {
+
+        next if ($d == 1);
+
+        foreach my $p (map { $_->[0] } factor_exp(subint($d, 1))) {
+
+            my $q = addint(mulint($d, subint(powint($p, $k), 1)), 1);
+            my $t = valuation($q, $p);
+
+            next if ($t <= $k or ($t % $k) or $q != powint($p, $t));
+
+            push @{$L{$p}}, [$d, powint($p, subint(divint($t, $k), 1))];
+        }
+    }
+
+    [values %L];
+}
+
+sub inverse_sigma ($N, $k = 1) {
+    ($N == 1) ? (1) : dynamicPreimage($N, cook_sigma($N, $k));
 }
 
 sub next_palindrome ($n) {
