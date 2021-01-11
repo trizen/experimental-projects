@@ -10,8 +10,8 @@
 #   sidef oeis.isf 'formula' [from=1] [to=10]
 
 # Examples:
-#   sidef oeis.sf 'A033676(5)^2 + A033677(5)^2'              # 5-th term
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2'              # first 10 terms
+#   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5            # 5-th term
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
 
 include OEIS
@@ -25,6 +25,10 @@ func process_input(formula, from = 1, to = 10) {
     formula.gsub!(/\^/, '**') \
            .gsub!(/\b\d+\Kn\b/, '*n') \
            .gsub!(/\xC2/, '') \
+           .gsub!(/\bxor\b/i, '^') \
+           .gsub!(/\bor\b/i,  '|') \
+           .gsub!(/\band\b/i, '&') \
+           .gsub!(/\bnot\b/i, '~') \
            .gsub!(/ = /, ' == ')
 
     if (formula =~ /\bn\b/) {
