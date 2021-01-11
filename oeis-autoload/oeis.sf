@@ -1,0 +1,65 @@
+#!/usr/bin/ruby
+
+# Daniel "Trizen" Șuteu
+# Date: 11 January 2021
+# https://github.com/trizen
+
+# Check and use formulas defined in terms of OEIS sequences.
+
+# usage:
+#   sidef oeis.isf 'formula' [from=1] [to=10]
+
+# Examples:
+#   sidef oeis.sf 'A033676(5)^2 + A033677(5)^2'              # 5-th term
+#   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2'              # first 10 terms
+#   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
+
+include OEIS
+
+func eval_formula(formula, n = nil) {
+    Sidef.new.execute_code((defined(n) ? "var n = #{n};" : "") + formula)
+}
+
+func process_input(formula, from = 1, to = 10) {
+
+    formula.gsub!(/\^/, '**') \
+           .gsub!(/\b\d+\Kn\b/, '*n') \
+           .gsub!(/\xC2/, '') \
+           .gsub!(/ = /, ' == ')
+
+    if (formula =~ /\bn\b/) {
+
+        var terms = []
+
+        for n in (from .. to) {
+            terms << (eval_formula(formula, n) \\ do { say $@; break })
+        }
+
+        say terms.join(", ")
+        return true
+    }
+
+    say eval_formula(formula)
+    return true
+}
+
+ARGV || do {
+    STDERR << "usage: #{File(__MAIN__).basename} [formula] [from=1] [to=10]\n"
+    Sys.exit(1)
+}
+
+var formula = ARGV[0]
+
+var from = 1
+var to   = 10
+
+if (ARGV.len == 2) {
+    from = Num(ARGV[1])
+    to   = Num(ARGV[1])
+}
+elsif (ARGV.len == 3) {
+    from = Num(ARGV[1])
+    to   = Num(ARGV[2])
+}
+
+process_input(formula, from, to)
