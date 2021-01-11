@@ -1,0 +1,119 @@
+#!/usr/bin/ruby
+
+# Daniel "Trizen" Șuteu
+# Date: 11 January 2021
+# https://github.com/trizen
+
+# Check and use formulas defined in terms of OEIS sequences.
+
+var aliases = Hash(
+    arccos => 'acos',
+    arcsin => 'asin',
+    arctan => 'atan',
+    arccsc => 'acsc',
+    arcsec => 'asec',
+    arccot => 'acot',
+
+    arccosh => 'acosh',
+    arcsinh => 'asinh',
+    arctanh => 'atanh',
+    arccsch => 'acsch',
+    arcsech => 'asech',
+    arccoth => 'acoth',
+
+    BernoulliB => 'bernoulli',
+)
+
+aliases.each {|k,v|
+    Number.alias_method(v, k)
+}
+
+var main_dir   = File(__FILE__).rel2abs.dirname
+var bfiles_dir = (main_dir + 'bfiles')
+
+if (!bfiles_dir.exists) {
+    bfiles_dir.mkdir || die "Can't create dir <<#{bfiles_dir}>>: #{$!}\n"
+}
+
+func mirror_url(url, file) {
+
+    static lwp = do {
+
+        require('LWP::UserAgent')
+        require('LWP::ConnCache')
+
+        var ua = %O<LWP::UserAgent>.new(
+           timeout       => 60,
+           env_proxy     => 0,
+           show_progress => 1,
+           agent         => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+           ssl_opts      => Hash(verify_hostname => 1, SSL_version => 'TLSv1_2'),
+        )
+
+        var cache = %O<LWP::ConnCache>.new
+        cache.total_capacity(nil)    # no limit
+        ua.conn_cache(cache)
+        ua
+    }
+
+    lwp.mirror(url, file)
+}
+
+func parse_bfile (bfile) {
+
+    var fh = bfile.open_r || die "Can't open <<#{bfile}>>: #{$!}"
+
+    var (n,k)
+    var data = Hash()
+
+    fh.each {|line|
+
+        line.begins_with('#') && next
+
+        (n, k)   = line.words...
+        data{n} = Number(k) if defined(k)
+    }
+
+    fh.close
+    data
+}
+
+func download_sequence(id) is cached {
+
+    var url   = sprintf("https://oeis.org/A%s/b%s.txt", id, id)
+    var bfile = (bfiles_dir + File("#{id}.txt"))
+
+    if (!bfile.exists) {
+        mirror_url(url, bfile)
+    }
+
+    parse_bfile(bfile)
+}
+
+class Number {
+    method AUTOLOAD(_, name) {
+
+        var match = (name =~ /^A([0-9]+)\z/)
+        match || die "unknown method: #{name}\n"
+
+        var oeis_id = match[0]
+        var len     = oeis_id.len
+
+        if (len > 6) {
+            die "Invalid OEIS ID: A#{oeis_id}\n"
+        }
+
+        if (len < 6) {
+            oeis_id = ("%06s" % oeis_id)
+        }
+
+        var n = self
+        var data = download_sequence(oeis_id)
+
+        if (!data.has(n)) {
+            die "A#{oeis_id}(#{n}) does not exist in the b-file...\n"
+        }
+
+        data{n}
+    }
+}
