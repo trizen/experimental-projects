@@ -61,7 +61,7 @@ func mirror_url(url, file) {
 
 func parse_bfile (bfile) {
 
-    var fh = bfile.open_r || die "Can't open <<#{bfile}>>: #{$!}"
+    var fh = bfile.open_r || die "Can't open <<#{bfile}>>: #{$!}\n"
 
     var (n,k)
     var data = Hash()
@@ -70,7 +70,7 @@ func parse_bfile (bfile) {
 
         line.begins_with('#') && next
 
-        (n, k)   = line.words...
+        (n,k)   = line.words...
         data{n} = Number(k) if defined(k)
     }
 
