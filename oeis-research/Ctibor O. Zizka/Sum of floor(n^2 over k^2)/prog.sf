@@ -1,0 +1,55 @@
+#!/usr/bin/ruby
+
+# a(n) = Sum_{k=1..n} floor(n^2/k^2).
+# https://oeis.org/A153818
+
+# This program implements a sub-linear formula for computing a(n).
+
+# Most likely, the formula can be improved further.
+
+func a(n) {
+
+    var total = 0
+
+    var u = 0
+    var k = 1
+
+    var s = n*n
+
+    func next_k(k, x) {
+        var r = n/(x-1)
+        bsearch_min(k, n, {|v|
+            n/idiv(s, v*v) <=> r
+        })
+    }
+
+    while (k <= n) {
+
+        var r = idiv(s, k*k)
+
+        if (u == r) {
+            var w = next_k(k, r)
+            total += r*(w - k)
+            k = w
+        }
+        else {
+            total += r
+            ++k
+        }
+
+        if (k >= n) {
+            k = n if (k > n)
+            total += (n - k + 1)
+            break
+        }
+
+        u = r
+    }
+
+    return total
+}
+
+say 30.of(a)
+
+say a(10**5)   #=> 16449194649
+say a(10**6)   #=> 1644932606630
