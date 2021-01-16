@@ -1,0 +1,81 @@
+#!/usr/bin/ruby
+
+# Sum of the remainders when n^2 is divided by squares less than n.
+# https://oeis.org/A067459
+
+# a(n) = Sum_{k=1..n-1} (n^2 mod k^2)
+
+# This program implements a sub-linear formula for computing a(n).
+# Some optimizations may be possible...
+
+# Sub-linear formula motivated by A340457, where:
+# A340457 = Squares in A067459: 0, 0, 1, 4356, 164025, ...
+
+func faulhaber_range(a,b,k) {
+    faulhaber(b, k) - faulhaber(a-1, k)
+}
+
+func f(n) {     # Sum_{k=1..n} k^2 * floor(n^2 / k^2)
+
+    return 1 if (n == 1)
+
+    var total = 0
+
+    var u = 0
+    var k = 1
+
+    var s = n*n
+
+    func next_k(k, x) {
+        var r = n/(x-1)
+        bsearch_min(k, n, {|v|
+            n/idiv(s, v*v) <=> r
+        })
+    }
+
+    while (k <= n) {
+
+        var r = idiv(s, k*k)
+
+        if (u == r) {
+            var w = next_k(k, r)
+            total += faulhaber_range(k, w-1, 2)*r
+            k = w
+        }
+        else {
+            total += (k*k * r)
+            ++k
+        }
+
+        if (k >= n) {
+            k = n if (k > n)
+            total += faulhaber_range(k, n, 2)*(n - k + 1)
+            break
+        }
+
+        u = r
+    }
+
+    return total
+}
+
+func a(n) {
+    n**3 - f(n)
+}
+
+func test_a_1(n) {
+    n**3 - sum(1..n, {|k|
+        k**2 * floor(n**2 / k**2)
+    })
+}
+
+func test_a_2(n) {
+    sum(1..^n, {|k|
+        n**2 % k**2
+    })
+}
+
+say 30.of(a)
+
+say a(10**5)    #=> 129205044499930
+say a(10**6)    #=> 129207957923604833
