@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Numbers k such that prime(k)^prime(k+1) == prime(k+2) (mod prime(k+3)).
+# Numbers k such that prime(k)^prime(k+1) == prime(k+3) (mod prime(k+2)).
 # https://oeis.org/A340868
 
 # Known terms:

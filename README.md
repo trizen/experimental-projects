@@ -490,6 +490,7 @@ Highly experimental personal projects.
     * [J. M. Bergot](./oeis-research/J.%20M.%20Bergot)
         * [Numbers k such that prime(k)^prime(k+1) == prime(k+3) (mod prime(k+2))](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20prime(k)^prime(k+1)%20==%20prime(k+3)%20(mod%20prime(k+2)))
             * [prog.pl](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20prime(k)^prime(k+1)%20==%20prime(k+3)%20(mod%20prime(k+2))/prog.pl)
+            * [sieve cluster.pl](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20prime(k)^prime(k+1)%20==%20prime(k+3)%20(mod%20prime(k+2))/sieve_cluster.pl)
         * [Primes p such that the sum of squares of primes < p is divisible by p](./oeis-research/J.%20M.%20Bergot/Primes%20p%20such%20that%20the%20sum%20of%20squares%20of%20primes%20<%20p%20is%20divisible%20by%20p)
             * [search.pl](./oeis-research/J.%20M.%20Bergot/Primes%20p%20such%20that%20the%20sum%20of%20squares%20of%20primes%20<%20p%20is%20divisible%20by%20p/search.pl)
         * [Primes p such that, with q the next prime after p, q > p+2 and q^p == q (mod p+q) and p^q == p (mod p+q)](./oeis-research/J.%20M.%20Bergot/Primes%20p%20such%20that,%20with%20q%20the%20next%20prime%20after%20p,%20q%20>%20p+2%20and%20q^p%20==%20q%20(mod%20p+q)%20and%20p^q%20==%20p%20(mod%20p+q))
