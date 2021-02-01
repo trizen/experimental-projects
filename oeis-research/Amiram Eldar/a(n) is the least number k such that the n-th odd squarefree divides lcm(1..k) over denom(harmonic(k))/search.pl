@@ -5,6 +5,9 @@
 
 # Search for a(35).
 
+# Lower bound:
+#   a(35) > 10^7
+
 use 5.014;
 use Math::AnyNum qw(lcm inv);
 

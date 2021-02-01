@@ -1,0 +1,27 @@
+#!/usr/bin/ruby
+
+# Number of subsets of {1..n} whose harmonic mean is an integer.
+# https://oeis.org/A339453
+
+func a(n) is cached {
+
+    if (n.is_prime_power) {   # a(p^k) = a(p^k-1)+1
+        var p = n.perfect_root
+        var k = n.perfect_power
+        return (a(p**k - 1)+1)
+    }
+
+    var count = 0
+
+    @(1..n) -> subsets {|*a|
+        if (Math.harmonic_mean(a...).is_int) {
+            ++count
+        }
+    }
+
+    return count
+}
+
+for k in (1..100) {
+    print(a(k), ", ")
+}
