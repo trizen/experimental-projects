@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# 3-powerful numbers that can be written as the sum of two coprime 3-powerful numbers.
+# https://oeis.org/A297867
+
+#var n = 11205183603973252067
+var n = 3518958160000
+var t = n.rad
+
+n.powerful(3).each {|k|
+    k.is_coprime(t) || next
+    if (n - k -> is_powerful(3)) {
+        say "#{n} = #{k} + #{n-k}"
+        break
+    }
+}
+
+__END__
+776151559 = 756249048 + 19902511
+3518958160000 = 1392672604221 + 2126285555779
+11205183603973252067 = 5317378991792784000 + 5887804612180468067
