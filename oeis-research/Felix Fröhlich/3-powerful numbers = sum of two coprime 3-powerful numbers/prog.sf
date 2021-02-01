@@ -1,0 +1,43 @@
+#!/usr/bin/ruby
+
+# 3-powerful numbers that can be written as the sum of two coprime 3-powerful numbers.
+# https://oeis.org/A297867
+
+# Known terms:
+#   776151559, 3518958160000, 11205183603973252067
+
+var upto = 3518958160000
+
+say "Count: #{upto.powerful_count(3)}"
+
+var table = Hash()
+var lookup = Set()
+
+for k in (upto.powerful(3)) {
+    table{k.rad} := [] << k
+    lookup << k
+}
+
+var keys = table.keys.map{.to_i}
+
+for i in (^keys.len) {
+    var x = keys[i]
+
+    for j in (i+1 .. keys.end) {
+
+        var y = keys[j]
+
+        x.is_coprime(y) || next
+
+        for a in (table{x}), b in (table{y}) {
+            if (lookup.has(a+b)) {
+                say "#{a+b} = #{a} + #{b}"
+            }
+        }
+    }
+}
+
+__END__
+776151559 = 756249048 + 19902511
+3518958160000 = 1392672604221 + 2126285555779
+11205183603973252067 = 5317378991792784000 + 5887804612180468067
