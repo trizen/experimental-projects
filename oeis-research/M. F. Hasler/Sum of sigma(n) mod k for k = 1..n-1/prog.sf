@@ -1,0 +1,111 @@
+#!/usr/bin/ruby
+
+# Sum_{1 < k < n} sigma(n) mod k, where sigma = A000203.
+# https://oeis.org/A340976
+
+# a(n) = (n-1)*sigma(n) - A024916(sigma(n)) + Sum_{k=n..sigma(n)} k*floor(sigma(n)/k). - Daniel Suteu, Feb 02 2021
+
+# Special case formula for primes:
+#   a(n) = n*(n+2) - A024916(n+1), for n prime.
+
+# Formula derived from:
+#   a(n) = Sum_{k=1..n-1} (sigma(n) - k*floor(sigma(n)/k))
+#        = (n-1)*sigma(n) - Sum_{k=1..n-1} k*floor(sigma(n)/k)
+#        = (n-1)*sigma(n) - Sum_{k=1..sigma(n)} k*floor(sigma(n)/k) + Sum_{k=n..sigma(n)} k*floor(sigma(n)/k)
+
+func a1(n) {
+    var s = sigma(n)
+    sum(1..^n, {|k|
+         s % k
+    })
+}
+
+func a2(n) {
+    var s = n.sigma
+    (n-1)*s - sum(1..^n, {|k|
+        k*floor(s/k)
+    })
+}
+
+func a3(n) {
+    var s = n.sigma
+    (n-1)*s - sum(1..s, {|k| sigma(k) }) + sum(n..s, {|k| k*floor(s/k) })
+}
+
+func T(n) {     # Sum_{k=1..n} k = n-th triangular number
+    n*(n+1) / 2
+}
+
+func S(n) {     # Sum_{k=1..n} sigma(k) = Sum_{k=1..n} k*floor(n/k)
+    var s = n.isqrt
+    sum(1..s, {|k| T(idiv(n,k)) + k*idiv(n,k) }) - T(s)*s
+}
+
+func g(a,b) {
+    var total = 0
+
+    while (a <= b) {
+        var t = floor(b/a)
+        var u = floor(b/t)
+        total += t*(T(u) - T(a-1))
+        a = u+1
+    }
+    return total
+}
+
+func a4(n) {                    # sub-linear time
+    var s = n.sigma
+    (n-1)*s - S(s) + g(n, s)
+}
+
+var A = a1.map(1..100)
+
+assert_eq(A, a2.map(1..100))
+assert_eq(A, a3.map(1..100))
+assert_eq(A, a4.map(1..100))
+
+say a4.map(1..53)   #=> [0, 0, 0, 2, 2, 2, 7, 8, 18, 11, 16, 27, 30, 30, 40, 47, 46, 75, 60, 72, 101, 93, 84, 109, 146, 148, 167, 142, 137, 180, 166, 197, 254, 282, 283, 301, 247, 333, 367, 347, 283, 389, 327, 367, 475, 501, 373, 591, 517, 562, 621, 597, 491]
+
+for k in (1..9) {
+    say "a(10^#{k}) = #{a4(10**k)}"
+}
+
+__END__
+
+# PARI/GP program:
+
+T(n) = n*(n+1)/2;
+S(n) = my(s=sqrtint(n)); sum(k=1, s, T(n\k) + k*(n\k)) - s*T(s); \\ A024916
+g(a,b) = my(s=0); while(a <= b, my(t=b\a); my(u=b\t); s += t*(T(u) - T(a-1)); a = u+1); s;
+a(n) = (n-1)*sigma(n) - S(sigma(n)) + g(n, sigma(n));
+
+# Shorter program (but slower):
+
+T(n) = n*(n+1)/2;
+g(a,b) = my(s=0); while(a <= b, my(t=b\a); my(u=b\t); s += t*(T(u) - T(a-1)); a = u+1); s;
+a(n) = (n-1)*sigma(n) - g(1, sigma(n)) + g(n, sigma(n));
+
+# Some large terms:
+
+a(10^1)  = 11
+a(10^2)  = 2308
+a(10^3)  = 256499
+a(10^4)  = 26346597
+a(10^5)  = 2650163387
+a(10^6)  = 265506202226
+a(10^7)  = 26568814040110
+a(10^8)  = 2657644603725037
+a(10^9)  = 265798938585411529
+a(10^10) = 26581528602776372529
+a(10^11) = 2658232373674163332649
+a(10^12) = 265827157680473639940077
+a(10^13) = 26582910399621677713718754
+a(10^14) = 2658300736987626907240201603
+a(10^15) = 265830557686695474581175477509
+a(10^16) = 26583079946489589792230485512802
+a(10^17) = 2658309203000661515638015265747224
+a(10^18) = 265830980704171650030835798249716206
+a(10^19) = 26583101090285498680076419351182000582
+
+# Computing a(10^18) took 11 minutes.
+# Computing a(10^19) took 40 minutes.

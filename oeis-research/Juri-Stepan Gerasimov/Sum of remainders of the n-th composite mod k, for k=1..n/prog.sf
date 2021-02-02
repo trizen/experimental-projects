@@ -1,0 +1,61 @@
+#!/usr/bin/ruby
+
+# Sum of remainders of the n-th composite mod k, for k=1,2,3,...,n.
+# https://oeis.org/A162733
+
+# Formula:
+#   a(n) = n*c - A024916(c) + Sum_{k=n+1..c} k*floor(c/k), where c = composite(n).
+
+# Some larg terms:
+#   a(10^1)  = 19
+#   a(10^2)  = 2570
+#   a(10^3)  = 234629
+#   a(10^4)  = 22023392
+#   a(10^5)  = 2112214237
+#   a(10^6)  = 205264832182
+#   a(10^7)  = 20107236745459
+#   a(10^8)  = 1979660200134864
+#   a(10^9)  = 195581116031179224
+#   a(10^10) = 19369336214284240180
+#   a(10^11) = 1921625789486572491456
+#   a(10^12) = 190896352406437965763817
+#   a(10^13) = 18983166656994117309394645
+
+func T(n) {     # Sum_{k=1..n} k = n-th triangular number
+    n.faulhaber(1)
+}
+
+func S(n) {     # Sum_{k=1..n} sigma(k) = Sum_{k=1..n} k*floor(n/k)
+    #var s = n.isqrt
+    #sum(1..s, {|k| T(idiv(n,k)) + k*idiv(n,k) }) - T(s)*s
+    n.dirichlet_sum({1}, {_}, {_}, {.faulhaber(1)})
+}
+
+func g(a,b) {
+    var total = 0
+    while (a <= b) {
+        var t = idiv(b, a)
+        var u = idiv(b, t)
+        total += t*(T(u) - T(a-1))
+        a = u+1
+    }
+    return total
+}
+
+func a(n) { # sub-linear formula
+    var c = n.composite
+    n*c - S(c) + g(n+1, c)
+}
+
+func a_linear(n) { # just for testing
+    var c = n.composite
+    sum(1..n, {|k| c % k })
+}
+
+assert_eq(a.map(1..100), a_linear.map(1..100))
+
+say a.map(1..58)    #=> [0, 0, 2, 2, 3, 2, 10, 15, 15, 19, 25, 34, 41, 40, 58, 67, 80, 79, 83, 101, 118, 131, 152, 132, 170, 191, 180, 193, 223, 234, 253, 254, 294, 300, 329, 334, 356, 393, 384, 417, 442, 433, 501, 522, 522, 567, 554, 609, 650, 645, 642, 725, 750, 761, 818, 805, 833, 873]
+
+for k in (1..9) {
+    say "a(10^#{k}) = #{a(10**k)}"
+}
