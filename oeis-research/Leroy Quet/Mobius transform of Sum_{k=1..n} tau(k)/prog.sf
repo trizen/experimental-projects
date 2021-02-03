@@ -1,0 +1,44 @@
+#!/usr/bin/ruby
+
+# a(n) = Sum_{1<=k<=n, gcd(k,n)=1} floor(n/k).
+# https://oeis.org/A116477
+
+# Some large terms:
+#    a(10^1)  = 15
+#    a(10^2)  = 236
+#    a(10^3)  = 3263
+#    a(10^4)  = 41843
+#    a(10^5)  = 510516
+#    a(10^6)  = 6026222
+#    a(10^7)  = 69472164
+#    a(10^8)  = 786824763
+#    a(10^9)  = 8789281552
+#    a(10^10) = 97103155713
+#    a(10^11) = 1063134960968
+#    a(10^12) = 11552383642888
+#    a(10^13) = 124734176788565
+
+# Question:
+#   Is there a sublinear formula for computing: Sum_{1<=k<=n, gcd(k,n)=1} k*floor(n/k) ?
+
+func S(n) {  # Sum_{k=1..n} floor(n/k) = 2*Sum_{k=1..floor(sqrt(n))} floor(n/k) - floor(sqrt(n))^2
+    n.dirichlet_sum({1},{1},{_},{_});
+}
+
+func a(n) {     # sub-linear time
+    n.divisors.sum {|d|
+        mu(d) * S(n/d)
+    }
+}
+
+func a_linear(n) {  # just for testing
+    sum(1..n -> grep {|k| n.is_coprime(k) }, {|k| idiv(n,k) })
+}
+
+assert_eq(100.of(a), 100.of(a_linear))
+
+say 30.of(a)    #=> [0, 1, 2, 4, 5, 9, 7, 15, 12, 18, 15, 28, 16, 36, 23, 31, 30, 51, 26, 59, 34, 50, 43, 75, 37, 77, 52, 72, 55, 102]
+
+for k in (1..20) {
+    say "a(10^#{k}) = #{a(10**k)}"
+}
