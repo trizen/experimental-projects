@@ -59,7 +59,7 @@ sub add_section {
 my $summary_file = 'README.md';
 my $main_dir     = curdir();
 
-my $ext_re = qr/(?:p[lm]|sf|png|cpp|jl)/i;
+my $ext_re = qr/(?:p[lm]|sf|png|cpp|jl|gp)/i;
 
 {
     my @root;
