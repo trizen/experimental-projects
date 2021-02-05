@@ -17,6 +17,7 @@
 #    a(10^11) = 1063134960968
 #    a(10^12) = 11552383642888
 #    a(10^13) = 124734176788565
+#    a(10^14) = 1339445171617995
 
 # Question:
 #   Is there a sublinear formula for computing: Sum_{1<=k<=n, gcd(k,n)=1} k*floor(n/k) ?
@@ -26,7 +27,7 @@ func S(n) {  # Sum_{k=1..n} floor(n/k) = 2*Sum_{k=1..floor(sqrt(n))} floor(n/k) 
 }
 
 func a(n) {     # sub-linear time
-    n.divisors.sum {|d|
+    n.squarefree_divisors.sum {|d|
         mu(d) * S(n/d)
     }
 }
