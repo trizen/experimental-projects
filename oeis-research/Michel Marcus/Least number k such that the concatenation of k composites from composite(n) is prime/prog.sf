@@ -1,0 +1,68 @@
+#!/usr/bin/ruby
+
+#~ f(n) = least number k such that the concatenation of k composite numbers starting from the n-th composite is prime
+
+#~ f(1)  = ?
+#~ f(2)  = ?
+#~ f(3)  = 2      (3rd composite = 8 ; 89 is prime)
+#~ f(4)  = ?
+#~ f(5)  = 646
+#~ f(6)  = 14662  (found by Hans Havermann via SeqFan)
+#~ f(7)  = 6      (7th composite = 14 ; 141516182021 is prime)
+#~ f(8)  = 14     (8th composite = 15 ; 1516182021222425262728303233 is prime)
+#~ f(9)  = 302
+#~ f(10) = 24     (10th composite = 18; 182021222425262728303233343536383940424445464849 is prime)
+
+#~ Is it possible to find f(1), f(2), f(4), f(6) that are the first missing values for f() ?
+
+# Extra values:
+#   f(11) = 1388  (found by cwwuieee via SeqFan)
+#   f(12) = 6
+#   f(13) = ?
+#   f(14) = ?
+
+# Bounds:
+#   f(1) > composite_count(9938)
+#   f(2) > composite_count(6230)
+#   f(4) > composite_count(5212)
+#   f(6) > composite_count(4928)
+
+func isok(n, k) {
+    ncomposites(k, n.composite).join.to_i.is_prob_prime
+}
+
+assert(isok(3, 2))
+assert(isok(5, 646))
+assert(isok(7, 6))
+assert(isok(8, 14))
+assert(isok(9, 302))
+assert(isok(10, 24))
+assert(isok(12, 6))
+
+func f(n, i=n.composite) {
+
+    var c   = n.composite
+    var str = (c..i -> grep { .is_composite }.join)
+
+    c = i
+
+    loop {
+
+        say "[n = #{n}] Testing: #{c} (len: #{str.len})"
+
+        if (str.to_i.is_prob_prime) {
+            var r = composite_count(n.composite, c)
+            say "Found: f(#{n}) = #{r}"
+            return r
+        }
+
+        c.next_composite!
+        str += c.to_s
+    }
+}
+
+#say f(16)
+say f(1, 9938)
+
+#say f(1, 6000)
+#say f(5, 776)
