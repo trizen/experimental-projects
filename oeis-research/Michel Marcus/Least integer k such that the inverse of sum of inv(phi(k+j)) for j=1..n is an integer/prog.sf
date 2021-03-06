@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+
+# a(n) is the least integer k such that 1/(Sum_{j=0..n} 1/phi(k+j)) is an integer.
+# https://oeis.org/A341799
+
+# Known terms:
+#   1, 3, 12, 13, 30, 31, 5654345764
+
+# See also:
+#   https://oeis.org/A341745
+
+var n = 6
+var range = (0..n)
+
+Math.smooth_numbers(primes(71)...).each {|r|
+
+    var k = 4680*r
+    #var k = 379080*r
+
+    if (k > 1e9) {
+
+        (k+n).phi.is_smooth(100) || next
+
+        if (range.all {|j| (k+j).phi.is_smooth(100) }) {
+            say "Testing: #{k}"
+            if (sum(0..n, {|j| phi(k+j).inv }).inv.is_int) {
+                die "Found: #{k}"
+            }
+        }
+    }
+}
+
+__END__
+
+# For n = 4 (terms of A341745):
+
+112123440
+1231401600
+9395357400
+550424160000
+1013280840000
+8083217610000
+53301680640000
+65204622054000
+442798714884240
+448945897771800
