@@ -13,8 +13,6 @@
 #~ f(9)  = 302
 #~ f(10) = 24     (10th composite = 18; 182021222425262728303233343536383940424445464849 is prime)
 
-#~ Is it possible to find f(1), f(2), f(4), f(6) that are the first missing values for f() ?
-
 # Extra values:
 #   f(11) = 1388  (found by cwwuieee via SeqFan)
 #   f(12) = 6
@@ -22,10 +20,9 @@
 #   f(14) = ?
 
 # Bounds:
-#   f(1) > composite_count(9938)
+#   f(1) > composite_count(11333)
 #   f(2) > composite_count(6230)
 #   f(4) > composite_count(5212)
-#   f(6) > composite_count(4928)
 
 func isok(n, k) {
     ncomposites(k, n.composite).join.to_i.is_prob_prime
