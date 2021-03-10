@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number k with n prime factors such that p + k/p is prime for every prime p | k.
+# https://oeis.org/A294925
+
+# Known terms:
+#   2, 6, 30, 210, 15810, 292110, 16893030, 984016110, 17088913842, 2446241358990, 1098013758964122
+
+func a(n) {
+    1..1e100 -> each_squarefree_almost_prime(n, {|k|
+        if (k.factor.all {|p| p + k/p -> is_prime }) {
+            return k
+            break
+        }
+    })
+}
+
+#say a.map(1..9)
+
+var n = 12
+say ("a(#{n}) = ", a(n))
