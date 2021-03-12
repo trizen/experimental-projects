@@ -9,6 +9,15 @@
 # Algorithm from:
 #   https://blog.dreamshire.com/project-euler-50-solution/
 
+# This program cached:
+#   https://archive.is/cd2SI
+
+# Conjectured terms for A342439:
+#   5, 41, 953, 9521, 92951, 997651, 9951191, 99819619, 999715711, 9999419621, 99987684473, 999973156643, 9999946325147, 99999863884699, 999998764608469, 9999994503821977, 99999999469565483
+
+# Conjectured terms for A342440:
+#   2, 6, 21, 65, 183, 543, 1587, 4685, 13935, 41708, 125479, 379317, 1150971, 3503790, 10695879, 32729271, 100361001
+
 use 5.010;
 use strict;
 use warnings;
