@@ -18,7 +18,7 @@ sub divceil ($x,$y) {   # ceil(x/y)
     (mulint($q, $y) == $x) ? $q : ($q+1);
 }
 
-sub squarefree_almost_primes ($A, $B, $k) {
+sub squarefree_almost_primes ($A, $B, $k, $pmax=1000) {
 
     $A = vecmax($A, pn_primorial($k));
 
@@ -42,10 +42,11 @@ sub squarefree_almost_primes ($A, $B, $k) {
 
         my $s = rootint(divint($B, $m), $k);
 
-        while ($p <= $s) {
+        for (; $p <= $s; $p = next_prime($p)) {
+
+            $p > $pmax and last;
 
             if (modint($m, $p) == 0) {
-                $p = next_prime($p);
                 next;
             }
 
@@ -55,14 +56,16 @@ sub squarefree_almost_primes ($A, $B, $k) {
 
             # Optional optimization for tight ranges
             if ($u > $v) {
-                $p = next_prime($p);
                 next;
             }
 
             $u = $p if ($k==2 && $p>$u);
 
+            if ($v > $pmax) {
+                $v = $pmax;
+            }
+
             __SUB__->($t, $p, $k - 1, $u, $v);
-            $p = next_prime($p);
         }
     }->(1, 2, $k);
 
@@ -72,9 +75,16 @@ sub squarefree_almost_primes ($A, $B, $k) {
 #~ my $k = 10;
 #~ my $from = 1;
 #~ my $upto = 2446241358990*2;
+#~ my $pmax = 587;
+
+#~ my $k    = 11;
+#~ my $from = 1;
+#~ my $upto = 1098013758964122;
+#~ my $pmax = 251;
 
 my $k    = 12;
 my $from = 1;
-my $upto = 912530181633450280;
+my $upto = 1098013758964122*45;
+my $pmax = 251;
 
-squarefree_almost_primes($from, $upto, $k);
+squarefree_almost_primes($from, $upto, $k, $pmax);
