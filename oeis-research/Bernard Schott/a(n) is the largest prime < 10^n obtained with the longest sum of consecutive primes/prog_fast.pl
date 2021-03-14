@@ -12,17 +12,9 @@
 # This program cached:
 #   https://archive.is/cd2SI
 
-# Conjectured terms for A342439:
-#   5, 41, 953, 9521, 92951, 997651, 9951191, 99819619, 999715711, 9999419621, 99987684473, 999973156643, 9999946325147, 99999863884699, 999998764608469, 9999994503821977, 99999999469565483
-
-# Conjectured terms for A342440:
-#   2, 6, 21, 65, 183, 543, 1587, 4685, 13935, 41708, 125479, 379317, 1150971, 3503790, 10695879, 32729271, 100361001
-
 use 5.010;
 use strict;
 use warnings;
-
-#use integer;
 
 use ntheory qw(:all);
 
@@ -32,10 +24,9 @@ foreach my $n (1 .. 100) {
 
     my @prime_sum = (0);
     for (my $p = 2 ; ; $p = next_prime($p)) {
-        push @prime_sum, $prime_sum[-1] + $p;
-        if ($prime_sum[-1] >= $limit) {
-            last;
-        }
+        my $sum = $prime_sum[-1] + $p;
+        last if ($sum >= $limit);
+        push @prime_sum, $sum;
     }
 
     my $terms         = 1;
@@ -47,7 +38,7 @@ foreach my $n (1 .. 100) {
 
             my $n = $prime_sum[$j] - $prime_sum[$i];
 
-            if ($j - $i > $terms and $n < $limit and is_prime($n)) {
+            if (($j - $i > $terms or $n > $max_prime) and $n < $limit and is_prime($n)) {
                 ($terms, $max_prime, $start_p_index) = ($j - $i, $n, $i + 1);
                 last;
             }
@@ -58,6 +49,9 @@ foreach my $n (1 .. 100) {
 }
 
 __END__
+
+# Results starting with the smallest prime:
+
 5 is the sum of 2 consecutive primes with first prime = 2
 41 is the sum of 6 consecutive primes with first prime = 2
 953 is the sum of 21 consecutive primes with first prime = 7
@@ -73,5 +67,25 @@ __END__
 9999946325147 is the sum of 1150971 consecutive primes with first prime = 5
 99999863884699 is the sum of 3503790 consecutive primes with first prime = 2
 999998764608469 is the sum of 10695879 consecutive primes with first prime = 7
+9999994503821977 is the sum of 32729271 consecutive primes with first prime = 5
+99999999469565483 is the sum of 100361001 consecutive primes with first prime = 5
+
+# Results maximizing for the largest sum, rather than the smallest starting prime:
+
+5 is the sum of 2 consecutive primes with first prime = 2
+41 is the sum of 6 consecutive primes with first prime = 2
+953 is the sum of 21 consecutive primes with first prime = 7
+9521 is the sum of 65 consecutive primes with first prime = 3
+92951 is the sum of 183 consecutive primes with first prime = 3
+997651 is the sum of 543 consecutive primes with first prime = 7
+9964597 is the sum of 1587 consecutive primes with first prime = 7
+99819619 is the sum of 4685 consecutive primes with first prime = 7
+999715711 is the sum of 13935 consecutive primes with first prime = 11
+9999419621 is the sum of 41708 consecutive primes with first prime = 2
+99987684473 is the sum of 125479 consecutive primes with first prime = 19
+999973156643 is the sum of 379317 consecutive primes with first prime = 5
+9999946325147 is the sum of 1150971 consecutive primes with first prime = 5
+99999863884699 is the sum of 3503790 consecutive primes with first prime = 2
+999999149973119 is the sum of 10695879 consecutive primes with first prime = 13
 9999994503821977 is the sum of 32729271 consecutive primes with first prime = 5
 99999999469565483 is the sum of 100361001 consecutive primes with first prime = 5
