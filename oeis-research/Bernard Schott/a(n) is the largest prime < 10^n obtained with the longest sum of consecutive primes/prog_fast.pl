@@ -9,9 +9,6 @@
 # Algorithm from:
 #   https://blog.dreamshire.com/project-euler-50-solution/
 
-# This program cached:
-#   https://archive.is/cd2SI
-
 use 5.010;
 use strict;
 use warnings;
@@ -50,7 +47,7 @@ foreach my $n (1 .. 100) {
 
 __END__
 
-# Results starting with the smallest prime:
+# Results with the largest number of consecutive primes that sum to an n-digit prime and with the smallest starting prime:
 
 5 is the sum of 2 consecutive primes with first prime = 2
 41 is the sum of 6 consecutive primes with first prime = 2
@@ -70,7 +67,7 @@ __END__
 9999994503821977 is the sum of 32729271 consecutive primes with first prime = 5
 99999999469565483 is the sum of 100361001 consecutive primes with first prime = 5
 
-# Results maximizing for the largest sum, rather than the smallest starting prime:
+# Results with the largest number of consecutive primes that sum to an n-digit prime and with the largest sum:
 
 5 is the sum of 2 consecutive primes with first prime = 2
 41 is the sum of 6 consecutive primes with first prime = 2
