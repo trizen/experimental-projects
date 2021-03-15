@@ -1002,6 +1002,8 @@ Highly experimental personal projects.
             * [prog.pl](./oeis-research/Zak%20Seidov/Concatenation%20of%20numbers%20from%20n%20to%20a(n)%20is%20prime/prog.pl)
         * [First n-almost prime after 3^n](./oeis-research/Zak%20Seidov/First%20n-almost%20prime%20after%203^n)
             * [search.pl](./oeis-research/Zak%20Seidov/First%20n-almost%20prime%20after%203^n/search.pl)
+        * [Least odd number k such that Omega(k) = n, Omega(k+2) = n+1, and Omega(k+4) = n+2](./oeis-research/Zak%20Seidov/Least%20odd%20number%20k%20such%20that%20Omega(k)%20=%20n,%20Omega(k+2)%20=%20n+1,%20and%20Omega(k+4)%20=%20n+2)
+            * [prog.pl](./oeis-research/Zak%20Seidov/Least%20odd%20number%20k%20such%20that%20Omega(k)%20=%20n,%20Omega(k+2)%20=%20n+1,%20and%20Omega(k+4)%20=%20n+2/prog.pl)
         * [Numbers k that are the sum and product of 5 consecutive primes](./oeis-research/Zak%20Seidov/Numbers%20k%20that%20are%20the%20sum%20and%20product%20of%205%20consecutive%20primes)
             * [prog.pl](./oeis-research/Zak%20Seidov/Numbers%20k%20that%20are%20the%20sum%20and%20product%20of%205%20consecutive%20primes/prog.pl)
             * [prog.sf](./oeis-research/Zak%20Seidov/Numbers%20k%20that%20are%20the%20sum%20and%20product%20of%205%20consecutive%20primes/prog.sf)
