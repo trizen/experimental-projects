@@ -1,0 +1,77 @@
+#!/usr/bin/ruby
+
+# Smallest odd primitive abundant number (A006038) having n distinct prime factors.
+# https://oeis.org/A188342
+
+# Known terms:
+#   945, 3465, 15015, 692835, 22309287, 1542773001, 33426748355, 1635754104985, 114761064312895, 9316511857401385, 879315530560980695
+
+# Upper-bounds due to Donovan Johnson for n=14 (Mar 31 2011) and M. F. Hasler for n=15..17 (Jul 17 2016)
+#   a(14) <= 88452776289145528645
+#   a(15) <= 2792580508557308832935
+#   a(16) <= 428525983200229616718445
+#   a(17) <= 42163230434005200984080045
+
+# Extra upper-bounds (generated with this program):
+#   a(18) <= 1357656019974967471687377449
+#   a(19) <= 189407457935656632167109232619
+#   a(20) <= 25557786985317796527581223227267
+#   a(21) <= 3791929072764979008305867397500527
+#   a(22) <= 456592871291171295882477091922563457
+
+# For n = 18 and lpf(N) = 5, we also have:
+#   a(18) <= 4506505276387497069886673045
+
+var min = Inf
+var max = 456592871291171295882477091922563457
+
+var omega_value = 22        # exact number of prime factors
+
+var lpf = 7                 # exactly smallest prime factor of n
+var gpf_max = 103           # limit for the largest prime of n
+var max_pi_p_diff = 3       # limit for the maximum difference between primes (pi(gpf(n)) - pi(q))
+
+var min_abundancy = 2       # minimum abundancy
+var max_abundancy = 2.1     # maximum abundancy
+
+func is_primitive_abundant(n) {
+    n.factor.none {|p|
+        abundancy(n/p) > 2
+    }
+}
+
+func f(n, p) {
+
+    if (n.omega > omega_value) {
+        return nil
+    }
+
+    var ab = n.abundancy
+
+    if (ab > max_abundancy) {
+        return nil
+    }
+
+    if (ab >= min_abundancy) {
+        if (n<min && n.omega==omega_value && is_primitive_abundant(n)) {
+            min = n
+            say [p, omega(n), n]
+        }
+    }
+
+    var q = p.next_prime
+
+    if (q > gpf_max) {
+        return nil
+    }
+
+    if (q.pi - p.pi <= max_pi_p_diff) {
+        if (n*q <= max) {
+            f(n*q, q)
+        }
+    }
+
+    f(n, q)
+}
+
+say f(lpf, lpf)
