@@ -12,12 +12,15 @@ use experimental qw(signatures);
 # a(21) <= 2558408523776
 # a(22) <= 5707559600128
 # a(23) <= 24607835029504
+# a(24) <= 2023168294051839
+# a(25) <= 3951220596428799
+# a(26) <= 3203995725725697
 
-my @arr = (2) x 19;
+my @arr = (3) x 22;
 my $v = vecprod(@arr);
 
 my $r = scalar(@arr);
-my $n = 24;
+my $n = 27;
 
 foralmostprimes {
     my $k = $v * $_;
