@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+
+# Numbers n such that (9^n + 7^n)/16 is prime.
+# https://oeis.org/A301369
+
+# All terms are prime.
+
+# Lower-bound:
+#   a(7) > 19501
+
+for n in (19501 .. 1e9) {
+
+    n.is_prime || next
+
+    say "Testing: #{n}"
+
+    if ((9**n + 7**n)/16 -> is_prob_prime) {
+        die "Found: #{n}"
+    }
+}
