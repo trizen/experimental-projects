@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# Least k such that k is the product of n distinct primes and sigma(k) is an n-th power.
+# https://oeis.org/A281140
+
+# a(14) <= 94467020965716904490370
+
+func a(n) {
+
+    for k in (2..1e9) {
+
+        k.is_smooth(3) || next;
+        inverse_sigma_len(k**n) <= 2e6 || next
+
+        inverse_sigma(k**n).each {|v|
+            if (v.is_squarefree && v.is_almost_prime(n)) {
+                return v
+            }
+        }
+    }
+}
+
+for n in (1..20) {
+    say [n, a(n)]
+}
+
+__END__
+[1, 2]
+[2, 22]
+[3, 102]
+[4, 510]
+[5, 90510]
+[6, 995610]
+[7, 11616990]
+[8, 130258590]
+[9, 1483974030]
+[10, 18404105922510]
+[11, 428454465915630]
+[12, 10195374973815570]
+[13, 240871269907008510]
