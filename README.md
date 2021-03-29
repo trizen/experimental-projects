@@ -69,6 +69,7 @@ Highly experimental personal projects.
         * [Least k such that k is the product of n distinct primes and sigma(k) is an n-th power](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20k%20is%20the%20product%20of%20n%20distinct%20primes%20and%20sigma(k)%20is%20an%20n-th%20power)
             * [inverse sigma.pl](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20k%20is%20the%20product%20of%20n%20distinct%20primes%20and%20sigma(k)%20is%20an%20n-th%20power/inverse_sigma.pl)
             * [inverse sigma.sf](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20k%20is%20the%20product%20of%20n%20distinct%20primes%20and%20sigma(k)%20is%20an%20n-th%20power/inverse_sigma.sf)
+            * [smooth generate.pl](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20k%20is%20the%20product%20of%20n%20distinct%20primes%20and%20sigma(k)%20is%20an%20n-th%20power/smooth_generate.pl)
             * [squarefree almost primes.pl](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20k%20is%20the%20product%20of%20n%20distinct%20primes%20and%20sigma(k)%20is%20an%20n-th%20power/squarefree_almost_primes.pl)
         * [Least k such that sigma(k) is a Fibonacci number when k is the product of n distinct primes](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20sigma(k)%20is%20a%20Fibonacci%20number%20when%20k%20is%20the%20product%20of%20n%20distinct%20primes)
             * [prog.sf](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20sigma(k)%20is%20a%20Fibonacci%20number%20when%20k%20is%20the%20product%20of%20n%20distinct%20primes/prog.sf)
