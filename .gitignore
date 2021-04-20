@@ -118,3 +118,6 @@ pseudoprimes/generators/carmichael_lambdas_2^64.txt
 pseudoprimes/generators/lucas-carmichael_lambdas.txt
 #pseudoprimes/oeis-pseudoprimes/fermat_with_large_gpf.txt
 #pseudoprimes/oeis-pseudoprimes/carmichael_with_large_gpf.txt
+
+# Other stuff
+oeis-search/

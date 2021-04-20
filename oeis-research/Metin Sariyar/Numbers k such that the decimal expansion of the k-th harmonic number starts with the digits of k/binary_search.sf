@@ -74,9 +74,13 @@ func isok(k) {
 
 #__END__
 
-for k in (10..99) {
+var n = 1
 
-    for n in (1..100) {
+for k in (1..10000) {
+
+    local Num!PREC = numify(4*(n + 10))
+
+   # for n in (1000..2000) {
         if (harmreal(k * 10**n).to_s.begins_with(k.to_s)) {
             #say (k * 10**n)
             #say [k * 10**n, harmreal(k * 10**n) * 10**n, harmreal((k+1) * 10**n) * 10**n]
@@ -86,15 +90,23 @@ for k in (10..99) {
                 (k / 10**n) <=> harmreal(k)
             })
 
+            var ok = false
+
             if (isok(v-1)) {
                 say v-1
+                ok = true
             }
 
             if (isok(v)) {
                 say v
+                ok = true
             }
+
+            ++n if ok
         }
-    }
+
+      #  ++n
+  #  }
 }
 
 __END__
