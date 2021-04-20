@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Numbers k such that A003415(sigma(k)) = k, where A003415 is the arithmetic derivative, and sigma is the sum of divisors of n.
+# https://oeis.org/A342021
+
+# Known terms:
+#   5, 8, 41, 47057
+
+var min = 1
+var max = 1e8
+
+for n in (2..100) {
+
+    var count = n.squarefree_almost_prime_count(min, max) || break
+
+    say "\nTesting: n = #{n} (count: #{count})\n"
+
+    n.each_squarefree_almost_prime(min, max, {|p|
+
+        p.dec.is_prime || next
+
+        if (p.derivative == p-1) {
+            print(p-1, ", ")
+        }
+    })
+}
