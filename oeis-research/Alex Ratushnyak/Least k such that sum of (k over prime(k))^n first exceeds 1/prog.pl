@@ -7,7 +7,7 @@
 #   2, 3, 6, 129, 107103, 19562634
 
 # New terms:
-#
+#   a(7) = 2433065908       (needs to be double-checked)
 
 use 5.014;
 use warnings;

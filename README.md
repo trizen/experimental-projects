@@ -1136,6 +1136,7 @@ Highly experimental personal projects.
             * [recover factordb.pl](./pseudoprimes/programs/cache/recover_factordb.pl)
             * [sanitize.pl](./pseudoprimes/programs/cache/sanitize.pl)
             * [storable snippet.pl](./pseudoprimes/programs/cache/storable_snippet.pl)
+        * [carmichael-bernoulli kn numbers.pl](./pseudoprimes/programs/carmichael-bernoulli_kn_numbers.pl)
         * [carmichael-bernoulli numbers cached.pl](./pseudoprimes/programs/carmichael-bernoulli_numbers_cached.pl)
         * [carmichael from divisors.pl](./pseudoprimes/programs/carmichael_from_divisors.pl)
         * [carmichael from super psp cached.pl](./pseudoprimes/programs/carmichael_from_super_psp_cached.pl)
