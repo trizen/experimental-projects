@@ -7,7 +7,11 @@
 #   2, 3, 6, 129, 107103, 19562634
 
 # New terms:
-#   a(7) = 2433065908       (needs to be double-checked)
+#   a(7) = 2433065908
+
+# Term a(7) double-checked with PARI/GP (took 1 hour to verify):
+#   k = 2433065907 gives: 0.99999999993821766811733842990753602502
+#   k = 2433065908 gives: 1.00000000017401085698940764192873576233
 
 use 5.014;
 use warnings;
