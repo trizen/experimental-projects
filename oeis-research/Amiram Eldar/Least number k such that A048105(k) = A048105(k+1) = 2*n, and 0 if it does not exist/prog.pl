@@ -11,11 +11,19 @@
 # Upper-bounds:
 #   a(13) <= 3684603215871
 #   a(15) <= 2035980763136
+#   a(25) <= 1965640805422351777791
+#   a(26) <= 1350757416697856
 
-# A larger upper-bound:
+# Some larger upper-bounds:
 #   a(13) <= 23742854217728
+#   a(26) <= 6085737708051120128
+#   a(26) <= 176974592054955188682752
 
-use 5.014;
+# a(13) and a(15) were confirmed by Martin Ehrenstein (May 20 2021).
+
+# In general, a(n) <= A215199(n+1). Proof: tau(p*q^n) = (1+1)*(n+1), 2^omega(p*q^n) = 2^2, tau(p*q^n) - 2^omega(p*q^n) = 2*(n-1).
+
+use 5.020;
 use ntheory qw(:all);
 use experimental qw(signatures);
 
@@ -31,10 +39,10 @@ sub a($n) {
     }
 }
 
-my $n = 13;
-my $v = 14;
+my $n = 25;
+my $v = $n+1;
 
-my $pow = powint(3, $v);
+my $pow = powint(2, $v);
 
 forprimes {
 
@@ -43,6 +51,10 @@ forprimes {
     if (nu($k) == 2*$n and 2*$n == nu($k+1)) {
         die "Found: $k";
     }
+
+    #~ if (nu($k) == 2*$n and 2*$n == nu($k-1)) {
+        #~ die "Found: ", $k-1;
+    #~ }
 
 } 3, 1e10;
 
