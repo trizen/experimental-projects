@@ -30,10 +30,10 @@ while (my ($n, $value) = each %$carmichael) {
 
     my $len = length($n);
 
-    next if $len > 35;
+    next if $len > 25;
 
-    my @factors = split(' ', $value);
-    @factors == 3 or next;
+    #~ my @factors = split(' ', $value);
+    #~ @factors == 3 or next;
 
     # Problem 1 condition
     #~ Math::Prime::Util::GMP::modint($n, 3) == 0 or next;
@@ -44,11 +44,18 @@ while (my ($n, $value) = each %$carmichael) {
     my @primes   = grep { is_prime($_) } map { Math::Prime::Util::GMP::addint($_, 1) } Math::Prime::Util::GMP::divisors($nm1);
     my $bern_den = Math::Prime::Util::GMP::vecprod(@primes);
 
+    # Are there Carmichael numbers such that D_{n-1} = 2n ?
     #~ if ($bern_den eq Math::Prime::Util::GMP::mulint($n, 2)) {   # problem 1
         #~ say $n;
     #~ }
 
-    if ($bern_den eq Math::Prime::Util::GMP::mulint($n, 6)) {   # problem 2
+    # Are there Carmichael numbers n where D_{n-1} = 6n?
+    #~ if ($bern_den eq Math::Prime::Util::GMP::mulint($n, 6)) {   # problem 2
+        #~ say $n;
+    #~ }
+
+    # Are there Carmichael numbers m such that D_{m-1} = 2(m-2)m ?
+    if ($bern_den eq Math::Prime::Util::GMP::vecprod(2, $n, Math::Prime::Util::GMP::subint($n, 2))) {   # problem 3
         say $n;
     }
 }
