@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number k such that k and k+1 are both of the form p*q^n where p and q are distinct primes.
+# https://oeis.org/A215199
+
+# From David A. Corneth, Mar 13 2019:
+# Conjecture: Let 1 <= D < 2^n be the denominator of N/D of (3/2)^n. Without loss of generality, if the conjecture above holds that (q, s) = (2, 3) then r = D + k*2^n for some n.
+
+# Example: for n = 100, we have the continued fraction of (3/2)^100 to be 406561177535215237, 2, 1, 1, 14, 9, 1, 1, 2, 2, 1, 4, 1, 2, 6, 5, 1, 195, 3, 26, 39, 6, 1, 1, 1, 2, 7, 1, 4, 2, 1, 11, 1, 25, 6, 1, 4, 3, 2, 112, 1, 2, 1, 3, 1, 3, 4, 8, 1, 1, 12, 2, 1, 3, 2, 2 from which we compute D = 519502503658624787456021964081. We find r = 1100840223501761745286594404230449 = D + 868 * 2^100 giving a(100) + 1 = r*3^100. - David A. Corneth, Mar 13 2019
+
+func isok_basecase(n, k) {
+    var t = k
+    t.remdiv!(2).remdiv!(3)
+    t.is_prime && (k.omega == 2) && (k.sigma0 == (2*(n+1)))
+}
+
+func isok(n, k) {
+    isok_basecase(n,k) && isok_basecase(n, k+1)
+}
+
+func a(n, tries=1000) {
+
+    var D = convergents((3/2)**n, 1e9)[-2].de
+
+    var x = 2**n
+    var y = 3**n
+
+    1..tries -> lazy.map {|k|
+        y * (D + k*x) - 1
+    }.first {|k|
+        isok(n, k)
+    }
+}
+
+say a(15)
+say a(50)
+say a(100)
+
+# However, this approach does not seem to work for some n, such as n = 43:
+say a(43)
