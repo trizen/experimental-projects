@@ -1,0 +1,57 @@
+#!/usr/bin/ruby
+
+# Prime(n) nested prime(n) times.
+# https://oeis.org/A344946
+
+# Known terms:
+#   3, 11, 709, 167449, 88362852307, 156740126985437
+
+# Bounds:
+#   1168362263265154302969 < a(7) < 1176317776292085830502
+
+require('ntheory')
+
+func prime_count(n) is cached {
+    Num(`./primecount #{n}`.strip)
+}
+
+func nth_prime_bsearch(n) is cached {
+
+    n == 0 && return 1      # not composite, but...
+    n <= 0 && return NaN
+    n == 1 && return 2
+
+    var min = %S<ntheory>.nth_prime_lower(n)
+    var max = %S<ntheory>.nth_prime_upper(n)
+
+    var k = bsearch_le(min, max, {|k|
+        prime_count(k) <=> n
+    })
+
+    while (!k.is_prime) {
+        --k
+    }
+
+    return k
+}
+
+func nth_prime(n) is cached {
+
+    if (n <= 216289611853439384) {
+        return Num(`./primecount -n #{n}`.strip)
+    }
+
+    nth_prime_bsearch(n)
+}
+
+func a(n) is cached {
+    var p = prime(n)
+    p.dec.times {
+        p = nth_prime(p)
+    }
+    return p
+}
+
+for n in (1..30) {
+    print(a(n), ", ")
+}
