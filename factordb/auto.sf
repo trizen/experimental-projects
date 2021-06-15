@@ -178,6 +178,17 @@ func is_squarefree(n) is cached {
     omega(n) == bigomega(n)
 }
 
+func znorder(b, n) {
+
+    if (n.kind_of(Num)) {
+        gcd(b,n) == 1 || return NaN
+        n.len <= MIN_SIZE && return b.znorder(n)
+    }
+
+    try   { divisors(n).first {|k| b.powmod(k, n) == 1 } \\ NaN }
+    catch { b.znorder(n) }
+}
+
 func is_semiprime(n) is cached {
 
     var check = {|f|
