@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Find all the integers d such that znorder(b, d) = n, for given integers (n,b).
+
+# See also:
+#   https://oeis.org/A226477
+#   https://oeis.org/A345319
+
+include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+
+func inverse_znorder(n, b=10) {
+    divisors(b**n - 1).grep{.is_squarefree}.grep {|d| znorder(b, d) == n }
+}
+
+var base = 2
+
+for n in (64..500) {
+    inverse_znorder(n, base).each {|k|
+       say k if (k > 2**64 && (kronecker(5, k) == -1) && k.is_composite && k.is_strong_psp(base))
+    }
+}
