@@ -833,6 +833,8 @@ Highly experimental personal projects.
             * [t.pl](./oeis-research/Robert%20G.%20Wilson%20v/Index%20of%20first%20occurence%20of%20n%20in%20splitting%20function%20--%20upper-bounds/t.pl)
         * [Number of 13-smooth numbers <= 10^n](./oeis-research/Robert%20G.%20Wilson%20v/Number%20of%2013-smooth%20numbers%20<=%2010^n)
             * [prog.pl](./oeis-research/Robert%20G.%20Wilson%20v/Number%20of%2013-smooth%20numbers%20<=%2010^n/prog.pl)
+        * [Number of positive integers <= 10^n that are divisible by no prime exceeding p](./oeis-research/Robert%20G.%20Wilson%20v/Number%20of%20positive%20integers%20<=%2010^n%20that%20are%20divisible%20by%20no%20prime%20exceeding%20p)
+            * [prog.sf](./oeis-research/Robert%20G.%20Wilson%20v/Number%20of%20positive%20integers%20<=%2010^n%20that%20are%20divisible%20by%20no%20prime%20exceeding%20p/prog.sf)
         * [Numbers k such that 8*factorial(k)-1 is prime](./oeis-research/Robert%20G.%20Wilson%20v/Numbers%20k%20such%20that%208*factorial(k)-1%20is%20prime)
             * [prog.sf](./oeis-research/Robert%20G.%20Wilson%20v/Numbers%20k%20such%20that%208*factorial(k)-1%20is%20prime/prog.sf)
         * [Smallest prime p such that bigomega(p+nextprime(p)) = n](./oeis-research/Robert%20G.%20Wilson%20v/Smallest%20prime%20p%20such%20that%20bigomega(p+nextprime(p))%20=%20n)

@@ -26,12 +26,12 @@ use Math::AnyNum qw(is_smooth);
 
 use ntheory qw(
   urandomm valuation sqrtmod invmod random_prime factor_exp vecmin vecall
-  );
+);
 
 use Math::Prime::Util::GMP qw(
   is_power powmod vecprod sqrtint rootint logint is_prime trial_factor
   gcd sieve_primes consecutive_integer_lcm lucas_sequence is_pseudoprime
-  );
+);
 
 my $ZERO = Math::GMPz->new(0);
 my $ONE  = Math::GMPz->new(1);
@@ -1631,6 +1631,33 @@ sub find_small_factors ($rem, $factors) {
                 );
 
     my $len = length($rem);
+
+    if (0) {
+        foreach my $k (1 .. 10000) {
+
+            #use Math::Sidef qw(cyclotomic);
+            #my $c = cyclotomic($k, 2);
+
+            my $c = Math::GMPz->new(2)**$k - 1;
+
+            if (gcd($rem, $c) == $rem and $c != $rem) {
+                my @factors = factorize($c);
+
+                foreach my $f (@factors) {
+                    store_factor(\$rem, $f, $factors);
+                }
+
+                if (is_prime($rem)) {
+                    push(@$factors, $rem);
+                    $rem = 1;
+                }
+
+                if ($rem == 1) {
+                    return 1;
+                }
+            }
+        }
+    }
 
     my @factorization_methods = (
         sub {
