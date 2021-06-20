@@ -43,7 +43,7 @@ use constant {
               MASK_LIMIT                => 200,         # show Cn if n > MASK_LIMIT, where n ~ log_10(N)
               LOOK_FOR_SMALL_FACTORS    => 1,
               LOOK_FOR_SPECIAL_FORMS    => 1,
-              SCRAPE_FACTORDB           => 1,           # factorize with factorDB by scrapping instead of API
+              SCRAPE_FACTORDB           => 0,           # factorize with factorDB by scrapping instead of API
               MAX_SIZE                  => 1e4,         # ignore numbers with length() greater than this
               TRIAL_DIVISION_LIMIT      => 1_000_000,
               PHI_FINDER_ITERATIONS     => 100_000,
