@@ -82,7 +82,7 @@ Highly experimental personal projects.
             * [prog.sf](./oeis-research/Altug%20Alkan/Least%20k%20such%20that%20sigma(k)%20is%20a%20Fibonacci%20number%20when%20k%20is%20the%20product%20of%20n%20distinct%20primes/prog.sf)
     * [Amarnath Murthy](./oeis-research/Amarnath%20Murthy)
         * [Least k such that k*prime(k) > 10^n](./oeis-research/Amarnath%20Murthy/Least%20k%20such%20that%20k*prime(k)%20>%2010^n)
-            * [Least k such that k*prime(k) > 10^n.pl](./oeis-research/Amarnath%20Murthy/Least%20k%20such%20that%20k*prime(k)%20>%2010^n/Least%20k%20such%20that%20k*prime(k)%20>%2010^n.pl)
+            * [prog.pl](./oeis-research/Amarnath%20Murthy/Least%20k%20such%20that%20k*prime(k)%20>%2010^n/prog.pl)
         * [Sum of the remainders when n^2 is divided by squares < n](./oeis-research/Amarnath%20Murthy/Sum%20of%20the%20remainders%20when%20n^2%20is%20divided%20by%20squares%20<%20n)
             * [prog.sf](./oeis-research/Amarnath%20Murthy/Sum%20of%20the%20remainders%20when%20n^2%20is%20divided%20by%20squares%20<%20n/prog.sf)
     * [Amiram Eldar](./oeis-research/Amiram%20Eldar)

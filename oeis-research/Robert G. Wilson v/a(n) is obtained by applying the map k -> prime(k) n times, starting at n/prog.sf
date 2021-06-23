@@ -9,22 +9,23 @@
 # Bounds:
 #   13290767188588817611 < a(15) < 13393345062869460301
 
-require('ntheory')
+# Better bounds:
+#   13354422008392037377 < a(15) < 13354424965192492032
 
 func prime_count(n) is cached {
-    Num(`./primecount #{n}`.strip)
-    #n.pi
-    #n.prime_count_lower(n)
+    Num(`../../primecount #{n}`.strip)
 }
 
 func nth_prime_bsearch(n) is cached {
+
+    say ":: Using binary search + primecount..."
 
     n == 0 && return 1      # not composite, but...
     n <= 0 && return NaN
     n == 1 && return 2
 
-    var min = %S<ntheory>.nth_prime_lower(n)
-    var max = %S<ntheory>.nth_prime_upper(n)
+    var min = n.prime_lower
+    var max = n.prime_upper
 
     var k = bsearch_le(min, max, {|k|
         prime_count(k) <=> n
@@ -39,10 +40,15 @@ func nth_prime_bsearch(n) is cached {
 
 func nth_prime(n) is cached {
 
+    #~ if (n <= 1e12) {
+        #~ return n.prime
+    #~ }
+
+    #~ return n.prime_lower
+    #~ return n.prime_upper
+
     if (n <= 216289611853439384) {
-        return Num(`./primecount -n #{n}`.strip)
-        #return  %S<ntheory>.nth_prime_lower(n)
-        #return n.nth_prime
+        return Num(`../../primecount -n #{n}`.strip)
     }
 
     nth_prime_bsearch(n)
@@ -57,5 +63,6 @@ func a(n) is cached {
 }
 
 for n in (1..30) {
-    print(a(n), ", ")
+    #print(a(n), ", ")
+    say "a(#{n}) = #{a(n)}"
 }
