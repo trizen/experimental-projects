@@ -9,10 +9,11 @@
 # Bounds:
 #   1168362263265154302969 < a(7) < 1176317776292085830502
 
-require('ntheory')
+# Better bounds:
+#   1172447492997976103784 < a(7) < 1172447698513960075168
 
 func prime_count(n) is cached {
-    Num(`./primecount #{n}`.strip)
+    Num(`../../primecount #{n}`.strip)
 }
 
 func nth_prime_bsearch(n) is cached {
@@ -21,8 +22,8 @@ func nth_prime_bsearch(n) is cached {
     n <= 0 && return NaN
     n == 1 && return 2
 
-    var min = %S<ntheory>.nth_prime_lower(n)
-    var max = %S<ntheory>.nth_prime_upper(n)
+    var min = n.prime_lower
+    var max = n.prime_upper
 
     var k = bsearch_le(min, max, {|k|
         prime_count(k) <=> n
@@ -37,8 +38,15 @@ func nth_prime_bsearch(n) is cached {
 
 func nth_prime(n) is cached {
 
+    #~ if (n <= 1e12) {
+        #~ return n.prime
+    #~ }
+
+    #~ return n.prime_lower
+    #~ return n.prime_upper
+
     if (n <= 216289611853439384) {
-        return Num(`./primecount -n #{n}`.strip)
+        return Num(`../../primecount -n #{n}`.strip)
     }
 
     nth_prime_bsearch(n)

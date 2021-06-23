@@ -13,47 +13,13 @@ use 5.010;
 use strict;
 use warnings;
 
-use Math::AnyNum qw(:overload min max);
-use ntheory qw( nth_prime_lower nth_prime_upper next_prime prev_prime);
-
-sub bsearch_ge ($$;$) {
-    my ($left, $right, $block) = @_;
-
-    $left = Math::GMPz->new("$left");
-    $right = Math::GMPz->new("$right");
-
-    my $middle = Math::GMPz::Rmpz_init();
-
-    while (1) {
-
-        Math::GMPz::Rmpz_add($middle, $left, $right);
-        Math::GMPz::Rmpz_div_2exp($middle, $middle, 1);
-
-        my $cmp = do {
-            local $_ = Math::AnyNum->new(Math::GMPz::Rmpz_init_set($middle));
-            $block->($_, Math::AnyNum->new("$left"), Math::AnyNum->new("$right")) || return $_;
-        };
-
-        if ($cmp < 0) {
-            Math::GMPz::Rmpz_add_ui($left, $middle, 1);
-
-            if (Math::GMPz::Rmpz_cmp($left, $right) > 0) {
-                Math::GMPz::Rmpz_add_ui($middle, $middle, 1);
-                last;
-            }
-        }
-        else {
-            Math::GMPz::Rmpz_sub_ui($right, $middle, 1);
-            Math::GMPz::Rmpz_cmp($left, $right) > 0 and last;
-        }
-    }
-
-    Math::AnyNum->new($middle);
-}
+use Math::Sidef;
+use Math::AnyNum qw(:overload min max bsearch_ge);
+use ntheory qw(nth_prime_lower nth_prime_upper next_prime prev_prime);
 
 sub nth_prime {
     my ($n) = @_;
-    chomp(my $p = `../primecount -n $n`);
+    chomp(my $p = `../../primecount -n $n`);
     Math::AnyNum->new($p);
 }
 
@@ -68,28 +34,19 @@ sub a {
     my $max_approx = 2*$min_approx;
 
     my $min = bsearch_ge($min_approx, $max_approx, sub {
-        nth_prime_upper($_) * $_ <=> $lim
+        Math::Sidef::nth_prime_upper($_) * $_ <=> $lim
     });
 
     my $max = bsearch_ge($min, $max_approx, sub {
-        nth_prime_lower($_) * $_ <=> $lim
+        Math::Sidef::nth_prime_lower($_) * $_ <=> $lim
     });
 
     my @checkpoint;
 
     my $exact = bsearch_ge($min, $max, sub {
-        my ($k, $left, $right) = @_;
-
-        my $p = nth_prime($k);
-
-        if ($right-$left < 10**6) {
-            @checkpoint = ($p, $k);
-            last;
-        }
-
-        say "p($_) = $p [ ", $right-$left, " ]";
-
-        $p * $k <=> $lim
+        my $p = nth_prime($_);
+        say "p($_) = $p";
+        $p * $_ <=> $lim;
     });
 
     return $exact if !@checkpoint;
