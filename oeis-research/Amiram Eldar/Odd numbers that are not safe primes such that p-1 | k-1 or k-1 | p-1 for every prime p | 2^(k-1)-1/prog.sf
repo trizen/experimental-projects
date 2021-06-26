@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Odd numbers k with (k-1)/2 not prime such that p-1 | k-1 or k-1 | p-1 for every prime p | 2^(k-1)-1.
+# https://oeis.org/A345460
+
+# Known terms:
+#    1, 3, 9, 13, 17, 19, 31, 33, 37, 43, 65, 79, 115, 129, 187, 223, 367, 403, 535, 763, 835
+
+# Are there only finitely many such numbers? No more terms below 2217. - Amiram Eldar and Thomas Ordowski, Jun 20 2021
+
+include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+
+for k in (2200..1e6) {
+
+    k.is_even && next
+    k.dec / 2 -> is_prime && next
+
+    var f = factordb("2^#{k-1}-1")
+
+    f.all{.is_prime } || do {
+        say "Skipping: #{k}"
+        next;
+    };
+
+    say "Checking: #{k}"
+
+    if (f.all {|p|
+         ((p-1 `divides` k-1) || (k-1 `divides` p-1))
+    }) {
+        die "New term: #{k}"
+    }
+}
