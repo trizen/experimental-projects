@@ -55,11 +55,7 @@ func nth_prime(n) is cached {
 }
 
 func a(n) is cached {
-    var p = n
-    n.times {
-        p = nth_prime(p)
-    }
-    return p
+    1..n -> reduce({ .prime }, n)
 }
 
 for n in (1..30) {
