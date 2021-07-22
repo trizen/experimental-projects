@@ -12,6 +12,8 @@
 # Better bounds:
 #   1172447492997976103784 < a(7) < 1172447698513960075168
 
+# a(7) = 1172447586903041169661 (found by Jinyuan Wang, Jul 12 2021)
+
 func prime_count(n) is cached {
     Num(`../../primecount #{n}`.strip)
 }

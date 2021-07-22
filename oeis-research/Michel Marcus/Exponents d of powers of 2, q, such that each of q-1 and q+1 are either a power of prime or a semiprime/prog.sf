@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# Exponents d of powers of 2, q, such that each of q-1 and q+1 are either a power of prime or a semiprime.
+# https://oeis.org/A345899
+
+# Known terms:
+#   1, 2, 3, 4, 5, 7, 11, 13, 17, 19, 23, 31, 61, 101, 127, 167, 199, 347
+
+include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+
+for k in (1..1e6) {
+
+    var check = {|f|
+        if (is_prime_power(f.prod)) {
+            # prime power -- ok
+        }
+        else {
+
+            if (f.len == 2) {    # semiprime
+                f.all { .is_prime } || next
+            }
+
+            f.len > 2 && next
+        }
+    }
+
+    var a = factordb("2^#{k}-1")
+    check(a)
+
+    var b = factordb("2^#{k}+1")
+    check(b)
+
+    if (a.all { .is_prime } && b.all { .is_prime }) {
+        print(k, ", ")
+    }
+    else {
+        die "\nCan't go beyond #{k}...";
+    }
+}
