@@ -671,6 +671,7 @@ Highly experimental personal projects.
         * [Numbers k such that the decimal expansion of the k-th harmonic number starts with the digits of k](./oeis-research/Metin%20Sariyar/Numbers%20k%20such%20that%20the%20decimal%20expansion%20of%20the%20k-th%20harmonic%20number%20starts%20with%20the%20digits%20of%20k)
             * [binary search.sf](./oeis-research/Metin%20Sariyar/Numbers%20k%20such%20that%20the%20decimal%20expansion%20of%20the%20k-th%20harmonic%20number%20starts%20with%20the%20digits%20of%20k/binary_search.sf)
         * [Numbers m such that Sum {k=1..m} omega(k) = sigma(m)](./oeis-research/Metin%20Sariyar/Numbers%20m%20such%20that%20Sum_{k=1..m}%20omega(k)%20=%20sigma(m))
+            * [inverse sigma smooth search.pl](./oeis-research/Metin%20Sariyar/Numbers%20m%20such%20that%20Sum_{k=1..m}%20omega(k)%20=%20sigma(m)/inverse_sigma_smooth_search.pl)
             * [smooth search.pl](./oeis-research/Metin%20Sariyar/Numbers%20m%20such%20that%20Sum_{k=1..m}%20omega(k)%20=%20sigma(m)/smooth_search.pl)
         * [Numbers n such that sum of first k composites k^k is prime](./oeis-research/Metin%20Sariyar/Numbers%20n%20such%20that%20sum%20of%20first%20k%20composites%20k^k%20is%20prime)
             * [prog.sf](./oeis-research/Metin%20Sariyar/Numbers%20n%20such%20that%20sum%20of%20first%20k%20composites%20k^k%20is%20prime/prog.sf)

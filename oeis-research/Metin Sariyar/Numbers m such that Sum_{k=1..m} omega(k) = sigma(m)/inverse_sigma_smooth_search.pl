@@ -16,6 +16,7 @@ use warnings;
 use List::Util qw(uniq);
 use experimental qw(signatures);
 use ntheory qw(:all);
+use Math::Sidef qw(inverse_sigma);
 
 sub prime_omega_partial_sum ($n) {     # O(sqrt(n)) complexity
 
@@ -63,16 +64,7 @@ sub isok($n) {
 (vecall { isok($_) } (11, 230, 52830, 160908 ))  || die "error";
 
 sub check_valuation ($n, $p) {
-
-    if ($p == 2) {
-        return valuation($n, $p) < 2;
-    }
-
-    if ($p == 3) {
-        return valuation($n, $p) < 2;
-    }
-
-    ($n % $p) != 0;
+    return 1;
 }
 
 sub smooth_numbers ($limit, $primes) {
@@ -92,28 +84,22 @@ sub smooth_numbers ($limit, $primes) {
     return \@h;
 }
 
-my @smooth_primes;
+# For the known terms n, sigma(n) is 13-smooth.
 
-foreach my $p (@{primes(100)}) {
-
-    if ($p == 2) {
-        push @smooth_primes, $p;
-        next;
-    }
-
-    # For the known terms n, p+1 is 7-smooth, where p|n.
-
-    if (is_smooth($p+1, 7)) {
-        push @smooth_primes, $p;
-    }
-}
-
-my $h = smooth_numbers(10**11, \@smooth_primes);
+my $h = smooth_numbers(10**10, primes(13));
 
 say "Found: ", scalar(@$h), " numbers...";
 
-foreach my $n(@$h) {
-    next if ($n < 300000000);
-    say "Testing: $n";
-    die "Found: $n" if isok($n);
+my $lower_bound = 300000000;
+
+foreach my $n (@$h) {
+    $n < $lower_bound and next;
+    say "Testing: n = $n";
+    foreach my $k (inverse_sigma($n)) {
+        "$k" < $lower_bound and next;
+        say "Testing: k = $k";
+        if (isok("$k")) {
+            die "Found: $k";
+        }
+    }
 }
