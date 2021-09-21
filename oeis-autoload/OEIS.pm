@@ -34,7 +34,7 @@ my $lwp = LWP::UserAgent->new(
            env_proxy     => 0,
            show_progress => 1,
            agent => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-           ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_2'},
+           ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
 );
 
 # Add connection cache

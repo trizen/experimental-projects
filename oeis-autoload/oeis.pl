@@ -93,16 +93,16 @@ sub lpf ($) {
 if (@ARGV) {
     my $formula = $ARGV[0];
 
-    my $from = 1;
-    my $to   = 10;
+    my @range = (1..10);
 
     if (@ARGV == 2) {
-        $from = $ARGV[1];
-        $to   = $ARGV[1];
+        @range = ($ARGV[1]);
     }
     elsif (@ARGV == 3) {
-        $from = $ARGV[1];
-        $to   = $ARGV[2];
+        @range = ($ARGV[1] .. $ARGV[2]);
+    }
+    elsif (@ARGV > 3) {
+        @range = map { tr/,//dr } (@ARGV[1..$#ARGV]);
     }
 
     $formula =~ s/\^/**/g;
@@ -119,7 +119,7 @@ if (@ARGV) {
         $formula =~ s/\bn\b/\$n/g;
 
         my @terms;
-        foreach my $n ($from .. $to) {
+        foreach my $n (@range) {
             $n = Math::AnyNum->new($n);
             push @terms, eval($formula) // last;
         }

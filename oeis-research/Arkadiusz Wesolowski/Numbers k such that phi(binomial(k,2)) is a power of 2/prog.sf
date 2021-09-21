@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# Numbers k such that phi(binomial(k,2)) is a power of 2.
+# https://oeis.org/A347167
+
+# Known terms:
+#   2, 3, 4, 5, 6, 16, 17, 256, 257, 65536, 65537, 4294967296
+
+# If the next term exists, then it is greater than 2^500.
+
+var terms = Set()
+
+for j in (1..1000) {
+
+    var n = (2**j)
+    say "Testing: #{j}"
+
+    n.inverse_phi.each{|k|
+        var (x, _y) = iquadratic_formula(1, -1, -2*k)
+
+        if (x * (x-1) / 2 == k) {
+            say [k, x]
+            terms << x
+        }
+    }
+}
+
+say terms.sort
+
+__END__
+[3, 4, 5, 6, 16, 17, 256, 257, 65536, 65537, 4294967296]
