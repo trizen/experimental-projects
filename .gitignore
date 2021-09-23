@@ -99,7 +99,10 @@ oeis-research/Euler polynomial divisble by multiplicity n
 oeis-research/Modulo p strictly increasing/z
 
 # pseudoprimes
-pseudoprimes/primes/
+pseudoprimes/primes/sorted_primes_3.txt
+pseudoprimes/primes/kronecker2_sorted.txt
+pseudoprimes/primes/small_sorted_2.txt
+pseudoprimes/primes/small_sorted.txt
 pseudoprimes/filter_pseudoprimes.sf
 pseudoprimes/smooth-primes/100-smooth.txt
 pseudoprimes/smooth-primes/1000-smooth.txt
