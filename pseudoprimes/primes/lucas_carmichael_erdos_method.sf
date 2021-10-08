@@ -1,0 +1,68 @@
+#!/usr/bin/ruby
+
+var B = 1000     # smooth value
+var arr = []
+
+ARGF.each {|line|
+    var p = line.nums[-1] || next
+
+    p%8 == 3 || next
+    kronecker(5, p) == -1 || next
+
+    (p-1)/2 -> is_composite || next
+    (p+1)/4 -> is_composite || next
+
+    arr << p
+}
+
+arr = arr.uniq
+
+arr = arr.grep {.dec.is_smooth(B)}
+arr = arr.grep {.inc.is_smooth(B)}
+
+say arr
+
+#var lambda_pm1 = arr.map{.dec}.lcm
+var lambda_pp1 = arr.map{.inc}.lcm
+
+#~ say lambda_pm1
+#~ say lambda_pp1
+
+#~ say gcd(lambda_pm1, lambda_pp1)
+
+say "# Prime count: #{arr.len}"
+say "# Lambda size: 10^#{lambda_pp1.log10.round(-5)}"
+say "# Divisor count: 10^#{lambda_pp1.sigma0.log10.round(-5)}"
+
+var L = lambda_pp1
+
+var P = L.divisors(1e9)\
+         .lazy\
+         .map { .dec }\
+         .grep { .is_odd && .is_prime }\
+         .grep {|p| L%p != 0 }\
+         .grep { _%8 == 3 }\
+         .grep { .dec.is_smooth(B) }\
+         .grep { kronecker(5, _) == -1 }\
+         #~ .grep { .dec.is_squarefree }\
+         #~ .grep { .inc/4 -> is_squarefree }\
+         .grep { .dec/2 -> is_composite }\
+         .grep { .inc/4 -> is_composite }\
+         .grep { (.dec/2).factor.all { _ % 4 == 1} }\
+         .grep { (.inc/4).factor.all { _ % 4 == 3 } }\
+         .to_a
+
+say "# Lambda primes (len = #{P.len}): #{P}"
+
+for k in (3 .. P.len `by` 2) {
+    say "# Testing: #{k} -- 10^#{binomial(P.len, k).log10.round(-5)}"
+    var tries = 0
+
+    P.combinations(k, {|*S|
+        if (S.prod % L == L-1) {
+        #if (S.prod.is_psp) {
+            say S.prod
+        }
+        break if (++tries > 1e6)
+    })
+}
