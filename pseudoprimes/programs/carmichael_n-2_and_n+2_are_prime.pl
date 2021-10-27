@@ -3,13 +3,16 @@
 # Carmichael numbers n such that n-2 and n+2 are both primes.
 # https://oeis.org/A287591
 
+# Observation:
+#   n must be divisible by 3, otherwise either n-2 or n+2 is a multiple of 3.
+
 use 5.020;
 use strict;
 use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use Math::Prime::Util::GMP qw(subint addint is_carmichael is_prime);
+use Math::Prime::Util::GMP qw(subint addint is_carmichael is_prime modint);
 
 my %seen;
 my @nums;
@@ -21,7 +24,7 @@ while (<>) {
 
     $n || next;
 
-    if (is_prime(subint($n, 2)) and is_prime(addint($n, 2)) and is_carmichael($n)) {
+    if (modint($n, 3) == 0 and is_prime(subint($n, 2)) and is_prime(addint($n, 2)) and is_carmichael($n)) {
         push @nums, $n;
     }
 }

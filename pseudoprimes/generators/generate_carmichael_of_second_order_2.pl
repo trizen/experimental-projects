@@ -72,7 +72,7 @@ sub method_1 ($L) {     # smallest numbers first
 
 sub method_2($L) {
 
-    my @P = grep { ($_ < 4000) and ($_ > 16) } lambda_primes($L);
+    my @P = grep { ($_ < 5e5) and ($_ >= 3) } lambda_primes($L);
 
     return if (vecprod(@P) < ~0);
 
@@ -82,7 +82,7 @@ sub method_2($L) {
     my $max = 1e5;
     my $max_k = 10;
 
-    foreach my $k (3 .. @P>>1) {
+    foreach my $k (7 .. @P>>1) {
         #next if (binomial($n, $k) > 1e6);
 
         next if ($k > $max_k);
@@ -99,15 +99,15 @@ sub method_2($L) {
 
         next if (binomial($n, $k) < $max);
 
-        @P = reverse(@P);
+        #~ @P = reverse(@P);
 
-        $count = 0;
-        forcomb {
-            if (vecprodmod([@P[@_]], $L) == 1) {
-                say vecprod(@P[@_]);
-            }
-            lastfor if (++$count > $max);
-        } $n, $k;
+        #~ $count = 0;
+        #~ forcomb {
+            #~ if (vecprodmod([@P[@_]], $L) == 1) {
+                #~ say vecprod(@P[@_]);
+            #~ }
+            #~ lastfor if (++$count > $max);
+        #~ } $n, $k;
 
         @P = shuffle(@P);
 
@@ -120,7 +120,7 @@ sub method_2($L) {
         } $n, $k;
     }
 
-    my $B = Math::GMPz->new(vecprodmod(\@P, $L));
+    my $B = vecprodmod(\@P, $L);
     my $T = Math::GMPz->new(vecprod(@P));
 
     foreach my $k (1 .. @P>>1) {
@@ -141,16 +141,16 @@ sub method_2($L) {
 
         next if (binomial($n, $k) < $max);
 
-        @P = reverse(@P);
+        #~ @P = reverse(@P);
 
-        $count = 0;
-        forcomb {
-            if (vecprodmod([@P[@_]], $L) == $B) {
-                my $S = vecprod(@P[@_]);
-                say ($T / $S) if ($T != $S);
-            }
-            lastfor if (++$count > $max);
-        } $n, $k;
+        #~ $count = 0;
+        #~ forcomb {
+            #~ if (vecprodmod([@P[@_]], $L) == $B) {
+                #~ my $S = vecprod(@P[@_]);
+                #~ say ($T / $S) if ($T != $S);
+            #~ }
+            #~ lastfor if (++$count > $max);
+        #~ } $n, $k;
 
         @P = shuffle(@P);
 
@@ -172,7 +172,7 @@ sub check_valuation ($n, $p) {
     }
 
     if ($p == 3) {
-        return valuation($n, $p) < 6;
+        return valuation($n, $p) < 4;
     }
 
     if ($p == 5) {
@@ -180,10 +180,6 @@ sub check_valuation ($n, $p) {
     }
 
     if ($p == 7) {
-        return valuation($n, $p) < 3;
-    }
-
-    if ($p == 11) {
         return valuation($n, $p) < 2;
     }
 
@@ -207,7 +203,53 @@ sub smooth_numbers ($limit, $primes) {
     return \@h;
 }
 
+#method_2(50227322745600);
+#method_2(12556830686400);
 
+#__END__
+my $h = smooth_numbers(10**9, [3,5,7,11, 13, 17, 19, 31]);
+
+say "\nFound: ", scalar(@$h);
+#say "@$h";
+
+foreach my $n(sort {$a <=> $b} @$h) {
+
+    valuation($n, 3) >= 2 or next;
+    valuation($n, 5) >= 1 or next;
+    valuation($n, 7) >= 1 or next;
+    valuation($n, 11) >= 1 or next;
+
+    valuation($n, 3) > 3 and next;
+    valuation($n, 5) > 2 and next;
+    valuation($n, 7) > 2 and next;
+    valuation($n, 11) > 1 and next;
+    valuation($n, 13) > 1 and next;
+    valuation($n, 17) > 1 and next;
+    valuation($n, 19) > 1 and next;
+    valuation($n, 31) > 1 and next;
+
+    #valuation($n, 13) >= 1 or next;
+    #valuation($n, 19) >= 1 or next;
+
+    method_2($n << 6);
+    method_2($n << 7);
+    method_2($n << 8);
+    method_2($n << 9);
+    method_2($n << 10);
+}
+
+__END__
+
+#method_2(77616000);
+foreach my $n(
+    64421280, 68745600, 77616000, 149385600, 273873600, 383423040, 424373040, 845404560, 2502339840, 3428686800
+    #221760, 2489760, 3067680, 3160080, 5544000, 38427480, 64162560, 149385600, 212186520, 273873600
+    #60720, 221760, 831600, 2489760, 3067680, 3160080, 5544000, 15477000, 38427480, 64162560, 74646000, 79944480, 96238800, 149385600, 212186520, 273873600, 357033600, 910435680, 3749786040, 5069705760
+) {
+    method_2($n);
+}
+
+__END__
 #method_2(60103296);
 for(my $n = 221760; $n <= 1e6; $n += 2) {
     method_2($n);
