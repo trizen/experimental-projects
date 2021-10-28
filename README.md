@@ -1161,6 +1161,8 @@ Highly experimental personal projects.
         * [psp from smooth primes.pl](./pseudoprimes/generators/psp_from_smooth_primes.pl)
         * [psp from smooth primes extra.pl](./pseudoprimes/generators/psp_from_smooth_primes_extra.pl)
         * [recursively generate carmichael.sf](./pseudoprimes/generators/recursively_generate_carmichael.sf)
+        * [recursively generate fermat from znorder.sf](./pseudoprimes/generators/recursively_generate_fermat_from_znorder.sf)
+        * [recursively generate fermat from znorder with variations.sf](./pseudoprimes/generators/recursively_generate_fermat_from_znorder_with_variations.sf)
         * [recursivley generate carmichael.pl](./pseudoprimes/generators/recursivley_generate_carmichael.pl)
         * [recursivley generate lucas psp.pl](./pseudoprimes/generators/recursivley_generate_lucas_psp.pl)
         * [special form carmichael.sf](./pseudoprimes/generators/special_form_carmichael.sf)
