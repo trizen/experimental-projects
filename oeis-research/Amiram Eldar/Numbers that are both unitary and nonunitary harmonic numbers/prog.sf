@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Numbers that are both unitary and nonunitary harmonic numbers.
+# https://oeis.org/A348923
+
+# Known terms:
+#   45, 60, 3780, 64260, 3112200, 6320160
+
+# a(7) > 10^12, if it exists. - Amiram Eldar, Nov 04 2021
+
+# Equivalently, numbers n such that usigma(n) divides n*usigma_0(n) and sigma(n) - usigma(n) divides n*(sigma_0(n) - usigma_0(n)).
+
+# Non-squarefree numbers n such that A034448(n) divides n*A034444(n) and A048146(n) divides n*A048105(n).
+
+# See also:
+#   https://oeis.org/A247077
+
+func isok(n) {
+    imod(n*usigma0(n), usigma(n)) == 0 || return false
+    imod(n*(sigma0(n) - usigma0(n)), sigma(n) - usigma(n)) == 0 || return false
+    return true
+}
+
+assert([45, 60, 3780, 64260, 3112200, 6320160].all(isok))
+
+Math.smooth_numbers(29.primes...).each {|n|
+    say n if isok(n)
+    #say n if (n > 1e12 && isok(n))
+}
