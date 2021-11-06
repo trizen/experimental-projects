@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Numbers that are both infinitary and noninfinitary harmonic numbers
+# https://oeis.org/A348922
+
+# Known terms:
+#   45, 60, 54600, 257040, 1801800, 2789640, 4299750, 47297250, 1707259680, 4093362000
+
+# a(7) > 10^10, if it exists. - Amiram Eldar, Nov 04 2021
+
+# Equivalently, numbers n such that isigma(n) divides n*isigma_0(n) and nisigma(n) divides n*nisigma_0(n).
+
+# Non-squarefree numbers n such that A049417(n) divides n*A037445(n) and A348271(n) divides n*A348341(n).
+
+# See also:
+#   https://oeis.org/A247077
+
+func isok(n) {
+    imod(n*isigma0(n), isigma(n)) == 0 || return false
+    imod(n*nisigma0(n), nisigma(n)) == 0 || return false
+    return true
+}
+
+assert([45, 60, 54600, 257040, 1801800, 2789640, 4299750, 47297250, 1707259680, 4093362000].all(isok))
+
+Math.smooth_numbers(41.primes...).each {|n|
+    say n if isok(n)
+    #say n if (n > 1e12 && isok(n))
+}
