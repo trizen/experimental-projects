@@ -1,0 +1,30 @@
+pre {
+    padding: 0.1em 0.5em 0.3em 0.7em;
+    border-left: 11px solid #ccc;
+    margin: 1.7em 0 1.7em 0.3em;
+    overflow: auto;
+    width: 93%;
+}
+
+h1 {
+    color: green;
+}
+
+.container {
+    text-align: center;
+    width: 850px;
+    margin: 35px;
+}
+
+.property {
+    width: 400px ;
+    float: left;
+    border: 2px solid black;
+    padding: 10px;
+}
+.attribute {
+    width: 400px ;
+    float: right;
+    border: 2px solid black;
+    padding: 10px;
+}
