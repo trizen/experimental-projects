@@ -23,6 +23,7 @@ print header(-charset => 'UTF-8'),
              -base  => 'true',
              -meta  => {
                        'keywords' => 'upload files to server',
+                       'viewport' => 'width=device-width, initial-scale=1.0',
                       },
              -style  => [{-src => 'css/main.css'}],
              -script => [],

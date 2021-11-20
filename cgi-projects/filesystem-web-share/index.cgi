@@ -115,7 +115,13 @@ if (defined(my $path = $u->query_param_delete('path'))) {
 
     if ($path =~ m{/\.\./} or $path =~ m{/\.\.} or not $path =~ m{^\Q$share_root\E(?:/|\z)}) {
 
-        print header, start_html(-style => {'src' => 'styles/style.css'}, -BGCOLOR => 'black'),
+        print header, start_html(
+        -style => {'src' => 'styles/style.css'},
+        -meta => {
+            'viewport' => 'width=device-width, initial-scale=1.0',
+        },
+        -BGCOLOR => 'black'
+    ),
           h1("You're not allowed to see this directory!"), end_html;
 
         print {$db_h} <<"EOT";
@@ -157,7 +163,8 @@ EOT
                      -author => 'Daniel Șuteu',
                      -meta   => {
                                'keywords'  => 'trizen',
-                               'copyright' => 'Copyright 2012 Trizen'
+                               'copyright' => 'Copyright 2012 Trizen',
+                               'viewport' => 'width=device-width, initial-scale=1.0',
                               },
                      -style => {src => 'styles/style.css'},
                      -head  => Link(
@@ -281,7 +288,7 @@ EOT
             }
         }
         else {
-            print h1("This directory doesn't exists!");
+            print h1("This directory doesn't exist!");
         }
 
         print end_html;

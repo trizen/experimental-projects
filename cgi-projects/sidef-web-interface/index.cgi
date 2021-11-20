@@ -21,7 +21,7 @@ use File::Basename qw(basename);
 use File::Spec::Functions qw(catdir catfile);
 
 # Path where Sidef exists (when not installed)
-use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
+#use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
 
 # Limit the size of Sidef scripts to 500KB
 $CGI::POST_MAX = 1024 * 500;
@@ -52,7 +52,8 @@ print header(-charset => 'UTF-8'), start_html(
     -class  => 'metro',
     -meta   => {
               'keywords'  => 'sidef programming language web interface',
-              'copyright' => 'Copyright © 2015 Daniel Șuteu'
+              'copyright' => 'Copyright © 2015 Daniel Șuteu',
+              'viewport' => 'width=device-width, initial-scale=1.0',
              },
     -style => [{-src => 'css/main.css'},
                {-src => 'css/metro-bootstrap.min.css'},

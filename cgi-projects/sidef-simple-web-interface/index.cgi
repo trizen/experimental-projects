@@ -12,7 +12,7 @@ use CGI::Carp qw(fatalsToBrowser);
 use Capture::Tiny qw(capture);
 
 # Path where Sidef exists (when not installed)
-use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
+#use lib qw(/home/swampyx/Other/Programare/Sidef/lib);
 
 # Limit the size of Sidef scripts to 500KB
 $CGI::POST_MAX = 1024 * 500;
@@ -28,7 +28,8 @@ print header(-charset => 'UTF-8'),
              -base   => 'true',
              -meta   => {
                        'keywords'  => 'sidef programming language web interface',
-                       'copyright' => 'Copyright © 2015-2016 Daniel "Trizen" Șuteu'
+                       'copyright' => 'Copyright © 2015-2016 Daniel "Trizen" Șuteu',
+                       'viewport' => 'width=device-width, initial-scale=1.0',
                       },
              -style  => [{-src => 'css/main.css'}],
              -script => [
