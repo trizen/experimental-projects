@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+# Plot as:
+#   sidef prog.sf | gnuplot -p -e 'plot "/dev/stdin"'
+
+var upto = 100
+
+for n in (1..upto) {
+    1..n -> grep {|k| n&k != k }.each { .say }
+}
