@@ -36,10 +36,17 @@ my $p     = 2;
 my @bases = ($p);
 
 foreach my $n (@terms) {
-    while (is_strong_pseudoprime($n, @bases)) {
+    if (is_strong_pseudoprime($n, @bases)) {
+
         say "a(", scalar(@bases), ") <= $n";
         $p = next_prime($p);
         unshift @bases, $p;
+
+        while (is_strong_pseudoprime($n, $p)) {
+            say "a(", scalar(@bases), ") <= $n";
+            $p = next_prime($p);
+            unshift @bases, $p;
+        }
     }
 }
 
