@@ -1,0 +1,34 @@
+#!/usr/bin/ruby
+
+# Primes p such that the greatest common divisor of 2^p+1 and 3^p+1 is composite.
+# https://oeis.org/A349722
+
+# Known terms:
+#   2243399, 2334547, 2743723, 3932207
+
+var limit = 78/2
+var count = 0
+
+#var p = 3932207
+#var p = 2743723
+#var p = 2334547
+#var p = 2243399
+
+each_prime(2243399, 1e12, {|p|
+
+    say "Testing: #{p}" if (++count % 1000 == 0)
+
+    for k in (1 .. limit) {
+        var t = (2*k*p + 1)
+        if (powmod(2, p, t) == t-1) {
+            for x in (k .. limit) {
+                var u = (2*x*p + 1)
+                if (powmod(3, p, u*t) == (u*t - 1)) {
+                    if (powmod(2, p, u*t) == (u*t - 1)) {
+                        say "Jackpot: #{[u, t]} = #{u*t} for p = #{p}"
+                    }
+                }
+            }
+        }
+    }
+})

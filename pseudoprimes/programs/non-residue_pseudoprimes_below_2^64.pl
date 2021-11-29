@@ -8,10 +8,10 @@ use ntheory qw(:all);
 use experimental qw(signatures);
 
 use Math::GMPz;
-use IO::Uncompress::Bunzip2;
+use IO::Uncompress::UnZstd;
 
-my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.bz2";
-my $z    = IO::Uncompress::Bunzip2->new($file);
+my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.zst";
+my $z    = IO::Uncompress::UnZstd->new($file);
 
 sub least_nonresidue_odd ($n) {    # for odd n
 

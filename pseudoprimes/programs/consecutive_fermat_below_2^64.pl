@@ -14,10 +14,10 @@ use warnings;
 
 use ntheory qw(:all);
 use experimental qw(signatures);
-use IO::Uncompress::Bunzip2;
+use IO::Uncompress::UnZstd;
 
-my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.bz2";
-my $z    = IO::Uncompress::Bunzip2->new($file);
+my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.zst";
+my $z    = IO::Uncompress::UnZstd->new($file);
 
 chomp(my $x = $z->getline());
 chomp(my $y = $z->getline());

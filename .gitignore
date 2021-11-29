@@ -108,7 +108,8 @@ pseudoprimes/smooth-primes/100-smooth.txt
 pseudoprimes/smooth-primes/1000-smooth.txt
 pseudoprimes/carmichael_1e18.txt
 pseudoprimes/carmichael_2^64.txt
-pseudoprimes/psps-below-2-to-64.txt.bz2
+pseudoprimes/psps-below-2-to-64.txt
+pseudoprimes/psps-below-2-to-64.txt.zst
 pseudoprimes/fermat_gt_1e18.txt
 pseudoprimes/all_fermat.txt
 pseudoprimes/programs/cache/backup/*.db

@@ -20,7 +20,7 @@ use warnings;
 use Math::GMPz;
 use ntheory qw(:all);
 use experimental qw(signatures);
-use IO::Uncompress::Bunzip2;
+use IO::Uncompress::UnZstd;
 
 sub pretest ($n) {
 
@@ -41,8 +41,8 @@ sub isok ($n) {
     vecall { $_ % 80 == 3 } factor($n);
 }
 
-my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.bz2";
-my $z    = IO::Uncompress::Bunzip2->new($file);
+my $file = "/home/swampyx/Other/Programare/experimental-projects/pseudoprimes/psps-below-2-to-64.txt.zst";
+my $z    = IO::Uncompress::UnZstd->new($file);
 
 while (defined(my $n = $z->getline())) {
 
