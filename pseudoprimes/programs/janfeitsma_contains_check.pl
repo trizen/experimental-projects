@@ -6,7 +6,7 @@
 # TODO:
 #   optimize this with binary search.
 
-# Without binary search, it's faster to just use `bzmore` or `bzgrep`.
+# Without binary search, it's faster to just use `zstdless` or `zstdgrep`.
 
 use 5.020;
 use strict;
