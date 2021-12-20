@@ -73,7 +73,8 @@ sub hash_to_query {
 sub make_a_href {
     my ($hash_ref) = @_;
 
-    return a(
+    return
+      a(
         {
          href => "$ENV{SCRIPT_NAME}?" . hash_to_query($hash_ref->{query}),
          exists $hash_ref->{size} ? (class => "popup") : ()
@@ -87,8 +88,7 @@ sub make_a_href {
              height => 64,
             }
            )
-
-    );
+       );
 }
 
 sub get_thumbnail {
@@ -248,16 +248,6 @@ EOT
                      -BGCOLOR => 'black',
                     );
 
-        print <<'SCRIPT';
-
-<script type="text/javascript">
-function gotoDir(path){
-    window.location.href=path
-}
-</script>
-
-SCRIPT
-
         my $referrer = $ENV{HTTP_REFERER} // '';
 
         open my $db_h, '>>', $DB_FILE;
@@ -283,11 +273,14 @@ EOT
             map {
                 td(
                     {width => "5%"},
-                    button(
-                           -value   => $_,
-                           -onClick => 'gotoDir(src)',
-                           -src     => "$ENV{SCRIPT_NAME}?" . hash_to_query({path => $name = catdir($name, $_)}),
-                          )
+                    a(
+                       {
+                        href => $ENV{SCRIPT_NAME} . '?' . hash_to_query({path => $name = catdir($name, $_)}),
+                       },
+                       button(
+                              -value => $_,
+                             )
+                     )
                   )
 
               } @dirs
