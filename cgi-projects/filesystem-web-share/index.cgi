@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Filesystem web share.
+# Filesystem web share (deprecated -- use the Fast CGI version instead).
 
 use 5.016;
 use strict;

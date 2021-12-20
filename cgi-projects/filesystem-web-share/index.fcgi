@@ -232,7 +232,7 @@ EOT
     else {
         print header(-charset => 'UTF-8'),
           start_html(
-                     -title => 'Anarchist file-sharing',
+                     -title  => 'HFSS - Happy file-sharing system',
                      -meta  => {
                                'keywords' => 'filesystem',
                                'viewport' => 'width=device-width, initial-scale=1.0',
