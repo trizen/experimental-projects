@@ -1,12 +1,13 @@
 #!/usr/bin/perl
 
-# Run Sidef code inside the browser
+# Run Sidef code inside the browser (using FastCGI)
 
 use utf8;
 use 5.018;
 use strict;
 use autodie;
 
+use CGI::Fast;
 use CGI qw(:standard -utf8);
 use CGI::Carp qw(fatalsToBrowser);
 use Capture::Tiny qw(capture);
@@ -20,47 +21,6 @@ $CGI::POST_MAX = 1024 * 500;
 use Sidef;
 
 binmode(STDOUT, ':utf8');
-print header(-charset => 'UTF-8'),
-  start_html(
-             -lang   => 'en',
-             -title  => 'Sidef Programming Language',
-             -author => 'Daniel Șuteu',
-             -base   => 'true',
-             -meta   => {
-                       'keywords'  => 'sidef programming language web interface',
-                       'copyright' => 'Copyright © 2015-2016 Daniel "Trizen" Șuteu',
-                       'viewport' => 'width=device-width, initial-scale=1.0',
-                      },
-             -style  => [{-src => 'css/main.css'}],
-             -script => [
-                         {
-                          -src => 'js/jquery-2.1.3.min.js',
-                         },
-                         {-src => 'js/jquery.autosize.min.js'},
-                         {
-                          -src => 'js/tabby.js',
-                         },
-                         {
-                          -src => 'js/main.js',
-                         },
-                        ],
-            );
-
-print h1("Sidef");
-
-print start_form(
-                 -method          => 'POST',
-                 -action          => 'index.cgi',
-                 'accept-charset' => "UTF-8",
-                ),
-  textarea(
-           -name    => 'code',
-           -default => 'Write your code here...',
-           -rows    => 10,
-           -columns => 80,
-           -onfocus => 'clearContents(this);',
-          ),
-  br, submit(-name => "Run!"), end_form;
 
 sub compile {
     my ($sidef, $code) = @_;
@@ -101,8 +61,49 @@ sub execute {
     return ($stdout, $errors . $stderr);
 }
 
-if (param) {
-    if (defined(my $code = param('code'))) {
+while (my $c = CGI::Fast->new) {
+
+    print header(-charset => 'UTF-8'),
+      start_html(
+                 -lang  => 'en',
+                 -title => 'Sidef Programming Language',
+                 -base  => 'true',
+                 -meta  => {
+                           'keywords' => 'sidef programming language web interface',
+                           'viewport' => 'width=device-width, initial-scale=1.0',
+                          },
+                 -style  => [{-src => 'css/main.css'}],
+                 -script => [
+                             {
+                              -src => 'js/jquery-2.1.3.min.js',
+                             },
+                             {-src => 'js/jquery.autosize.min.js'},
+                             {
+                              -src => 'js/tabby.js',
+                             },
+                             {
+                              -src => 'js/main.js',
+                             },
+                            ],
+                );
+
+    print h1("Sidef");
+
+    print start_form(
+                     -method          => 'POST',
+                     -action          => $ENV{SCRIPT_NAME},
+                     'accept-charset' => "UTF-8",
+                    ),
+      textarea(
+               -name    => 'code',
+               -default => 'Write your code here...',
+               -rows    => 10,
+               -columns => 80,
+               -onfocus => 'clearContents(this);',
+              ),
+      br, submit(-name => "Run!"), end_form;
+
+    if (defined(my $code = $c->param('code'))) {
 
         # Replace any newline characters with "\n"
         $code =~ s/\R/\n/g;
@@ -131,6 +132,6 @@ if (param) {
             }
         }
     }
-}
 
-print end_html;
+    print end_html;
+}

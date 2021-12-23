@@ -1,0 +1,75 @@
+#!/usr/bin/ruby
+
+# Find the largest number (or as large as you can) n such that both n and n-th triangular numbers consists of odd digits only.
+# https://www.shyamsundergupta.com/canyoufind.htm
+
+# Numbers k such that k and the k-th triangular number T(k) = k*(k+1)/2 have only odd digits.
+# https://oeis.org/A347475
+
+# Initial terms of A347475:
+#   1, 5, 13, 17, 177, 1777, 3937, 5537, 5573, 15173, 55377, 55733, 79137, 135173, 195937, 339173, 377777, 399377, 791377, 3397973, 5199137, 7913777, 13535137, 17397537, 33993973, 37735377, 39993777, 59591173, 59919137, 79971937, 135157537, 139713973, 153177777
+
+# M. F. Hasler found the following number n such that both n and the n-th triangular number have only odd digits (the smallest 27-digit term):
+#   119311115937719393371311137
+
+var digits = @(1..9)
+var odd_digits  = digits.grep { .is_odd  }
+
+for k in (0 .. 100) {
+    odd_digits.variations_with_repetition(k, {|*a|
+        var v = a.digits2num
+        #var t = (v*(v+1) / 2)
+        var t = v.polygonal(3)
+
+        if (t.digits.all { .is_odd }) {
+            say "Found: #{v} giving #{t}"
+        }
+
+        #~ if (v.is_polygonal(3)) {
+            #~ var t = v.ipolygonal_root(3)
+            #~ say [v, t]
+
+            #~ if (t.digits.all{.is_odd}) {
+                #~ say "Found: #{t} giving #{v}"
+            #~ }
+        #~ }
+    })
+}
+
+__END__
+Found: 1 giving 1
+Found: 5 giving 15
+Found: 13 giving 91
+Found: 17 giving 153
+Found: 177 giving 15753
+Found: 5573 giving 15531951
+Found: 5537 giving 15331953
+Found: 3937 giving 7751953
+Found: 1777 giving 1579753
+Found: 55733 giving 1553111511
+Found: 15173 giving 115117551
+Found: 79137 giving 3131371953
+Found: 55377 giving 1533333753
+Found: 135173 giving 9135937551
+Found: 339173 giving 57519331551
+Found: 195937 giving 19195751953
+Found: 791377 giving 313139173753
+Found: 399377 giving 79751193753
+Found: 377777 giving 71357919753
+Found: 3397973 giving 5773111953351
+Found: 5199137 giving 13515515371953
+Found: 7913777 giving 31313937159753
+Found: 59591173 giving 1775553979553551
+Found: 33993973 giving 577795117159351
+Found: 13535137 giving 91599973571953
+Found: 59919137 giving 1795151519371953
+Found: 17397537 giving 151337155531953
+Found: 79971937 giving 3197755393751953
+Found: 37735377 giving 711979357533753
+Found: 39993777 giving 799751119359753
+Found: 393735733 giving 77513913917391511
+Found: 551317537 giving 151975513577531953
+Found: 557335733 giving 155311559917991511
+Found: 5159797537 giving 13311755313995531953
+Found: 5175193777 giving 13391315317337359753
+Found: 5919353973 giving 17519375731795119351
