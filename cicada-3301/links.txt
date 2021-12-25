@@ -21,7 +21,7 @@ https://uncovering-cicada.fandom.com/wiki/Cicada_Breaks_the_Silence:_2015_Twitte
 https://uncovering-cicada.fandom.com/wiki/The_Leaked_Email
 https://uncovering-cicada.fandom.com/wiki/An_alternate_path_(2012)
 
-https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_7
+https://uncovering-cicada.fandom.com/wiki/WE_GOT_EMAILS
 
 https://uncovering-cicada.fandom.com/wiki/User:Tweqx/The_2013_Winners_Questions
 https://uncovering-cicada.fandom.com/wiki/The_2013_Winners_Questions#Question_.231_-_There_is_no_truth
@@ -30,6 +30,28 @@ https://uncovering-cicada.fandom.com/wiki/2013_offset_messsage_from_telnet
 https://uncovering-cicada.fandom.com/wiki/How_the_solved_pages_of_the_Liber_Primus_were_solved
 https://uncovering-cicada.fandom.com/wiki/DEBATE_ABOUT_MEANING_OF_THE_PICTURE_ON_ONION
 https://uncovering-cicada.fandom.com/wiki/2014_CICADA_3301_DATA_DUMP
+
+https://uncovering-cicada.fandom.com/wiki/Unresolved_(AFAIK)
+https://uncovering-cicada.fandom.com/wiki/Ports_of_Cicada_onions
+https://uncovering-cicada.fandom.com/wiki/Category:Needs_Linking
+
+https://uncovering-cicada.fandom.com/wiki/ISO_CD
+https://www.mediafire.com/file/ui6ov56hu58f4t3/3301.iso/file
+https://uncovering-cicada.fandom.com/wiki/Files_found_in_Cicada_OS
+
+https://uncovering-cicada.fandom.com/wiki/Useful_tools
+
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_BACKUP
+
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE
+https://uncovering-cicada.fandom.com/wiki/MAIN_CICADA_3301_2014_PAGE_PART_2
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_3
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_4
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_5
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_6
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_7
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_8
+https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_FACTS_PART_9
 
 https://github.com/Be5haram/CICADA2K16/blob/master/RuneSolver.py
 https://colab.research.google.com/drive/1Hd9fNYXHTke3uEvHdi4XPmaM1W67Abdz
@@ -52,3 +74,4 @@ https://en.wikipedia.org/wiki/Nebuchadnezzar_II
 https://en.wikipedia.org/wiki/File:Newton-WilliamBlake.jpg
 https://archive.ph/Sl3CI
 https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing
+https://github.com/scream314/cicada3301
