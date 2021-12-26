@@ -11,7 +11,7 @@ use warnings;
 
 use Digest::MD5 qw(md5_hex);
 
-binmode(STDIN, ':raw');
+binmode(STDIN,  ':raw');
 binmode(STDOUT, ':raw');
 
 my $data = do {
@@ -31,7 +31,7 @@ while ($data =~ /(\xFF\xD8.*?\xFF\xD9)/gs) {
     my $jpeg = $1;
     my $name = sprintf("file_%d %s.jpg", $count++, md5_hex($jpeg));
     open my $fh, '>:raw', $name
-        or die "Can't open <<$name>>: $!";
+      or die "Can't open <<$name>>: $!";
     print $fh $jpeg;
     close $fh;
 }

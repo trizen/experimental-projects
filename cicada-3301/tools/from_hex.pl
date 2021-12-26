@@ -10,8 +10,8 @@ use Getopt::Long qw(GetOptions);
 
 my $low_nybble = 0;
 
-GetOptions ("l|low!" => \$low_nybble)
-            or die "Error in arguments";
+GetOptions("l|low!" => \$low_nybble)
+  or die "Error in arguments";
 
 my $hex_str = '';
 

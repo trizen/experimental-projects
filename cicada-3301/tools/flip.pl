@@ -6,9 +6,9 @@ use 5.014;
 use strict;
 use warnings;
 
-binmode(STDIN, ':raw');
+binmode(STDIN,  ':raw');
 binmode(STDOUT, ':raw');
 
 while (<>) {
-    print pack("C*", map{ $_ ^ 255 } unpack("C*", $_))
+    print pack("C*", map { $_ ^ 255 } unpack("C*", $_));
 }

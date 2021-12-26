@@ -8,11 +8,11 @@ use warnings;
 
 my $data = '';
 
-foreach my $file(@ARGV) {
+foreach my $file (@ARGV) {
 
     my $content = do {
         open my $fh, '<:raw', $file
-            or die "Can't open <<$file>>: $!";
+          or die "Can't open <<$file>>: $!";
         local $/;
         <$fh>;
     };

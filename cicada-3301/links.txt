@@ -1,4 +1,6 @@
 
+https://uncovering-cicada.fandom.com/wiki/Uncovering_Cicada_Wiki
+
 https://uncovering-cicada.fandom.com/wiki/What_Happened_Part_1_(2012)
 https://uncovering-cicada.fandom.com/wiki/What_Happened_Part_2_(2012)
 
@@ -35,11 +37,16 @@ https://uncovering-cicada.fandom.com/wiki/Unresolved_(AFAIK)
 https://uncovering-cicada.fandom.com/wiki/Ports_of_Cicada_onions
 https://uncovering-cicada.fandom.com/wiki/Category:Needs_Linking
 
+https://uncovering-cicada.fandom.com/wiki/2014_THINGS_THAT_HAD_BEEN_XORED
+https://uncovering-cicada.fandom.com/wiki/ONION_2_with_3_JPGs,_3_outguesses,_RUNES_and_PGP_signed_CIPHERTEXT_IN_5_GRAMS_BACKUP
+
 https://uncovering-cicada.fandom.com/wiki/ISO_CD
 https://www.mediafire.com/file/ui6ov56hu58f4t3/3301.iso/file
 https://uncovering-cicada.fandom.com/wiki/Files_found_in_Cicada_OS
 
 https://uncovering-cicada.fandom.com/wiki/Useful_tools
+https://uncovering-cicada.fandom.com/wiki/The_Final_Puzzle
+https://uncovering-cicada.fandom.com/wiki/Fake_puzzles
 
 https://uncovering-cicada.fandom.com/wiki/CICADA_3301_2014_PUZZLE_BACKUP
 
@@ -63,6 +70,22 @@ https://connortumbleson.com/2021/04/12/the-cicada-3301-mystery-puzzle-1-extra/
 https://connortumbleson.com/2021/01/25/the-cicada-3301-mystery-puzzle-2/
 https://connortumbleson.com/2021/02/15/the-cicada-3301-mystery-puzzle-3-part1/
 
+https://www.cicadasolvers.com/liber-primus/
+https://www.cicadasolvers.com/gematria-primus/
+https://www.cicadasolvers.com/literature/
+https://www.cicadasolvers.com/music/
+https://www.cicadasolvers.com/qr-codes-stage/
+
+https://uncovering-cicada.fandom.com/wiki/Cicada_Part_9_-_Attempts
+https://uncovering-cicada.fandom.com/wiki/UNRELATED_PUZZLES_WE_ARE_WORKING_ON
+https://uncovering-cicada.fandom.com/wiki/The_Infamous_Warning
+https://uncovering-cicada.fandom.com/wiki/Puzzles_we_found_in_2014_and_doesnt_look_legit_PART_2
+https://uncovering-cicada.fandom.com/wiki/Tweeter,_XORing,_Gematria_Primus_and_two_TOR_adresses
+
+https://www.williamshannonart.com/willshannon/2015/10/cicada-3301-beginning-2012.html
+
+https://twocansandstring.com/forum/technical/4123/page1
+
 # See also:
 
 https://twitter.com/1231507051321
@@ -75,3 +98,5 @@ https://en.wikipedia.org/wiki/File:Newton-WilliamBlake.jpg
 https://archive.ph/Sl3CI
 https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing
 https://github.com/scream314/cicada3301
+https://en.wikipedia.org/wiki/Voynich_manuscript
+http://xahlee.info/comp/unicode_runic.html
