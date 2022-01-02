@@ -86,6 +86,10 @@ https://www.williamshannonart.com/willshannon/2015/10/cicada-3301-beginning-2012
 
 https://twocansandstring.com/forum/technical/4123/page1
 
+https://github.com/scream314/cicada3301
+https://github.com/micheloosterhof/cicada-2014
+https://github.com/rtkd/iddqd
+
 # See also:
 
 https://twitter.com/1231507051321
@@ -97,6 +101,6 @@ https://en.wikipedia.org/wiki/Nebuchadnezzar_II
 https://en.wikipedia.org/wiki/File:Newton-WilliamBlake.jpg
 https://archive.ph/Sl3CI
 https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing
-https://github.com/scream314/cicada3301
 https://en.wikipedia.org/wiki/Voynich_manuscript
 http://xahlee.info/comp/unicode_runic.html
+https://en.wikipedia.org/wiki/Russian_Orthodox_Church
