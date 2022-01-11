@@ -247,7 +247,7 @@ sub valid_content_type {
     $mech->is_html() or (lc($mech->content_type) eq 'text/plain');
 }
 
-sub crawl ($url, $depth = 0) {
+sub crawl ($url, $depth = 0, $recrawl = 0) {
 
     # Must be http:// or https://
     $url =~ m{^https?://} or return;
@@ -264,16 +264,21 @@ sub crawl ($url, $depth = 0) {
     my $id = xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
 
     if ($depth == 0 and exists $CONTENT_DB{$id}) {
-        return 1;
+        if (not $recrawl) {
+            return 1;
+        }
     }
 
-    $mech->head($url);
-    valid_content_type() || return;
+    my $resp = $mech->head($url);
+
+    if ($resp->is_success) {
+        valid_content_type() || return;
+    }
 
     $url = $mech->uri;
     $url = "$url";
 
-    my $resp = $mech->get($url);
+    $resp = $mech->get($url);
     $resp->is_success or return;
 
     if (not valid_content_type()) {
@@ -288,7 +293,7 @@ sub crawl ($url, $depth = 0) {
 
     my $protocol = (($url =~ m{^https://}) ? 'https://' : 'http://');
 
-    if (not exists $CONTENT_DB{$id}) {
+    if ($recrawl or not exists $CONTENT_DB{$id}) {
 
         my %info;
         my $decoded_content = $resp->decoded_content;
@@ -334,7 +339,15 @@ sub crawl ($url, $depth = 0) {
         $info{url} = $protocol . $normalized_url;
 
         warn "Adding: $info{title}\nURI: $info{url}\n";
-        add_to_database_index(unidecode($info{title}) . ' ' . $info{content}, $id);
+
+        my $relevant_content = join(' ', unidecode($normalized_url), unidecode($info{title}), $info{content},);
+
+        if ($recrawl) {
+            readd_to_database_index($relevant_content, $id);
+        }
+        else {
+            add_to_database_index($relevant_content, $id);
+        }
 
         # TODO: compress with zstd()
         $CONTENT_DB{$id} = encode_json(\%info);
@@ -353,7 +366,7 @@ sub crawl ($url, $depth = 0) {
         my @links = $mech->find_all_links(text_regex => qr/\w/);
 
         foreach my $link (@links) {
-            crawl(join('', $link->url_abs), $depth - 1);
+            crawl(join('', $link->url_abs), $depth - 1, $recrawl);
         }
     }
 
@@ -498,7 +511,7 @@ sub search ($text) {
                 }
 
                 if ($url =~ $re) {
-                    $value->{score} += 3 * $factor;
+                    $value->{score} += 4 * $factor;
                 }
             }
         }
@@ -506,12 +519,16 @@ sub search ($text) {
         delete $value->{content};
     }
 
+    my %seen_url;
     my @sorted = sort { $b->{score} <=> $a->{score} } values %matches;
+
+    # Keep only the best 100 entries
     $#sorted = 99 if scalar(@sorted) > 100;
 
-    my %seen_url;
+    # Keep entries with score > 0
+    @sorted = grep { $_->{score} > 0 } @sorted;
 
-    # Remove duplicated results
+    # Remove duplicated entries
     @sorted = grep { !$seen_url{($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{/\z}{}r}++ } @sorted;
 
     return @sorted;
@@ -527,11 +544,15 @@ sub repair_index {
 
 if (@ARGV) {
 
-    my $depth = 0;
+    my $depth   = 0;
+    my $recrawl = 0;
 
     require Getopt::Long;
     Getopt::Long::GetOptions(
-        "depth=i"                              => \$depth,
+
+        "depth=i"    => \$depth,
+        "r|recrawl!" => \$recrawl,
+
         "fix-index|recover-index|repair-index" => sub {
             warn "Recovering index...";
             repair_index();
@@ -541,7 +562,7 @@ if (@ARGV) {
 
     foreach my $url (@ARGV) {
         warn "Crawling: $url\n";
-        crawl($url, $depth);
+        crawl($url, $depth, $recrawl);
     }
 
     exit;
