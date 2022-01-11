@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Composite numbers k such that the multiplicative order of 2 modulo lpf(2^k-1) is k, where lpf = least prime factor.
+# https://oeis.org/A350381
+
+# Known terms:
+#   169, 221, 323, 611, 779, 793, 923, 1121, 1159, 1271, 1273, 1349, 1513, 1717, 1829, 1919, 2033, 2077, 2201, 2413, 2533, 2603, 2759, 2951, 3097, 3131, 3173, 3193, 3281, 3379, 3599, 3721, 3791, 3937, 3953, 4043, 4223, 4309, 4331
+
+# Additional terms (with possible gaps -- although it's very unlikely to be any gaps)
+#   4607, 4619, 4867, 4883, 4981, 5111, 5177, 5263, 5429, 5567, 5699, 5963, 6161, 6169, 6283, 6313, 6341, 6431, 6527, 6649, 6817, 6859, 6901, 7037, 7099, 7303, 7391, 7747, 7771, 7921, 8201, 8357, 8401, 8479, 8791, 8873, 8891, 8989, 9179, 9313, 9517, 9523, 9577, 9617, 9701, 9899, 10207, 10261, 10319, 10403, 10519, 10553, 10697, 10931, 11191, 11387, 11441, 11449, 11563, 11647, 11663, 11723, 11773, 11857
+
+include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+
+for k in (1..1e6) {
+
+    k.is_composite || next
+
+    var m = try   { lpf(2**k - 1) }
+            catch { factordb(2**k - 1).first }
+
+    m.is_prime || die "no prime factor of 2^#{k} - 1 is known"
+
+    if (znorder(2, m) == k) {
+        print(k, ", ")
+    }
+}

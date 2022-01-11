@@ -31,7 +31,7 @@ while (<$fh>) {
 
 close $fh;
 
-foreach my $dir ('chess-bot', 'diacritix', 'img2text', 'lixmaker', 'cgi-projects') {    # deprecated projects
+foreach my $dir ('chess-bot', 'diacritix', 'img2text', 'lixmaker') {    # deprecated projects
     $ignore{rel2abs($dir)} = 1;
 }
 
@@ -59,7 +59,7 @@ sub add_section {
 my $summary_file = 'README.md';
 my $main_dir     = curdir();
 
-my $ext_re = qr/(?:p[lm]|sf|png|cpp|jl|gp)/i;
+my $ext_re = qr/(?:p[lm]|sf|cpp|jl|gp|cgi|fcgi)/i;
 
 {
     my @root;
