@@ -388,9 +388,18 @@ sub add_match_text ($text, $value, $i, $j) {
     my $prefix_len = 50;
     my $suffix_len = 200;
 
-    my $match_content  = substr($text, $i,                          $j - $i);
-    my $prefix_content = substr($text, max(0, $i - $prefix_len),    $j - $i + $prefix_len - length($match_content));
-    my $suffix_content = substr($text, $i + length($match_content), $j - $i + $suffix_len);
+    my $match_content = substr($text, $i, $j - $i);
+
+    if ($j + $suffix_len > length($text)) {
+        $prefix_len += $j + $suffix_len - length($text);
+    }
+
+    if ($i - $prefix_len < 0) {
+        $prefix_len = $i;
+    }
+
+    my $prefix_content = substr($text, $i - $prefix_len, $prefix_len);
+    my $suffix_content = substr($text, $j,               $suffix_len);
 
     foreach ($match_content, $prefix_content, $suffix_content) {
         s/\s+/ /g;
@@ -435,7 +444,7 @@ sub search ($text) {
     foreach my $key (keys %matches) {
 
         # TODO: decompress with unzstd()
-        $matches{$key} = decode_json($CONTENT_DB{$key});
+        $matches{$key} = eval { decode_json($CONTENT_DB{$key}) } // {};
     }
 
     #my $max_score = max(values %seen);
@@ -500,7 +509,7 @@ sub search ($text) {
 
                 if ($description =~ $re) {
 
-                    $value->{score} += 2 * $factor;
+                    $value->{score} += 1 * $factor;
 
                     if ($re_type eq 'b_re' and not exists $value->{match}) {
                         add_match_text($description, $value, $-[0], $+[0]);
@@ -542,6 +551,11 @@ sub search ($text) {
 
     # Keep entries with score > 0
     @sorted = grep { $_->{score} > 0 } @sorted;
+
+    # Fix some ArchWiki links
+    foreach my $entry (@sorted) {
+        $entry->{url} =~ s{^https://wiki\.archlinux\.org//}{https://wiki.archlinux.org/title/};
+    }
 
     # Remove duplicated entries
     @sorted = grep { !$seen_url{($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{/\z}{}r}++ } @sorted;
