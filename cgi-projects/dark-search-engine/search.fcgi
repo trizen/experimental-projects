@@ -47,7 +47,16 @@ use JSON qw(decode_json encode_json);
 use Encode qw(decode_utf8 encode_utf8);
 use Digest::xxHash qw(xxhash32_hex);
 
-use constant {XXHASH_SEED => 42};
+use constant {
+
+    # xxHash seed (don't change it)
+    XXHASH_SEED => 42,
+
+    # Minimum and maximum number of characters for words stored in the index
+    WORD_MIN_LEN => 3,
+    WORD_MAX_LEN => 45,
+
+};
 
 binmode(STDOUT, ':utf8');
 binmode(STDIN,  ':utf8');
@@ -156,7 +165,8 @@ my $robot_rules = WWW::RobotRules->new($mech->agent);
 };
 
 sub extract_words ($text) {
-    uniq(grep { length($_) >= 3 and length($_) <= 45 and /[[:alnum:]]/ } split(/[_\W]+/, CORE::fc($text)));
+    uniq(grep { length($_) >= WORD_MIN_LEN and length($_) <= WORD_MAX_LEN and /[[:alnum:]]/ }
+           split(/[_\W]+/, CORE::fc($text)));
 }
 
 sub surprise_me {
@@ -525,6 +535,11 @@ sub search ($text) {
     # Keep only the best 100 entries
     $#sorted = 99 if scalar(@sorted) > 100;
 
+    # Prefer shorter URLs for results with the same score
+    @sorted = map { $_->[0] }
+      sort { ($b->[1] <=> $a->[1]) || ($a->[2] <=> $b->[2]) }
+      map { [$_, $_->{score}, length($_->{url})] } @sorted;
+
     # Keep entries with score > 0
     @sorted = grep { $_->{score} > 0 } @sorted;
 
@@ -542,6 +557,41 @@ sub repair_index {
     return 1;
 }
 
+sub sanitize_index {
+
+    my @for_delete_keys;
+    my $index_len = 0;
+    my $uniq_refs = 0;
+
+    while (my ($key, $value) = each %WORDS_INDEX) {
+
+        ++$index_len;
+
+        my $ref_count = 1 + ($value =~ tr/ //);
+
+        if ($ref_count > 5000) {
+            say "$ref_count: $key";
+        }
+
+        if ($ref_count == 1) {
+            ++$uniq_refs;
+        }
+
+        if (length($key) < WORD_MIN_LEN or length($key) > WORD_MAX_LEN) {
+            push @for_delete_keys, $key;
+        }
+    }
+
+    say ":: The words index contains $index_len entries.";
+    say ":: The words index contains $uniq_refs entries with only one reference.";
+
+    foreach my $key (@for_delete_keys) {
+        delete $WORDS_INDEX{$key};
+    }
+
+    return 1;
+}
+
 if (@ARGV) {
 
     my $depth   = 0;
@@ -552,6 +602,12 @@ if (@ARGV) {
 
         "depth=i"    => \$depth,
         "r|recrawl!" => \$recrawl,
+
+        "sanitize-index" => sub {
+            warn "Sanitzing index...";
+            sanitize_index();
+            exit;
+        },
 
         "fix-index|recover-index|repair-index" => sub {
             warn "Recovering index...";
@@ -613,7 +669,18 @@ while (my $c = CGI::Fast->new) {
         # TODO: decompress with unzstd()
         my $info = decode_json($CONTENT_DB{$id});
 
-        print h4(encode_utf8(encode_entities($info->{title})));
+        say h4(
+               {-class => "result_header"},
+               a(
+                  {
+                   -href   => encode_utf8($info->{url}),
+                   -target => "_blank",
+                   -rel    => "noopener noreferrer",
+                  },
+                  b(encode_utf8(encode_entities($info->{title}))),
+                )
+              );
+
         print pre(encode_entities($info->{content}));
         print end_html();
         next;
