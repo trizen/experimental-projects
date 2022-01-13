@@ -12,6 +12,8 @@ Highly experimental personal projects.
     * [Largest number n such that both n and the n-th triangular number has only odd digits](./can-you-find/Largest%20number%20n%20such%20that%20both%20n%20and%20the%20n-th%20triangular%20number%20has%20only%20odd%20digits)
         * [search.sf](./can-you-find/Largest%20number%20n%20such%20that%20both%20n%20and%20the%20n-th%20triangular%20number%20has%20only%20odd%20digits/search.sf)
 * [Cgi-projects](./cgi-projects)
+    * [Dark-search-engine](./cgi-projects/dark-search-engine)
+        * [zstd db.pl](./cgi-projects/dark-search-engine/zstd_db.pl)
     * [Filesystem-web-share](./cgi-projects/filesystem-web-share)
         * [index.cgi](./cgi-projects/filesystem-web-share/index.cgi)
     * [Sidef-simple-web-interface](./cgi-projects/sidef-simple-web-interface)

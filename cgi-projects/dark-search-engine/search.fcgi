@@ -2,7 +2,7 @@
 
 # Author: Trizen
 # Date: 08 January 2022
-# Edit: 11 January 2022
+# Edit: 13 January 2022
 # https://github.com/trizen
 
 # A private search engine, with its own crawler over Tor (respecting robots.txt).
@@ -19,6 +19,8 @@ use strict;
 use warnings;
 
 #use autodie;
+
+no warnings qw(once);
 use experimental qw(signatures);
 
 use CGI::Fast;
@@ -30,24 +32,32 @@ use CGI qw/:standard *table -utf8/;
 #use IO::Uncompress::UnZstd qw(unzstd);
 #use URI::Escape qw(uri_escape_utf8);
 
-use CHI;
-use WWW::Mechanize::Cached;
+use WWW::Mechanize;
 use File::Basename qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
 use Text::Unidecode qw(unidecode);
 use HTML::Entities qw(encode_entities);
 use WWW::RobotRules;
 use LWP::Simple qw(get);
-
-#use Digest::MD5 qw(md5_hex);
+use Time::HiRes qw(gettimeofday tv_interval);
 
 use ntheory qw(forcomb);
 use List::Util qw(uniq max);
-use JSON qw(decode_json encode_json);
+use JSON::XS qw(decode_json encode_json);
 use Encode qw(decode_utf8 encode_utf8);
 use Digest::xxHash qw(xxhash32_hex);
 
 use constant {
+
+    # Cache HTML content (using CHI and WWW::Mechanize::Cached)
+    CACHE => 0,
+
+    # Use Tor proxy for crawling (127.0.0.1:9050)
+    USE_TOR => 1,
+
+    # Compress the values of the content database with Zstandard
+    # When enabled, the content database will be ~3x smaller
+    USE_ZSTD => 1,
 
     # xxHash seed (don't change it)
     XXHASH_SEED => 42,
@@ -56,20 +66,29 @@ use constant {
     WORD_MIN_LEN => 3,
     WORD_MAX_LEN => 45,
 
+    # Maximum number of top best search results to return
+    MAX_SEARCH_RESULTS => 100,
+
+    # Show the description of each website in search results (if available)
+    # When disabled, a snippet of the content will be shown
+    SHOW_DESCRIPTION => 1,
+
 };
 
 binmode(STDOUT, ':utf8');
 binmode(STDIN,  ':utf8');
 binmode(STDERR, ':utf8');
 
+if (USE_ZSTD) {
+    require IO::Compress::Zstd;
+    require IO::Uncompress::UnZstd;
+}
+
 my %hostname_alternatives = (
                              youtube => 'yewtu.be',
                              reddit  => 'teddit.net',
                              medium  => 'scribe.rip',
                             );
-
-my $cache = CHI->new(driver   => 'BerkeleyDB',
-                     root_dir => catdir(dirname(rel2abs($0)), 'cache'));
 
 my $cookie_file     = 'cookies.txt';
 my $crawled_db_file = "crawled.db";
@@ -114,18 +133,34 @@ tie(my %WORDS_INDEX, 'GDBM_File', $index_db_file, $GDBM_OPTIONS, 0777)
 #~ tie(my %WORDS_INDEX, 'DB_File', $index_db_file, O_CREAT|O_RDWR, 0777)
 #~ or die "Can't create/access database <<$index_db_file>>: $!";
 
-my $mech = WWW::Mechanize::Cached->new(
-                                     timeout       => 20,
-                                     autocheck     => 0,
-                                     show_progress => 1,
-                                     stack_depth   => 10,
-                                     cache         => $cache,
-                                     cookie_jar    => {},
-                                     agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
-);
+my $mech;
+my %mech_options = (
+                    timeout       => 20,
+                    autocheck     => 0,
+                    show_progress => 1,
+                    stack_depth   => 10,
+                    cookie_jar    => {},
+                    agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                   );
 
-# Use Tor proxy
-$mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+if (CACHE) {
+
+    require CHI;
+    require WWW::Mechanize::Cached;
+
+    my $cache = CHI->new(driver   => 'BerkeleyDB',
+                         root_dir => catdir(dirname(rel2abs($0)), 'cache'));
+
+    $mech = WWW::Mechanize::Cached->new(%mech_options, cache => $cache);
+
+}
+else {
+    $mech = WWW::Mechanize->new(%mech_options);
+}
+
+if (USE_TOR) {    # set Tor proxy
+    $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
 
 # Support for cookies from file
 if (defined($cookie_file) and -f $cookie_file) {
@@ -169,9 +204,43 @@ sub extract_words ($text) {
            split(/[_\W]+/, CORE::fc($text)));
 }
 
+sub encode_content_entry ($entry) {
+
+    if (USE_ZSTD) {
+        my $json_data = encode_json($entry);
+
+        IO::Compress::Zstd::zstd(\$json_data, \my $zstd_data)
+          or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
+
+        return $zstd_data;
+    }
+
+    encode_json($entry);
+}
+
+sub decode_content_entry ($entry) {
+
+    if (USE_ZSTD) {
+
+        IO::Uncompress::UnZstd::unzstd(\$entry, \my $json_data)
+          or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+
+        return decode_json($json_data);
+    }
+
+    decode_json($entry);
+}
+
 sub surprise_me {
 
-    # TODO: implement me
+    while (my ($word, $value) = each %WORDS_INDEX) {
+        if (length($word) >= 5 and rand() < 0.5) {
+            my $ref_count = ($value =~ tr/ //);
+            if ($ref_count >= 10 and $ref_count <= 1000) {
+                return $word;
+            }
+        }
+    }
 
     return undef;
 }
@@ -292,7 +361,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $resp->is_success or return;
 
     if (not valid_content_type()) {
-        $mech->invalidate_last_request;
+        $mech->invalidate_last_request() if CACHE;
         return;
     }
 
@@ -359,8 +428,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
             add_to_database_index($relevant_content, $id);
         }
 
-        # TODO: compress with zstd()
-        $CONTENT_DB{$id} = encode_json(\%info);
+        $CONTENT_DB{$id} = encode_content_entry(\%info);
     }
 
     if ($depth >= 1) {
@@ -383,7 +451,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     return 1;
 }
 
-sub add_match_text ($text, $value, $i, $j) {
+sub add_match_text_to_value ($text, $value, $i, $j) {
 
     my $prefix_len = 50;
     my $suffix_len = 200;
@@ -422,10 +490,15 @@ sub search ($text) {
     my @words       = extract_words($text);
     my @known_words = grep { exists $WORDS_INDEX{$_} } @words;
 
+    my %counts;
+
     foreach my $word (@known_words) {
 
-        my @keys = grep { !$seen{$_}++ } split(' ', $WORDS_INDEX{$word});
+        my @refs = uniq(split(' ', $WORDS_INDEX{$word}));
+        my @keys = grep { !$seen{$_}++ } @refs;
         my $max  = max(values(%seen));
+
+        $counts{$word} = scalar(@refs);
 
         if ($max == 1) {
             foreach my $key (@keys) {
@@ -442,9 +515,7 @@ sub search ($text) {
     }
 
     foreach my $key (keys %matches) {
-
-        # TODO: decompress with unzstd()
-        $matches{$key} = eval { decode_json($CONTENT_DB{$key}) } // {};
+        $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // {};
     }
 
     #my $max_score = max(values %seen);
@@ -511,8 +582,8 @@ sub search ($text) {
 
                     $value->{score} += 1 * $factor;
 
-                    if ($re_type eq 'b_re' and not exists $value->{match}) {
-                        add_match_text($description, $value, $-[0], $+[0]);
+                    if (SHOW_DESCRIPTION and $re_type eq 'b_re' and not exists $value->{match}) {
+                        add_match_text_to_value($description, $value, $-[0], $+[0]);
                     }
                 }
 
@@ -521,7 +592,7 @@ sub search ($text) {
                     $value->{score} += $factor;
 
                     if ($re_type eq 'b_re' and not exists $value->{match}) {
-                        add_match_text($content, $value, $-[0], $+[0]);
+                        add_match_text_to_value($content, $value, $-[0], $+[0]);
                     }
                 }
 
@@ -541,8 +612,10 @@ sub search ($text) {
     my %seen_url;
     my @sorted = sort { $b->{score} <=> $a->{score} } values %matches;
 
-    # Keep only the best 100 entries
-    $#sorted = 99 if scalar(@sorted) > 100;
+    my $results_count = scalar(@sorted);
+
+    # Keep only the top best entries
+    $#sorted = MAX_SEARCH_RESULTS- 1 if (scalar(@sorted) > MAX_SEARCH_RESULTS);
 
     # Prefer shorter URLs for results with the same score
     @sorted = map { $_->[0] }
@@ -560,12 +633,17 @@ sub search ($text) {
     # Remove duplicated entries
     @sorted = grep { !$seen_url{($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{/\z}{}r}++ } @sorted;
 
-    return @sorted;
+    return {
+            results => \@sorted,
+            counts  => \%counts,
+            words   => \@known_words,
+            count   => $results_count,
+           };
 }
 
-sub repair_index {
+sub repair_index {    # very slow operation
     while (my ($key, $value) = each %CONTENT_DB) {
-        my $info = decode_json($value);
+        my $info = eval { decode_content_entry($value) } // next;
         readd_to_database_index(unidecode($info->{title}) . ' ' . $info->{content}, $info->{id});
     }
     return 1;
@@ -618,13 +696,13 @@ if (@ARGV) {
         "r|recrawl!" => \$recrawl,
 
         "sanitize-index" => sub {
-            warn "Sanitzing index...";
+            warn "Sanitzing index...\n";
             sanitize_index();
             exit;
         },
 
         "fix-index|recover-index|repair-index" => sub {
-            warn "Recovering index...";
+            warn "Recovering index...\n";
             repair_index();
             exit;
         },
@@ -640,13 +718,13 @@ if (@ARGV) {
 
 while (my $c = CGI::Fast->new) {
 
-    my $query   = $c->param('q');
-    my $id      = $c->param('text');
-    my $website = $c->param('website');
+    my $query    = $c->param('q');
+    my $id       = $c->param('text');
+    my $surprise = $c->param('surprise');
 
     print header(-charset => 'UTF-8'), start_html(
         -class => 'results_endpoint',
-        -title => 'DarkSearch - ' . ($query // $id // $website),
+        -title => 'DarkSearch - ' . ($query // $id // 'Surprise'),
         -meta  => {
             'keywords' => 'dark search, search engine, private, secure',
 
@@ -680,8 +758,7 @@ while (my $c = CGI::Fast->new) {
 
     if (defined($id)) {
 
-        # TODO: decompress with unzstd()
-        my $info = decode_json($CONTENT_DB{$id});
+        my $info = decode_content_entry($CONTENT_DB{$id});
 
         say h4(
                {-class => "result_header"},
@@ -701,7 +778,7 @@ while (my $c = CGI::Fast->new) {
     }
 
     print <<"EOT";
-<div class="searx-navbar"><span class="instance pull-left"><a href="/search">Home</a></span><span class="pull-right"><a href="submit.html">Submit website</a></span></div>
+<div class="searx-navbar"><span class="instance pull-left"><a href="/search">Home</a></span><span class="pull-right"><a href="$ENV{SCRIPT_NAME}?surprise=1">Surprise me</a></span></div>
     <div class="container">
 
 <form method="post" action="$ENV{SCRIPT_NAME}" id="search_form" role="search">
@@ -728,37 +805,30 @@ while (my $c = CGI::Fast->new) {
             <h1 class="sr-only">Search results</h1>
 EOT
 
-    if (defined($website)) {
-
-        #~ my $depth = 0;
-
-        #~ if ($website =~ s/^depth=1;//) {
-        #~ $depth = 1;
-        #~ }
-
-        #~ if (crawl($website, $depth)) {
-        #~ say h4("Successfully crawled (with depth=$depth): ", encode_utf8($website));
-        #~ }
-        #~ else {
-        #~ say h4("There was an issue crawling: ", encode_utf8($website));
-        #~ }
-
-        if ($website =~ m{^https://}) {
-            if (open my $fh, '>>:utf8', "links.txt") {
-                say $fh $website;
-                close $fh;
-                say h4("Successfully enqueued: ", encode_utf8($website));
-                next;
-            }
-        }
-
-        say h4("There was an issue crawling: ", encode_utf8($website));
-        next;
+    if ($surprise) {
+        $query = surprise_me();
     }
 
     say q{<div class="result result-default">};
 
-    my @results = ((($query // '') =~ /\S/) ? search($query) : ());
+    my $t0 = [gettimeofday];
+
+    my @results;
+    my $search_results = ((($query // '') =~ /\S/) ? search($query) : ());
+
+    my $elapsed = tv_interval($t0, [gettimeofday]);
+
+    if ($search_results) {
+
+        @results = @{$search_results->{results}};
+        my @words = @{$search_results->{words}};
+
+        if (@words) {
+            ## say p("Results found: ", b($search_results->{count}));
+            say p("Term frequencies: " . join(", ", map { b($_) . ': ' . $search_results->{counts}{$_} } @words));
+            say p(small(sprintf("Search took %.5f seconds", $elapsed)));
+        }
+    }
 
     foreach my $result (@results) {
 
