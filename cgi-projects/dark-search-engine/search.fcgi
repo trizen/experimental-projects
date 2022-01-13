@@ -19,7 +19,7 @@
 # Other script options:
 #   --recrawl           : activate recrawl mode
 #   --fix-index         : fix the index in case it gets messed up (slow operation)
-#   --sanitize_index    : sanitize the index and show some stats
+#   --sanitize-index    : sanitize the index and show some stats
 
 # To repair a database, in case it gets corrupted, use:
 #   $ gdbmtool [filename.db]
@@ -98,7 +98,22 @@ use constant {
     # Respect the rules from robots.txt
     RESPECT_ROBOT_RULES => 1,
 
+    # Rank the results based on content of the pages (better ranking, but it's much slower)
+    RANK_ON_CONTENT => 1,
+
+    # Rank the results based on exact match (with \b) (better ranking, but it's considerably slower)
+    RANK_ON_EXACT_MATCH => 1,
+
 };
+
+# Ignore these words in search requests, as too many websites contain them
+my %too_common_words;
+@too_common_words{
+    qw(
+      and for you not the this with are about
+      that from can all more have what your they
+      )
+} = ();
 
 binmode(STDOUT, ':utf8');
 binmode(STDIN,  ':utf8');
@@ -513,7 +528,7 @@ sub search ($text) {
     my %matches;
 
     my @words       = extract_words($text);
-    my @known_words = grep { exists $WORDS_INDEX{$_} } @words;
+    my @known_words = grep { !exists($too_common_words{$_}) and exists($WORDS_INDEX{$_}) } @words;
 
     my %counts;
 
@@ -558,8 +573,8 @@ sub search ($text) {
             my $b_regex = join('\b.{0,10}\b', @subset);
             unshift @regexes,
               scalar {
-                      re     => qr/$regex/si,
-                      b_re   => qr/\b$b_regex\b/si,
+                      re => qr/$regex/si,
+                      (RANK_ON_EXACT_MATCH ? (b_re => qr/\b$b_regex\b/si) : ()),
                       factor => $k,
                      };
         }
@@ -596,8 +611,8 @@ sub search ($text) {
 
             foreach my $re_type (qw(b_re re)) {
 
+                my $re     = $regex->{$re_type} // next;
                 my $factor = $regex->{factor} * ($re_type eq 'b_re' ? 1 : 0.5);
-                my $re     = $regex->{$re_type};
 
                 if ($title =~ $re) {
                     $value->{score} += 2 * $factor;
@@ -607,16 +622,17 @@ sub search ($text) {
 
                     $value->{score} += 1 * $factor;
 
-                    if (SHOW_DESCRIPTION and $re_type eq 'b_re' and not exists $value->{match}) {
+                    if (SHOW_DESCRIPTION and $re_type eq (RANK_ON_EXACT_MATCH ? 'b_re' : 're') and not exists $value->{match})
+                    {
                         add_match_text_to_value($description, $value, $-[0], $+[0]);
                     }
                 }
 
-                if ($content =~ $re) {
+                if (RANK_ON_CONTENT and $content =~ $re) {
 
                     $value->{score} += $factor;
 
-                    if ($re_type eq 'b_re' and not exists $value->{match}) {
+                    if ($re_type eq (RANK_ON_EXACT_MATCH ? 'b_re' : 're') and not exists $value->{match}) {
                         add_match_text_to_value($content, $value, $-[0], $+[0]);
                     }
                 }
