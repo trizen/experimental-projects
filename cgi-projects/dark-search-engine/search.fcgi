@@ -5,13 +5,35 @@
 # Edit: 13 January 2022
 # https://github.com/trizen
 
-# A private search engine, with its own crawler over Tor (respecting robots.txt).
+# A private search engine, with its own crawler running over Tor (respecting robots.txt).
 
 # Using some HTML and CSS code from the searX project (++):
 #   https://github.com/searx/searx
 
-# To crawl an website, pass it an argument to this script.
+# To crawl an website, pass it as an argument to this script.
 # By default, depth = 0. Use --depth=i to increase the crawling depth.
+
+# Example:
+#   perl search.fcgi --depth=i [URL]
+
+# Other script options:
+#   --recrawl           : activate recrawl mode
+#   --fix-index         : fix the index in case it gets messed up (slow operation)
+#   --sanitize_index    : sanitize the index and show some stats
+
+# To repair a database, in case it gets corrupted, use:
+#   $ gdbmtool [filename.db]
+#   gdbmtool> recover summary
+#   gdbmtool> quit
+
+# The index database grows quite large over time. To optimize its size, run:
+#   $ gdbmtool [filename.db]
+#   gdbmtool> reorganize
+#   gdbmtool> quit
+
+# Limitations:
+#   - the search engine cannot be used while the crawler is being used
+#   - the crawler cannot be used while the search engine is being used
 
 use utf8;
 use 5.020;
@@ -70,8 +92,11 @@ use constant {
     MAX_SEARCH_RESULTS => 100,
 
     # Show the description of each website in search results (if available)
-    # When disabled, a snippet of the content will be shown
+    # When disabled, a snippet of the content will be shown instead
     SHOW_DESCRIPTION => 1,
+
+    # Respect the rules from robots.txt
+    RESPECT_ROBOT_RULES => 1,
 
 };
 
@@ -335,7 +360,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $url = sanitize_url($url);
 
     # Check if we're allowed to crawl this URL
-    if (not $robot_rules->allowed($url)) {
+    if (RESPECT_ROBOT_RULES and not $robot_rules->allowed($url)) {
         warn "Not allowed to crawl: $url\n";
         return;
     }
@@ -724,7 +749,7 @@ while (my $c = CGI::Fast->new) {
 
     print header(-charset => 'UTF-8'), start_html(
         -class => 'results_endpoint',
-        -title => 'DarkSearch - ' . ($query // $id // 'Surprise'),
+        -title => 'DarkSearch - ' . encode_utf8($query // $id // 'Surprise'),
         -meta  => {
             'keywords' => 'dark search, search engine, private, secure',
 
