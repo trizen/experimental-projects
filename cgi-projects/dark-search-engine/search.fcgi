@@ -65,7 +65,10 @@ use Time::HiRes qw(gettimeofday tv_interval);
 
 use ntheory qw(forcomb);
 use List::Util qw(uniq max);
-use JSON::XS qw(decode_json encode_json);
+
+#use JSON::XS qw(decode_json encode_json);
+
+use Storable qw(freeze thaw);
 use Encode qw(decode_utf8 encode_utf8);
 use Digest::xxHash qw(xxhash32_hex);
 
@@ -101,8 +104,11 @@ use constant {
     # Rank the results based on content of the pages (better ranking, but it's much slower)
     RANK_ON_CONTENT => 1,
 
-    # Rank the results based on exact match (with \b) (better ranking, but it's considerably slower)
-    RANK_ON_EXACT_MATCH => 1,
+    # Rank the results based on boundary matches (with \b)
+    RANK_ON_BOUNDARY_MATCH => 1,
+
+    # Rank the results based on non-boundary matches (without \b)
+    RANK_ON_NON_BOUNDARY_MATCH => 0,
 
 };
 
@@ -240,14 +246,14 @@ my $robot_rules = WWW::RobotRules->new($mech->agent);
 };
 
 sub extract_words ($text) {
-    uniq(grep { length($_) >= WORD_MIN_LEN and length($_) <= WORD_MAX_LEN and /[[:alnum:]]/ }
-           split(/[_\W]+/, CORE::fc($text)));
+    grep { length($_) >= WORD_MIN_LEN and length($_) <= WORD_MAX_LEN and /[[:alnum:]]/ }
+      uniq(split(/[_\W]+/, CORE::fc($text)));
 }
 
 sub encode_content_entry ($entry) {
 
     if (USE_ZSTD) {
-        my $json_data = encode_json($entry);
+        my $json_data = freeze($entry);
 
         IO::Compress::Zstd::zstd(\$json_data, \my $zstd_data)
           or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
@@ -255,7 +261,7 @@ sub encode_content_entry ($entry) {
         return $zstd_data;
     }
 
-    encode_json($entry);
+    freeze($entry);
 }
 
 sub decode_content_entry ($entry) {
@@ -265,10 +271,10 @@ sub decode_content_entry ($entry) {
         IO::Uncompress::UnZstd::unzstd(\$entry, \my $json_data)
           or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
 
-        return decode_json($json_data);
+        return thaw($json_data);
     }
 
-    decode_json($entry);
+    thaw($entry);
 }
 
 sub surprise_me {
@@ -568,13 +574,18 @@ sub search ($text) {
         last if ($k > 15);
 
         forcomb {
-            my @subset  = @original_words[@_];
+            my @subset = @original_words[@_];
+
             my $regex   = join('.{0,10}',     @subset);
             my $b_regex = join('\b.{0,10}\b', @subset);
+
+            #my $regex   = join('\W*+',     @subset);
+            #my $b_regex = join('\b\W*+\b', @subset);
+
             unshift @regexes,
               scalar {
-                      re => qr/$regex/si,
-                      (RANK_ON_EXACT_MATCH ? (b_re => qr/\b$b_regex\b/si) : ()),
+                      (RANK_ON_NON_BOUNDARY_MATCH ? (re   => qr/$regex/si)       : ()),
+                      (RANK_ON_BOUNDARY_MATCH     ? (b_re => qr/\b$b_regex\b/si) : ()),
                       factor => $k,
                      };
         }
@@ -622,8 +633,9 @@ sub search ($text) {
 
                     $value->{score} += 1 * $factor;
 
-                    if (SHOW_DESCRIPTION and $re_type eq (RANK_ON_EXACT_MATCH ? 'b_re' : 're') and not exists $value->{match})
-                    {
+                    if (    SHOW_DESCRIPTION
+                        and $re_type eq (RANK_ON_BOUNDARY_MATCH ? 'b_re' : 're')
+                        and not exists $value->{match}) {
                         add_match_text_to_value($description, $value, $-[0], $+[0]);
                     }
                 }
@@ -632,7 +644,8 @@ sub search ($text) {
 
                     $value->{score} += $factor;
 
-                    if ($re_type eq (RANK_ON_EXACT_MATCH ? 'b_re' : 're') and not exists $value->{match}) {
+                    if ($re_type eq (RANK_ON_BOUNDARY_MATCH ? 'b_re' : 're')
+                        and not exists $value->{match}) {
                         add_match_text_to_value($content, $value, $-[0], $+[0]);
                     }
                 }
