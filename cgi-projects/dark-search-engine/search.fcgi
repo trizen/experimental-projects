@@ -526,6 +526,33 @@ sub add_match_text_to_value ($text, $value, $i, $j) {
     return 1;
 }
 
+sub set_intersection ($sets) {
+
+    my @sets = @$sets;
+    @sets || return;
+
+    my $intersection = {};
+    @{$intersection}{@{shift(@sets)}} = ();
+
+    while (@sets) {
+
+        my %curr;
+        @curr{@{shift(@sets)}} = ();
+
+        my %tmp;
+
+        foreach my $key (keys %$intersection) {
+            if (exists $curr{$key}) {
+                undef $tmp{$key};
+            }
+        }
+
+        $intersection = \%tmp;
+    }
+
+    return keys %$intersection;
+}
+
 sub search ($text) {
 
     $text = unidecode($text);
@@ -536,31 +563,20 @@ sub search ($text) {
     my @words       = extract_words($text);
     my @known_words = grep { !exists($too_common_words{$_}) and exists($WORDS_INDEX{$_}) } @words;
 
+    my @ref_sets;
     my %counts;
 
     foreach my $word (@known_words) {
 
         my @refs = uniq(split(' ', $WORDS_INDEX{$word}));
-        my @keys = grep { !$seen{$_}++ } @refs;
-        my $max  = max(values(%seen));
 
+        ++$seen{$_} for @refs;
         $counts{$word} = scalar(@refs);
 
-        if ($max == 1) {
-            foreach my $key (@keys) {
-                undef $matches{$key};
-            }
-        }
-        else {
-            foreach my $key (keys %matches) {
-                if ($seen{$key} != $max) {
-                    delete $matches{$key};
-                }
-            }
-        }
+        push @ref_sets, \@refs;
     }
 
-    foreach my $key (keys %matches) {
+    foreach my $key (set_intersection(\@ref_sets)) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // {};
     }
 
