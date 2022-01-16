@@ -342,22 +342,34 @@ sub normalize_url ($url) {
     #$url =~ s/#.*//sr =~ s{^https?://(?:www\.)?}{}r =~ s{/+\z}{}r;
 
     require URL::Normalize;
-    my $normalizer = URL::Normalize->new($url);
 
-    # Normalize the URL
-    $normalizer->make_canonical;
-    $normalizer->remove_directory_index;
-    $normalizer->remove_empty_query;
-    $normalizer->sort_query_parameters;
-    $normalizer->remove_empty_query_parameters;
-    $normalizer->remove_fragment;
-    $normalizer->remove_fragments;
+    my $normalizer = URL::Normalize->new(url => $url);
 
     # Remove tracking query parameters
     $normalizer->remove_query_parameters(\@tracking_parameters);
 
-    # Get the normalized version back
+    my $normalize = sub ($url, $method) {
+        my $obj = URL::Normalize->new(url => $url);
+        $obj->$method;
+        $obj->url;
+    };
+
     my $normalized_url = $normalizer->url;
+
+    foreach my $method (
+                        qw(
+                        remove_directory_index
+                        remove_empty_query
+                        remove_fragment
+                        remove_fragments
+                        remove_duplicate_slashes
+                        make_canonical
+                        sort_query_parameters
+                        remove_empty_query_parameters
+                        )
+      ) {
+        $normalized_url = $normalize->($normalized_url, $method);
+    }
 
     # Remove the protocol
     $normalized_url =~ s{^https?://}{};
@@ -601,7 +613,7 @@ sub search ($text) {
     }
 
     foreach my $key (set_intersection(\@ref_sets)) {
-        $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // {};
+        $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 
     #my $max_score = max(values %seen);
@@ -725,7 +737,7 @@ sub search ($text) {
     }
 
     # Remove duplicated entries
-    @sorted = grep { !$seen_url{($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{/\z}{}r}++ } @sorted;
+    @sorted = grep { !$seen_url{(($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{#.*}{}sr) =~ s{/\z}{}r}++ } @sorted;
 
     return {
             results => \@sorted,
