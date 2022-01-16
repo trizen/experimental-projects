@@ -2,7 +2,7 @@
 
 # Author: Trizen
 # Date: 08 January 2022
-# Edit: 13 January 2022
+# Edit: 15 January 2022
 # https://github.com/trizen
 
 # A private search engine, with its own crawler running over Tor (respecting robots.txt).
@@ -121,6 +121,20 @@ my %too_common_words;
       )
 } = ();
 
+# List of tracking query parameters to remove from URLs
+my @tracking_parameters = qw(
+
+  yclid fbclid gclsrc
+
+  utm_source utm_medium utm_term
+  utm_content utm_campaign utm_referrer
+
+  __hssc __hstc __s _hsenc _openstat dclid fb_ref gclid
+  hsCtaTracking igshid mc_eid mkt_tok ml_subscriber ml_subscriber_hash
+  msclkid oly_anon_id oly_enc_id rb_clickid s_cid vero_conv vero_id wickedid
+
+);
+
 binmode(STDOUT, ':utf8');
 binmode(STDIN,  ':utf8');
 binmode(STDERR, ':utf8');
@@ -134,6 +148,7 @@ my %hostname_alternatives = (
                              youtube => 'yewtu.be',
                              reddit  => 'teddit.net',
                              medium  => 'scribe.rip',
+                             twitter => 'nitter.net',
                             );
 
 my $cookie_file     = 'cookies.txt';
@@ -280,7 +295,7 @@ sub decode_content_entry ($entry) {
 sub surprise_me {
 
     while (my ($word, $value) = each %WORDS_INDEX) {
-        if (length($word) >= 5 and rand() < 0.5) {
+        if (length($word) >= 5 and rand() < 0.1) {
             my $ref_count = ($value =~ tr/ //);
             if ($ref_count >= 10 and $ref_count <= 1000) {
                 return $word;
@@ -297,10 +312,13 @@ sub sanitize_url ($url) {
 
     my $protocol = '';
 
-    if ($url =~ m{^(https?://)}) {
+    if ($url =~ m{^(https?://)(.+)}s) {
         $protocol = $1;
-        $url      = substr($url, length($protocol));
+        $url      = $2;
     }
+
+    # Normalize the URL
+    ## $url = normalize_url($protocol . $url);
 
     # YouTube
     $url =~ s{^(?:www\.)?youtube\.com(?=[/?])}{$hostname_alternatives{youtube}};
@@ -308,6 +326,10 @@ sub sanitize_url ($url) {
 
     # Reddit (doesn't work for comments)
     ## $url =~ s{^(?:www\.)?reddit\.com(?=[/?])}{$hostname_alternatives{reddit}};
+
+    # Twitter
+    $url =~ s{^(?:www\.)?twitter\.com(?=/\w+\z)}{$hostname_alternatives{twitter}};
+    $url =~ s{^(?:www\.)?twitter\.com(?=/\w+/status/)}{$hostname_alternatives{twitter}};
 
     # Medium
     $url =~ s{^(?:www\.)?medium\.com(?=[/?])}{$hostname_alternatives{medium}};
@@ -331,10 +353,13 @@ sub normalize_url ($url) {
     $normalizer->remove_fragment;
     $normalizer->remove_fragments;
 
+    # Remove tracking query parameters
+    $normalizer->remove_query_parameters(\@tracking_parameters);
+
     # Get the normalized version back
     my $normalized_url = $normalizer->url;
 
-    # Remove protocol
+    # Remove the protocol
     $normalized_url =~ s{^https?://}{};
 
     return $normalized_url;
@@ -415,7 +440,6 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $url = "$url";
 
     my $normalized_url = normalize_url($url);
-
     my $protocol = (($url =~ m{^https://}) ? 'https://' : 'http://');
 
     if ($recrawl or not exists $CONTENT_DB{$id}) {
@@ -647,7 +671,7 @@ sub search ($text) {
 
                 if ($description =~ $re) {
 
-                    $value->{score} += 1 * $factor;
+                    ## $value->{score} += 1 * $factor;
 
                     if (    SHOW_DESCRIPTION
                         and $re_type eq (RANK_ON_BOUNDARY_MATCH ? 'b_re' : 're')
