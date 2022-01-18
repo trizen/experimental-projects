@@ -36,6 +36,7 @@
 #   - the crawler cannot be used while the search engine is being used
 
 # Useful videos on this topic:
+#
 #   The Inverted Index Stanford NLP Professor Dan Jurafsky & Chris Manning
 #       https://yewtu.be/watch?v=bnP6TsqyF30
 
@@ -127,12 +128,7 @@ use constant {
 
 # Ignore these words in search requests, as too many websites contain them
 my %too_common_words;
-@too_common_words{
-    qw(
-      and for you not the this with are about
-      that from can all more have what your they
-      )
-} = ();
+@too_common_words{qw(about all and can for not that the this with you)} = ();
 
 # List of tracking query parameters to remove from URLs
 my @tracking_parameters = qw(
@@ -610,22 +606,26 @@ sub search ($text) {
     my %matches;
 
     my @words       = extract_words($text);
-    my @known_words = grep { !exists($too_common_words{$_}) and exists($WORDS_INDEX{$_}) } @words;
-
-    if (@words and !@known_words) {
-        @known_words = grep { exists($WORDS_INDEX{$_}) } @words;
-    }
+    my @known_words = grep { exists($WORDS_INDEX{$_}) } @words;
 
     my @ref_sets;
+    my @common_ref_sets;
     my %counts;
 
     foreach my $word (@known_words) {
         my @refs = split(' ', $WORDS_INDEX{$word});
+
         $counts{$word} = scalar(@refs);
-        push @ref_sets, \@refs;
+
+        if (exists $too_common_words{$word}) {
+            push @common_ref_sets, \@refs;
+        }
+        else {
+            push @ref_sets, \@refs;
+        }
     }
 
-    foreach my $key (set_intersection(\@ref_sets)) {
+    foreach my $key (set_intersection([@ref_sets, @common_ref_sets])) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 
@@ -635,7 +635,7 @@ sub search ($text) {
     my $matches_count = scalar(keys %matches);
 
     my @regexes;
-    for (my $k = max(15, scalar(@original_words)) ; $k >= 1 ; --$k) {
+    for (my $k = scalar(@original_words) ; $k >= 1 ; --$k) {
 
         my $current_cost =
           ((RANK_ON_NON_BOUNDARY_MATCH ? 1 : 0) + (RANK_ON_BOUNDARY_MATCH ? 1 : 0)) * binomial(scalar(@original_words), $k);
