@@ -839,7 +839,16 @@ while (my $c = CGI::Fast->new) {
     my $id       = $c->param('text');
     my $surprise = $c->param('surprise');
 
-    print header(-charset => 'UTF-8'), start_html(
+    print header(
+                 -charset                  => 'UTF-8',
+                 'Referrer-Policy'         => 'no-referrer',
+                 'X-Frame-Options'         => 'DENY',
+                 'X-Xss-Protection'        => '1; mode=block',
+                 'X-Content-Type-Options'  => 'nosniff',
+                 'Content-Security-Policy' =>
+                   q{default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; img-src 'self' data:;},
+                ),
+      start_html(
         -class => 'results_endpoint',
         -title => 'DarkSearch - ' . encode_utf8($query // $id // 'Surprise'),
         -meta  => {
@@ -871,7 +880,7 @@ while (my $c = CGI::Fast->new) {
                        -href => 'img/favicon.png',
                       }
                      ),
-    );
+                );
 
     if (defined($id)) {
 

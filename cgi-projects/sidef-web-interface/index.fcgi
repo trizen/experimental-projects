@@ -3,18 +3,22 @@
 # Execute Sidef script inside the browser.
 
 use utf8;
-use 5.016;
+use 5.020;
 use strict;
 
 #use autodie;
 #use warnings;
 
-use CGI qw(:standard -utf8);
-use CGI::Carp qw(fatalsToBrowser);
+use experimental qw(signatures);
 
-use autouse 'File::Slurp' => qw(read_file);
-use autouse 'URI::Escape' => qw(uri_escape);
-use autouse 'Encode'      => qw(decode_utf8);
+use CGI::Fast;
+use CGI qw/:standard -utf8/;
+
+#use CGI::Carp qw(fatalsToBrowser);
+
+use File::Slurp qw(read_file);
+use URI::Escape qw(uri_escape);
+use Encode qw(decode_utf8);
 
 use Capture::Tiny qw(capture);
 use File::Basename qw(basename);
@@ -44,52 +48,7 @@ local $ENV{SIDEF_INC} = $scripts_dir;
 require GDBM_File;
 tie my %scripts, 'GDBM_File', $scripts_db, &GDBM_File::GDBM_WRCREAT, 0640;
 
-print header(
-             -charset                 => 'UTF-8',
-             'Referrer-Policy'        => 'no-referrer',
-             'X-Frame-Options'        => 'DENY',
-             'X-Xss-Protection'       => '1; mode=block',
-             'X-Content-Type-Options' => 'nosniff',
-            ),
-  start_html(
-    -lang  => 'en',
-    -title => 'Sidef Programming Language',
-    -base  => 'true',
-    -class => 'metro',
-    -meta  => {
-              'keywords' => 'sidef programming language web interface',
-              'viewport' => 'width=device-width, initial-scale=1.0',
-             },
-    -style => [{-src => 'css/main.css'},
-               {-src => 'css/metro-bootstrap.min.css'},
-               {-src => 'css/metro-bootstrap-responsive.min.css'},
-               {-src => 'css/iconFont.min.css'},
-              ],
-    -script => [
-        {-src => 'js/jquery-2.1.3.min.js'},
-
-        #{-src => 'js/jquery.mousewheel.js'},
-        {-src => 'js/jquery.widget.min.js'},
-
-        #{-src => 'js/jquery.autosize.min.js'},
-        {-src => 'min/metro.min.js'},
-        {-src => 'js/metro-dropdown.js'},
-        {-src => 'js/tabby.js'},
-        {-src => 'js/main.js'},
-               ],
-            );
-
-print <<"CODE";
-<div class="main_content">
-<div id="sidebar">
-<nav class="sidebar dark">
-    <ul>
-    <li class="active"><a href="$ENV{SCRIPT_NAME}"><i class="icon-home"></i>Dashboard</a></li>
-CODE
-
-sub create_submenu {
-    my ($name, $files) = @_;
-
+sub create_submenu ($name, $files) {
     print <<"CODE";
         <li>
            <a class="dropdown-toggle"href="#"><i class="icon-cog"></i>$name</a>
@@ -100,8 +59,7 @@ sub create_submenu {
 CODE
 }
 
-{
-    my @dirs = $scripts_dir;
+sub add_scripts (@dirs) {
     while (defined(my $dir = shift @dirs)) {
         my @files;
         opendir(my $dir_h, $dir);
@@ -126,31 +84,6 @@ CODE
         create_submenu(ucfirst basename($dir), [sort { fc($a->{name}) cmp fc($b->{name}) } @files]);
     }
 }
-
-print <<'CODE';
-    </ul>
-</nav>
-</div>
-CODE
-
-print q{<div id="content">};
-
-print a({-href => $ENV{SCRIPT_NAME}}, h1("Sidef"));
-
-print start_form(
-                 -method          => 'POST',
-                 -action          => 'index.cgi',
-                 'accept-charset' => "UTF-8"
-                ),
-  textarea(
-           -name    => 'code',
-           -id      => 'code',
-           -default => 'Write your code here...',
-           -rows    => 20,
-           -columns => 100,
-           -onfocus => 'clearContents(this);',
-          ),
-  br, submit(-name => "Run!"), end_form;
 
 sub parse {
     my ($code) = @_;
@@ -207,8 +140,78 @@ sub execute {
     ($stdout, $errors . $stderr);
 }
 
-if (param) {
-    if (defined(my $code = param('code'))) {
+while (my $c = CGI::Fast->new) {
+
+    print header(
+                 -charset                 => 'UTF-8',
+                 'Referrer-Policy'        => 'no-referrer',
+                 'X-Frame-Options'        => 'DENY',
+                 'X-Xss-Protection'       => '1; mode=block',
+                 'X-Content-Type-Options' => 'nosniff',
+                ),
+      start_html(
+        -lang  => 'en',
+        -title => 'Sidef Programming Language',
+        -base  => 'true',
+        -class => 'metro',
+        -meta  => {
+                  'keywords' => 'sidef programming language web interface',
+                  'viewport' => 'width=device-width, initial-scale=1.0',
+                 },
+        -style => [{-src => 'css/main.css'},
+                   {-src => 'css/metro-bootstrap.min.css'},
+                   {-src => 'css/metro-bootstrap-responsive.min.css'},
+                   {-src => 'css/iconFont.min.css'},
+                  ],
+        -script => [
+            {-src => 'js/jquery-2.1.3.min.js'},
+
+            #{-src => 'js/jquery.mousewheel.js'},
+            {-src => 'js/jquery.widget.min.js'},
+
+            #{-src => 'js/jquery.autosize.min.js'},
+            {-src => 'min/metro.min.js'},
+            {-src => 'js/metro-dropdown.js'},
+            {-src => 'js/tabby.js'},
+            {-src => 'js/main.js'},
+                   ],
+                );
+
+    print <<"CODE";
+<div class="main_content">
+<div id="sidebar">
+<nav class="sidebar dark">
+    <ul>
+    <li class="active"><a href="$ENV{SCRIPT_NAME}"><i class="icon-home"></i>Dashboard</a></li>
+CODE
+
+    add_scripts($scripts_dir);
+
+    print <<'CODE';
+    </ul>
+</nav>
+</div>
+CODE
+
+    print q{<div id="content">};
+    print a({-href => $ENV{SCRIPT_NAME}}, h1("Sidef"));
+
+    print start_form(
+                     -method          => 'POST',
+                     -action          => $ENV{SCRIPT_NAME},
+                     'accept-charset' => "UTF-8"
+                    ),
+      textarea(
+               -name    => 'code',
+               -id      => 'code',
+               -default => 'Write your code here...',
+               -rows    => 20,
+               -columns => 100,
+               -onfocus => 'clearContents(this);',
+              ),
+      br, submit(-name => "Run!"), end_form;
+
+    if (defined(my $code = $c->param('code'))) {
 
         # Replace any newline characters with "\n"
         $code =~ s/\R/\n/g;
@@ -243,7 +246,7 @@ if (param) {
             }
         }
     }
-}
 
-print '</div></div>';
-print end_html;
+    print '</div></div>';
+    print end_html;
+}

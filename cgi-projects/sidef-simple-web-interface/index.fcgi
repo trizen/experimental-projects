@@ -63,7 +63,13 @@ sub execute {
 
 while (my $c = CGI::Fast->new) {
 
-    print header(-charset => 'UTF-8'),
+    print header(
+                 -charset                 => 'UTF-8',
+                 'Referrer-Policy'        => 'no-referrer',
+                 'X-Frame-Options'        => 'DENY',
+                 'X-Xss-Protection'       => '1; mode=block',
+                 'X-Content-Type-Options' => 'nosniff',
+                ),
       start_html(
                  -lang  => 'en',
                  -title => 'Sidef Programming Language',

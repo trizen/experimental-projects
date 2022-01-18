@@ -11,7 +11,8 @@ use autodie;
 
 use CGI::Fast;
 use CGI qw/:standard *table -utf8/;
-use CGI::Carp qw(fatalsToBrowser);
+
+#use CGI::Carp qw(fatalsToBrowser);
 
 use Encode qw(decode_utf8 encode_utf8);
 use HTML::Entities qw(encode_entities);
@@ -183,7 +184,15 @@ while (my $c = CGI::Fast->new) {
 
     if ($path =~ m{/\.\./} or $path =~ m{/\.\.} or not $path =~ m{^\Q$share_root\E(?:/|\z)}) {
 
-        print header(-charset => 'UTF-8'),
+        print header(
+                   -charset                  => 'UTF-8',
+                   'Referrer-Policy'         => 'no-referrer',
+                   'X-Frame-Options'         => 'DENY',
+                   'X-Xss-Protection'        => '1; mode=block',
+                   'X-Content-Type-Options'  => 'nosniff',
+                   'Content-Security-Policy' =>
+                     q{default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; img-src 'self' data:;},
+                    ),
           start_html(
                      -style => {'src' => 'styles/style.css'},
                      -meta  => {
@@ -227,146 +236,153 @@ EOT
             last if $chunk_size < $size;
         }
         close $fh;
-
+        next;
     }
-    else {
-        print header(-charset => 'UTF-8'),
-          start_html(
-                     -title  => 'HFSS - Happy file-sharing system',
-                     -meta  => {
-                               'keywords' => 'filesystem',
-                               'viewport' => 'width=device-width, initial-scale=1.0',
-                              },
-                     -style => {src => 'styles/style.css'},
-                     -head  => Link(
-                                   {
-                                    -rel  => 'shortcut icon',
-                                    -type => 'image/x-icon',
-                                    -href => 'images/tux.png',
-                                   }
-                                  ),
-                     -BGCOLOR => 'black',
-                    );
 
-        my $referrer = $ENV{HTTP_REFERER} // '';
+    print header(
+                 -charset                  => 'UTF-8',
+                 'Referrer-Policy'         => 'no-referrer',
+                 'X-Frame-Options'         => 'DENY',
+                 'X-Xss-Protection'        => '1; mode=block',
+                 'X-Content-Type-Options'  => 'nosniff',
+                 'Content-Security-Policy' =>
+                   q{default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; img-src 'self' data:;},
+                ),
+      start_html(
+                 -title => 'HFSS - Happy file-sharing system',
+                 -meta  => {
+                           'keywords' => 'filesystem',
+                           'viewport' => 'width=device-width, initial-scale=1.0',
+                          },
+                 -style => {src => 'styles/style.css'},
+                 -head  => Link(
+                               {
+                                -rel  => 'shortcut icon',
+                                -type => 'image/x-icon',
+                                -href => 'images/tux.png',
+                               }
+                              ),
+                 -BGCOLOR => 'black',
+                );
 
-        open my $db_h, '>>', $DB_FILE;
-        print {$db_h} <<"EOT";
+    my $referrer = $ENV{HTTP_REFERER} // '';
+
+    open my $db_h, '>>', $DB_FILE;
+    print {$db_h} <<"EOT";
 <view> IP="$ENV{REMOTE_ADDR}" AGENT="$ENV{HTTP_USER_AGENT}" FILE="\Q$path\E" PORT="$ENV{REMOTE_PORT}" REFERER="\Q$referrer\E" QUERY="$ENV{QUERY_STRING}"
 EOT
 
-        close $db_h;
+    close $db_h;
 
-        my @dirs = grep { defined($_) && /\S/ } splitdir($path);
-        $dirs[0] = "/";
+    my @dirs = grep { defined($_) && /\S/ } splitdir($path);
+    $dirs[0] = "/";
 
-        print start_table(
-                          {
-                           border => "",
-                           width  => "1%"
-                          }
-                         );
+    print start_table(
+                      {
+                       border => "",
+                       width  => "1%"
+                      }
+                     );
 
-        my $name = $share_root;
-        print Tr(
-            {-align => 'left'},
-            map {
-                td(
-                    {width => "5%"},
-                    a(
-                       {
-                        href => $ENV{SCRIPT_NAME} . '?' . hash_to_query({path => $name = catdir($name, $_)}),
-                       },
-                       button(
-                              -value => $_,
-                             )
-                     )
-                  )
+    my $name = $share_root;
 
-              } @dirs
-        );
+    print Tr(
+        {-align => 'left'},
+        map {
+            td(
+                {width => "5%"},
+                a(
+                   {
+                    href => $ENV{SCRIPT_NAME} . '?' . hash_to_query({path => $name = catdir($name, $_)}),
+                   },
+                   button(
+                          -value => $_,
+                         )
+                 )
+              )
+          } @dirs
+    );
 
-        print end_table;
+    print end_table;
 
-        if (-d -r $fullpath) {
-            opendir(my $dir_h, $fullpath);
+    if (-d -r $fullpath) {
+        opendir(my $dir_h, $fullpath);
 
-            my @files;
-            while (defined(my $file = readdir($dir_h))) {
+        my @files;
+        while (defined(my $file = readdir($dir_h))) {
 
-                $file = decode_utf8($file);
+            $file = decode_utf8($file);
 
-                next if chr ord $file eq q{.};
+            next if chr ord $file eq q{.};
 
-                my $fullname = catfile($fullpath, $file);
-                my $name     = catfile($path,     $file);
+            my $fullname = catfile($fullpath, $file);
+            my $name     = catfile($path,     $file);
 
-                push @files,
-                    (-d $fullname) ? {dir => 1, name => $name}
-                  : (-f _)         ? {dir => 0, name => $name, size => (-s _)}
-                  :                  next;
-            }
+            push @files,
+                (-d $fullname) ? {dir => 1, name => $name}
+              : (-f _)         ? {dir => 0, name => $name, size => (-s _)}
+              :                  next;
+        }
 
-            my $max_len = max(map { length(basename($_->{name})) } @files);
+        my $max_len = max(map { length(basename($_->{name})) } @files);
 
-            if (@files) {
+        if (@files) {
 
-                print q{<table><tr>};
+            print q{<table><tr>};
 
-                my @entries;
+            my @entries;
 
-                foreach my $file ((sort { fc($a->{name}) cmp fc($b->{name}) } grep { $_->{dir} } @files),
-                                  sort { fc($a->{name}) cmp fc($b->{name}) } grep { !$_->{dir} } @files) {
+            foreach my $file ((sort { fc($a->{name}) cmp fc($b->{name}) } grep { $_->{dir} } @files),
+                              sort { fc($a->{name}) cmp fc($b->{name}) } grep { !$_->{dir} } @files) {
 
-                    my $name = basename($file->{name});
+                my $name = basename($file->{name});
 
-                    if ($file->{dir}) {
-                        my $a_href = make_a_href({icon => $folder_icon, query => {path => $file->{name}}});
-                        push @entries, make_td($a_href, $name, $max_len);
-                    }
-                    else {
-                        my $format = 'file';
-                        $format = lc($1) if $file->{name} =~ /\.(\w+)\z/;
-
-                        my $file_icon = find_file_icon($file->{name});
-
-                        if (not -e $file_icon) {
-                            $file_icon = catfile($img_dir, "$format.png");
-                        }
-
-                        if (not -e $file_icon) {
-                            $file_icon = catfile($img_dir, "file.png");
-                        }
-
-                        my $a_href =
-                          make_a_href(
-                                      {
-                                       icon  => $file_icon,
-                                       query => {path => $file->{name}, file => 1},
-                                       size  => $file->{size}
-                                      }
-                                     );
-
-                        push @entries, make_td($a_href, $name, $max_len);
-                    }
+                if ($file->{dir}) {
+                    my $a_href = make_a_href({icon => $folder_icon, query => {path => $file->{name}}});
+                    push @entries, make_td($a_href, $name, $max_len);
                 }
+                else {
+                    my $format = 'file';
+                    $format = lc($1) if $file->{name} =~ /\.(\w+)\z/;
 
-                my $count = 0;
-                foreach my $entry (@entries) {
-                    print $entry;
-                    print q{</tr><tr>} if ++$count % 12 == 0;
+                    my $file_icon = find_file_icon($file->{name});
+
+                    if (not -e $file_icon) {
+                        $file_icon = catfile($img_dir, "$format.png");
+                    }
+
+                    if (not -e $file_icon) {
+                        $file_icon = catfile($img_dir, "file.png");
+                    }
+
+                    my $a_href =
+                      make_a_href(
+                                  {
+                                   icon  => $file_icon,
+                                   query => {path => $file->{name}, file => 1},
+                                   size  => $file->{size}
+                                  }
+                                 );
+
+                    push @entries, make_td($a_href, $name, $max_len);
                 }
+            }
 
-                print "</tr></table>";
+            my $count = 0;
+            foreach my $entry (@entries) {
+                print $entry;
+                print q{</tr><tr>} if ++$count % 12 == 0;
             }
-            else {
-                print h1("Empty directory!");
-            }
+
+            print "</tr></table>";
         }
         else {
-            print h1("This directory doesn't exist!");
+            print h1("Empty directory!");
         }
-
-        print end_html;
     }
+    else {
+        print h1("This directory doesn't exist!");
+    }
+
+    print end_html;
 }
