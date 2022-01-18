@@ -35,6 +35,16 @@
 #   - the search engine cannot be used while the crawler is being used
 #   - the crawler cannot be used while the search engine is being used
 
+# Useful videos on this topic:
+#   The Inverted Index Stanford NLP Professor Dan Jurafsky & Chris Manning
+#       https://yewtu.be/watch?v=bnP6TsqyF30
+
+#   Query Processing with the Inverted Index Stanford NLP Dan Jurafsky & Chris Manning
+#       https://yewtu.be/watch?v=B-e297yK50U
+
+#   Phrase Queries and Positional Indexes Stanford NLP Professor Dan Jurafsky & Chris Manning
+#       https://yewtu.be/watch?v=PkjuJZSrudE
+
 use utf8;
 use 5.020;
 use strict;
@@ -63,7 +73,7 @@ use WWW::RobotRules;
 use LWP::Simple qw(get);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-use ntheory qw(forcomb);
+use ntheory qw(forcomb binomial);
 use List::Util qw(uniq max);
 
 #use JSON::XS qw(decode_json encode_json);
@@ -109,6 +119,9 @@ use constant {
 
     # Rank the results based on non-boundary matches (without \b)
     RANK_ON_NON_BOUNDARY_MATCH => 0,
+
+    # Maximum number of iterations to spend during the ranking process
+    MAX_RANK_ITERATIONS => 1e4,
 
 };
 
@@ -359,13 +372,13 @@ sub normalize_url ($url) {
     foreach my $method (
                         qw(
                         remove_directory_index
-                        remove_empty_query
                         remove_fragment
                         remove_fragments
                         remove_duplicate_slashes
-                        make_canonical
-                        sort_query_parameters
                         remove_empty_query_parameters
+                        sort_query_parameters
+                        make_canonical
+                        remove_empty_query
                         )
       ) {
         $normalized_url = $normalize->($normalized_url, $method);
@@ -452,7 +465,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $url = "$url";
 
     my $normalized_url = normalize_url($url);
-    my $protocol = (($url =~ m{^https://}) ? 'https://' : 'http://');
+    my $protocol       = (($url =~ m{^https://}) ? 'https://' : 'http://');
 
     if ($recrawl or not exists $CONTENT_DB{$id}) {
 
@@ -599,16 +612,16 @@ sub search ($text) {
     my @words       = extract_words($text);
     my @known_words = grep { !exists($too_common_words{$_}) and exists($WORDS_INDEX{$_}) } @words;
 
+    if (@words and !@known_words) {
+        @known_words = grep { exists($WORDS_INDEX{$_}) } @words;
+    }
+
     my @ref_sets;
     my %counts;
 
     foreach my $word (@known_words) {
-
-        my @refs = uniq(split(' ', $WORDS_INDEX{$word}));
-
-        ++$seen{$_} for @refs;
+        my @refs = split(' ', $WORDS_INDEX{$word});
         $counts{$word} = scalar(@refs);
-
         push @ref_sets, \@refs;
     }
 
@@ -616,14 +629,22 @@ sub search ($text) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 
-    #my $max_score = max(values %seen);
-    my @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/[_\W]+/, $text);
+    my @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/\W+/, $text);
+
+    my $ranking_cost  = 0;
+    my $matches_count = scalar(keys %matches);
 
     my @regexes;
+    for (my $k = max(15, scalar(@original_words)) ; $k >= 1 ; --$k) {
 
-    foreach my $k (1 .. scalar(@original_words)) {
+        my $current_cost =
+          ((RANK_ON_NON_BOUNDARY_MATCH ? 1 : 0) + (RANK_ON_BOUNDARY_MATCH ? 1 : 0)) * binomial(scalar(@original_words), $k);
 
-        last if ($k > 15);
+        if ($matches_count * ($ranking_cost + $current_cost) > max($matches_count, MAX_RANK_ITERATIONS)) {
+            next;
+        }
+
+        $ranking_cost += $current_cost;
 
         forcomb {
             my @subset = @original_words[@_];
@@ -634,7 +655,7 @@ sub search ($text) {
             #my $regex   = join('\W*+',     @subset);
             #my $b_regex = join('\b\W*+\b', @subset);
 
-            unshift @regexes,
+            push @regexes,
               scalar {
                       (RANK_ON_NON_BOUNDARY_MATCH ? (re   => qr/$regex/si)       : ()),
                       (RANK_ON_BOUNDARY_MATCH     ? (b_re => qr/\b$b_regex\b/si) : ()),
@@ -644,21 +665,11 @@ sub search ($text) {
         scalar(@original_words), $k;
     }
 
-    my $words_len = scalar(@known_words);
-
     foreach my $key (keys %matches) {
 
         my $value = $matches{$key};
 
-        $value->{score} = $seen{$value->{id}} - $words_len;
-
-        # Don't keep partial results that don't match all keywords
-#<<<
-        #~ if ($value->{score} < 0) {
-            #~ delete($matches{$key});
-            #~ next;
-        #~ }
-#>>>
+        $value->{score} = 0;
 
         if ($value->{url} !~ m{^https?://}) {
             $value->{url} = 'https://' . $value->{url};
@@ -721,15 +732,15 @@ sub search ($text) {
     my $results_count = scalar(@sorted);
 
     # Keep only the top best entries
-    $#sorted = MAX_SEARCH_RESULTS- 1 if (scalar(@sorted) > MAX_SEARCH_RESULTS);
+    $#sorted = (MAX_SEARCH_RESULTS - 1) if (scalar(@sorted) > MAX_SEARCH_RESULTS);
+
+    # Keep entries with score > 0
+    @sorted = grep { $_->{score} > 0 } @sorted;
 
     # Prefer shorter URLs for results with the same score
     @sorted = map { $_->[0] }
       sort { ($b->[1] <=> $a->[1]) || ($a->[2] <=> $b->[2]) }
       map { [$_, $_->{score}, length($_->{url})] } @sorted;
-
-    # Keep entries with score > 0
-    @sorted = grep { $_->{score} > 0 } @sorted;
 
     # Fix some ArchWiki links
     foreach my $entry (@sorted) {
@@ -737,7 +748,7 @@ sub search ($text) {
     }
 
     # Remove duplicated entries
-    @sorted = grep { !$seen_url{(($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{#.*}{}sr) =~ s{/\z}{}r}++ } @sorted;
+    @sorted = grep { !$seen_url{(($_->{url} =~ s{^https?://(?:www\.)?}{}r) =~ s{#.*}{}sr) =~ s{[/?]+\z}{}r}++ } @sorted;
 
     return {
             results => \@sorted,
