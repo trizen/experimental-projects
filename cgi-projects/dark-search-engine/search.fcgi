@@ -124,6 +124,12 @@ use constant {
     # Maximum number of iterations to spend during the ranking process
     MAX_RANK_ITERATIONS => 1e4,
 
+    # Make sure the SSL certificate is valid
+    SSL_VERIFY_HOSTNAME => 0,
+
+    # Extract the date of the article and display it in search results (slow)
+    EXTRACT_DATE => 0,
+
 };
 
 # Ignore these words in search requests, as too many websites contain them
@@ -210,6 +216,7 @@ my %mech_options = (
                     show_progress => 1,
                     stack_depth   => 10,
                     cookie_jar    => {},
+                    ssl_opts      => {verify_hostname => SSL_VERIFY_HOSTNAME},
                     agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
                    );
 
@@ -450,6 +457,14 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $url = "$url";
 
     $resp = $mech->get($url);
+
+    # On "403 - Forbidden" status, try again with WebArchive
+    if ($resp->code == 403) {
+        if ($url !~ m{^https://web\.archive\.org/}) {
+            return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
+        }
+    }
+
     $resp->is_success or return;
 
     if (not valid_content_type()) {
@@ -723,7 +738,7 @@ sub search ($text) {
             }
         }
 
-        delete $value->{content};
+        ## delete $value->{content};
     }
 
     my %seen_url;
@@ -994,6 +1009,18 @@ EOT
         say q{</p>};
         say q{<div class="clearfix"></div>};
         say q{<div class="pull-right">};
+
+        # Extract the date of the article (if any)
+        if (EXTRACT_DATE) {
+
+            require Date::Extract;
+            my $date_extract = Date::Extract->new();
+
+            if (my $dt = $date_extract->extract($result->{content})) {
+                say small(scalar $dt->ymd);
+                say q{<b> | </b>};
+            }
+        }
 
         # Web archive
         say small(
