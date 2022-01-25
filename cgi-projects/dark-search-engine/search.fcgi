@@ -130,6 +130,9 @@ use constant {
     # Extract the date of the article and display it in search results (slow)
     EXTRACT_DATE => 0,
 
+    # On "403 Forbidden" or "429 Too Many Requests" status, try to crawl the Web Archive version
+    CRAWL_ARCHIVE_FORBIDDEN => 1,
+
 };
 
 # Ignore these words in search requests, as too many websites contain them
@@ -454,12 +457,12 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     }
 
     $url = $mech->uri;
-    $url = "$url";
+    $url = sanitize_url("$url");
 
     $resp = $mech->get($url);
 
-    # On "403 - Forbidden" status, try again with WebArchive
-    if ($resp->code == 403) {
+    # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|429)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
         }
@@ -473,7 +476,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     }
 
     $url = $mech->uri;
-    $url = "$url";
+    $url = sanitize_url("$url");
 
     my $normalized_url = normalize_url($url);
     my $protocol       = (($url =~ m{^https://}) ? 'https://' : 'http://');
@@ -481,7 +484,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     if ($recrawl or not exists $CONTENT_DB{$id}) {
 
         my %info;
-        my $decoded_content = $resp->decoded_content;
+        my $decoded_content = $resp->decoded_content() // return;
 
         if ($mech->is_html) {
             if (not exists $INC{'HTML::TreeBuilder'}) {
@@ -547,7 +550,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
         $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
 
-        my @links = $mech->find_all_links(text_regex => qr/\w/);
+        my @links = $mech->find_all_links();
 
         foreach my $link (@links) {
             crawl(join('', $link->url_abs), $depth - 1, $recrawl);
