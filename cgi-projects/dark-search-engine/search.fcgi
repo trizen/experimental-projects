@@ -508,7 +508,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
             $info{content} = $decoded_content;
         }
 
-        $info{title} = $mech->title // $normalized_url;
+        $info{title} = $mech->title;
 
         # Convert Unicode to ASCII
         $info{content} = unidecode($info{content});
@@ -519,10 +519,12 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
             my $html_head_parser = HTML::HeadParser->new;
             $html_head_parser->parse($decoded_content);
 
+            $info{title} ||= $html_head_parser->header('Title');
             $info{keywords}    = $html_head_parser->header('X-Meta-Keywords');
             $info{description} = $html_head_parser->header('X-Meta-Description');
         }
 
+        $info{title} ||= $normalized_url;
         $info{id}  = $id;
         $info{url} = $protocol . $normalized_url;
 
@@ -550,7 +552,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
         $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
 
-        my @links = $mech->find_all_links();
+        my @links = $mech->find_all_links(text_regex => qr/./);
 
         foreach my $link (@links) {
             crawl(join('', $link->url_abs), $depth - 1, $recrawl);
