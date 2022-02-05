@@ -12,7 +12,7 @@ use strict;
 use autodie;
 
 use CGI qw(:standard -utf8);
-use CGI::Carp qw(fatalsToBrowser);
+#use CGI::Carp qw(fatalsToBrowser);
 
 binmode(STDOUT, ':utf8');
 
@@ -64,7 +64,7 @@ if (param) {
             open(my $out_fh, '>', "files/$filename")
               or die "Can't create file: $!";
 
-            while (read($filehandle, (my $buffer), 1024)) {
+            while (read($filehandle, (my $buffer), 1024 * 1024)) {
                 print {$out_fh} $buffer;
             }
 

@@ -2,7 +2,7 @@
 
 # Author: Trizen
 # Date: 08 January 2022
-# Edit: 15 January 2022
+# Edit: 05 February 2022
 # https://github.com/trizen
 
 # A private search engine, with its own crawler running over Tor (respecting robots.txt).
@@ -69,6 +69,7 @@ use WWW::Mechanize;
 use File::Basename qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
 use Text::Unidecode qw(unidecode);
+use Text::ParseWords qw(quotewords);
 use HTML::Entities qw(encode_entities);
 use WWW::RobotRules;
 use LWP::Simple qw(get);
@@ -91,22 +92,22 @@ use constant {
     # Use Tor proxy for crawling (127.0.0.1:9050)
     USE_TOR => 1,
 
-    # Compress the values of the content database with Zstandard
-    # When enabled, the content database will be ~3x smaller
+    # Compress the values of the content database with Zstandard.
+    # When enabled, the content database will be ~3x smaller.
     USE_ZSTD => 1,
 
     # xxHash seed (don't change it)
     XXHASH_SEED => 42,
 
-    # Minimum and maximum number of characters for words stored in the index
+    # Minimum and maximum number of characters for words stored in the index.
     WORD_MIN_LEN => 3,
     WORD_MAX_LEN => 45,
 
-    # Maximum number of top best search results to return
+    # Maximum number of top best search results to return.
     MAX_SEARCH_RESULTS => 100,
 
-    # Show the description of each website in search results (if available)
-    # When disabled, a snippet of the content will be shown instead
+    # Show the description of each website in search results (if available).
+    # When disabled, a snippet of the content will be shown instead.
     SHOW_DESCRIPTION => 1,
 
     # Respect the rules from robots.txt
@@ -121,16 +122,16 @@ use constant {
     # Rank the results based on non-boundary matches (without \b)
     RANK_ON_NON_BOUNDARY_MATCH => 0,
 
-    # Maximum number of iterations to spend during the ranking process
+    # Maximum number of iterations to spend during the ranking process.
     MAX_RANK_ITERATIONS => 1e4,
 
-    # Make sure the SSL certificate is valid
+    # Make sure the SSL certificate is valid.
     SSL_VERIFY_HOSTNAME => 0,
 
     # Extract the date of the article and display it in search results (slow)
     EXTRACT_DATE => 0,
 
-    # On "403 Forbidden" or "429 Too Many Requests" status, try to crawl the Web Archive version
+    # On "403 Forbidden" or "429 Too Many Requests" status, try to crawl the Web Archive version.
     CRAWL_ARCHIVE_FORBIDDEN => 1,
 
 };
@@ -287,9 +288,9 @@ sub extract_words ($text) {
 sub encode_content_entry ($entry) {
 
     if (USE_ZSTD) {
-        my $json_data = freeze($entry);
+        my $storable_data = freeze($entry);
 
-        IO::Compress::Zstd::zstd(\$json_data, \my $zstd_data)
+        IO::Compress::Zstd::zstd(\$storable_data, \my $zstd_data)
           or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
 
         return $zstd_data;
@@ -302,10 +303,10 @@ sub decode_content_entry ($entry) {
 
     if (USE_ZSTD) {
 
-        IO::Uncompress::UnZstd::unzstd(\$entry, \my $json_data)
+        IO::Uncompress::UnZstd::unzstd(\$entry, \my $storable_data)
           or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
 
-        return thaw($json_data);
+        return thaw($storable_data);
     }
 
     thaw($entry);
@@ -462,7 +463,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $resp = $mech->get($url);
 
     # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
-    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|429)\z/) {
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|429)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
         }
@@ -649,7 +650,11 @@ sub search ($text) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 
-    my @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/\W+/, $text);
+    ## my @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/\W+/, $text);
+
+    my @original_words = map {
+        join('\W+', map { quotemeta($_) } split(' '))
+    } grep { length($_) >= 2 } quotewords(qr/\s+/, 0, $text);
 
     my $ranking_cost  = 0;
     my $matches_count = scalar(keys %matches);
@@ -1055,24 +1060,6 @@ EOT
                     "text",
                    )
                  );
-
-        # Proxy (currently disabled)
-        if (0) {
-            say q{<b> | </b>};
-
-            say small(
-                a(
-                   {
-                    -href   => 'https://searx.webheberg.info/morty/?mortyurl=' . uri_escape_utf8($url),
-                    -class  => 'text-info',
-                    -target => '_blank',
-                    -rel    => 'noopener noreferrer',
-
-                   },
-                   "proxy",
-                 ),
-            );
-        }
 
         say q{<b> | </b>};
         say small("rank: $result->{score}");
