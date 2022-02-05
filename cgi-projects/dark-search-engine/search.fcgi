@@ -650,11 +650,13 @@ sub search ($text) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 
-    ## my @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/\W+/, $text);
-
     my @original_words = map {
         join('\W+', map { quotemeta($_) } split(' '))
     } grep { length($_) >= 2 } quotewords(qr/\s+/, 0, $text);
+
+    if (not @original_words) {
+        @original_words = map { quotemeta($_) } grep { length($_) >= 2 } split(/\W+/, $text);
+    }
 
     my $ranking_cost  = 0;
     my $matches_count = scalar(keys %matches);
