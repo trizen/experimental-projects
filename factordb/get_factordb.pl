@@ -17,6 +17,10 @@ use URI::Escape qw(uri_escape);
 use File::Basename qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
 
+use constant {
+              USE_TOR_PROXY => 1,    # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
+             };
+
 my $cache = CHI->new(driver   => 'BerkeleyDB',
                      root_dir => catdir(dirname(rel2abs($0)), 'cache'));
 
@@ -39,6 +43,10 @@ my $mech = WWW::Mechanize::Cached->new(
     $cache->total_capacity(undef);    # no limit
     $mech->conn_cache($cache);
 };
+
+if (USE_TOR_PROXY) {
+    $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
 
 my $expr = $ARGV[0] || die "usage: perl $0 [NUMBER | EXPR]\n";
 $expr = join('', split(' ', $expr));    # remove any whitespace

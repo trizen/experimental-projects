@@ -30,13 +30,14 @@ use experimental qw(signatures);
 use Math::Prime::Util::GMP qw(
   lucas_sequence gcd pminus1_factor is_prime
   pplus1_factor holf_factor logint vecprod
-  );
+);
 
 use WWW::Mechanize;
 use Getopt::Std qw(getopts);
 use List::Util qw(shuffle uniq);
 
 use constant {
+              USE_TOR_PROXY   => 1,     # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
               PREFER_YAFU_ECM => 0,     # true to prefer YAFU's ECM implementation
               PREFER_ECMPI    => 1,     # true to prefer ecmpi, which uses GMP-ECM (this is faster)
               ECM_MIN         => 65,    # numbers > 10^ECM_MIN will be factorized with ECM
@@ -390,6 +391,10 @@ my $mech = WWW::Mechanize->new(
     $mech->conn_cache($cache);
 };
 
+if (USE_TOR_PROXY) {
+    $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
+
 my $start   = 0;
 my $digits  = 0;
 my $perpage = 100;
@@ -526,8 +531,8 @@ sub factordb {
         $resp = $mech->submit_form(
                                    form_number => 1,
                                    fields      => {
-                                              'report' => join(' ', @factors),
-                                              'format' => 7,
+                                       'report' => join(' ', @factors),
+                                       'format' => 7,
                                              }
                                   );
 

@@ -25,6 +25,10 @@ use WWW::Mechanize;
 use Math::AnyNum qw(:overload :all);
 use experimental qw(signatures);
 
+use constant {
+              USE_TOR_PROXY => 1,    # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
+             };
+
 my $mech = WWW::Mechanize->new(
           autocheck     => 1,
           show_progress => 1,
@@ -43,6 +47,10 @@ my $mech = WWW::Mechanize->new(
     $cache->total_capacity(undef);    # no limit
     $mech->conn_cache($cache);
 };
+
+if (USE_TOR_PROXY) {
+    $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
 
 sub collect_kv ($line, $hash) {
     chomp $line;

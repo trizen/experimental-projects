@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+
+# Integers m such that b(m) := 20^m*(5^(m+1) - 1)/4 + (20^m - 1)/19 is a prime.
+# https://oeis.org/A350592
+
+# Known terms:
+#   2, 4, 5, 7, 9, 13, 85, 222, 249, 1843
+
+# Lower-bound:
+#   a(11) > 11268
+
+func isok(m) {
+     20**m * (5**(m+1) - 1)/4 + (20**m - 1)/19 -> is_prime
+}
+
+for n in (11269 .. 1e6) {
+    say "Testing: #{n}"
+    if (isok(n)) {
+        #print(n, ", ")
+        say "Found: #{n}"
+        die "NEW TERM: #{n}" if (n > 1843)
+    }
+}

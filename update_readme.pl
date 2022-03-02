@@ -83,7 +83,7 @@ my $ext_re = qr/(?:p[lm]|sf|cpp|jl|gp|cgi|fcgi)/i;
         foreach my $file (@files) {
             my $title = $file->{name} =~ tr/_/ /r =~ s/ s /'s /gr;
 
-            if ($file->{name} =~ /\.(\w{2,3})\z/) {
+            if ($file->{name} =~ /\.(\w{2,4})\z/) {
                 next if $1 !~ /^$ext_re\z/;
             }
             elsif (-f $file->{path}) {

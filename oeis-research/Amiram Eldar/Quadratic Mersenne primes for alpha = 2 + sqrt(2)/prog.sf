@@ -6,98 +6,30 @@
 # Known terms:
 #       2, 3, 5, 7, 11, 73, 89, 233, 4057, 8429, 12451, 21191
 
-class Quadratic(a, b, w = 2) {   # represents: a + b*sqrt(w)
+# The next term is greater than 30000. - Amiram Eldar (https://oeis.org/history?seq=A232993)
 
-    method to_s {
-        "Quadratic(#{a}, #{b}, #{w})"
-    }
-
-    method ==(Quadratic c) {
-        (a == c.a) && (b == c.b) && (w == c.w)
-    }
-
-    method conjugate {
-        Quadratic(a, -b, w)
-    }
-
-    method norm {
-        a*a - w*b*b
-    }
-
-    method add (Number c) {
-        Quadratic(a+c, b, w)
-    }
-
-    method add (Quadratic z) {
-        var (c,d) = (z.a, z.b)
-        Quadratic(a+c, b+d, w)
-    }
-
-    __CLASS__.alias_method(:add, '+')
-
-    method sub (Number c) {
-        Quadratic(a-c, b, w)
-    }
-
-    method sub (Quadratic z) {
-        var (c,d) = (z.a, z.b)
-        Quadratic(a-c, b-d, w)
-    }
-
-    __CLASS__.alias_method(:sub, '-')
-
-    method mul (Number c) {
-        Quadratic(a*c, b*c, w)
-    }
-
-    method mul (Quadratic z) {
-        var (c,d) = (z.a, z.b)
-        Quadratic(a*c + b*d*w, a*d + b*c, w)
-    }
-
-    __CLASS__.alias_method(:mul, '*')
-
-    method mod (Number m) {
-        Quadratic(a % m, b % m, w)
-    }
-
-    __CLASS__.alias_method(:mod, '%')
-
-    method pow(Number n) {
-        var x = self
-        var c = Quadratic(1, 0, w)
-
-        for bit in (n.digits(2)) {
-            c *= x if bit
-            x *= x
-        }
-
-        return c
-    }
-
-    __CLASS__.alias_method(:pow, '**')
-
-    method powmod(Number n, Number m) {
-
-        var x = self
-        var c = Quadratic(1, 0, w)
-
-        for bit in (n.digits(2)) {
-            (c *= x) %= m if bit        #=
-            (x *= x) %= m               #=
-        }
-
-        return c
-    }
-}
+# I extended the search up to 40500, without finding any new terms. The search took 4 hours and 45 minutes. - Daniel Suteu (27 February 2022)
+# I extended the search up to 47136, without finding any new terms. The search took 4 hours and 38 minutes. - Daniel Suteu (28 February 2022)
 
 var a = Quadratic(2, 1, 2)
 
-for p in (primes(2, 1e6)) {
+#var from = 2
+var from = 47137
+var upto = 1e6
 
-    var k = norm((a**p - 1) * (a-1))
+for p in (primes(from, upto)) {
 
-    if (k.is_prime) {
+    var k = norm((a**p - 1) / (a-1))
+
+    if (p > 30_000) {
+        say "Testing: #{p} -- len: #{k.len}"
+    }
+
+    if (k.is_prob_prime) {
         say p
+
+        if (p > 30_000) {
+            die "Found new term: #{p}"
+        }
     }
 }

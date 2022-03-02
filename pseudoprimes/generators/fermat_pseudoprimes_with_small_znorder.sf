@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Generate Fermat pseudoprimes n with small znorder(2, n).
+
+define TRIAL_LIMIT  = 1e7          # trial division limit applied on b^n-1
+define SIGMA0_LIMIT = 1e5          # ignore numbers with too many divisors
+define SMOOTH_LIMIT = 100          # znorder(2,n) smoothness
+define PSP_MIN      = 1<<64        # generate psp greater than this
+
+func inverse_znorder(n, b=2) {
+    var f = trial_factor(b**n - 1, TRIAL_LIMIT).first(-1).uniq
+
+    if ((f.len > 1) && ((1 << f.len) < SIGMA0_LIMIT)) {
+        f.prod.divisors.each {|d|
+            d > PSP_MIN || next
+            if (d.is_psp(b)) {
+                say d
+            }
+        }
+    }
+}
+
+Math.smooth_numbers(SMOOTH_LIMIT.primes...).each {|n|
+    inverse_znorder(n, 2)
+}

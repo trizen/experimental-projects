@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Find factors of a list of integers, using the batch-GCD algorithm.
+
+# See also:
+#   https://facthacks.cr.yp.to/batchgcd.html
+
+# Submit the factors to:
+#   http://factordb.com/search.php
+
+var arr = []
+
+ARGF.each {|line|
+    if (line.len > 100) {
+        line = line.words.last.to_i
+        line || next
+        arr << line
+    }
+}
+
+zip([arr, Math.batch_gcd(arr...)]).each_2d {|a,b|
+
+    next if (b == 1)
+    next if (a == b)
+
+    next if (b.len < 20)
+    next if (a/b -> len < 20)
+
+    assert_eq(a%b, 0)
+
+    say "#{a} = #{a/b} * #{b}"
+}
