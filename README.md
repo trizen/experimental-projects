@@ -1342,6 +1342,7 @@ Highly experimental personal projects.
             * [fib-tzn primality test.sf](./pseudoprimes/programs/other/fib-tzn_primality_test.sf)
             * [fib-tzn strong primality test.pl](./pseudoprimes/programs/other/fib-tzn_strong_primality_test.pl)
             * [math-anynum.pl](./pseudoprimes/programs/other/math-anynum.pl)
+            * [pseudoprime factorization.sf](./pseudoprimes/programs/other/pseudoprime_factorization.sf)
             * [PSW primality test.pl](./pseudoprimes/programs/other/PSW_primality_test.pl)
             * [PSW primality test ntheory.pl](./pseudoprimes/programs/other/PSW_primality_test_ntheory.pl)
             * [test.pl](./pseudoprimes/programs/other/test.pl)

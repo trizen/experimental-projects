@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# Efficiently find prime factors of pseudoprimes.
+
+define LEN_LIMIT = 80       # find factors until the size of n is smaller than this size
+
+func pseudoprime_factorization(n) {
+    gather {
+
+        loop {
+            var f = n.miller_factor
+
+            if (f.len == 1) {
+                f = n.lucas_factor
+            }
+
+            var done = false
+
+            for (var i = 0; f; ++i) {
+                var g = f.last_by { .is_prime }
+
+                if (!defined(g)) {
+                    if (i == 0) {
+                        done = true
+                        break if (f.len == 1)
+                        g = f.first
+                    }
+                    else {
+                        break
+                    }
+                }
+
+                take(g)
+
+                while (g `divides` n) {
+                    f -= g
+                    n /= g
+                }
+
+                if (n.len < LEN_LIMIT) {
+                    done = true
+                    break
+                }
+            }
+
+            done && break
+        }
+    }
+}
+
+ARGF.each {|line|
+    var n = ((line.words.last || next).to_i || next)
+    say "#{n} = #{pseudoprime_factorization(n).join(' * ')}"
+}
