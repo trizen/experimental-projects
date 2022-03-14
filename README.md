@@ -615,6 +615,8 @@ Highly experimental personal projects.
         * [Indices of prime Pell numbers](./oeis-research/Julien%20Peter%20Benney/Indices%20of%20prime%20Pell%20numbers)
             * [prog.pl](./oeis-research/Julien%20Peter%20Benney/Indices%20of%20prime%20Pell%20numbers/prog.pl)
     * [Juri-Stepan Gerasimov](./oeis-research/Juri-Stepan%20Gerasimov)
+        * [A(n) is the least k>1 such that omega(k) is equal to (omega(n*k + 1) - 1) over n](./oeis-research/Juri-Stepan%20Gerasimov/a(n)%20is%20the%20least%20k>1%20such%20that%20omega(k)%20is%20equal%20to%20(omega(n*k%20+%201)%20-%201)%20over%20n)
+            * [upper-bounds.sf](./oeis-research/Juri-Stepan%20Gerasimov/a(n)%20is%20the%20least%20k>1%20such%20that%20omega(k)%20is%20equal%20to%20(omega(n*k%20+%201)%20-%201)%20over%20n/upper-bounds.sf)
         * [Integers k such that the k-th prime divides the k-th Lucas number](./oeis-research/Juri-Stepan%20Gerasimov/Integers%20k%20such%20that%20the%20k-th%20prime%20divides%20the%20k-th%20Lucas%20number)
             * [search.pl](./oeis-research/Juri-Stepan%20Gerasimov/Integers%20k%20such%20that%20the%20k-th%20prime%20divides%20the%20k-th%20Lucas%20number/search.pl)
         * [Numbers n such that n^(n + 1)*(n + 1)^n + 1 is prime](./oeis-research/Juri-Stepan%20Gerasimov/Numbers%20n%20such%20that%20n^(n%20+%201)*(n%20+%201)^n%20+%201%20is%20prime)

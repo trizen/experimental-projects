@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+# a(n) is the least k>1 such that omega(k) is equal to (omega(n*k + 1) - 1)/n.
+# https://oeis.org/A350516
+
+# Known terms:
+#   5, 97, 443, 5801, 42697, 7813639, 10303967, 1225192093
+
+# Upper-bounds:
+#   a(9)  <= 14567138141
+#   a(10) <= 5509396663871
+#   a(11) <= 4128894057139
+#   a(12) <= 13264466350165447
+#   a(13) <= 6115610326638653
+
+# I'm pretty confident that the above upper-bounds, are actual terms.
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        #var count = (n+1).squarefree_almost_prime_count(from, upto)
+        var count = (n+1).omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            #(n+1).squarefree_almost_primes_each(from, upto, {|v|
+            (n+1).omega_primes_each(from, upto, {|v|
+                if (n `divides` v.dec) {
+                    var k = (v-1)/n
+                    if (omega(k) == (omega(n*k + 1) - 1)/n) {
+                        say "a(#{n}) <= #{k}"
+                        return k
+                    }
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(9)
