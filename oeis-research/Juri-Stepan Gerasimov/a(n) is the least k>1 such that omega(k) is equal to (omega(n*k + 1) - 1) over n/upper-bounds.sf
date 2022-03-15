@@ -15,6 +15,10 @@
 
 # I'm pretty confident that the above upper-bounds, are actual terms.
 
+# Lower-bounds:
+#   a(14) > 5270498306774157604
+#   a(15) > 314824432191309680913
+
 func upper_bound(n, from = 2, upto = 2*from) {
 
     say "\n:: Searching an upper-bound for a(#{n})\n"
