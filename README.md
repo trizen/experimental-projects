@@ -556,6 +556,8 @@ Highly experimental personal projects.
         * [Squarefree harmonic sum exceeds n](./oeis-research/Ilya%20Gutkovskiy/Squarefree%20harmonic%20sum%20exceeds%20n)
             * [prog.pl](./oeis-research/Ilya%20Gutkovskiy/Squarefree%20harmonic%20sum%20exceeds%20n/prog.pl)
     * [J. Lowell](./oeis-research/J.%20Lowell)
+        * [A(1)=1; for n > 1, a(n) is the smallest number with the same number of divisors as 2*a(n-1)](./oeis-research/J.%20Lowell/a(1)=1;%20for%20n%20>%201,%20a(n)%20is%20the%20smallest%20number%20with%20the%20same%20number%20of%20divisors%20as%202*a(n-1))
+            * [prog.pl](./oeis-research/J.%20Lowell/a(1)=1;%20for%20n%20>%201,%20a(n)%20is%20the%20smallest%20number%20with%20the%20same%20number%20of%20divisors%20as%202*a(n-1)/prog.pl)
         * [A(1)=2048. For n>1, a(n) is the LCM of a(n-1) and A140635(a(n-1))](./oeis-research/J.%20Lowell/a(1)=2048.%20For%20n>1,%20a(n)%20is%20the%20LCM%20of%20a(n-1)%20and%20A140635(a(n-1)))
             * [prog.pl](./oeis-research/J.%20Lowell/a(1)=2048.%20For%20n>1,%20a(n)%20is%20the%20LCM%20of%20a(n-1)%20and%20A140635(a(n-1))/prog.pl)
     * [J. M. Bergot](./oeis-research/J.%20M.%20Bergot)
