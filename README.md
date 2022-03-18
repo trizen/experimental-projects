@@ -566,6 +566,8 @@ Highly experimental personal projects.
     * [J. M. Bergot](./oeis-research/J.%20M.%20Bergot)
         * [A(n) is the first number k with A340967(k) = n](./oeis-research/J.%20M.%20Bergot/a(n)%20is%20the%20first%20number%20k%20with%20A340967(k)%20=%20n)
             * [prog.pl](./oeis-research/J.%20M.%20Bergot/a(n)%20is%20the%20first%20number%20k%20with%20A340967(k)%20=%20n/prog.pl)
+        * [A(n) is the least prime prime(k) such that prime(k+n-1)^2 - prime(k)^2 + prime(i) for i=k..k+n-1 are consecutive primes](./oeis-research/J.%20M.%20Bergot/a(n)%20is%20the%20least%20prime%20prime(k)%20such%20that%20prime(k+n-1)^2%20-%20prime(k)^2%20+%20prime(i)%20for%20i=k..k+n-1%20are%20consecutive%20primes)
+            * [prog.pl](./oeis-research/J.%20M.%20Bergot/a(n)%20is%20the%20least%20prime%20prime(k)%20such%20that%20prime(k+n-1)^2%20-%20prime(k)^2%20+%20prime(i)%20for%20i=k..k+n-1%20are%20consecutive%20primes/prog.pl)
         * [Numbers k such that A124440(k) is a square](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20A124440(k)%20is%20a%20square)
             * [prog.gp](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20A124440(k)%20is%20a%20square/prog.gp)
         * [Numbers k such that prime(k)^prime(k+1) == prime(k+3) (mod prime(k+2))](./oeis-research/J.%20M.%20Bergot/Numbers%20k%20such%20that%20prime(k)^prime(k+1)%20==%20prime(k+3)%20(mod%20prime(k+2)))

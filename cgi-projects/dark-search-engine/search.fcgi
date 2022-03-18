@@ -531,7 +531,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
         warn "Adding: $info{title}\nURI: $info{url}\n";
 
-        my $relevant_content = join(' ', unidecode($normalized_url), unidecode($info{title}), $info{content},);
+        my $relevant_content = join(' ', unidecode($normalized_url), unidecode($info{title}), $info{content});
 
         if ($recrawl) {
             readd_to_database_index($relevant_content, $id);
@@ -899,7 +899,7 @@ while (my $c = CGI::Fast->new) {
             #~ {
             #~ src => 'css/popup.css',
             #~ },
-                  ],
+        ],
         -head => Link(
                       {
                        -rel  => 'shortcut icon',
