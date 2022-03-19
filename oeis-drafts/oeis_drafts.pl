@@ -16,6 +16,10 @@ use HTML::Entities qw(decode_entities encode_entities);
 require LWP::UserAgent;
 require HTTP::Message;
 
+use constant {
+              USE_TOR_PROXY => 1,    # true to use the Tor proxy (127.0.0.1:9050)
+             };
+
 my $cache_dir = 'cache';
 
 if (not -d $cache_dir) {
@@ -27,13 +31,13 @@ my $lwp = LWP::UserAgent::Cached->new(
     show_progress => 1,
     agent     => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
     cache_dir => $cache_dir,
-    ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
+    ssl_opts  => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
 
     nocache_if => sub {
         my ($response) = @_;
         my $code = $response->code;
-        return 1 if ($code >= 500);                               # do not cache any bad response
-        return 1 if ($code == 401);                               # don't cache an unauthorized response
+        return 1 if ($code >= 500);                           # do not cache any bad response
+        return 1 if ($code == 401);                           # don't cache an unauthorized response
         return 1 if ($response->request->method ne 'GET');    # cache only GET requests
         return;
     },
@@ -47,17 +51,24 @@ my $lwp_uc = LWP::UserAgent->new(
            ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
 );
 
-state $accepted_encodings = HTTP::Message::decodable();
+{
+    state $accepted_encodings = HTTP::Message::decodable();
 
-$lwp->default_header('Accept-Encoding' => $accepted_encodings);
-$lwp_uc->default_header('Accept-Encoding' => $accepted_encodings);
+    $lwp->default_header('Accept-Encoding' => $accepted_encodings);
+    $lwp_uc->default_header('Accept-Encoding' => $accepted_encodings);
 
-require LWP::ConnCache;
-my $cache = LWP::ConnCache->new;
-$cache->total_capacity(undef);    # no limit
+    require LWP::ConnCache;
+    my $cache = LWP::ConnCache->new;
+    $cache->total_capacity(undef);    # no limit
 
-$lwp->conn_cache($cache);
-$lwp_uc->conn_cache($cache);
+    $lwp->conn_cache($cache);
+    $lwp_uc->conn_cache($cache);
+}
+
+if (USE_TOR_PROXY) {
+    $lwp->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+    $lwp_uc->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
 
 my @all_ids;
 my $start = 0;
@@ -112,10 +123,8 @@ foreach my $id (@all_ids) {
     my $content = $lwp->get($url)->decoded_content;
 
     my $more = 0;
-    if (
-           $content =~ m{<span title="(.*?)">more</span>}
-        or $content =~ m{<span title="(.*?)">hard</span>}
-      ) {
+    if (   $content =~ m{<span title="(.*?)">more</span>}
+        or $content =~ m{<span title="(.*?)">hard</span>}) {
         $more = 1;
     }
 
