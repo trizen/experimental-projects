@@ -1,0 +1,175 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest odd b > 1 such that (b^(2n) + 1)/2 has all prime divisors p == 1 (mod 2n).
+# https://oeis.org/A298398
+
+# Find lower-bounds to a(n).
+
+include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+
+func a(n, from = 2, upto = 1e9) {
+    for k in (from .. upto) {
+
+        k.is_odd || next
+
+        var m = (2*n)
+        var v = (k**m + 1)/2
+
+        is_congruent(v, 1, m) || next
+
+        # Fast check for small factors
+        var f1 = v.trial_factor
+
+        f1.all { is_congruent(_, 1, m) } || next
+        f1.all { is_congruent(v/_, 1, m) } || next
+
+        if (f1.all { .is_prime }) {
+            return (k, true)
+        }
+
+        # Fast Miller factorization check
+        if (v.len < 2000) {
+            var f = v.miller_factor
+
+            f.all { is_congruent(_, 1, m) } || next
+            f.all { is_congruent(v/_, 1, m) } || next
+
+            var c = f.grep { .is_composite }
+
+            return (k, true) if (c.len == 0)
+
+            if (c.all { .len <= 50 }) {
+                if (c.map { .factor }.flat.all { .is_congruent(1, m) }) {
+                    return (k, true)
+                }
+                else {
+                    next
+                }
+            }
+
+            var t = c.grep { .len <= 50 }.map { .factor }.flat
+
+            t.all { is_congruent(_, 1, m) } || next
+            t.all { is_congruent(v/_, 1, m) } || next
+        }
+
+        # Check prime factors up to 10^8
+        var f2 = v.trial_factor(1e8)
+
+        f2.all { is_congruent(_, 1, m) } || next
+        f2.all { is_congruent(v/_, 1, m) } || next
+
+        if (f2.all { .is_prime }) {
+            return (k, true)
+        }
+
+        # Try the difference of powers factorization method (finding algebraic factors)
+        var f4 = (v*2).dop_factor.map {|d| gcd(v, d) }.grep { _ > 1 }
+
+        f4.all { is_congruent(_, 1, m) } || next
+        f4.all { is_congruent(v/_, 1, m) } || next
+
+        do { # check the composite factors
+            var c = f4.grep { .is_composite }
+
+            return (k, true) if (c.len == 0)
+
+            if (c.all { .len <= 50 }) {     # unlikely
+                if (c.map { .factor }.flat.all { .is_congruent(1, m) }) {
+                    return (k, true)
+                }
+                else {
+                    next
+                }
+            }
+
+            var t = c.grep { .len <= 50 }.map { .factor }.flat
+
+            t.all { is_congruent(_, 1, m) } || next
+            t.all { is_congruent(v/_, 1, m) } || next
+        }
+
+        # Try the FLT factorization method
+        var f3 = v.flt_factor
+
+        f3.all { is_congruent(_, 1, m) } || next
+        f3.all { is_congruent(v/_, 1, m) } || next
+
+        do { # check the composite factors
+            var c = f3.grep { .is_composite }
+
+            return (k, true) if (c.len == 0)
+
+            if (c.all { .len <= 50 }) {     # unlikely
+                if (c.map { .factor }.flat.all { .is_congruent(1, m) }) {
+                    return (k, true)
+                }
+                else {
+                    next
+                }
+            }
+
+            var t = c.grep { .len <= 50 }.map { .factor }.flat
+
+            t.all { is_congruent(_, 1, m) } || next
+            t.all { is_congruent(v/_, 1, m) } || next
+        }
+
+        # Check FactorDB (#1)
+        var fdb1 = factordb("#{k}^#{m} + 1").map {|d| gcd(v, d) }.grep { _ > 1 }
+
+        fdb1.all { is_congruent(_, 1, m) } || next
+        fdb1.all { is_congruent(v/_, 1, m) } || next
+
+        if ((fdb1.prod == v) && (fdb1.all { .is_prime })) {
+            return (k, true)
+        }
+
+        # Check FactorDB (#2)
+        var fdb = factordb("(#{k}^#{m} + 1)/2")
+
+        fdb.all { is_congruent(_, 1, m) } || next
+        fdb.all { is_congruent(v/_, 1, m) } || next
+
+        if (fdb.all { .is_prime }) {
+            return (k, true)
+        }
+        else {
+            return (k, false)
+        }
+    }
+}
+
+var lower_bounds_file = File("lower-bounds_factordb.txt")
+
+lower_bounds_file.open_r.lines.each {|line|
+    if (line =~ /^a\((\d+)\) >= (\d+)/) { |m|
+
+        var n = Num(m[0])
+        var k = Num(m[1])
+
+        say ":: Trying to find a lower-bound for a(#{n}) >= #{k} <--> (#{k}^#{2*n} + 1)/2"
+
+        var (new_k, is_term) = a(n, k)
+
+        if (is_term) {
+            say "\n\t-> Found term: a(#{n}) = #{new_k}\n"
+        }
+        elsif (k != new_k) {
+            say "\n\t-> Found a better lower-bound: a(#{n}) >= #{new_k} <--> (#{new_k}^#{2*n} + 1)/2\n"
+        }
+    }
+}
+
+__END__
+
+for n in (1..100) {
+    var (k, is_term) = a(n)
+
+    if (is_term) {
+        say "a(#{n}) = #{k}"
+    }
+    else {
+        say "a(#{n}) >= #{k}"
+    }
+}
