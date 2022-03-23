@@ -1117,6 +1117,8 @@ Highly experimental personal projects.
         * [Numbers m such that both numbers 2^m +- 1 have at most 2 distinct prime factors](./oeis-research/Vladimir%20Shevelev/Numbers%20m%20such%20that%20both%20numbers%202^m%20+-%201%20have%20at%20most%202%20distinct%20prime%20factors)
             * [prog.sf](./oeis-research/Vladimir%20Shevelev/Numbers%20m%20such%20that%20both%20numbers%202^m%20+-%201%20have%20at%20most%202%20distinct%20prime%20factors/prog.sf)
     * [Wesley Ivan Hurt](./oeis-research/Wesley%20Ivan%20Hurt)
+        * [Number of distinct prime factors of sigma n(n)](./oeis-research/Wesley%20Ivan%20Hurt/Number%20of%20distinct%20prime%20factors%20of%20sigma_n(n))
+            * [prog.sf](./oeis-research/Wesley%20Ivan%20Hurt/Number%20of%20distinct%20prime%20factors%20of%20sigma_n(n)/prog.sf)
         * [Sum of denominators sequences](./oeis-research/Wesley%20Ivan%20Hurt/Sum%20of%20denominators%20sequences)
             * [A279911.sf](./oeis-research/Wesley%20Ivan%20Hurt/Sum%20of%20denominators%20sequences/A279911.sf)
             * [A279912.sf](./oeis-research/Wesley%20Ivan%20Hurt/Sum%20of%20denominators%20sequences/A279912.sf)

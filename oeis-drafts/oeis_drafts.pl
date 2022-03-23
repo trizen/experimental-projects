@@ -29,9 +29,9 @@ if (not -d $cache_dir) {
 my $lwp = LWP::UserAgent::Cached->new(
     timeout       => 60,
     show_progress => 1,
-    agent     => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-    cache_dir => $cache_dir,
-    ssl_opts  => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
+    agent         => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+    cache_dir     => $cache_dir,
+    ssl_opts      => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
 
     nocache_if => sub {
         my ($response) = @_;
@@ -44,12 +44,11 @@ my $lwp = LWP::UserAgent::Cached->new(
 );
 
 my $lwp_uc = LWP::UserAgent->new(
-           timeout       => 60,
-           env_proxy     => 0,
-           show_progress => 1,
-           agent => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-           ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
-);
+                                 timeout       => 60,
+                                 show_progress => 1,
+                                 agent    => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+                                 ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
+                                );
 
 {
     state $accepted_encodings = HTTP::Message::decodable();
@@ -103,7 +102,6 @@ print $fh <<'EOF';
   </style>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>OEIS links</title>
-  </script>
   </head>
   <body bgcolor=#ffffff>
 
