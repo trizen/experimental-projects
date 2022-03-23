@@ -842,6 +842,8 @@ Highly experimental personal projects.
     * [Paolo P. Lava](./oeis-research/Paolo%20P.%20Lava)
         * [Numbers k such that k divides sigma(k-2) + sigma(k-1) + sigma(k+1) + sigma(k+2)](./oeis-research/Paolo%20P.%20Lava/Numbers%20k%20such%20that%20k%20divides%20sigma(k-2)%20+%20sigma(k-1)%20+%20sigma(k+1)%20+%20sigma(k+2))
             * [prog.pl](./oeis-research/Paolo%20P.%20Lava/Numbers%20k%20such%20that%20k%20divides%20sigma(k-2)%20+%20sigma(k-1)%20+%20sigma(k+1)%20+%20sigma(k+2)/prog.pl)
+        * [Quasi-narcissistic numbers: k-digit numbers n whose sum of k-th powers of their digits is equal to n +- 1](./oeis-research/Paolo%20P.%20Lava/Quasi-narcissistic%20numbers:%20k-digit%20numbers%20n%20whose%20sum%20of%20k-th%20powers%20of%20their%20digits%20is%20equal%20to%20n%20+-%201)
+            * [prog.pl](./oeis-research/Paolo%20P.%20Lava/Quasi-narcissistic%20numbers:%20k-digit%20numbers%20n%20whose%20sum%20of%20k-th%20powers%20of%20their%20digits%20is%20equal%20to%20n%20+-%201/prog.pl)
         * [Squarefree difference of semiprimes](./oeis-research/Paolo%20P.%20Lava/Squarefree%20difference%20of%20semiprimes)
             * [filter primes.sf](./oeis-research/Paolo%20P.%20Lava/Squarefree%20difference%20of%20semiprimes/filter_primes.sf)
             * [formula.sf](./oeis-research/Paolo%20P.%20Lava/Squarefree%20difference%20of%20semiprimes/formula.sf)
