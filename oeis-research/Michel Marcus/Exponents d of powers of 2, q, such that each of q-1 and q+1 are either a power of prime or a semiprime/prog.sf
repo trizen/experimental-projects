@@ -6,7 +6,7 @@
 # Known terms:
 #   1, 2, 3, 4, 5, 7, 11, 13, 17, 19, 23, 31, 61, 101, 127, 167, 199, 347
 
-include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+include("../../../factordb/auto.sf")
 
 for k in (1..1e6) {
 

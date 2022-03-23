@@ -8,7 +8,7 @@
 
 # Are there only finitely many such numbers? No more terms below 2217. - Amiram Eldar and Thomas Ordowski, Jun 20 2021
 
-include("/home/swampyx/Other/Programare/experimental-projects/factordb/auto.sf")
+include("../../../factordb/auto.sf")
 
 for k in (2200..1e6) {
 
