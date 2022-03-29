@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# Quasi-narcissistic numbers: k-digit numbers n whose sum of k-th powers of their digits is equal to n +- 1.
+# https://oeis.org/A300160
+
+for k in (1..100) {
+
+    var powers = @(0..9).map {|d| [d, d**k] }
+
+    powers.combinations_with_repetition(k, {|*a|
+
+        var t = a.sum { .tail }
+        var r = a.map { .head }.sort.digits2num
+
+        if (t-1 -> digits.sort.digits2num == r) {
+            say "[-1] Found: #{t-1}"
+        }
+
+        if (t+1 -> digits.sort.digits2num == r) {
+            say "[+1] Found: #{t+1}"
+        }
+    })
+}
+
+__END__
+[+1] Found: 35
+[+1] Found: 75
+[+1] Found: 715469
+[+1] Found: 688722
+[+1] Found: 629643
+[+1] Found: 528757
+[+1] Found: 71419078
+[-1] Found: 63645890
+[-1] Found: 31672867
+[-1] Found: 63645891
+[+1] Found: 44936324
+[-1] Found: 73495876
+[-1] Found: 1136483324
+[-1] Found: 310374095702
+[+1] Found: 785103993880
+[+1] Found: 785103993881
+[+1] Found: 989342580966

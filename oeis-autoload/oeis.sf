@@ -14,6 +14,8 @@
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5            # 5-th term
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
 
+local Num!PREC = 4096
+
 include OEIS
 
 func eval_formula(formula, n = nil) {
