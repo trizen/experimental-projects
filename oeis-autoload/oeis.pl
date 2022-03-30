@@ -69,6 +69,8 @@ use Math::AnyNum qw(
 *BernoulliB = \&bernoulli;
 *Euler      = \&euler;
 *Catalan    = \&catalan;
+*Fibonacci  = \&fibonacci;
+*Lucas      = \&lucas;
 
 *mu       = \&moebius;
 *phi      = \&euler_phi;
