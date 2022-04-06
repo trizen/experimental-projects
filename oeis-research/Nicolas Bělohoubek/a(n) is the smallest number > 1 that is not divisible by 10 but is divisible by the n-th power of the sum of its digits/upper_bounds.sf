@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number > 1 that is not divisible by 10 but is divisible by the n-th power of the sum of its digits.
+# https://oeis.org/A352742
+
+# Computes upper-bounds to a(n).
+
+# Some upper-bounds:
+#   a(17) <= 4372327021734283642004853327592915343 = 143^17
+#   a(18) <= 15006332672024005536716305894184270692352 = 8 * 152^18
+#   a(19) <= 413335079574020313162122296733856201171875 = 155^19
+#   a(20) <= 1304064064842535101452541010111722167344300032 = 1282 * 126^20
+
+func a(n, m_limit = 1e4, k_limit = 300) {
+    var upper_bound = Inf
+
+    for m in (1..m_limit), k in (2..k_limit) {
+        var v = (m * k**n)
+
+        10 `divides` v && next
+        v.sumdigits == k || next
+
+        if (v < upper_bound) {
+            say "Found: a(#{n}) <= #{v} = #{m} * #{k}^#{n}"
+            upper_bound = v
+        }
+    }
+
+    return upper_bound
+}
+
+say a(18, 1e4, 152)
+#say a(20, 1e4, 126)

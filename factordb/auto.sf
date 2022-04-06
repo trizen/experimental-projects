@@ -15,7 +15,7 @@ func factordb(n) is cached {
         return n.factor if (n.len <= MIN_SIZE)
     }
 
-    var f = `perl #{script} #{Str(n).escape}`.nums.sort
+    var f = `#{$^PERL} #{script} #{Str(n).escape}`.nums.sort
 
     if (n.kind_of(Num)) {
         assert_eq(n, f.prod)

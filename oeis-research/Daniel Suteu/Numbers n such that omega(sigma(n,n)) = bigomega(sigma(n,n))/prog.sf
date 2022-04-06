@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Number n such that omega(sigma(n,n)) = bigomega(sigma(n,n))
+
+# Known terms:
+#   1, 2, 4, 5, 8, 9, 12, 13, 16, 20, 22, 25, 29, 32, 36, 37, 38, 40, 41, 44, 48, 49, 58, 61, 62, 64, 68, 72, 73, 76, 80, 88, 92, 96, 98, 101, 104, 109, 112, 113, 116, 117, 118
+
+# Inspired by:
+#   https://oeis.org/A352420
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    var f = sigma_factors(n, n)
+    #var f = sigma_factors_symbolic(n, n)
+    f.map { FF_factordb(_) }.flat
+}
+
+for n in (1..1000) {
+    var f = a(n)
+
+    if (f.len == f.uniq.len) {
+        print(n, ", ")
+    }
+}

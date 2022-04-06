@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# a(n) = Sum of the divisors of sigma_n(n).
+# https://oeis.org/A347718
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    sigma(sigma(n, n))
+}
+
+for n in (1..1000) {
+    #print(a(n), ", ")
+    say "#{n} #{a(n)}"
+}
+
+__END__
+
+# PARI/GP program:
+
+a(n) = sigma(sigma(n, n));

@@ -1,0 +1,129 @@
+ExifTool Version Number         : 12.30
+File Name                       : cicada_317.mp4
+Directory                       : .
+File Size                       : 433 MiB
+File Modification Date/Time     : 2022:01:08 16:28:16+02:00
+File Access Date/Time           : 2022:01:08 16:11:39+02:00
+File Inode Change Date/Time     : 2022:01:08 16:28:16+02:00
+File Permissions                : -rw-r--r--
+File Type                       : MP4
+File Type Extension             : mp4
+MIME Type                       : video/mp4
+Major Brand                     : MP4 v2 [ISO 14496-14]
+Minor Version                   : 0.0.0
+Compatible Brands               : mp42, mp41
+Movie Header Version            : 0
+Time Scale                      : 90000
+Duration                        : 0:10:33
+Preferred Rate                  : 1
+Preferred Volume                : 100.00%
+Preview Time                    : 0 s
+Preview Duration                : 0 s
+Poster Time                     : 0 s
+Selection Time                  : 0 s
+Selection Duration              : 0 s
+Current Time                    : 0 s
+Next Track ID                   : 3
+Track Header Version            : 0
+Track Create Date               : 2019:03:18 05:56:12
+Track Modify Date               : 2019:03:18 05:56:12
+Track ID                        : 1
+Track Duration                  : 0:10:33
+Track Layer                     : 0
+Track Volume                    : 0.00%
+Image Width                     : 1280
+Image Height                    : 720
+Graphics Mode                   : srcCopy
+Op Color                        : 0 0 0
+Compressor ID                   : avc1
+Source Image Width              : 1280
+Source Image Height             : 720
+X Resolution                    : 72
+Y Resolution                    : 72
+Compressor Name                 : AVC Coding
+Bit Depth                       : 24
+Matrix Structure                : 1 0 0 0 1 0 0 0 1
+Media Header Version            : 0
+Media Create Date               : 2019:03:18 05:56:13
+Media Modify Date               : 2019:03:18 05:56:13
+Media Time Scale                : 48000
+Media Duration                  : 0:10:33
+Media Language Code             : eng
+Balance                         : 0
+Handler Type                    : Alias Data
+Handler Description             : Alias Data Handler
+Audio Format                    : mp4a
+Audio Channels                  : 2
+Audio Bits Per Sample           : 16
+Start Timecode                  : 00:00:00:00
+XMP Toolkit                     : Adobe XMP Core 5.6-c145 79.163499, 2018/08/13-16:40:22
+Create Date                     : 2019:03:17 22:56:12-07:00
+Modify Date                     : 2019:03:17 22:59:13-07:00
+Metadata Date                   : 2019:03:17 22:59:13-07:00
+Creator Tool                    : Adobe Premiere Pro CC 2019.0 (Macintosh)
+Video Frame Rate                : 29.970030
+Video Field Order               : Progressive
+Video Pixel Aspect Ratio        : 1
+Audio Sample Rate               : 48000
+Audio Sample Type               : 16-bit integer
+Audio Channel Type              : Stereo
+Start Time Scale                : 30000
+Start Time Sample Size          : 1001
+Orientation                     : Horizontal (normal)
+Instance ID                     : xmp.iid:d46e8d17-f34f-40e9-92ed-71570cf1791b
+Document ID                     : 38e3bbd7-3da4-54e5-5d36-bd2b00000055
+Original Document ID            : xmp.did:01a48ed1-8b90-49dd-9b9c-d6d0cd280e5c
+Format                          : H.264
+Duration Value                  : 56981925
+Duration Scale                  : 1.11111111111111e-05
+Project Ref Type                : Movie
+Video Frame Size W              : 1280
+Video Frame Size H              : 720
+Video Frame Size Unit           : pixel
+Start Timecode Time Format      : 29.97 fps (non-drop)
+Start Timecode Time Value       : 00:00:00:00
+Alt Timecode Time Value         : 00:00:00:00
+Alt Timecode Time Format        : 29.97 fps (non-drop)
+History Action                  : saved, created, saved, saved
+History Instance ID             : 22dac92a-f844-2a9f-367a-ea5300000082, xmp.iid:a0b7bd34-8d86-4989-85c1-d6d26e489f5e, xmp.iid:16e595a2-8231-4763-8c16-ac783a4f9e7b, xmp.iid:d46e8d17-f34f-40e9-92ed-71570cf1791b
+History When                    : 2019:03:17 22:59:13-07:00, 2019:03:17 22:56:12-07:00, 2019:03:17 22:59:13-07:00, 2019:03:17 22:59:13-07:00
+History Software Agent          : Adobe Premiere Pro CC 2019.0 (Macintosh), Adobe Premiere Pro CC 2019.0 (Macintosh), Adobe Premiere Pro CC 2019.0 (Macintosh), Adobe Premiere Pro CC 2019.0 (Macintosh)
+History Changed                 : /, /, /metadata
+Ingredients Instance ID         : 83c7ecc3-c2ce-4652-c4eb-d38400000082, 83c7ecc3-c2ce-4652-c4eb-d38400000082
+Ingredients Document ID         : 86a5e6f9-dcaa-3b6c-db5b-637c00000055, 86a5e6f9-dcaa-3b6c-db5b-637c00000055
+Ingredients From Part           : time:0d160825785120000f254016000000, time:0d160825785120000f254016000000
+Ingredients To Part             : time:0d160825785120000f254016000000, time:0d160825785120000f254016000000
+Ingredients File Path           : cicada 317 final2.mov, cicada 317 final2.mov
+Ingredients Mask Markers        : None, None
+Pantry Create Date              : 2016:05:13 00:22:26Z
+Pantry Modify Date              : 2019:03:17 22:51:40-07:00
+Pantry Metadata Date            : 2019:03:17 22:51:40-07:00
+Pantry Start Time Scale         : 30000
+Pantry Start Time Sample Size   : 1001
+Pantry Orientation              : Horizontal (normal)
+Pantry Instance ID              : 83c7ecc3-c2ce-4652-c4eb-d38400000082
+Pantry Document ID              : 86a5e6f9-dcaa-3b6c-db5b-637c00000055
+Pantry Original Document ID     : xmp.did:38d9ea28-37c3-4453-8caa-9e793af01cf0
+Pantry Duration Value           : 18993975
+Pantry Duration Scale           : 3.33333333333333e-05
+Pantry Alt Timecode Time Value  : 00:00:00:00
+Pantry Alt Timecode Time Format : 29.97 fps (non-drop)
+Pantry History Action           : saved
+Pantry History Instance ID      : 83c7ecc3-c2ce-4652-c4eb-d38400000082
+Pantry History When             : 2019:03:17 22:51:40-07:00
+Pantry History Software Agent   : Adobe Premiere Pro CC 2019.0 (Macintosh)
+Pantry History Changed          : /
+Derived From Instance ID        : xmp.iid:a0b7bd34-8d86-4989-85c1-d6d26e489f5e
+Derived From Document ID        : xmp.did:a0b7bd34-8d86-4989-85c1-d6d26e489f5e
+Derived From Original Document ID: xmp.did:a0b7bd34-8d86-4989-85c1-d6d26e489f5e
+Windows Atom Extension          : .prproj
+Windows Atom Invocation Flags   : /L
+Mac Atom Application Code       : 1347449455
+Mac Atom Invocation Apple Event : 1129468018
+Mac Atom Posix Project Path     : /Users/spoofnix/Documents/Adobe/Premiere Pro/11.0/cicada317.prproj
+Media Data Size                 : 454061518
+Media Data Offset               : 407071
+Image Size                      : 1280x720
+Megapixels                      : 0.922
+Avg Bitrate                     : 5.74 Mbps
+Rotation                        : 0
