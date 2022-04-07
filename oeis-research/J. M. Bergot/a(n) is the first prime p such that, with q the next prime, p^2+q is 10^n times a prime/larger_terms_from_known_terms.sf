@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# a(n) is the first prime p such that, with q the next prime, p^2+q is 10^n times a prime.
+# https://oeis.org/A352803
+
+# Find larger terms, from already known terms.
+
+# Of the form:
+#   p + 10^n * k, for some k >= 1 and n fixed, where p is a known term.
+
+var f = 10**13
+var p = 470654702304929
+
+var seen = Set()
+
+for k in (1..1e6) {
+
+    var p2 = (p + (f * k))
+
+    if (p2.is_prime) {
+
+        var t = (p2*p2 + p2.next_prime)
+        var v = t.valuation(10)
+
+        if (!seen.has(v) && is_prime(t / 10**v)) {
+            seen << v
+            say "a(#{v}) <= #{p2}"
+        }
+    }
+}
+
+__END__
+a(1) <= 1254960850223
+a(9) <= 23633960850223
+a(10) <= 395774960850223
+a(10) <= 244712632873031
+a(11) <= 43502632873031
+a(9) <= 29591632873031
+a(11) <= 111302632873031
+a(12) <= 2322601810486343
+a(13) <= 72291601810486343
+a(14) <= 2325580654702304929

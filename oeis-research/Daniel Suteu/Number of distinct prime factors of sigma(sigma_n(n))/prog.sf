@@ -13,6 +13,8 @@
 
 include("../../../factordb/auto.sf")
 
+#sigma_factors_symbolic(sigma(118, 118)).each { .say }
+
 func a(n) {
     #sigma(sigma(n, n))
     var f = sigma_factors(sigma(n, n))

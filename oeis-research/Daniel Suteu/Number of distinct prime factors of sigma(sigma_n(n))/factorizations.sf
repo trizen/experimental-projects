@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# a(n) = Number of distinct prime factors of sigma(sigma_n(n)).
+# https://oeis.org/A??????
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    var f = sigma_factors(sigma(n, n))
+    #var f = sigma_factors(n, n)
+    #var f = sigma_factors_symbolic(n, n)
+    #f.map { FF_factordb(_) }.flat
+    f.map { factordb(_) }.flat.uniq
+}
+
+for n in (1..120) {
+#for n in (110 .. 200) {
+    say "#{sigma(n, n)} = #{a(n).grep { .len > 6 }.join(' * ')}"
+}

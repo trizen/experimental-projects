@@ -1,0 +1,238 @@
+#!/usr/bin/ruby
+
+# a(n) is the first prime p such that, with q the next prime, p^2+q is 10^n times a prime.
+# https://oeis.org/A352803
+
+# Attempt to find integer solutions to the equation:
+#   p^2 + p + c = t * 10^k
+
+# See also:
+#   https://www.wolframalpha.com/input?i=p%5E2+%2B+p+%2B+8+%3D+t+*+10%5E10
+
+# p^2 + p + c = t * 10^n
+# p^2 + p - 10000000000 t + 8 = 0
+
+# b^2 - 4ac
+# a*x^2 + b*x + c = 0
+# p^2 + p + (-10000000000*t + 8)
+
+# 1 - 4*(-10000000000*1 + 8)
+# -10000000000 floor((x^2 + x + 8)/10000000000) + x^2 + x + 8 = 0
+
+#var x = 2632873031
+#var f = 10000000000
+#var n = 0
+
+# How to find integer solutions to p and t in the following equation (?):
+#   p^2 + p + 8 = t * 10^10
+#   p^2 + p + (-10^10*t + 8) = 0
+
+# Solution examples:
+#   p = 10^10 n + 1810486343,
+#   t = 10^10 n^2 + 3620972687 n + 327786080, n element Z
+#
+#   p = 10^10 n + 2632873031,
+#   t = 10^10 n^2 + 5265746063 n + 693202040, n element Z
+
+# The equation:
+#   p^2 + p + 8 = t * 10^k
+#
+# has solutions of the form:
+#
+#   p = (10^k * n + x)
+#   t = (10^k * n^2 + (2*x + 1)*n + ((x*x + x + 8) / 10^k))
+#
+# for positive values of x and n.
+
+# a(7) <= 5440486343
+# a(8) <= 460510486343
+# a(9) <= 2244105527413
+# a(9) <= 7144810486343
+# a(9) <= 15157702304929
+# a(10) <= 24331810486343
+# a(10) <= 88324702304929
+
+# How to efficiently find the smallest integer value x, such that n is also an integer?
+#   (x^2 + x + 8) / 10^8 = n
+#   (x^2 + x + 8) = 10^8 * n
+#   (x^2 + x + 8) - 10^8 * n = 0
+#   x^2 + x + (-10^8*n + 8) = 0
+
+# :: Searching with x = 10486343 and k = 1099634
+
+# See also:
+#   https://en.wikipedia.org/wiki/Binary_quadratic_form
+
+func a(n, d=8, max=nil) {
+
+    var seen = Set()
+    var f = 10**n
+
+    for k in (1 .. 2e6) {
+
+        var (x) = iquadratic_formula(1, 1, -f*k + d)
+
+        defined(max) && (f+x > max) && break
+
+        if (f `divides` (x*x + x + d)) {
+
+            if (x.is_even) {
+                say ":: Found even x = #{x}. Skipping..."
+                next
+            }
+
+            say ":: Searching with x = #{x} and k = #{k}"
+
+            for n in (0 .. 1e7) {
+
+                var p = (f*n + x)
+                #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+
+                defined(max) && (p > max) && break
+
+                p.is_prime || next
+
+                var u = (p*p + p.next_prime)
+
+                u.remdiv(10).is_prime || next
+
+                var v = u.valuation(10)
+
+                if (!seen.has(v)) {
+                    seen << v
+                    say "a(#{v}) <= #{p}"
+                }
+            }
+        }
+    }
+
+    return nil
+}
+
+for d in (8) {
+    say "Checking: d = #{d}"
+    say a(8, d, 17012632873031)
+}
+
+__END__
+
+var k = 10
+var n = 0
+var f = 10**7
+
+var good_x = %n[
+
+31, 3031, 13656, 126968, 486343,
+126968
+486343
+513656
+873031
+1126968
+1486343
+1513656
+1873031
+486343,
+2873031,
+
+].sort.uniq
+
+var seen = Set()
+
+#~ a(1) <= 701
+#~ a(2) <= 650761
+#~ a(3) <= 1762031
+#~ a(4) <= 763031
+#~ a(5) <= 565186343
+#~ a(6) <= 4603486343
+#~ a(7) <= 5440486343
+
+for x in (good_x) {
+
+    for k in (1..100) {
+
+        var f = 10**k
+        var p = (f * n + x)
+        var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+
+        if (t.is_int) {
+
+            #say ("Found: ", [n, x, p, t])
+            #next
+
+            for n in (1..1e5) {
+
+                var p = (f * n + x)
+                var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+
+                if (p.is_prime && t.is_prime) {
+
+                    var t = (p*p + p.next_prime)
+                    var v = valuation(t, 10)
+
+                    if (!seen.has(v) && is_prime(t / 10**v)) {
+                        seen << v
+                        say "a(#{v}) <= #{p}"
+                    }
+                }
+            }
+        }
+    }
+
+    #say [p, t]
+    #var v = ((x*x + x + 8)/f)
+    #say [x, quadratic_formula(f, f, 8*f - f*((p**2 + p + 8)))]
+    #say [x, quadratic_formula(f, f, 8*f - f*(t * f))]
+    #next
+}
+
+__END__
+
+#~ say bsearch_le(2632873031/5, 2632873031*5, {|x|
+
+    #~ var p = (f * n + x)
+    #~ var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+
+    #~ say "p = #{p}"
+
+    #~ t *= t.de
+
+    #~ x = iquadratic_formula(1, 1, -t * f)
+    #~ p = (f * n + x)
+
+    #~ var u = (p*p + p + (-f * t + 8))
+
+    #~ #say [p, t]
+    #~ #say [p**2 + p + 8, t * 10**k,  (p**2 + p + 8) / (t * 10**k) -> float]
+    #~ #(p**2 + p + 8) - (t * 10**k) <=> 0
+
+    #~ u <=> 0
+#~ })
+
+#~ __END__
+
+say bsearch_le(2632873031 / 5, 5*2632873031, {|x|
+
+    var p = (f*n + x)
+    var t = (f*n*n + (2*x + 1)*n + floor((x*x + x + 8)/f))
+    var u = (p*p + p + (-f*t + 8))
+
+    assert_eq(((f*n + x)**2 + (f*n + x) + (-f*(f*n*n + (2*x + 1)*n + ((x*x + x + 8)/f)) + 8)), 0)
+    assert_eq(-f * ((x*x + x + 8) / f) + (x*x + x + 8), 0)
+
+    say [p, t, x, u]
+
+    #-f * floor((x*x + x + 8) / f) + (x*x + x + 8) <=> 0
+
+    u <=> 0
+    #-10000000000 * ceil((x**2 + 20000000001*x + 8)/10000000000) + x**2 + 20000000001*x - u <=> -8
+
+    #(x*x + x + 8)/f <=> round(x*x / f)
+
+    #((p**2 + p + 8)/t <=> f)
+    #((p**2 + p + 8)/f <=> t)
+    #((p*p + p + (-f*t + 8)) <=> 0)
+})
+
+#p = 10000000000 n + 2632873031, t = 10000000000 n^2 + 5265746063 n + 693202040, n element Z
+
+#p^2 - (t * 10^10) = -(p + 8)
