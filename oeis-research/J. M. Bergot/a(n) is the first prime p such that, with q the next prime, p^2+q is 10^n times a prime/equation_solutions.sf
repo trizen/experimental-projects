@@ -58,6 +58,9 @@
 #   (x^2 + x + 8) - 10^8 * n = 0
 #   x^2 + x + (-10^8*n + 8) = 0
 
+# n = 10000000000000 m^2 -  3203620972687 m +  256579683416, x = 1601810486343 - 10000000000000 m, m element Z
+# n = 10000000000000 m^2 - 18405265746063 m + 8468845179580, x = 9202632873031 - 10000000000000 m, m element Z
+
 # :: Searching with x = 10486343 and k = 1099634
 
 # See also:
@@ -91,6 +94,7 @@ func a(n, d=8, max=nil) {
                 defined(max) && (p > max) && break
 
                 p.is_prime || next
+                (p+d).is_prime || next
 
                 var u = (p*p + p.next_prime)
 
@@ -111,7 +115,7 @@ func a(n, d=8, max=nil) {
 
 for d in (8) {
     say "Checking: d = #{d}"
-    say a(8, d, 17012632873031)
+    say a(7, d, 17012632873031)
 }
 
 __END__

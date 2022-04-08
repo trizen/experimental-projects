@@ -1,16 +1,20 @@
 #!/usr/bin/perl
 
-# a(n) is the first prime p such that, with q the next prime, p^2+q is 10^n times a prime.
-# https://oeis.org/A352803
+# a(n) is the first prime p such that, with q the next prime, p + q^2 is 10^n times a prime.
+# https://oeis.org/A352848
 
-# Previously known terms:
-#   2, 523, 2243, 39419, 763031, 37427413
+# Known terms:
+#   2, 409, 25819, 101119, 3796711, 4160119, 264073519, 2310648079, 165231073519, 9671986711
 
-# New terms found:
-#   a(6) = 594527413
-#   a(7) = 5440486343
-#   a(8) = 1619625353
-#   a(9) = 35960850223
+#~ a(0) = 2
+#~ a(1) = 409
+#~ a(2) = 25819
+#~ a(3) = 101119
+#~ a(4) = 3796711
+#~ a(5) = 4160119
+#~ a(6) = 264073519
+#~ a(7) = 2310648079
+#~ a(9) = 9671986711
 
 use 5.020;
 use strict;
@@ -31,9 +35,9 @@ my $ten = Math::GMPz::Rmpz_init_set_ui(10);
 
 forprimes {
 
-    Math::GMPz::Rmpz_set_ui($z, $p);
+    Math::GMPz::Rmpz_set_ui($z, $q);
     Math::GMPz::Rmpz_mul($z, $z, $z);
-    Math::GMPz::Rmpz_add_ui($z, $z, $q);
+    Math::GMPz::Rmpz_add_ui($z, $z, $p);
 
     my $v = Math::GMPz::Rmpz_remove($z, $z, $ten);
 
@@ -52,5 +56,5 @@ __END__
 
 # PARI/GP program:
 
-isok(n,p,q) = my(v=valuation(p^2+q, 10)); (v == n) && isprime((p^2+q)/10^v);
+isok(n,p,q) = my(v=valuation(p+q^2, 10)); (v == n) && isprime((p+q^2)/10^v);
 a(n) = my(p=2); forprime(q=p+1, oo, if(isok(n,p,q), return(p)); p=q); \\ ~~~~
