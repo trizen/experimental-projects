@@ -611,6 +611,8 @@ Highly experimental personal projects.
             * [new.pl](./oeis-research/Jaroslav%20Krizek/Sum%20of%20primes%20divisible%20by%20n/new.pl)
             * [new v2.pl](./oeis-research/Jaroslav%20Krizek/Sum%20of%20primes%20divisible%20by%20n/new_v2.pl)
     * [Jason Earls](./oeis-research/Jason%20Earls)
+        * [Number of brilliant numbers < 10^n](./oeis-research/Jason%20Earls/Number%20of%20brilliant%20numbers%20<%2010^n)
+            * [prog.pl](./oeis-research/Jason%20Earls/Number%20of%20brilliant%20numbers%20<%2010^n/prog.pl)
         * [Number of factors of distinct prime factors of sum of p n primorials](./oeis-research/Jason%20Earls/Number%20of%20factors%20of%20distinct%20prime%20factors%20of%20sum%20of%20p_n%20primorials)
             * [prog.sf](./oeis-research/Jason%20Earls/Number%20of%20factors%20of%20distinct%20prime%20factors%20of%20sum%20of%20p_n%20primorials/prog.sf)
         * [Numbers that set a new record for number of Fibonacci divisors](./oeis-research/Jason%20Earls/Numbers%20that%20set%20a%20new%20record%20for%20number%20of%20Fibonacci%20divisors)
