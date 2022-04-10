@@ -1,0 +1,216 @@
+#!/usr/bin/perl
+
+# A powerful text editor for powerful users (concept-only).
+
+use 5.010;
+use strict;
+use warnings;
+
+use Gtk3 ('-init');
+
+my $file_name;
+my $file_content;
+my $gui = 'Gtk3::Builder'->new;
+
+$gui->add_from_file('gui.glade');
+$gui->connect_signals(undef);
+
+'Gtk3'->main;
+
+sub quit {
+    'Gtk3'->main_quit;
+    exit;
+}
+
+sub _hide_window {
+    $_[0]->hide;
+}
+
+sub _error {
+    my $win = $gui->get_object('error_dialog');
+    $gui->get_object('error_label')->set_text("\n" . join("\n\n", @_));
+    $win->show;
+}
+
+sub hide_error {
+    my $win = $gui->get_object('error_dialog');
+    $win->hide;
+}
+
+sub choose_file_to_open {
+    $gui->get_object('filechooserdialog1')->show;
+}
+
+sub hide_file_chooser {
+    $gui->get_object('filechooserdialog1')->hide;
+}
+
+sub save_file {
+    my $fh;
+
+    unless (defined $file_name and open $fh, '>', $file_name) {
+        _error "Unable to save file: $file_name", $!;
+        return;
+    }
+
+    print {$fh;} $file_content;
+    close $fh;
+}
+
+sub _open_file {
+    $file_name = shift @_;
+
+    open(my $fh, '<', $file_name) or do {
+        _error "Unable to open file: $file_name", $!;
+        return;
+    };
+
+    if ($gui->get_object('show_file_content')->get_active) {
+        my $textview   = $gui->get_object('text_area_view');
+        my $textbuffer = $textview->get_buffer;
+        sysread $fh, $file_content, -s $file_name;
+        $textbuffer->set_text($file_content);
+    }
+}
+
+sub apply_functions {
+    my $rem_empty_lines = $gui->get_object('rem_empty_lines')->get_active;
+}
+
+sub show_file_content {
+    my $show_file_content = $gui->get_object('show_file_content')->get_active;
+    my $textview          = $gui->get_object('text_area_view');
+    my $textbuffer        = $textview->get_buffer;
+
+    if ($show_file_content) {
+        $textbuffer->set_text($file_content);
+    }
+    else {
+        $textbuffer->set_text('');
+    }
+}
+
+sub _update_text_view {
+    my $textview   = $gui->get_object('text_area_view');
+    my $textbuffer = $textview->get_buffer;
+    $textbuffer->set_text($file_content);
+}
+
+sub choosed_file_to_open {
+    my $filechooserdialog1 = $gui->get_object('filechooserdialog1');
+    $file_name = $filechooserdialog1->get_filename;
+
+    if (-f $file_name) {
+        _open_file $file_name;
+    }
+    else {
+        _error "File: '${file_name}' is not a valid file", $!;
+        return;
+    }
+
+    _hide_window $filechooserdialog1;
+}
+
+sub text_view {
+    my $textview = $gui->get_object('text_area_view');
+}
+
+sub _regexp {
+    my ($search_entry, $regexp, $flags) = @_;
+
+    $search_entry =~ s/^\w+//;
+    ($flags) = $search_entry =~ /\W([a-z]+)$/;
+
+    if (defined $flags) {
+        $search_entry =~ s/[a-z]+$//;
+        $flags        =~ s/[se]+//g;
+        $regexp = eval "qr$search_entry$flags";
+    }
+    else {
+        $search_entry =~ s/^\W|\W$//g;
+        $regexp = qr/$search_entry/;
+    }
+
+    return $regexp;
+}
+
+sub substitute {
+    my $substitute = $gui->get_object('substitute_entry')->get_text;
+
+    if ($gui->get_object('line_by_line_mode')->get_active) {
+        my $file_content_2;
+
+        open my $fh, '<', \$file_content;
+
+        while (defined($_ = <$fh>)) {
+            eval "\$_ =~ $substitute";
+            $file_content_2 .= $_;
+        }
+        close $fh;
+
+        $file_content = $file_content_2;
+        undef $file_content_2;
+    }
+    else {
+        eval "\$file_content =~ $substitute";
+    }
+
+    _update_text_view();
+}
+
+sub search_and_replace {
+    my $search_entry  = $gui->get_object('search_entry')->get_text;
+    my $replace_entry = $gui->get_object('replace_entry')->get_text;
+
+    if ($gui->get_object('check_regular_expr')->get_active) {
+
+        unless ($search_entry =~ /^m?\W/ and $search_entry =~ /\W$/) {
+            _error "Invalid match regexp: $search_entry", "Correct would be: /$search_entry/";
+            return;
+        }
+
+        my $search_regexp = _regexp($search_entry);
+
+        unless ($replace_entry =~ /^["']/ and $replace_entry =~ /["']$/) {
+            $replace_entry = '"' . $replace_entry . '"';
+        }
+
+        $replace_entry = eval "$replace_entry";
+        my $file_content_2;
+
+        open my $fh, '<', \$file_content;
+
+        while (defined($_ = <$fh>)) {
+
+            if (/$search_regexp/) {
+                $_ = $replace_entry;
+            }
+
+            $file_content_2 .= $_;
+        }
+        close $fh;
+
+        $file_content = $file_content_2;
+        undef $file_content_2;
+        _update_text_view();
+    }
+    else {
+        my $file_content_2;
+
+        open my $fh, '<', \$file_content;
+
+        while (defined($_ = <$fh>)) {
+
+            if (/$search_entry/) {
+                $_ = "$replace_entry\n";
+            }
+
+            $file_content_2 .= $_;
+        }
+        close $fh;
+
+        $file_content = $file_content_2;
+        undef $file_content_2;
+        _update_text_view();
+    }
+}
