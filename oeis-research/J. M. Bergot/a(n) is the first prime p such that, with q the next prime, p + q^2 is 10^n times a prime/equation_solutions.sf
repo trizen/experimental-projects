@@ -12,6 +12,24 @@
 #
 # where n is fixed and c = {10, 22, 40, 52, 60, 70}
 
+# The solutions are given by solving the following quadratic modular equation:
+#   a*x^2 + b*x + c == 0 (mod m)
+#
+# where:
+#     a = 1
+#     b = 1
+#     c = -m - d    # where d is the even difference between p and q
+#     m = 10^n
+
+# The modular quadratic equation can be solved by finding the all solutions to `t` satisfying:
+#   t^2 == D (mod 4*a*m)
+#
+# where D = b^2 - 4*a*c
+#
+# the the solutions to `x` are given by:
+#   x_1 = (-b + t)/(2*a)
+#   x_2 = (-b - t)/(2*a)
+
 # a(7) <= 2310648079
 # a(4) <= 1018890648079
 # a(8) <= 2225520648079
@@ -19,6 +37,32 @@
 # a(9) <= 2373701060119
 # a(9) <= 5929131073519
 # a(10) <= 18300671986711
+
+# New bounds:
+#   a(16) <= 3288779373987568759
+#   a(17) <= 440765472066701060119
+#   a(18) <= 3895482305490671986711
+
+func solve_modular_quadratic(a,b,c,m) {
+
+    var d = (b**2 - 4*a*c)
+
+    var solutions = []
+
+    sqrtmod_all(d, 4*a*m).each {|t|
+        for u in (-b + t, -b - t) {
+            var x = ((2*a `divides` u) ? u/(2*a) : divmod(u, 2*a, m))
+
+            if (a*x*x + b*x + c % m == 0) {
+                solutions << x%m
+            }
+        }
+    }
+
+    return solutions.sort.uniq
+}
+
+var MIN_BOUNDS = Hash()
 
 func a(n, d=10, max=nil) {
 
@@ -28,41 +72,39 @@ func a(n, d=10, max=nil) {
     var X = Poly(1)
     var (a, b, c) = ((X+d)**2 + X -> coeffs.map { .tail }.flip...)
 
-    for k in (1 .. 2e6) {
+    for x in (solve_modular_quadratic(a, b, -f + c, f)) {
 
-        var (x) = iquadratic_formula(a, b, -f*k + c)
+        defined(max) && (x > max) && break
 
-        defined(max) && (f+x > max) && break
+        if (x.is_even) {
+            say ":: Found even x = #{x}. Skipping..."
+            next
+        }
 
-        if (f `divides` ((x+d)**2 + x)) {
+        say ":: Searching with x = #{x}"
 
-            if (x.is_even) {
-                say ":: Found even x = #{x}. Skipping..."
-                next
-            }
+        for n in (0 .. 1e4) {
 
-            say ":: Searching with x = #{x} and k = #{k}"
+            var p = (f*n + x)
+            #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
 
-            for n in (0 .. 1e7) {
+            defined(max) && (p > max) && break
 
-                var p = (f*n + x)
-                #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+            #p.is_prime || next
+            #(p+d).is_prime || next
+            all_prime(p, p+d) || next
 
-                defined(max) && (p > max) && break
+            var u = (p + p.next_prime**2)
 
-                p.is_prime || next
-                (p+d).is_prime || next
+            u.remdiv(10).is_prime || next
 
-                var u = (p + p.next_prime**2)
+            var v = u.valuation(10)
 
-                u.remdiv(10).is_prime || next
-
-                var v = u.valuation(10)
-
-                if (!seen.has(v)) {
-                    seen << v
-                    say "a(#{v}) <= #{p}"
-                }
+            if (!seen.has(v)) {
+                seen << v
+                say "a(#{v}) <= #{p}"
+                MIN_BOUNDS{v} := p
+                MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
             }
         }
     }
@@ -70,7 +112,17 @@ func a(n, d=10, max=nil) {
     return nil
 }
 
-for d in ([10, 22, 40, 52, 60, 70]) {
+for d in (2..100 `by` 2) {
     say "Checking: d = #{d}"
-    say a(7, d, 18300671986711)
+    #a(10, d, 18300671986711)
+    #a(11, d, 154590671986711)
+    #a(13, d, 2735490671986711)
+    #a(14, d, 193086838131073519)
+    #a(15, d, 1529978199609971479)
+    #a(16, d, 3288779373987568759)
+    #a(17, d, 440765472066701060119)
+    a(18, d)
 }
+
+say "Minimum found bounds:"
+say MIN_BOUNDS

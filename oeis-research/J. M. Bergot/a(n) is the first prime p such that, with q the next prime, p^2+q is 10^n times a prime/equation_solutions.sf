@@ -52,11 +52,36 @@
 # a(10) <= 24331810486343
 # a(10) <= 88324702304929
 
+# New bounds:
+#   a(14) <= 252946994093616419
+#   a(15) <= 1917321601810486343
+#   a(16) <= 6091565756519625353
+#   a(17) <= 379430283012423635659
+#   a(18) <= 1857717470295105527413
+
 # How to efficiently find the smallest integer value x, such that n is also an integer?
 #   (x^2 + x + 8) / 10^8 = n
 #   (x^2 + x + 8) = 10^8 * n
 #   (x^2 + x + 8) - 10^8 * n = 0
 #   x^2 + x + (-10^8*n + 8) = 0
+
+# Answer: by solving the quadratic modular equation:
+#   a*x^2 + b*x + c == 0 (mod m)
+#
+# where:
+#     a = 1
+#     b = 1
+#     c = -m + d    # where d is the even difference between p and q
+#     m = 10^n
+
+# The modular quadratic equation can be solved by finding the all solutions to `t` satisfying:
+#   t^2 == D (mod 4*a*m)
+#
+# where D = b^2 - 4*a*c
+#
+# the the solutions to `x` are given by:
+#   x_1 = (-b + t)/(2*a)
+#   x_2 = (-b - t)/(2*a)
 
 # n = 10000000000000 m^2 -  3203620972687 m +  256579683416, x = 1601810486343 - 10000000000000 m, m element Z
 # n = 10000000000000 m^2 - 18405265746063 m + 8468845179580, x = 9202632873031 - 10000000000000 m, m element Z
@@ -66,46 +91,65 @@
 # See also:
 #   https://en.wikipedia.org/wiki/Binary_quadratic_form
 
+func solve_modular_quadratic(a,b,c,m) {
+
+    var d = (b**2 - 4*a*c)
+
+    var solutions = []
+
+    sqrtmod_all(d, 4*a*m).each {|t|
+        for u in (-b + t, -b - t) {
+            var x = ((2*a `divides` u) ? u/(2*a) : divmod(u, 2*a, m))
+
+            if (a*x*x + b*x + c % m == 0) {
+                solutions << x%m
+            }
+        }
+    }
+
+    return solutions.sort.uniq
+}
+
+var MIN_BOUNDS = Hash()
+
 func a(n, d=8, max=nil) {
 
     var seen = Set()
     var f = 10**n
 
-    for k in (1 .. 2e6) {
+    for x in (solve_modular_quadratic(1, 1, -f + d, f)) {
 
-        var (x) = iquadratic_formula(1, 1, -f*k + d)
+        defined(max) && (x > max) && break
 
-        defined(max) && (f+x > max) && break
+        if (x.is_even) {
+            say ":: Found even x = #{x}. Skipping..."
+            next
+        }
 
-        if (f `divides` (x*x + x + d)) {
+        say ":: Searching with x = #{x}"
 
-            if (x.is_even) {
-                say ":: Found even x = #{x}. Skipping..."
-                next
-            }
+        for n in (0 .. 1e4) {
 
-            say ":: Searching with x = #{x} and k = #{k}"
+            var p = (f*n + x)
+            #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
 
-            for n in (0 .. 1e7) {
+            defined(max) && (p > max) && break
 
-                var p = (f*n + x)
-                #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
+            #p.is_prime || next
+            #(p+d).is_prime || next
+            all_prime(p, p+d) || next
 
-                defined(max) && (p > max) && break
+            var u = (p*p + p.next_prime)
 
-                p.is_prime || next
-                (p+d).is_prime || next
+            u.remdiv(10).is_prime || next
 
-                var u = (p*p + p.next_prime)
+            var v = u.valuation(10)
 
-                u.remdiv(10).is_prime || next
-
-                var v = u.valuation(10)
-
-                if (!seen.has(v)) {
-                    seen << v
-                    say "a(#{v}) <= #{p}"
-                }
+            if (!seen.has(v)) {
+                seen << v
+                say "a(#{v}) <= #{p}"
+                MIN_BOUNDS{v} := p
+                MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
             }
         }
     }
@@ -113,10 +157,21 @@ func a(n, d=8, max=nil) {
     return nil
 }
 
-for d in (8) {
+for d in (2 .. 100 `by` 2) {
     say "Checking: d = #{d}"
-    say a(7, d, 17012632873031)
+    #a(10, d, 17012632873031)
+    #a(11, d, 43502632873031)
+    #a(12, d, 2322601810486343)
+    #a(13, d, 5470654702304929)
+    #a(14, d, 1155109202632873031)
+    #a(15, d, 23946409202632873031)
+    #a(16, d, 6091565756519625353)
+    #a(17, d, 379430283012423635659)
+    a(18, d)
 }
+
+say "Minimum found bounds:"
+say MIN_BOUNDS
 
 __END__
 
