@@ -373,11 +373,11 @@ sub yafu_factor ($n) {
 }
 
 my $mech = WWW::Mechanize->new(
-           autocheck     => 1,
-           show_progress => 0,
-           stack_depth   => 10,
-           agent => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36",
-);
+                               autocheck     => 1,
+                               show_progress => 0,
+                               stack_depth   => 10,
+                               agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                              );
 
 {
     state $accepted_encodings = HTTP::Message::decodable();

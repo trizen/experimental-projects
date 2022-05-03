@@ -21,12 +21,12 @@
 #     c = -m - d    # where d is the even difference between p and q
 #     m = 10^n
 
-# The modular quadratic equation can be solved by finding the all solutions to `t` satisfying:
+# The modular quadratic equation can be solved by finding all the solutions to `t` satisfying:
 #   t^2 == D (mod 4*a*m)
 #
 # where D = b^2 - 4*a*c
 #
-# the the solutions to `x` are given by:
+# then the solutions to `x` are given by:
 #   x_1 = (-b + t)/(2*a)
 #   x_2 = (-b - t)/(2*a)
 

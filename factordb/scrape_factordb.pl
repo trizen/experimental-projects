@@ -25,11 +25,11 @@ my $cache = CHI->new(driver   => 'BerkeleyDB',
                      root_dir => catdir(dirname(rel2abs($0)), 'cache'));
 
 my $mech = WWW::Mechanize::Cached->new(
-          autocheck     => 1,
-          show_progress => 0,
-          stack_depth   => 10,
-          cache         => $cache,
-          agent => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36",
+                                     autocheck     => 1,
+                                     show_progress => 0,
+                                     stack_depth   => 10,
+                                     cache         => $cache,
+                                     agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
 );
 
 {

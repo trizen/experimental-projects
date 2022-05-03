@@ -30,11 +30,12 @@ use constant {
              };
 
 my $mech = WWW::Mechanize->new(
-          autocheck     => 1,
-          show_progress => 1,
-          stack_depth   => 10,
-          agent => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36",
-);
+                               autocheck     => 1,
+                               show_progress => 1,
+                               stack_depth   => 10,
+                               timeout       => 600,
+                               agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                              );
 
 {
     state $accepted_encodings = HTTP::Message::decodable();

@@ -50,6 +50,7 @@ Highly experimental personal projects.
     * [generate fermat psp.sf](./factordb/generate_fermat_psp.sf)
     * [get factordb.pl](./factordb/get_factordb.pl)
     * [report factors.pl](./factordb/report_factors.pl)
+    * [report factors 2.pl](./factordb/report_factors_2.pl)
     * [scrape factordb.pl](./factordb/scrape_factordb.pl)
 * [Highly-composite-numbers](./highly-composite-numbers)
     * [hcn.pl](./highly-composite-numbers/hcn.pl)
