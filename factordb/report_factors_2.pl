@@ -53,8 +53,6 @@ GetOptions(
     's|slice=i' => \$from_slice,
 ) or die("Error in command line arguments\n");
 
-my $url = "http://factordb.com/search.php";
-
 say ":: Collecting factors...";
 
 my @list;
@@ -66,12 +64,21 @@ while (<>) {
         $n = Math::AnyNum->new($n);
         $n > 1 or next;
 
-        my @f = map { Math::AnyNum->new($_) } split(/\s*\*\s*/, $factors);
+        my %seen;
+        my @f = map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
 
         (all { is_div($n, $_) } @f)
           or die "error in factors (@f) for n = $n";
 
         push @list, ("$n = " . join(" * ", @f));
+    }
+    elsif (/^(.+?)\s*=\s*(.+)/) {       # the number is an expression
+        my ($expr, $factors) = ($1, $2);
+
+        my %seen;
+        my @f = map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+
+        push @list, ("$expr = " . join(" * ", @f));
     }
     else {
         warn "[WARN] Invalid line: $_";
@@ -82,11 +89,13 @@ say ":: Reporting factors...";
 
 my $count       = 0;
 my $slice_len   = 500;
-my $total_count = int(0.5 + scalar(@list) / $slice_len);
+my $total_count = sprintf('%.0f', 0.5 + scalar(@list) / $slice_len);
 
 if ($from_slice > 0) {
     say ":: Starting from slice number $from_slice...";
 }
+
+my $url = "http://factordb.com/search.php";
 
 while (@list) {
 
