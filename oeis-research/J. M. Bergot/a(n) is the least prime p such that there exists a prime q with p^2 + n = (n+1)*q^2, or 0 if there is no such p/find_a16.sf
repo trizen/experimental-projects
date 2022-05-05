@@ -1,0 +1,75 @@
+#!/usr/bin/ruby
+
+# a(n) is the least prime p such that there exists a prime q with p^2 + n = (n+1)*q^2, or 0 if there is no such p.
+# https://oeis.org/A350544
+
+# If it is not 0, then a(16) = A199773(k) where k is the smallest index such that both p = A199773(k) and q = A199772(k) are prime. If such an index exists, a(16) > 10^10000. - Jon E. Schoenfield, Jan 11 2022
+
+# Known terms:
+#   7, 5, 0, 11, 7, 13, 5, 0, 41, 23, 17, 10496997797584752004430879, 41, 11, 7
+
+# Integer solution formulas provided by Wolfram|Alpha:
+#   https://www.wolframalpha.com/input?i=17*x%5E2+-+16+%3D+y%5E2
+
+# Related sequence:
+#   https://oeis.org/A350550
+
+# 05 May 2022: Searched up to n = 15053. If a(16) exists, then a(16) > 10^27388. This search took 2:49:27.90.
+
+var Q17 = sqrtQ(17)
+
+for n in (15053 .. 1e9) {
+
+    var x = -(-17*((33 - 8*Q17)**n) + Q17*(33 - 8*Q17)**n - 17*(33 + 8*Q17)**n - Q17*(33 + 8*Q17)**n)/34
+    var y = -(-((33 - 8*Q17)**n) + Q17*(33 - 8*Q17)**n - (33 + 8*Q17)**n - Q17*(33 + 8*Q17)**n)/2
+
+    assert(x.a.is_int)
+    assert(y.a.is_int)
+
+    if (17*x.a**2 - 16 == y.a**2) {
+        #say x
+    }
+    else {
+        say 'error'
+    }
+
+    say "Testing: n = #{n} (value has #{y.a.len} digits)"
+
+    if (all_prime(x.a, y.a)) {
+        die "[1] Found: a(16) = #{y.a}"
+    }
+
+    x = (17 * (33 - 8*Q17)**n + Q17*(33 - 8*Q17)**n + 17*(33 + 8*Q17)**n - Q17*(33 + 8*Q17)**n)/34
+    y = -((33 - 8*Q17)**n + Q17*(33 - 8*Q17)**n + (33 + 8*Q17)**n - Q17*(33 + 8*Q17)**n)/2
+
+    assert(x.a.is_int)
+    assert(y.a.is_int)
+
+    if (17*x.a**2 - 16 == y.a**2) {
+        #say x
+    }
+    else {
+        say 'error'
+    }
+
+    if (all_prime(x.a, y.a)) {
+        die "[2] Found: a(16) = #{y.a}"
+    }
+
+    x = 2*(17*(33 - 8*Q17)**n + 4*Q17*(33 - 8*Q17)**n + 17*(33 + 8*Q17)**n - 4*Q17*(33 + 8*Q17)**n)/17
+    y = -2*(4*(33 - 8*Q17)**n + Q17*(33 - 8*Q17)**n + 4*(33 + 8*Q17)**n - Q17*(33 + 8*Q17)**n)
+
+    assert(x.a.is_int)
+    assert(y.a.is_int)
+
+    if (17*x.a**2 - 16 == y.a**2) {
+        #say x
+    }
+    else {
+        say 'error'
+    }
+
+    if (all_prime(x.a, y.a)) {
+        die "[3] Found: a(16) = #{y.a}"
+    }
+}

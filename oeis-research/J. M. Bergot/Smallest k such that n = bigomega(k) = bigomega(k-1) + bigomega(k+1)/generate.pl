@@ -15,6 +15,9 @@
 #   a(24) = 177629755867136     (took 18 minutes to find)
 
 use 5.020;
+use strict;
+use warnings;
+
 use ntheory qw(:all);
 use experimental qw(signatures);
 
