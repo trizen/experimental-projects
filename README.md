@@ -1321,6 +1321,7 @@ Highly experimental personal projects.
         * [carmichael n-2 and n+2 are prime.pl](./pseudoprimes/programs/carmichael_n-2_and_n+2_are_prime.pl)
         * [carmichael of order 2.pl](./pseudoprimes/programs/carmichael_of_order_2.pl)
         * [carmichael of order 2 cached.pl](./pseudoprimes/programs/carmichael_of_order_2_cached.pl)
+        * [carmichael over pseudoprimes cached.pl](./pseudoprimes/programs/carmichael_over_pseudoprimes_cached.pl)
         * [carmichael p==3 mod 80.pl](./pseudoprimes/programs/carmichael_p==3_mod_80.pl)
         * [carmichael p==3 mod 80 cached.pl](./pseudoprimes/programs/carmichael_p==3_mod_80_cached.pl)
         * [carmichael phi-lambda conjecture cached.pl](./pseudoprimes/programs/carmichael_phi-lambda_conjecture_cached.pl)

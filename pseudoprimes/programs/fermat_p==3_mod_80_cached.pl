@@ -14,7 +14,7 @@
 #   330468624532072027
 
 # No term with 5 or more factors is known.
-# All known terms have 3 terms.
+# All known terms have 3 prime factors.
 
 use 5.020;
 use strict;
