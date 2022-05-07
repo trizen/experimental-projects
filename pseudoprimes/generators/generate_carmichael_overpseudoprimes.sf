@@ -2,7 +2,7 @@
 
 # A new algorithm for generating Carmichael numbers that are also overpseudoprimes to base 2.
 
-func a(n) {
+func carmichael_overpseudoprimes(n) {
     var p = prime(n)
 
     var table = Hash()
@@ -34,5 +34,5 @@ func a(n) {
 
 for n in (2281.pi..3000) {
     say "# Checking: #{n} with p = #{prime(n)}"
-    a(n)
+    carmichael_overpseudoprimes(n)
 }
