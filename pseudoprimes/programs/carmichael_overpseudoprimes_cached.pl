@@ -48,7 +48,18 @@ sub is_over_pseudoprime_fast ($n, $factors) {
     my $prev;
 
     foreach my $p (@$factors) {
+
+        if (defined($prev)) {
+            if ($p < ~0) {
+                Math::Prime::Util::powmod(2, $prev, $p) == 1 or return;
+            }
+            else {
+                Math::Prime::Util::GMP::powmod(2, $prev, $p) eq '1' or return;
+            }
+        }
+
         my $zn = znorder(2, $p);
+
         if (defined($prev)) {
             $zn == $prev or return;
         }

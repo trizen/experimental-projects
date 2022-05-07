@@ -83,7 +83,7 @@ while (<>) {
         $value = $expr;
 
         my %seen;
-        my @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
     }
     else {
         warn "[WARN] Invalid line: $_";

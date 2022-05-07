@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Factorize pseudoprimes for FactorDB, using the Miller factorization method.
+
+ARGF.each {|line|
+
+    var n = line.nums.last || next
+
+    var f = n.miller_factor
+
+    if (f.len == 1) {
+        f = n.lucas_factor(+1)
+    }
+
+    if (f.len > 1) {
+        say "#{n} = #{f.first(-1).join(' * ')}"
+    }
+}
