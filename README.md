@@ -1238,6 +1238,7 @@ Highly experimental personal projects.
         * [generate carmichael of second order.pl](./pseudoprimes/generators/generate_carmichael_of_second_order.pl)
         * [generate carmichael of second order 2.pl](./pseudoprimes/generators/generate_carmichael_of_second_order_2.pl)
         * [generate carmichael of second order 3.pl](./pseudoprimes/generators/generate_carmichael_of_second_order_3.pl)
+        * [generate carmichael overpseudoprimes.sf](./pseudoprimes/generators/generate_carmichael_overpseudoprimes.sf)
         * [generate fermat overpseudoprimes.pl](./pseudoprimes/generators/generate_fermat_overpseudoprimes.pl)
         * [generate fermat p==3 (mod 80).pl](./pseudoprimes/generators/generate_fermat_p==3_(mod%2080).pl)
         * [generate fermat pseudoprimes.pl](./pseudoprimes/generators/generate_fermat_pseudoprimes.pl)

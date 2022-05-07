@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+# A new algorithm for generating Carmichael numbers that are also overpseudoprimes to base 2.
+
+func a(n) {
+    var p = prime(n)
+
+    var table = Hash()
+
+    say ":: Sieving...";
+
+    var upto = 1e5
+
+    for k in (1 .. upto) {
+        var r = (4*k*p + 1)
+        if (r.is_prime && (r.dec.gpf == p)) {
+            table{znorder(2, r)} := [] << r
+        }
+    }
+
+    say ":: Creating combinations...";
+
+    for arr in (table.values) {
+        var count = 0
+        arr.flip.combinations(5, {|*a|
+            var C = a.prod
+            if (C > 18446744073709551616) {
+                say C if C.is_carmichael
+            }
+            break if (++count > 1000000)
+        })
+    }
+}
+
+for n in (2281.pi..3000) {
+    say "# Checking: #{n} with p = #{prime(n)}"
+    a(n)
+}
