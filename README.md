@@ -1428,6 +1428,7 @@ Highly experimental personal projects.
             * [test fermat fib.pl](./pseudoprimes/programs/other/test_fermat_fib.pl)
             * [test fib-tzn.pl](./pseudoprimes/programs/other/test_fib-tzn.pl)
             * [test fib prime.pl](./pseudoprimes/programs/other/test_fib_prime.pl)
+        * [overpseudoprimes with n factors cached.pl](./pseudoprimes/programs/overpseudoprimes_with_n_factors_cached.pl)
         * [palindromic fibonacci.pl](./pseudoprimes/programs/palindromic_fibonacci.pl)
         * [palindromic lucas.pl](./pseudoprimes/programs/palindromic_lucas.pl)
         * [palindromic pseudoprimes.pl](./pseudoprimes/programs/palindromic_pseudoprimes.pl)
