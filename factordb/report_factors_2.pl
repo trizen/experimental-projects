@@ -20,7 +20,9 @@ use experimental qw(signatures);
 use Getopt::Long qw(GetOptions);
 
 use constant {
-              USE_TOR_PROXY => 1,    # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
+              USE_TOR_PROXY      => 1,     # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
+              COMPRESS_FACTORS   => 1,     # compress small factors into slightly larger composite factors
+              COMPRESSION_DIGITS => 40,    # the compressed composite factors will have <= this many digits
              };
 
 my $mech = WWW::Mechanize->new(
@@ -49,44 +51,64 @@ if (USE_TOR_PROXY) {
 
 my $from_slice = 0;
 
-GetOptions(
-    's|slice=i' => \$from_slice,
-) or die("Error in command line arguments\n");
+GetOptions('s|slice=i' => \$from_slice,)
+  or die("Error in command line arguments\n");
 
 say ":: Collecting factors...";
 
 my @list;
 
 while (<>) {
+
+    my @f;
+    my $value;
+
     if (/^(\d+)\s*=\s*(.+)/) {
         my ($n, $factors) = ($1, $2);
 
         $n = Math::AnyNum->new($n);
         $n > 1 or next;
 
-        my %seen;
-        my @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        $value = "$n";
 
-        @f || next;
+        my %seen;
+        @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
 
         (all { is_div($n, $_) } @f)
           or die "error in factors (@f) for n = $n";
-
-        push @list, ("$n = " . join(" * ", @f));
     }
-    elsif (/^(.+?)\s*=\s*(.+)/) {       # the number is an expression
+    elsif (/^(.+?)\s*=\s*(.+)/) {    # the number is an expression
         my ($expr, $factors) = ($1, $2);
+
+        $value = $expr;
 
         my %seen;
         my @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
-
-        @f || next;
-
-        push @list, ("$expr = " . join(" * ", @f));
     }
     else {
         warn "[WARN] Invalid line: $_";
+        next;
     }
+
+    @f || next;
+
+    if (COMPRESS_FACTORS) {
+        my @compressed;
+
+        while (@f) {
+            my $prod = shift(@f);
+
+            while (@f and length($prod * $f[0]) <= COMPRESSION_DIGITS) {
+                $prod *= shift(@f);
+            }
+
+            push @compressed, $prod;
+        }
+
+        @f = @compressed;
+    }
+
+    push @list, ("$value = " . join(" * ", @f));
 }
 
 say ":: Reporting factors...";

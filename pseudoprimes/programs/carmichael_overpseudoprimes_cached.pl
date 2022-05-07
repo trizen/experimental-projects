@@ -26,7 +26,7 @@ use warnings;
 use Storable;
 use Math::GMPz;
 use ntheory qw(:all);
-use Math::Sidef qw(is_over_psp);
+#use Math::Sidef qw(is_over_psp);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
@@ -36,6 +36,30 @@ my $super_psp_file  = "cache/factors-superpsp.storable";
 my $carmichael = retrieve($carmichael_file);
 my $super_psp  = retrieve($super_psp_file);
 
+sub is_over_pseudoprime_fast ($n, $factors) {
+
+    Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || return;
+
+    my $gcd = Math::Prime::Util::GMP::gcd(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+
+    Math::Prime::Util::GMP::powmod(2, $gcd, $n) eq '1'
+      or return;
+
+    my $prev;
+
+    foreach my $p (@$factors) {
+        my $zn = znorder(2, $p);
+        if (defined($prev)) {
+            $zn == $prev or return;
+        }
+        else {
+            $prev = $zn;
+        }
+    }
+
+    return 1;
+}
+
 my %table;
 
 foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } grep { exists $carmichael->{$_} } keys %$super_psp) {
@@ -44,7 +68,8 @@ foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } grep { exists $car
     my $count   = scalar(@factors);
 
     next if ($count < 4);
-    is_over_psp($n) || next;
+    #is_over_psp($n) || next;
+    is_over_pseudoprime_fast($n, \@factors) || next;
     next if (exists $table{$count});
 
     $table{$count} = $n;
