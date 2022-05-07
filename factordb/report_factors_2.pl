@@ -65,7 +65,9 @@ while (<>) {
         $n > 1 or next;
 
         my %seen;
-        my @f = map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        my @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+
+        @f || next;
 
         (all { is_div($n, $_) } @f)
           or die "error in factors (@f) for n = $n";
@@ -76,7 +78,9 @@ while (<>) {
         my ($expr, $factors) = ($1, $2);
 
         my %seen;
-        my @f = map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        my @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+
+        @f || next;
 
         push @list, ("$expr = " . join(" * ", @f));
     }

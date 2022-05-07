@@ -29,8 +29,7 @@ sub my_is_carmichael_fast ($n, $factors) {
     my $nm1 = Math::Prime::Util::GMP::subint($n, 1);
     return if not vecall {
         Math::Prime::Util::GMP::modint($nm1, ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1)) eq '0'
-    }
-    @$factors;
+    } @$factors;
     scalar(uniq(@$factors)) == scalar(@$factors);
 }
 
@@ -47,8 +46,7 @@ sub my_is_carmichael_fast ($n, $factors) {
                 Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
                 Math::GMPz::Rmpz_divisible_p($nm1, $pm1);
             }
-        }
-        @$factors;
+        } @$factors;
         scalar(uniq(@$factors)) == scalar(@$factors);
     }
 }

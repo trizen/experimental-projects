@@ -89,7 +89,7 @@ sub is_quadratic_frobenius_pseudoprime ($n) {    # n odd > 2
 
     quadratic_powmod($x, $y, $a, $b, $w, $n, $n);
 
-    Math::GMPz::Rmpz_congruent_ui_p($x, 1, $n)
+    Math::GMPz::Rmpz_congruent_p($x, $n - $n + 1, $n)
       && Math::GMPz::Rmpz_congruent_p($y, $n - 1, $n);
 }
 
