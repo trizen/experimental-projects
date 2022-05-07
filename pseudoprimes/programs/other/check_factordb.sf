@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Given a list of numbers, check which ones are fully factorized in factordb.com
+
+ARGF.each {|n|
+
+    n.to_i!
+    n > 1 || next
+
+    say "Checking: C#{n.len}"
+    var factors = `#{$^PERL} ../../../factordb/get_factordb.pl #{n}`.nums
+
+    assert_eq(factors.prod, n)
+
+    if (factors.all{.is_prime}) {
+        say "FF: #{n}"
+    }
+}

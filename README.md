@@ -1411,6 +1411,7 @@ Highly experimental personal projects.
             * [BPSW primality test.pl](./pseudoprimes/programs/other/BPSW_primality_test.pl)
             * [BPSW primality test anynum.pl](./pseudoprimes/programs/other/BPSW_primality_test_anynum.pl)
             * [BPSW primality test mpz.pl](./pseudoprimes/programs/other/BPSW_primality_test_mpz.pl)
+            * [check factordb.sf](./pseudoprimes/programs/other/check_factordb.sf)
             * [fib-tzn primality test.pl](./pseudoprimes/programs/other/fib-tzn_primality_test.pl)
             * [fib-tzn primality test.sf](./pseudoprimes/programs/other/fib-tzn_primality_test.sf)
             * [fib-tzn strong primality test.pl](./pseudoprimes/programs/other/fib-tzn_strong_primality_test.pl)
