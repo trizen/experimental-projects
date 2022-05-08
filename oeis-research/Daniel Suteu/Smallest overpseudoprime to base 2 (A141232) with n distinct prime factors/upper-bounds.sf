@@ -1,0 +1,83 @@
+#!/usr/bin/ruby
+
+# Smallest overpseudoprime to base 2 (A141232) with n distinct prime factors.
+# https://oeis.org/A353409
+
+# Known terms:
+#   2047, 13421773, 14073748835533
+
+# Upper-bounds:
+#   a(5) <= 1376414970248942474729
+#   a(6) <= 48663264978548104646392577273
+#   a(7) <= 294413417279041274238472403168164964689
+#   a(8) <= 98117433931341406381352476618801951316878459720486433149
+#   a(9) <= 1252977736815195675988249271013258909221812482895905512953752551821
+
+include("../../../factordb/auto.sf")
+
+var min = Inf
+
+#~ var n = 5
+#~ var psize = 9
+#~ var from = 1206
+
+var n = 6
+var psize = 9
+var from = 879
+
+#~ var n = 7
+#~ var psize = 10
+#~ var from = 620
+#~ #var from = 1200
+
+#~ var n = 8
+#~ var psize = 11
+#~ var from = 369636
+
+say ":: Searching upper-bounds for n = #{n} from k = #{from}"
+
+var counter = 0
+
+for k in (from .. from+1e3) {
+
+    if (++counter % 10 == 0) {
+        say ":: Checking: k = #{k}"
+    }
+
+    # Conjecture: the ord(2, a(n)) must be of this form
+    k.is_prime || is_prime(k/4) || is_prime(k/12) || next
+
+    var f = factordb(2**k - 1).grep{ .len <= psize }.grep{.is_prime}.grep { powmod(2, k, _) == 1 }.grep{ znorder(2,_) == k }
+
+    say "[#{k}] Binomial: #{binomial(f.len, n)}" if (f.len > n)
+
+    var count = 0
+
+    f.combinations(n, {|*a|
+        var t = a.prod
+
+        if (t.is_strong_psp) {
+            if (t < min) {
+                say "a(#{n}) <= #{t}"
+                min = t
+            }
+        }
+
+        break if (++count > 1e4)
+    })
+}
+
+__END__
+a(5) <= 3223802185639011132549803
+a(5) <= 636607858967934928371769
+a(5) <= 124250696089090697678753
+a(5) <= 8278905362357819790631
+a(5) <= 1376414970248942474729
+
+a(6) <= 32245825439777493648426550929515449
+a(6) <= 721606983841657320586259138751241
+a(6) <= 48663264978548104646392577273
+
+a(7) <= 294413417279041274238472403168164964689
+a(8) <= 98117433931341406381352476618801951316878459720486433149
+a(9) <= 1252977736815195675988249271013258909221812482895905512953752551821

@@ -1,0 +1,99 @@
+#!/usr/bin/ruby
+
+# Smallest overpseudoprime to base 2 (A141232) with n distinct prime factors.
+# https://oeis.org/A353409
+
+# Known terms:
+#   2047, 13421773, 14073748835533
+
+# Upper-bounds:
+#   a(5) <= 1376414970248942474729
+#   a(6) <= 48663264978548104646392577273
+#   a(7) <= 294413417279041274238472403168164964689
+#   a(8) <= 98117433931341406381352476618801951316878459720486433149
+#   a(9) <= 1252977736815195675988249271013258909221812482895905512953752551821
+
+include("../../../factordb/auto.sf")
+
+var n = 7
+var psize = 10
+var from = 2647
+var upto = 3000
+
+say ":: Searching upper-bounds for n = #{n} in range #{from} .. #{upto}"
+
+var min = Hash()
+
+func check_combinations(f,n) {
+
+    var count = 0
+    var success = false
+
+    f.combinations(n, {|*a|
+        var t = a.prod
+
+        if (t.is_strong_psp) {
+            min{n} := Inf
+            success = true
+            if (t < min{n}) {
+                say "\na(#{n}) <= #{t}\n"
+                min{n} = t
+            }
+        }
+
+        break if (++count > 1e6)
+    })
+
+    return success
+}
+
+var counter = 0
+
+for p in (primes(from, upto)) {
+
+    if (++counter % 10 == 0) {
+        say ":: Checking: p = #{p}"
+    }
+
+    for k in (p, 4*p, 12*p) {
+
+        var f = factordb(2**k - 1).grep{ .len <= psize }.grep{.is_prime}.grep {|p| powmod(2, k, p) == 1 }.grep{|p| znorder(2,p) == k }
+
+        say "[#{k}] Binomial: #{binomial(f.len, n)}" if (f.len >= n)
+
+        var success = check_combinations(f, n)
+
+        if (success) {
+            say ":: Checking also the combinations for n = #{n+1}"
+            check_combinations(f, n+1) &&
+            check_combinations(f, n+2) &&
+            check_combinations(f, n+3) &&
+            check_combinations(f, n+4)
+        }
+    }
+}
+
+__END__
+a(5) <= 3223802185639011132549803
+a(5) <= 636607858967934928371769
+a(5) <= 145505063083208835861853
+a(5) <= 124250696089090697678753
+a(5) <= 79122810072725207031253
+a(5) <= 63018455673461680466449
+a(5) <= 8278905362357819790631
+a(5) <= 1376414970248942474729
+
+a(6) <= 6207602089353930933432401115757211526727413361
+a(6) <= 112236525927686091107643454350711622517
+a(6) <= 13264566429400773810375679971999741133
+a(6) <= 32245825439777493648426550929515449
+a(6) <= 721606983841657320586259138751241
+a(6) <= 44308853725126158640748255977121
+a(6) <= 157839641006967261025228640857
+a(6) <= 48663264978548104646392577273
+
+a(7) <= 294413417279041274238472403168164964689
+
+a(8) <= 98117433931341406381352476618801951316878459720486433149
+
+a(9) <= 1252977736815195675988249271013258909221812482895905512953752551821
