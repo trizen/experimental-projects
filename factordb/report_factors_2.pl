@@ -50,13 +50,15 @@ if (USE_TOR_PROXY) {
 }
 
 my $from_slice = 0;
+my $slice_len  = 500;
 
-GetOptions('s|slice=i' => \$from_slice,)
+GetOptions('s|slice=i'  => \$from_slice,
+           'l|length=i' => \$slice_len,)
   or die("Error in command line arguments\n");
 
 say ":: Collecting factors...";
 
-my @list;
+my %factors;
 
 while (<>) {
 
@@ -108,13 +110,19 @@ while (<>) {
         @f = @compressed;
     }
 
-    push @list, ("$value = " . join(" * ", @f));
+    push @{$factors{$value}}, @f;
+}
+
+my @list;
+
+foreach my $n (sort keys %factors) {
+    my %seen;
+    push @list, ("$n = " . join(" * ", grep { !$seen{$_}++ } @{$factors{$n}}));
 }
 
 say ":: Reporting factors...";
 
 my $count       = 0;
-my $slice_len   = 500;
 my $total_count = sprintf('%.0f', 0.5 + scalar(@list) / $slice_len);
 
 if ($from_slice > 0) {
