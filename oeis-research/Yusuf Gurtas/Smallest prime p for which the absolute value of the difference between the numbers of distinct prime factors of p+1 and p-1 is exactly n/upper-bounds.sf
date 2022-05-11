@@ -1,0 +1,55 @@
+#!/usr/bin/ruby
+
+# a(n) is the first prime p for which the absolute value of the difference between the numbers of distinct prime factors of p+1 and p-1 is exactly n.
+# https://oeis.org/A353123
+
+# Known terms:
+#   3, 2, 31, 2309, 8191, 746129, 16546531, 300690389, 11823922111, 239378649509, 11003163441269, 304250263527209, 23293697005168589
+
+# a(13) <= 693386350578511591
+# a(14) <= 42296567385289206991
+# a(15) <= 3291505006196194517729
+# a(16) <= 222099275340153625904489
+# a(17) <= 12592092354842984193179971
+# a(18) <= 873339227295479848905071071
+# a(19) <= 54536351988824964540662450069
+# a(20) <= 5513390541916364286137713664909
+# a(21) <= 395118631493314783285177458982469
+
+func upper_bound(n, k = 2, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        #var count = (n+k).squarefree_almost_prime_count(from, upto)
+        var count = (n+k).omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            #(n+k).squarefree_almost_primes_each(from, upto, {|v|
+            (n+k).omega_primes_each(from, upto, {|v|
+
+                if (v.dec.is_prime && v.dec.dec.omega==k) {
+                    say "Found with omega(p+1) = #{n+k}"
+                    say "a(#{n}) <= #{v-1}"
+                    return v-1
+                }
+
+                if (v.inc.is_prime && v.inc.inc.omega==k) {
+                    say "Found with omega(p-1) = #{n+k}"
+                    say "a(#{n}) <= #{v+1}"
+                    return v+1
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(21, 2)

@@ -31,11 +31,11 @@ while (my ($n, $value) = each %db) {
 
     next if ($count <= 10);
 
-    Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
-
     if (exists $table{$count}) {
         next if ($table{$count} < $n);
     }
+
+    Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
 
     $table{$count} = $n;
     printf("a(%2d) <= %s\n", $count, $n);

@@ -22,7 +22,7 @@ use Getopt::Long qw(GetOptions);
 use constant {
               USE_TOR_PROXY      => 1,     # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
               COMPRESS_FACTORS   => 1,     # compress small factors into slightly larger composite factors
-              COMPRESSION_DIGITS => 40,    # the compressed composite factors will have <= this many digits
+              COMPRESSION_DIGITS => 45,    # the compressed composite factors will have <= this many digits
              };
 
 my $mech = WWW::Mechanize->new(
