@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+# a(n) is the least prime p such that A001222(p+n) = A001222(p-n) = n.
+# https://oeis.org/A333115
+
+# Known terms:
+#   23, 47, 1621, 373, 2352631, 9241, 18235603, 21968759, 27575049743, 2794997, 32503712890637, 304321037, 390917388671861, 277829661054961, 14392115869140641, 442395934703
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        #var count = (n+k).squarefree_almost_prime_count(from, upto)
+        var count = n.almost_prime_count(from, upto)
+
+        if ((n==18 ? (upto > 7*1e12) : true) && (count > 0)) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            if (n==18 ? (from < 7*1e12) : false) {
+                from = (7 * 1e12)
+            }
+
+            #(n+k).squarefree_almost_primes_each(from, upto, {|v|
+            n.almost_primes_each(from, upto, {|v|
+
+                if (is_prime(v-n) && is_almost_prime(v - n - n, n)) {
+                    say "Found with v-n"
+                    say "a(#{n}) <= #{v-n}"
+                    return v-n
+                }
+
+                if (is_prime(v+n) && is_almost_prime(v + n + n, n)) {
+                    say "Found with v+n"
+                    say "a(#{n}) <= #{v+n}"
+                    return v+n
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(18)

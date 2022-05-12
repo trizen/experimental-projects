@@ -71,6 +71,7 @@ my $t = Math::GMPz::Rmpz_init();
 
 while (my ($key, $value) = each %db) {
 
+    length($key) >= 40 or next;
     Math::GMPz::Rmpz_set_str($t, $key, 10);
 
     foreach my $pair (@numbers_to_factor) {
