@@ -426,7 +426,7 @@ sub readd_to_database_index ($text, $key) {
 }
 
 sub valid_content_type {
-    $mech->is_html() or (lc($mech->content_type) eq 'text/plain');
+    $mech->is_html() or (lc($mech->content_type) =~ m{^(?:text/|message/)});
 }
 
 sub crawl ($url, $depth = 0, $recrawl = 0) {
@@ -463,7 +463,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $resp = $mech->get($url);
 
     # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
-    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|429)\z/) {
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|429|500)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
         }
@@ -485,7 +485,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     if ($recrawl or not exists $CONTENT_DB{$id}) {
 
         my %info;
-        my $decoded_content = $resp->decoded_content() // return;
+        my $decoded_content = $resp->decoded_content() // $resp->content() // return;
 
         if ($mech->is_html) {
             if (not exists $INC{'HTML::TreeBuilder'}) {
