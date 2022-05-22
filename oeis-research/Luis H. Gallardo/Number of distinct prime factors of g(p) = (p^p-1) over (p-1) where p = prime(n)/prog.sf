@@ -1,0 +1,17 @@
+#!/usr/bin/ruby
+
+# Number of distinct prime factors of g(p) = (p^p-1)/(p-1) where p = prime(n).
+# https://oeis.org/A354226
+
+# Known terms:
+#    1, 1, 2, 2, 2, 3, 3, 1, 4, 7, 1, 7, 5, 3, 3, 5, 3, 4, 6, 4, 10, 5, 4, 6, 6, 9, 5, 4, 5, 8, 6, 4, 11
+
+include("../../../factordb/auto.sf")
+
+for n in (1..1000) {
+    var p = prime(n)
+    print(omega("(#{p}^#{p}-1)/(#{p}-1)"), ", ")
+}
+
+__END__
+not FF: (139^139-1)/(139-1)
