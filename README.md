@@ -785,6 +785,8 @@ Highly experimental personal projects.
         * [Smallest number k such that k and k+1 are both of the form p*q^n where p and q are distinct primes](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k%20and%20k+1%20are%20both%20of%20the%20form%20p*q^n%20where%20p%20and%20q%20are%20distinct%20primes)
             * [upper-bounds.sf](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k%20and%20k+1%20are%20both%20of%20the%20form%20p*q^n%20where%20p%20and%20q%20are%20distinct%20primes/upper-bounds.sf)
     * [Michel Marcus](./oeis-research/Michel%20Marcus)
+        * [A(n) is the least integer m such that M(m) is divisible by prime(n)^2 or -1 if no such m exists](./oeis-research/Michel%20Marcus/a(n)%20is%20the%20least%20integer%20m%20such%20that%20M(m)%20is%20divisible%20by%20prime(n)^2%20or%20-1%20if%20no%20such%20m%20exists)
+            * [prog.sf](./oeis-research/Michel%20Marcus/a(n)%20is%20the%20least%20integer%20m%20such%20that%20M(m)%20is%20divisible%20by%20prime(n)^2%20or%20-1%20if%20no%20such%20m%20exists/prog.sf)
         * [Exponents d of powers of 2, q, such that each of q-1 and q+1 are either a power of prime or a semiprime](./oeis-research/Michel%20Marcus/Exponents%20d%20of%20powers%20of%202,%20q,%20such%20that%20each%20of%20q-1%20and%20q+1%20are%20either%20a%20power%20of%20prime%20or%20a%20semiprime)
             * [prog.sf](./oeis-research/Michel%20Marcus/Exponents%20d%20of%20powers%20of%202,%20q,%20such%20that%20each%20of%20q-1%20and%20q+1%20are%20either%20a%20power%20of%20prime%20or%20a%20semiprime/prog.sf)
         * [Integers m such that m and m+1 are terms of A111035](./oeis-research/Michel%20Marcus/Integers%20m%20such%20that%20m%20and%20m+1%20are%20terms%20of%20A111035)
