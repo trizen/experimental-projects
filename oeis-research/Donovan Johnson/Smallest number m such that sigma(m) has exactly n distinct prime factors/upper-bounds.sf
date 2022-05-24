@@ -1,0 +1,52 @@
+#!/usr/bin/ruby
+
+# Smallest number m such that sigma(m) has exactly n distinct prime factors.
+# https://oeis.org/A152562
+
+# Known terms:
+#   2, 5, 20, 104, 936, 13842, 188424, 3249576, 81239400, 2388809736, 59720243400
+
+# Upper-bounds:
+#   a(12) <= 2571228006912
+#   a(13) <= 85266458294400
+#   a(14) <= 4638227848902900
+#   a(15) <= 209103527633041800
+#   a(16) <= 10931190635671518600
+#   a(17) <= 545209768960172964900
+#   a(18) <= 34893425213451069753600
+#   a(19) <= 2000640771807316185690000
+
+# a(n) <= A153076(n). - ~~~~
+
+# Cf. A153076.
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    var min = Inf
+
+    loop {
+
+        var count = n.squarefree_almost_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.squarefree_almost_primes_each(from, upto, {|v|
+                var t = v.inverse_sigma_min
+                if (t && (t < min)) {
+                    min = t
+                    say "a(#{n}) <= #{min}"
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(20)

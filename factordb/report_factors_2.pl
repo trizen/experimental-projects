@@ -77,7 +77,10 @@ while (<>) {
         @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
 
         (all { is_div($n, $_) } @f)
-          or die "error in factors (@f) for n = $n";
+          or do {
+            warn "error in factors (@f) for n = $n\n";
+            @f = grep { $_ > 1 } map { gcd($n, $_) } @f;
+          };
     }
     elsif (/^(.+?)\s*=\s*(.+)/) {    # the number is an expression
         my ($expr, $factors) = ($1, $2);
