@@ -103,8 +103,8 @@ while (<>) {
         while (@f) {
             my $prod = shift(@f);
 
-            while (@f and length($prod * $f[0]) <= COMPRESSION_DIGITS) {
-                $prod *= shift(@f);
+            while (@f and length(lcm($prod, $f[0])) <= COMPRESSION_DIGITS) {
+                $prod = lcm($prod, shift(@f));
             }
 
             push @compressed, $prod;

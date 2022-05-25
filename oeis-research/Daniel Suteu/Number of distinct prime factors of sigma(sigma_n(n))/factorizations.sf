@@ -15,5 +15,5 @@ func a(n) {
 
 for n in (1..120) {
 #for n in (110 .. 200) {
-    say "#{sigma(n, n)} = #{a(n).grep { .len > 6 }.join(' * ')}"
+    say "#{sigma(sigma(n, n))} = #{a(n).grep { .len > 6 }.join(' * ')}"
 }

@@ -28,18 +28,62 @@ func factordb_exp(n) {
     factordb(n).to_bag.kv.sort_by { .head }
 }
 
+func fallback_factor(Number n) {
+
+    return [n] if n.is_prime
+
+    var f = [n]\
+       .map { .cop_factor(100)... }\
+       .map { .is_prime ? _ : .trial_factor(1e7)... }\
+       .map { .is_prime ? _ : .cyclotomic_factor... }\
+       .map { .factor { .fermat_factor(1e3) }... }\
+       .map { .factor { .holf_factor(1e3) }... }\
+       .map { .factor { .pell_factor(1e3) }... }\
+       .map { .factor { .flt_factor(1e3) }... }\
+       .map { .is_prime ? _ : .miller_factor... }\
+       .map { .is_prime ? _ : .lucas_factor... }\
+       .map { .factor { .pm1_factor(1e4) }... }\
+       .map { .factor { .pp1_factor(1e3) }... }\
+       .map { .factor { .chebyshev_factor(1e3) }... }\
+       .map { .factor { .dop_factor(200) }... }\
+       .map { .factor { .cyclotomic_factor }... }
+
+    if (f.len >= 2) {
+        return Math.gcd_factors(n, f.map { .is_prime ? _ : factordb(_) }.flat)
+    }
+
+    return [n]
+}
+
 func FF_factordb(n) {
     var f = factordb(n)
+
+    if (n.kind_of(Num)) {
+        f.all_prime || do {
+            f = Math.gcd_factors(n, f.map { fallback_factor(_) }.flat)
+        }
+    }
+
     f.all_prime || die "\n\nnot FF: #{n}\n\n"
+
     if (n.kind_of(Num)) {
         assert_eq(f.prod, n)
     }
+
     return f
 }
 
 func FF_factordb_exp(n) {
     var f = factordb_exp(n)
-    f.all { .head.is_prime } || die "\n\nnot FF: #{n}\n\n"
+
+    if (n.kind_of(Num)) {
+        f.map{.head}.all_prime || do {
+            f = Math.gcd_factors(n, f.map { fallback_factor(.head) }.flat).run_length
+        }
+    }
+
+    f.map{.head}.all_prime || die "\n\nnot FF: #{n}\n\n"
+
     if (n.kind_of(Num)) {
         assert_eq(f.prod_2d{|p,e| p**e }, n)
     }
@@ -105,10 +149,22 @@ func eulerphi(n) {
     }
 }
 
+func jordan_totient_factors(n,m=1) {
+    FF_factordb_exp(n).map_2d {|p,k|
+        p**(k*m) - p**(m*(k-1))
+    }.sort
+}
+
 func jordan_totient(n,m=1) {
     FF_factordb_exp(n).prod_2d {|p,k|
         p**(k*m) - p**(m*(k-1))
     }
+}
+
+func dedekind_psi_factors(n, m=1) {
+    FF_factordb_exp(n).map_2d {|p,k|
+        p**(k*m) + p**(m*(k-1))
+    }.sort
 }
 
 func dedekind_psi(n, m=1) {

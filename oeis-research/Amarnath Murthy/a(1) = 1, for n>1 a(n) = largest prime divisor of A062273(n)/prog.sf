@@ -1,0 +1,17 @@
+#!/usr/bin/ruby
+
+# a(1) = 1, for n>1 a(n) = largest prime divisor of A062273(n)
+# https://oeis.org/A077576
+
+# First 23 terms:
+#   1, 23, 19, 263, 823, 678901, 50993, 1279, 211, 150866941, 353594393, 757819, 9012345678901, 213408443, 11904282563, 435503, 21339439879, 7403356241, 13212859242013, 27961, 205126079, 5201061865265117273, 54843374833199
+
+include("../../../factordb/auto.sf")
+
+var nums = File("b062273.txt").open_r.lines.grep{!.match(/^#/)}.map{.nums.last}.grep{defined(_)}
+
+var count = 0
+
+for n in (nums) {
+    say "#{++count} #{gpf(n)||1}"
+}

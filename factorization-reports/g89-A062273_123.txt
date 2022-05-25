@@ -1,0 +1,38 @@
+Number: A062273_123
+N = 10990480038351737617975128311899435687695599870607711736671026822822761535775036271764481 (89 digits)
+Divisors found:
+r1=13179300374884299759365146553 (pp29)
+r2=833919838362301712388418395910577821266681522507524222538377 (pp60)
+Version: Msieve v. 1.54 (SVN unknown)
+Total time: 0.34 hours.
+Factorization parameters were as follows:
+# n is a factor of A062273(123)
+n:10990480038351737617975128311899435687695599870607711736671026822822761535775036271764481
+# norm 3.852432e-12 alpha -4.641559 e 5.316e-08 rroots 2
+skew: 453476.38
+c0: 9712392302543410935813666
+c1: 127399840696235157693
+c2: 83605161882179
+c3: -870398513
+c4: 840
+Y0: -1901895606020391095935
+Y1: 39408352757
+type: gnfs
+Factor base limits: 600000/600000
+Large primes per side: 3
+Large prime bits: 25/25
+Sieved algebraic special-q in [0, 0)
+Total raw relations: 1632137
+Relations: 91040 relations
+Pruned matrix : 56240 x 56469
+Polynomial selection time: 0.02 hours.
+Total sieving time: 0.31 hours.
+Total relation processing time: 0.01 hours.
+Matrix solve time: 0.01 hours.
+time per square root: 0.00 hours.
+Prototype def-par.txt line would be: gnfs,88,4,56,1500,0.0006,0.3,200,15,10000,500,600000,600000,25,25,43,43,2.2,2.2,10000
+total time: 0.34 hours.
+
+processors: 2, speed: 2.69GHz
+Linux-5.17.9-hardened1-1-hardened-x86_64-with-glibc2.35
+Running Python 3.10

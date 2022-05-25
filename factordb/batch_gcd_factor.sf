@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+# Factorize a list of numbers for FactorDB, using factors of pseudoprimes.
+
+var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) }
+
+var gcds = Math.batch_gcd(
+    [
+        #nums...,
+        glob(
+            "../pseudoprimes/oeis-pseudoprimes/*.txt"
+        )\
+        .grep { File(_).size / 1024**2 < 10 }\      # keep only files that have less than 10MB
+        .map{ File(_).open_r.lines.map{.nums.last}.grep { defined(_) && (.len\\0 > 25) } }.flat...
+    ].sort.uniq...
+).uniq
+
+for n in (nums) {
+    var f = Math.gcd_factors(n, gcds).first(-1)
+    f || next
+    say "#{n} = #{f.join(' * ')}"
+}
