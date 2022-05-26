@@ -64,7 +64,8 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try the difference of powers factorization method (finding algebraic factors)
-        var f4 = (v*2).dop_factor.map {|d| gcd(v, d) }.grep { _ > 1 }
+        #var f4 = (v*2).dop_factor.map {|d| gcd(v, d) }.grep { _ > 1 }
+        var f4 = Math.gcd_factors(v, uniq(dop_factor(2*v) + cop_factor(2*v, m+1) + cyclotomic_factor(v, k)))
 
         f4.all { is_congruent(_, 1, m) } || next
         f4.all { is_congruent(v/_, 1, m) } || next
@@ -90,7 +91,7 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try the FLT factorization method
-        var f3 = v.flt_factor
+        var f3 = v.factor { .flt_factor }
 
         f3.all { is_congruent(_, 1, m) } || next
         f3.all { is_congruent(v/_, 1, m) } || next
@@ -116,7 +117,8 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Check FactorDB (#1)
-        var fdb1 = factordb("#{k}^#{m} + 1").map {|d| gcd(v, d) }.grep { _ > 1 }
+        #var fdb1 = factordb("#{k}^#{m} + 1").map {|d| gcd(v, d) }.grep { _ > 1 }
+        var fdb1 = Math.gcd_factors(v, factordb("#{k}^#{m} + 1"))
 
         fdb1.all { is_congruent(_, 1, m) } || next
         fdb1.all { is_congruent(v/_, 1, m) } || next

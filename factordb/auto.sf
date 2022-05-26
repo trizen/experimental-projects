@@ -17,6 +17,9 @@ func factordb(n) is cached {
 
     var f = `#{$^PERL} #{script} #{Str(n).escape}`.nums.sort
 
+    # Factor small composite factors (if any)
+    f = f.map { .is_prime ? _ : (.len <= MIN_SIZE ? .factor : _) }.flat.sort
+
     if (n.kind_of(Num)) {
         assert_eq(n, f.prod)
     }
@@ -35,7 +38,7 @@ func fallback_factor(Number n) {
     var f = [n]\
        .map { .cop_factor(100)... }\
        .map { .is_prime ? _ : .trial_factor(1e7)... }\
-       .map { .is_prime ? _ : .cyclotomic_factor... }\
+       .map { (.is_prime || .len>=200) ? _ : .cyclotomic_factor... }\
        .map { .factor { .fermat_factor(1e3) }... }\
        .map { .factor { .holf_factor(1e3) }... }\
        .map { .factor { .pell_factor(1e3) }... }\
@@ -46,7 +49,8 @@ func fallback_factor(Number n) {
        .map { .factor { .pp1_factor(1e3) }... }\
        .map { .factor { .chebyshev_factor(1e3) }... }\
        .map { .factor { .dop_factor(200) }... }\
-       .map { .factor { .cyclotomic_factor }... }
+       .map { .factor { .cyclotomic_factor(2) }... }\
+       .map { .factor { .cyclotomic_factor(10) }... }
 
     if (f.len >= 2) {
         return Math.gcd_factors(n, f.map { .is_prime ? _ : factordb(_) }.flat)

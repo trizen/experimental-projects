@@ -64,7 +64,7 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try the difference of powers factorization method (finding algebraic factors)
-        var f4 = v.dop_factor
+        var f4 = Math.gcd_factors(v, uniq(v.dop_factor + v.cop_factor(m+1) + cyclotomic_factor(v, k)))
 
         f4.all { is_congruent(_, 1, m) } || next
         f4.all { is_congruent(v/_, 1, m) } || next
@@ -90,7 +90,7 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try the FLT factorization method
-        var f3 = v.flt_factor
+        var f3 = v.factor { .flt_factor }
 
         f3.all { is_congruent(_, 1, m) } || next
         f3.all { is_congruent(v/_, 1, m) } || next
