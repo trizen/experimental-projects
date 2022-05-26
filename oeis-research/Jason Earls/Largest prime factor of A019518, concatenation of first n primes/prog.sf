@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of A019518, concatenation of first n primes.
+# https://oeis.org/A074809
+
+# First several terms of the sequence:
+#   2, 23, 47, 2357, 223, 35339, 214282847, 7717859, 806801, 185176472401, 357211, 4967701595369, 104364752351, 27558919, 5269410931806332951, 274784055330749, 1191126125288819, 178258515898000387, 2313161253378144566969023310693
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    n.pn_primes.join.to_i
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    var row = "#{n} #{gpf(a(n))||1}"
+    say row
+    bfile.say(row)
+}
