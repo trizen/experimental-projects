@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of 9^(2n)+1 (A063270).
+# https://oeis.org/A063271
+
+# First several terms of the sequence:
+#   2, 41, 193, 6481, 21523361, 42521761, 769, 647753, 926510094425921, 282429005041, 128653413121, 56625998353, 24127552321, 37644053098601, 36214795668330833, 42521761, 1716841910146256242328924544641
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    9**(2*n) + 1
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (0..10000) {
+    var row = "#{n} #{gpf(a(n))||1}"
+    say row
+    bfile.say(row)
+}

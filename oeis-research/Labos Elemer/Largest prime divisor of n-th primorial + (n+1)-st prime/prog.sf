@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# Largest prime divisor of n-th primorial + (n+1)-st prime.
+# https://oeis.org/A065317
+
+# First several terms of the sequence:
+#   5, 11, 37, 17, 101, 30047, 510529, 9699713, 1427, 76829, 789077, 659863, 810104837, 13082761331670077, 652833094897, 32589158477190044789, 1922760350154212639131, 28406001782370300553, 770555057
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    pn_primorial(n) + prime(n+1)
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+# PARI/GP script
+
+a(n) = vecmax(factor(vecprod(primes(n)) + prime(n+1))[,1]); \\ ~~~~

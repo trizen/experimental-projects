@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# Largest prime divisor of Lucas[5n], where Lucas[k] = A000032[k].
+# https://oeis.org/A121171
+
+# First several terms of the sequence:
+#   11, 41, 31, 2161, 151, 2521, 911, 3041, 541, 570601, 39161, 20641, 24571, 12317523121, 18451, 23725145626561, 12760031, 10783342081, 87382901, 5738108801, 767131, 59996854928656801, 686551, 23735900452321, 28143378001
+
+# a(n) = A006530(A000032(5*n)) = A079451(5*n). - ~~~~
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    lucas(5*n)
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+# PARI/GP script
+
+lucas(n) = fibonacci(n+1)+fibonacci(n-1); \\ A000032
+a(n) = vecmax(factor(lucas(5*n))[,1]); \\ ~~~~

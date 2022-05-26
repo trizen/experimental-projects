@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+# a(n) is the largest prime factor of (n-1)^n - n^(n-1)
+# https://oeis.org/A174379
+
+# First few terms:
+#   17, 19, 167, 162287, 159463, 354751, 2486784401, 12589253, 71549927, 83695120256591, 556123, 10902870290089, 25793, 362561, 26757560905578361, 6015993258685545623
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    (n-1)**n - n**(n-1)
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (4..10000) {
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}

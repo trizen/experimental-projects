@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Find special factors for FactorDB, given a list of numbers.
+
+var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e20) }.sort.uniq
+
+var gcds = Math.batch_gcd(nums...).uniq
+
+for n in (nums) {
+
+    var f = [n]\
+       .map { .cop_factor(100)... }\
+       .map { .is_prime ? _ : .trial_factor(1e7)... }\
+       .map { (.is_prime || .len>=200) ? _ : .cyclotomic_factor... }\
+       .map { .factor { .fermat_factor(1e3) }... }\
+       .map { .factor { .holf_factor(1e3) }... }\
+       .map { .factor { .pell_factor(1e3) }... }\
+       .map { .factor { .flt_factor(1e3) }... }\
+       .map { .is_prime ? _ : .miller_factor... }\
+       .map { .is_prime ? _ : .lucas_factor... }\
+       .map { .factor { .pm1_factor(1e5) }... }\
+       .map { .factor { .pp1_factor(1e4) }... }\
+       .map { .factor { .chebyshev_factor(1e4) }... }\
+       .map { .factor { .dop_factor(200) }... }\
+       .map { .factor { .cyclotomic_factor(2, 10) }... }
+
+    f = Math.gcd_factors(n, f + gcds)
+    f = f.first(-1)
+
+    f || next
+    say "#{n} = #{f.join(' * ')}"
+}

@@ -74,7 +74,7 @@ while (<>) {
         $value = "$n";
 
         my %seen;
-        @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        @f = grep { $_ > 1e4 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
 
         (all { is_div($n, $_) } @f)
           or do {
@@ -88,7 +88,7 @@ while (<>) {
         $value = $expr;
 
         my %seen;
-        @f = grep { $_ > 1 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
+        @f = grep { $_ > 1e4 } map { Math::AnyNum->new($_) } grep { !$seen{$_}++ } split(/\s*\*\s*/, $factors);
     }
     else {
         warn "[WARN] Invalid line: $_";

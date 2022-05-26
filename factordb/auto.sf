@@ -49,8 +49,7 @@ func fallback_factor(Number n) {
        .map { .factor { .pp1_factor(1e3) }... }\
        .map { .factor { .chebyshev_factor(1e3) }... }\
        .map { .factor { .dop_factor(200) }... }\
-       .map { .factor { .cyclotomic_factor(2) }... }\
-       .map { .factor { .cyclotomic_factor(10) }... }
+       .map { .factor { .cyclotomic_factor(2, 10) }... }
 
     if (f.len >= 2) {
         return Math.gcd_factors(n, f.map { .is_prime ? _ : factordb(_) }.flat)

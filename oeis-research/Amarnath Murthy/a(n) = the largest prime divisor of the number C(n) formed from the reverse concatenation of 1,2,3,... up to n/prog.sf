@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# a(1) = 1; for n>1, a(n) = the largest prime divisor of the number C(n) formed from the reverse concatenation of 1,2,3,... up to n.
+# https://oeis.org/A075021
+
+# First several terms of the sequence:
+#   1, 7, 107, 149, 953, 218107, 402859, 4877, 379721, 54421, 370329218107, 5767189888301, 237927839, 1728836281, 136133374970881, 1190788477118549, 677181889, 399048049, 40617114482123, 629639170774346584751
+
+# a(n) = A006530(A000422(n)). - ~~~~
+
+# (PARI) a(n) = if(n==1, 1, vecmax(factor(eval(concat(apply(k->Str(n-k+1), [1..n]))))[, 1])); \\ ~~~~
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    1..n -> reverse.to_a.join.to_i
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    var row = "#{n} #{gpf(a(n))||1}"
+    say row
+    bfile.say(row)
+}
