@@ -1,0 +1,48 @@
+#!/usr/bin/ruby
+
+# Smallest prime factor of p^p - 1 that is congruent to 1 modulo p where p = prime(n).
+# https://oeis.org/A212552
+
+# Also smallest prime factor of (p^p - 1)/(p - 1). - Jianing Song, Nov 03 2019
+
+# First few terms:
+#   3, 13, 11, 29, 15797, 53, 10949, 109912203092239643840221, 461, 59, 568972471024107865287021434301977158534824481, 149, 83, 173, 1693, 107, 709, 977, 269, 105649, 293, 317, 2657, 179, 389, 607, 1237, 137122213, 2617, 227, 509, 1049, 1097, 557, 1193, 2417, 86351
+
+# Conjecture:
+#   a(41) = 618311908211315583991314548081149
+#   a(56) = 3093592597970782253540981763792599633
+#   a(72) = 4056508097535047114496121
+
+# No prime factor is known of (p^p - 1)/(p-1) for p = prime(73).
+# Status on factorDB: http://factordb.com/index.php?id=1100000000032217741
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    var p = prime(n)
+    (p**p - 1) / (p-1)
+}
+
+var lookup = Hash(
+    41 => 618311908211315583991314548081149,        # conjecture
+    50 => 633818873,
+    54 => 17694497,
+    56 => 3093592597970782253540981763792599633,    # conjecture
+    66 => 32704891,
+    68 => 333810307133,
+    72 => 4056508097535047114496121,                # conjecture
+)
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    var k = a(n)
+
+    if (lookup.has(n)) {
+        k = lookup{n}
+    }
+
+    var row = "#{n} #{lpf(k)||1}"
+    say row
+    bfile.say(row)
+}

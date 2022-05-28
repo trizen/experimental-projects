@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# a(1)=1; a(n+1) = the smallest prime divisor of A138793(n+1).
+# https://oeis.org/A138962
+
+# First several terms of the sequence:
+#   1, 3, 3, 29, 3, 3, 19, 3, 3, 457, 3, 3, 16087, 3, 3, 35963, 3, 3, 167, 3, 3, 7, 3, 3, 13, 3, 3, 953, 3, 3, 7, 3, 3, 548636579, 3, 3, 19, 3, 3, 71, 3, 3, 13, 3, 3, 89, 3, 3, 114689, 3, 3, 17, 3, 3, 12037, 3, 3, 7, 3, 3
+
+# a(n) = A020639(A138793(n)). - ~~~~
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    1..n -> join.flip.to_i
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    #next if (n < 325)
+    var k = a(n)
+    if (n == 310) {
+        k = 4931885197913
+    }
+    if (n == 331) {
+        k = 244191703201
+    }
+    #~ if (n == 334) {   # conjecture
+        #~ k = 153309577604336551
+    #~ }
+    var row = "#{n} #{lpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+
+# PARI/GP program:
+
+f(n) = my(D = Vec(concat(apply(s->Str(s), [1..n])))); eval(concat(vector(#D, k, D[#D-k+1]))); \\ A138793
+a(n) = my(k=f(n)); forprime(p=2, 10^6, if(k%p == 0, return(p))); if(n == 1, 1, vecmin(factor(k)[,1])); \\ ~~~~

@@ -4,7 +4,7 @@
 
 define (
     MIN_SIZE    = 55,
-    TRIAL_LIMIT = 1e6,
+    TRIAL_LIMIT = 1e7,
 )
 
 const script = File(__FILE__).dir+File("get_factordb.pl")
