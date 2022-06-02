@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number k such that P(k)^n | k and P(k+1)^n | (k+1), where P(k) = A006530(k) is the largest prime dividing k, or -1 if no such k exists.
+# https://oeis.org/A354567
+
+# Known terms:
+#   1, 8, 6859, 11859210
+
+# Known upper-bounds:
+#   a(5) <= 437489361912143559513287483711091603378 (De Koninck, 2009).
+
+var n = 6
+
+var plimit = 10000
+var klimit = 20
+
+var primes = plimit.primes
+#var primes = [4957, 6619]
+
+say ":: Searching for a(#{n}) with max(p) = #{plimit} -- cost: ~10^#{primes.len**2 * klimit -> log10.round(-3)}"
+
+primes.each {|p|
+    var pn = ipow(p, n)
+    primes.each {|q|
+
+        next if (p == q)
+        var qn = ipow(q, n)
+
+        var c = Math.chinese([0, pn], [-1, qn])
+        var m = (pn * qn)
+
+        for k in (0..klimit) {
+            var t = (m*k + c)
+
+            if (t.is_smooth(p) && t.inc.is_smooth(q)) {
+                say "[#{k}] Found: a(#{n}) <= #{t}"
+            }
+        }
+    }
+}
