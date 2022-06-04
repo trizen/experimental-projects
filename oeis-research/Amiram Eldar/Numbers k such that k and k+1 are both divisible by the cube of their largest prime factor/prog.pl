@@ -42,48 +42,35 @@ sub smooth_numbers ($limit, $primes) {
     return \@h;
 }
 
-sub upto ($n) {
+sub upto ($n, $j=3) {
 
     my $k = powint(10, $n);
-    my $limit = rootint($k, 3);
+    my $limit = rootint($k, $j);
 
     my @smooth;
     my @primes;
 
-    my $pi = prime_count($limit);
-
-    #my $count = 0;
     my $i = 0;
+    my $pi = prime_count($limit);
 
     foreach my $p (@{primes($limit)}) {
 
         ++$i;
         say "[$i / $pi] Processing prime $p";
 
-        my $ppp = powint($p, 3);
+        my $pj = powint($p, $j);
         push @primes, $p;
 
         push @smooth, grep {
             my $m = addint($_, 1);
-            valuation($m, (factor($m))[-1]) >= 3;
-        } map { mulint($_, $ppp) } @{smooth_numbers(divint($k, $ppp), \@primes)};
-
-#<<<
-        #~ foreach my $s (@{smooth_numbers(divint($k, $ppp), \@primes)}) {
-            #~ my $m = mulint($ppp, $s)+1;
-            #~ if (valuation($m,(factor($m))[-1]) >= 3) {
-                #~ ++$count;
-            #~ }
-        #~ }
-#>>>
-
+            valuation($m, (factor($m))[-1]) >= $j;
+        } map { mulint($_, $pj) } @{smooth_numbers(divint($k, $pj), \@primes)};
     }
 
-    #return $count;
     return sort { $a <=> $b } @smooth;
 }
 
-my $n = 16;
+my $n = 11;
 say join(', ', upto($n));
 
 __END__
