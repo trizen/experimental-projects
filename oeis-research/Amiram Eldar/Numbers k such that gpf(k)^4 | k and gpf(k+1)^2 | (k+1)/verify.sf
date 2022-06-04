@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+
+ARGF.each {|line|
+    var n = line.nums.last
+    assert_eq(n % n.gpf**4, 0)
+    assert_eq(n.inc % n.inc.gpf**2, 0)
+}
+
+say "** Test passed!"
