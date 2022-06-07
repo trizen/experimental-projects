@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of A096421(n).
+# https://oeis.org/A097365
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    return 1 if (n == 1)
+    sum(1 ..^ n -> grep {|j| gcd(j, n) == 1 }, {|j|
+        a(j) * a(n-j)
+    })
+}
+
+#~ for n in (250..500) {
+    #~ say "#{a(n)} = #{a(n).factor{.ecm_factor(5e5, 10)}.first(-1).join(' * ')}"
+#~ }
+
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (3..259) {
+    #next if (n < 254)
+    var row = "#{n} #{gpf(a(n))}"
+    say row
+    fh.say(row)
+}
