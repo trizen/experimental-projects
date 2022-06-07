@@ -13,8 +13,11 @@
 #  a(5) > 10^18
 #  a(6) > 10^19
 
-# Beside 11859210, no other term k exists < 10^18 that satisfy:
+# Beside 11859210, no other term k < 10^18 exists that satisfy:
 #   gpf(k)^4 | k and gpf(k+1) | (k+1)
+
+# One term that satisfies gpf(k)^5 | k and gpf(k+1)^4 | (k+1):
+#   33604891766609212616768123
 
 use 5.020;
 use strict;

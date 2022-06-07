@@ -2,6 +2,7 @@
 
 # Daniel "Trizen" Șuteu
 # Date: 11 January 2021
+# Edit: 07 June 2022
 # https://github.com/trizen
 
 # Check and use formulas defined in terms of OEIS sequences.
@@ -13,6 +14,9 @@
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2'              # first 10 terms
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5            # 5-th term
 #   sidef oeis.sf 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
+
+# Sum example:
+#   sidef oeis.sf 'sum(0..n, {|k| A048994(n, k) * A048993(n+k, n) })'
 
 local Num!PREC = 4096
 

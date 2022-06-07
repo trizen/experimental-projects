@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 
-# Numbers k such that P(k)^2 | k and P(k+1)^3 | (k+1), where P(k) = A006530(k) is the largest prime dividing k.
-# https://oeis.org/A354563
+# The number of terms of A354558 that are <= 10^n.
+# https://oeis.org/A354559
 
 # Known terms:
-#   1, 2, 5, 13, 28, 79, 204, 549, 1509, 4231, 12072, 36426
+#   1, 2, 5, 13, 28, 79, 204, 549, 1509, 4231, 12072, 36426, 112589
 
 use 5.020;
 use strict;

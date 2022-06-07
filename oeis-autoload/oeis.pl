@@ -2,17 +2,21 @@
 
 # Daniel "Trizen" Șuteu
 # Date: 06 March 2019
+# Edit: 07 June 2022
 # https://github.com/trizen
 
 # Check and use formulas defined in terms of OEIS sequences.
 
 # usage:
-#   perl main.pl "formula" [from=1] [to=10]
+#   perl oeis.pl "formula" [from=1] [to=10]
 
 # Examples:
-#   perl main.pl 'A033676(5)^2 + A033677(5)^2'              # 5-th term
-#   perl main.pl 'A033676(n)^2 + A033677(n)^2'              # first 10 terms
-#   perl main.pl 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
+#   perl oeis.pl 'A033676(5)^2 + A033677(5)^2'              # 5-th term
+#   perl oeis.pl 'A033676(n)^2 + A033677(n)^2'              # first 10 terms
+#   perl oeis.pl 'A033676(n)^2 + A033677(n)^2' 5 20         # terms 5..20
+
+# Sum example:
+#   perl oeis.pl 'sum(map{ A048994(n, $_) * A048993(n+$_, n)} 0..n)'
 
 use 5.020;
 use strict;
@@ -80,16 +84,16 @@ use Math::AnyNum qw(
 *omega    = \&prime_omega;
 *prime    = \&nth_prime;
 
-sub rad ($) {
-    prod(map { $_->[0] } factor_exp($_[0]));
+sub rad ($n) {
+    prod(map { $_->[0] } factor_exp($n));
 }
 
-sub gpf ($) {
-    (factor($_[0]))[-1] // 1;
+sub gpf ($n) {
+    (factor($n))[-1] // 1;
 }
 
-sub lpf ($) {
-    (factor($_[0]))[0] // 1;
+sub lpf ($n) {
+    (factor($n))[0] // 1;
 }
 
 if (@ARGV) {

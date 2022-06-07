@@ -86,7 +86,7 @@ sub download_sequence ($id) {
 
 our $AUTOLOAD;
 
-sub AUTOLOAD ($n) {
+sub AUTOLOAD ($n, $k = undef) {
 
     $AUTOLOAD =~ /::A([0-9]+)\z/ or die "unknown method: $AUTOLOAD";
 
@@ -102,6 +102,10 @@ sub AUTOLOAD ($n) {
     }
 
     my $data = download_sequence($oeis_id);
+
+    if (defined($k)) {
+        $n = (($n*($n+1))>>1) + $k;
+    }
 
     if (not exists $data->{$n}) {
         die "A$oeis_id($n) does not exist in the b-file...\n";

@@ -3,6 +3,9 @@
 # The number of terms of A354558 that are <= 10^n.
 # https://oeis.org/A354559
 
+# Known terms:
+#   1, 2, 5, 13, 28, 79, 204, 549, 1509, 4231, 12072, 36426, 112589
+
 func a(n) {
 
     var k = 10**n

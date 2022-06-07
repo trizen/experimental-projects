@@ -91,7 +91,7 @@ func download_sequence(id) is cached {
 }
 
 class Number {
-    method AUTOLOAD(_, name) {
+    method AUTOLOAD(_, name, k=nil) {
 
         var match = (name =~ /^A([0-9]+)\z/)
         match || die "unknown method: #{name}\n"
@@ -109,6 +109,11 @@ class Number {
 
         var n = self
         var data = download_sequence(oeis_id)
+
+        # Support for tables
+        if (defined(k)) {
+            n = (n*(n+1)/2 + k)
+        }
 
         if (!data.has(n)) {
             die "A#{oeis_id}(#{n}) does not exist in the b-file...\n"

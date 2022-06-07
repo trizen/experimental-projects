@@ -269,6 +269,7 @@ Highly experimental personal projects.
             * [generate optimized.pl](./oeis-research/Amiram%20Eldar/The%20number%20of%20terms%20of%20A354558%20that%20are%20<=%2010^n/generate_optimized.pl)
             * [prog.pl](./oeis-research/Amiram%20Eldar/The%20number%20of%20terms%20of%20A354558%20that%20are%20<=%2010^n/prog.pl)
             * [prog.sf](./oeis-research/Amiram%20Eldar/The%20number%20of%20terms%20of%20A354558%20that%20are%20<=%2010^n/prog.sf)
+            * [verify.sf](./oeis-research/Amiram%20Eldar/The%20number%20of%20terms%20of%20A354558%20that%20are%20<=%2010^n/verify.sf)
         * [Unitary harmonic numbers (A006086) that are not unitary arithmetic numbers (A103826)](./oeis-research/Amiram%20Eldar/Unitary%20harmonic%20numbers%20(A006086)%20that%20are%20not%20unitary%20arithmetic%20numbers%20(A103826))
             * [smooth combinations search.pl](./oeis-research/Amiram%20Eldar/Unitary%20harmonic%20numbers%20(A006086)%20that%20are%20not%20unitary%20arithmetic%20numbers%20(A103826)/smooth_combinations_search.pl)
             * [smooth search.pl](./oeis-research/Amiram%20Eldar/Unitary%20harmonic%20numbers%20(A006086)%20that%20are%20not%20unitary%20arithmetic%20numbers%20(A103826)/smooth_search.pl)
