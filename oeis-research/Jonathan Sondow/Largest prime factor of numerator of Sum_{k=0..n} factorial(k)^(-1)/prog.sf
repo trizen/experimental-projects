@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of numerator of Sum_{k=0...n} 1/k!, with a(0) = 1.
+# https://oeis.org/A102469
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    sum(0..n, {|k|
+        1/k!
+    }).nu
+}
+
+#~ for n in (46 .. 1000) {
+    #~ var k = a(n)
+    #~ #say "#{k} = #{k.factor{.ecm_factor(50_000, 10)}.first(-1).join(' * ')}"
+    #~ say "#{k} = #{k.factor.first(-1).join(' * ')}"
+#~ }
+
+#~ __END__
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (0..10000) {
+    #next if (n < 72)
+    var row = "#{n} #{gpf(a(n)) || 1}"
+    say row
+    fh.say(row)
+}
+
+__END__
+
+# PARI/GP program:
+
+a(n) = if(n==0, return(1)); vecmax(factor(numerator(sum(k=0, n, 1/k!)))[,1]); \\ ~~~~

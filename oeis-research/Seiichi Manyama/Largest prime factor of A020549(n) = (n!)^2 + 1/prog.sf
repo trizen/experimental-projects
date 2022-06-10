@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of A020549(n) = (n!)^2 + 1.
+# https://oeis.org/A301346
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    (n!)**2 + 1
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (0..10000) {
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+# PARI/GP script
+
+a(n) = vecmax(factor(n!^2 + 1)[,1]); \\ ~~~~

@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# a(n) is the maximum prime factor of the concatenation of all the previous terms, with a(1)=1, a(2)=2.
+# https://oeis.org/A280893
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    return 1 if (n == 1)
+    return 2 if (n == 2)
+    gpf(Num(1..^n -> map(a).join))
+}
+
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (1..10000) {
+    var row = "#{n} #{a(n)}"
+    say row
+    fh.say(row)
+}
+
+__END__

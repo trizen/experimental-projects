@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# a(1) = a(2) = 1, a(n) is largest prime factor of concatenation of a(n - 2) and a(n - 1)
+# https://oeis.org/A034969
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    return 1 if (n == 1)
+    return 1 if (n == 2)
+    gpf(Num(join('', a(n-2), a(n-1))))
+}
+
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (1..10000) {
+    var row = "#{n} #{a(n)}"
+    say row
+    fh.say(row)
+}
+
+__END__
+
+not FF: 7126739067843933020000487256784061533502292405050614853348381662921208997064469253693331951904248670646197372897799059990001235916032762454201142581635442146548653091082552430069916765671381205795126681208177737489544209036771593

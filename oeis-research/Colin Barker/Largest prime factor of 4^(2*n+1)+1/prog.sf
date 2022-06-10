@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of 4^(2*n+1)+1
+# https://oeis.org/A229747
+
+# a(n) = max(A229767(n), A229768(n)), for n >= 1. - ~~~~
+
+include('../../../factordb/auto.sf')
+
+func a(n) {
+     4**(2*n + 1) + 1
+}
+
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (0..10000) {
+    var row = "#{n} #{gpf(a(n))}"
+    say row
+    fh.say(row)
+}

@@ -1,0 +1,37 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of n^n - n^(n-1) - n^(n-2) - ... - n^2 - n - 1.
+# https://oeis.org/A191624
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    var t = n**n
+    for k in (0 .. n-1) {
+        t -= n**k
+    }
+    return t
+}
+
+#~ for n in (54 .. 1000) {
+    #~ var k = a(n)
+    #~ #say "#{k} = #{k.factor{.ecm_factor(50_000, 10)}.first(-1).join(' * ')}"
+    #~ say "#{k} = #{k.factor{.pm1_factor(1e6)}.first(-1).join(' * ')}"
+#~ }
+
+#~ __END__
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (3..10000) {
+    var row = "#{n} #{gpf(a(n)) || 1}"
+    say row
+    fh.say(row)
+}
+
+__END__
+
+# PARI/GP program:
+
+a(n) = if(n==0, return(1)); vecmax(factor(n^n - (n^n-1)/(n-1))[,1]); \\ ~~~~

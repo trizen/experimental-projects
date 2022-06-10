@@ -1,0 +1,22 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of A001008(n), numerator of n-th harmonic number; a(1) = 1
+# https://oeis.org/A308971
+
+include('../../../factordb/auto.sf')
+
+func a(n) is cached {
+    harmonic(n).nu
+}
+
+var fh = File('bfile.txt').open_w
+
+fh.autoflush(true)
+
+for n in (1..10000) {
+    var row = "#{n} #{gpf(a(n)) || 1}"
+    say row
+    fh.say(row)
+}
+
+__END__

@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of central factorial number A001819[n].
+# https://oeis.org/A120298
+
+# a(n) = A006530(A001819(n)). - ~~~~
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    (n!)**2 * sum(1..n, {|k| 1/k.sqr })
+    #numerator( sum(1..n, {|k| 1/k.sqr }))
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (2..10000) {
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+# PARI/GP script
+
+a(n) = vecmax(factor(n!^2 * sum(k=1, n, 1/k^2))[,1]); \\ ~~~~
