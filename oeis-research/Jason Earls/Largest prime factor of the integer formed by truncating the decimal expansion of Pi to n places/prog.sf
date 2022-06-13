@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of the integer formed by truncating the decimal expansion of Pi to n places.
+# https://oeis.org/A078604
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    local Num!PREC = 4*(n+10)
+    Num.pi.to_s - /\./ -> first(n+1).to_n
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (0..10000) {
+    var row = "#{n} #{gpf(a(n))||1}"
+    say row
+    bfile.say(row)
+}

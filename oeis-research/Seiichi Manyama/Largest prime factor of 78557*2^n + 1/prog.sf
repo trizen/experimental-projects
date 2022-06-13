@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Largest prime factor of 78557*2^n + 1.
+# https://oeis.org/A279798
+
+include("../../../factordb/auto.sf")
+
+func a(n) {
+    (78557 * 2**n) + 1
+}
+
+var bfile = File("bfile.txt").open_w.autoflush(true)
+
+for n in (1..10000) {
+    #next if (n < 400)
+    var k = a(n)
+    var row = "#{n} #{gpf(k)||1}"
+    say row
+    bfile.say(row)
+}
+
+__END__
+
+# PARI/GP script
+
+a(n) = vecmax(factor(78557*2^n + 1)[,1]); \\ ~~~~
