@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+
+# Primes p such that 2^p - p^2 is prime.
+# https://oeis.org/A242929
+
+# Known terms:
+#   5, 7, 17, 19, 53, 83, 227, 461, 2221, 3547, 9029
+
+# a(12) > 23053. - Robert Israel, Jun 10 2014
+
+# Found new term: 119087
+
+114281..1e6 -> each_prime {|p|
+    var t = (2**p - p**2)
+    say "Testing: #{p} (len: #{t.len})" if (t.len > 3500)
+    if (t -> is_prob_prime) {
+        say "Found: #{p}"
+        die "New term: #{p}" if (p > 9029)
+    }
+}

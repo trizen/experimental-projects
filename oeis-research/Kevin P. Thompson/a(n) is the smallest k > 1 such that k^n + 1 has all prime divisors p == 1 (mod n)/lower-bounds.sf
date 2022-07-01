@@ -89,8 +89,8 @@ func a(n, from = 2, upto = 1e9) {
             t.all { is_congruent(v/_, 1, m) } || next
         }
 
-        # Try the FLT factorization method
-        var f3 = v.factor { .flt_factor }
+        # Try to find more special factors
+        var f3 = Math.gcd_factors(v, special_factor(v))
 
         f3.all { is_congruent(_, 1, m) } || next
         f3.all { is_congruent(v/_, 1, m) } || next

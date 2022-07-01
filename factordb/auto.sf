@@ -35,21 +35,23 @@ func fallback_factor(Number n) {
 
     return [n] if n.is_prime
 
-    var f = [n]\
-       .map { .cop_factor(100)... }\
-       .map { .is_prime ? _ : .trial_factor(1e7)... }\
-       .map { (.is_prime || .len>=200) ? _ : .cyclotomic_factor... }\
-       .map { .factor { .fermat_factor(1e3) }... }\
-       .map { .factor { .holf_factor(1e3) }... }\
-       .map { .factor { .pell_factor(1e3) }... }\
-       .map { .factor { .flt_factor(1e3) }... }\
-       .map { .is_prime ? _ : .miller_factor... }\
-       .map { .is_prime ? _ : .lucas_factor... }\
-       .map { .factor { .pm1_factor(1e4) }... }\
-       .map { .factor { .pp1_factor(1e3) }... }\
-       .map { .factor { .chebyshev_factor(1e3) }... }\
-       .map { .factor { .dop_factor(200) }... }\
-       .map { .factor { .cyclotomic_factor(2, 10) }... }
+    #~ var f = [n]\
+       #~ .map { .cop_factor(100)... }\
+       #~ .map { .is_prime ? _ : .trial_factor(1e7)... }\
+       #~ .map { (.is_prime || .len>=200) ? _ : .cyclotomic_factor... }\
+       #~ .map { .factor { .fermat_factor(1e3) }... }\
+       #~ .map { .factor { .holf_factor(1e3) }... }\
+       #~ .map { .factor { .pell_factor(1e3) }... }\
+       #~ .map { .factor { .flt_factor(1e3) }... }\
+       #~ .map { .is_prime ? _ : .miller_factor... }\
+       #~ .map { .is_prime ? _ : .lucas_factor... }\
+       #~ .map { .factor { .pm1_factor(1e4) }... }\
+       #~ .map { .factor { .pp1_factor(1e3) }... }\
+       #~ .map { .factor { .chebyshev_factor(1e3) }... }\
+       #~ .map { .factor { .dop_factor(200) }... }\
+       #~ .map { .factor { .cyclotomic_factor(2, 10) }... }
+
+    var f = n.special_factor
 
     if (f.len >= 2) {
         return Math.gcd_factors(n, f.map { .is_prime ? _ : factordb(_) }.flat)

@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# Numbers k such that A061015(k) is prime.
+# https://oeis.org/A092062
+
+# Known terms:
+#    2, 10, 18, 36, 90, 759
+
+# a(7) > 1850. - Michael S. Branicky, Jun 27 2022
+
+var lower_bound = 2144
+
+var sum = 0
+
+for k in (1..1e6) {
+
+    sum += 1/(prime(k)**2)
+
+    say ":: Testing: #{k} (len: #{sum.nu.len})"
+
+    if (k>=lower_bound && sum.nu.is_prob_prime) {
+        die "Found: #{k}"
+    }
+}
