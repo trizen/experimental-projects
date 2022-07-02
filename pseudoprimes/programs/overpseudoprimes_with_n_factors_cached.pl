@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 # Least overpseudoprime to base 2 (A141232) with n distinct prime factors.
+# https://oeis.org/A353409
 
 # First few terms:
 #   2047, 13421773, 14073748835533

@@ -1,26 +1,54 @@
 #!/usr/bin/ruby
 
-# a(n) is the smallest k > 1 such that k^n + 1 has all prime divisors p == 1 (mod n).
-# https://oeis.org/A352597
+# Least k > 1 such that all divisors of (k^n-1)/(k-1) are == 1 (mod n)
+# https://oeis.org/A298076
+
+# Also: least k > 1 such that all prime factors of (k^n-1)/(k-1) are == 1 (mod n). - M. F. Hasler, Oct 14 2018
 
 # Find lower-bounds to a(n).
 
 include("../../../factordb/auto.sf")
 
 func a(n, from = 2, upto = 1e9) {
+
+    return (2, true) if (n.is_prime)
+    return (2, true) if (n == 1)
+
+    if (n == 36) {
+        return (5988060, true)
+    }
+
+    if (n ==40) {
+        return (7412680, true)
+    }
+
+    if (n == 44) {
+        return (507496, true)
+    }
+
+    if (n == 48) {
+        return (1486179696, true)
+    }
+
+    if (n == 54) {
+        return (3292758, true)
+    }
+
+    if (n == 56) {
+        return (72682120, true)
+    }
+
     for k in (from .. upto) {
 
-        k.is_even || next
-
-        var m = n
-        var v = (k**m + 1)
-
-        is_congruent(v, 1, m) || next
-
-        # n | a(n) for odd n.
-        if (n.is_odd) {
+        # If n is even, a(n) is divisible by n.
+        if (n.is_even) {
             k % n == 0 || next
         }
+
+        var m = n
+        var v = (k**n - 1)/(k-1)
+
+        is_congruent(v, 1, m) || next
 
         # Fast check for small factors
         var f1 = v.trial_factor
@@ -31,6 +59,9 @@ func a(n, from = 2, upto = 1e9) {
         if (f1.all { .is_prime }) {
             return (k, true)
         }
+
+        # Conjecture (T. Ordowski, 2018)
+        #v.is_psp(k) || next
 
         # Fast Miller factorization check
         if (v.len < 2000) {
@@ -69,7 +100,7 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try the difference of powers factorization method (finding algebraic factors)
-        var f4 = Math.gcd_factors(v, uniq(v.dop_factor + v.cop_factor(m+1) + cyclotomic_factor(v, k)))
+        var f4 = Math.gcd_factors(v, uniq(dop_factor(v*(k-1)) + cop_factor(v*(k-1), m+1) + cyclotomic_factor(v, k)))
 
         f4.all { is_congruent(_, 1, m) } || next
         f4.all { is_congruent(v/_, 1, m) } || next
@@ -95,33 +126,27 @@ func a(n, from = 2, upto = 1e9) {
         }
 
         # Try to find more special factors
-        var f3 = Math.gcd_factors(v, special_factor(v))
+        var f3 = Math.gcd_factors(v, special_factor(v*(k-1)))
 
         f3.all { is_congruent(_, 1, m) } || next
         f3.all { is_congruent(v/_, 1, m) } || next
 
-        do { # check the composite factors
-            var c = f3.grep { .is_composite }
-
-            return (k, true) if (c.len == 0)
-
-            if (c.all { .len <= 50 }) {     # unlikely
-                if (c.map { .factor }.flat.all { .is_congruent(1, m) }) {
-                    return (k, true)
-                }
-                else {
-                    next
-                }
-            }
-
-            var t = c.grep { .len <= 50 }.map { .factor }.flat
-
-            t.all { is_congruent(_, 1, m) } || next
-            t.all { is_congruent(v/_, 1, m) } || next
+        if (f3.all { .is_prime }) {     # unlikely
+            return (k, true)
         }
 
-        # Check FactorDB
-        var fdb = factordb("#{k}^#{m} + 1")
+        # Check FactorDB (#1)
+        var fdb1 = Math.gcd_factors(v, factordb("#{k}^#{m} - 1"))
+
+        fdb1.all { is_congruent(_, 1, m) } || next
+        fdb1.all { is_congruent(v/_, 1, m) } || next
+
+        if ((fdb1.prod == v) && (fdb1.all { .is_prime })) {
+            return (k, true)
+        }
+
+        # Check FactorDB (#2)
+        var fdb = factordb("(#{k}^#{m} - 1)/#{k-1}")
 
         fdb.all { is_congruent(_, 1, m) } || next
         fdb.all { is_congruent(v/_, 1, m) } || next
@@ -135,30 +160,30 @@ func a(n, from = 2, upto = 1e9) {
     }
 }
 
-var lower_bounds_file = File("lower-bounds_factordb.txt")
+#~ var lower_bounds_file = File("lower-bounds_factordb.txt")
 
-lower_bounds_file.open_r.lines.each {|line|
-    if (line =~ /^a\((\d+)\) >= (\d+)/) { |m|
+#~ lower_bounds_file.open_r.lines.each {|line|
+    #~ if (line =~ /^a\((\d+)\) >= (\d+)/) { |m|
+        #~ var n = Num(m[0])
+        #~ var k = Num(m[1])
 
-        var n = Num(m[0])
-        var k = Num(m[1])
+        #~ say ":: Trying to find a lower-bound for a(#{n}) >= #{k} <--> (#{k}^#{n} - 1)/#{k-1}"
 
-        say ":: Trying to find a lower-bound for a(#{n}) >= #{k} <--> (#{k}^#{n} + 1)"
+        #~ var (new_k, is_term) = a(n, k)
 
-        var (new_k, is_term) = a(n, k)
+        #~ if (is_term) {
+            #~ say "\n\t-> Found term: a(#{n}) = #{new_k}\n"
+        #~ }
+        #~ elsif (k != new_k) {
+            #~ say "\n\t-> Found a better lower-bound: a(#{n}) >= #{new_k} <--> (#{new_k}^#{n} - 1)/#{new_k-1}\n"
+        #~ }
+    #~ }
+#~ }
 
-        if (is_term) {
-            say "\n\t-> Found term: a(#{n}) = #{new_k}\n"
-        }
-        elsif (k != new_k) {
-            say "\n\t-> Found a better lower-bound: a(#{n}) >= #{new_k} <--> (#{new_k}^#{n} + 1)\n"
-        }
-    }
-}
-
-__END__
+#~ __END__
 
 for n in (1..100) {
+next if (n <= 88)
     var (k, is_term) = a(n)
 
     if (is_term) {
