@@ -14,29 +14,29 @@ func a(n, from = 2, upto = 1e9) {
     return (2, true) if (n.is_prime)
     return (2, true) if (n == 1)
 
-    if (n == 36) {
-        return (5988060, true)
-    }
+    #~ if (n == 36) {
+        #~ return (5988060, true)
+    #~ }
 
-    if (n ==40) {
-        return (7412680, true)
-    }
+    #~ if (n ==40) {
+        #~ return (7412680, true)
+    #~ }
 
-    if (n == 44) {
-        return (507496, true)
-    }
+    #~ if (n == 44) {
+        #~ return (507496, true)
+    #~ }
 
-    if (n == 48) {
-        return (1486179696, true)
-    }
+    #~ if (n == 48) {
+        #~ return (1486179696, true)
+    #~ }
 
-    if (n == 54) {
-        return (3292758, true)
-    }
+    #~ if (n == 54) {
+        #~ return (3292758, true)
+    #~ }
 
-    if (n == 56) {
-        return (72682120, true)
-    }
+    #~ if (n == 56) {
+        #~ return (72682120, true)
+    #~ }
 
     for k in (from .. upto) {
 
@@ -160,30 +160,29 @@ func a(n, from = 2, upto = 1e9) {
     }
 }
 
-#~ var lower_bounds_file = File("lower-bounds_factordb.txt")
+var lower_bounds_file = File("lower-bounds_factordb.txt")
 
-#~ lower_bounds_file.open_r.lines.each {|line|
-    #~ if (line =~ /^a\((\d+)\) >= (\d+)/) { |m|
-        #~ var n = Num(m[0])
-        #~ var k = Num(m[1])
+lower_bounds_file.open_r.lines.each {|line|
+    if (line =~ /^a\((\d+)\) >= (\d+)/) { |m|
+        var n = Num(m[0])
+        var k = Num(m[1])
 
-        #~ say ":: Trying to find a lower-bound for a(#{n}) >= #{k} <--> (#{k}^#{n} - 1)/#{k-1}"
+        say ":: Trying to find a lower-bound for a(#{n}) >= #{k} <--> (#{k}^#{n} - 1)/#{k-1}"
 
-        #~ var (new_k, is_term) = a(n, k)
+        var (new_k, is_term) = a(n, k)
 
-        #~ if (is_term) {
-            #~ say "\n\t-> Found term: a(#{n}) = #{new_k}\n"
-        #~ }
-        #~ elsif (k != new_k) {
-            #~ say "\n\t-> Found a better lower-bound: a(#{n}) >= #{new_k} <--> (#{new_k}^#{n} - 1)/#{new_k-1}\n"
-        #~ }
-    #~ }
-#~ }
+        if (is_term) {
+            say "\n\t-> Found term: a(#{n}) = #{new_k}\n"
+        }
+        elsif (k != new_k) {
+            say "\n\t-> Found a better lower-bound: a(#{n}) >= #{new_k} <--> (#{new_k}^#{n} - 1)/#{new_k-1}\n"
+        }
+    }
+}
 
-#~ __END__
+__END__
 
 for n in (1..100) {
-next if (n <= 88)
     var (k, is_term) = a(n)
 
     if (is_term) {
