@@ -131,6 +131,8 @@ Highly experimental personal projects.
     * [Amarnath Murthy](./oeis-research/Amarnath%20Murthy)
         * [A(1) = 1, for n>1 a(n) = largest prime divisor of A062273(n)](./oeis-research/Amarnath%20Murthy/a(1)%20=%201,%20for%20n>1%20a(n)%20=%20largest%20prime%20divisor%20of%20A062273(n))
             * [prog.sf](./oeis-research/Amarnath%20Murthy/a(1)%20=%201,%20for%20n>1%20a(n)%20=%20largest%20prime%20divisor%20of%20A062273(n)/prog.sf)
+        * [A(1) = 2, a(n+1) = a(n)-th squarefree number](./oeis-research/Amarnath%20Murthy/a(1)%20=%202,%20a(n+1)%20=%20a(n)-th%20squarefree%20number)
+            * [prog.sf](./oeis-research/Amarnath%20Murthy/a(1)%20=%202,%20a(n+1)%20=%20a(n)-th%20squarefree%20number/prog.sf)
         * [A(n) = the largest prime divisor of the number C(n) formed from the concatenation of 1,2,3,... up to n](./oeis-research/Amarnath%20Murthy/a(n)%20=%20the%20largest%20prime%20divisor%20of%20the%20number%20C(n)%20formed%20from%20the%20concatenation%20of%201,2,3,...%20up%20to%20n)
             * [prog.sf](./oeis-research/Amarnath%20Murthy/a(n)%20=%20the%20largest%20prime%20divisor%20of%20the%20number%20C(n)%20formed%20from%20the%20concatenation%20of%201,2,3,...%20up%20to%20n/prog.sf)
         * [A(n) = the largest prime divisor of the number C(n) formed from the reverse concatenation of 1,2,3,... up to n](./oeis-research/Amarnath%20Murthy/a(n)%20=%20the%20largest%20prime%20divisor%20of%20the%20number%20C(n)%20formed%20from%20the%20reverse%20concatenation%20of%201,2,3,...%20up%20to%20n)
