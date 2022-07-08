@@ -1,0 +1,86 @@
+#!/usr/bin/ruby
+
+# Least k such that k^n + 1 is the product of n distinct primes (k > 0).
+# https://oeis.org/A281940
+
+# Known terms:
+#   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
+
+# Lower-bounds:
+#   a(16) > 651735
+
+include("../../../factordb/auto.sf")
+
+func check_partial_factors(f,n) {
+
+    f.uniq.len == f.len || return false
+    f.sum {|p| p.is_prime ? 1 : 2 } > n && return false
+
+    if (f.all_prime) {
+        if (f.len == n) {
+            return true
+        }
+        return false
+    }
+
+    return true
+}
+
+func a(n, from=2) {
+    for k in (from .. Inf) {
+
+        var v = (k**n + 1)
+        v.is_prob_squarefree(1e6) || next
+
+        say "[#{n}] Checking: #{k}"
+
+        var tf = v.trial_factor(1e7)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e7) + 1 >= n || next
+
+        tf = v.trial_factor(1e8)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e8) + 1 >= n || next
+
+        say "Many factors (at least #{tf.len-1 + (tf.last.is_prime ? 1 : 2)} with C#{tf.last.len}): #{v}"
+
+        var ff = v.special_factor
+        check_partial_factors(ff, n) || next
+
+        var f = factordb(v)
+        check_partial_factors(f, n) || next
+
+        tf = v.trial_factor(1e9)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
+
+        say "Strong candidate..."
+
+        #v.is_squarefree || next
+
+        var f3 = gcd_factors(v, tf + ff + f)
+        check_partial_factors(f3, n) || next
+
+        var pf = f3.grep{.is_prime}
+        var c = (v / pf.prod)
+        pf.len + c.ilog(1e9) + 1 >= n || next
+
+        say "Factoring C#{c.len}: #{c}"
+
+        f3 = f3.map{ .is_prime ? _ : factordb(_) }.flat
+        check_partial_factors(f3, n) || next
+
+        f3 = f3.map{ .factor }.flat
+        check_partial_factors(f3, n) || next
+
+        if (f3.len == n) {
+            return k
+        }
+    }
+}
+
+var from = 651735
+
+for n in (16) {
+    say "a(#{n}) = #{a(n, from)}"
+}
