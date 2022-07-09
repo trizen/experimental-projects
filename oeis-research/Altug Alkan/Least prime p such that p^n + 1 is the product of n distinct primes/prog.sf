@@ -3,11 +3,13 @@
 # Least prime p such that p^n + 1 is the product of n distinct primes.
 # https://oeis.org/A280005
 
+# Similar sequence: A242786
+
 # Known terms:
 #   2, 3, 13, 43, 73, 47, 457, 1697, 109, 8161, 10429, 13183, 30089, 66569, 5281
 
 # Lower-bounds:
-#   a(16) > 1344181
+#   a(16) > 1345361
 #   a(17) > 43889
 
 include("../../../factordb/auto.sf")
@@ -35,13 +37,19 @@ func a(n, from=2) {
 
         say "[#{n}] Checking: #{p}"
 
-        var tf = v.trial_factor(1e7)
+        var tf = v.trial_factor(1e6)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e6) + 1 >= n || next
+
+        tf = v.trial_factor(1e7)
         check_partial_factors(tf, n) || next
         tf.len.dec + tf.last.ilog(1e7) + 1 >= n || next
 
-        tf = v.trial_factor(1e8)
-        check_partial_factors(tf, n) || next
-        tf.len.dec + tf.last.ilog(1e8) + 1 >= n || next
+        if (tf.last > 1e60) {
+            tf = v.trial_factor(1e8)
+            check_partial_factors(tf, n) || next
+            tf.len.dec + tf.last.ilog(1e8) + 1 >= n || next
+        }
 
         say "Many factors (at least #{tf.len-1 + (tf.last.is_prime ? 1 : 2)} with C#{tf.last.len}): #{v}"
 
@@ -51,22 +59,25 @@ func a(n, from=2) {
         var f = factordb(v)
         check_partial_factors(f, n) || next
 
-        tf = v.trial_factor(1e9)
-        check_partial_factors(tf, n) || next
-        tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
-
-        say "Strong candidate..."
-
-        #v.is_squarefree || next
-
         var f3 = gcd_factors(v, tf + ff + f)
         check_partial_factors(f3, n) || next
 
-        var pf = f3.grep{.is_prime}
-        var c = (v / pf.prod)
-        pf.len + c.ilog(1e9) + 1 >= n || next
+        if ((f3.last > 1e65) && f3.last.is_composite) {
+            tf = v.trial_factor(1e9)
+            check_partial_factors(tf, n) || next
+            tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
 
-        say "Factoring C#{c.len}: #{c}"
+            say "Strong candidate..."
+
+            f3 = gcd_factors(v, tf + ff + f)
+            check_partial_factors(f3, n) || next
+
+            var pf = f3.grep{.is_prime}
+            var c = (v / pf.prod)
+            pf.len + c.ilog(1e9) + 1 >= n || next
+
+            say "Factoring C#{c.len}: #{c}"
+        }
 
         f3 = f3.map{ .is_prime ? _ : factordb(_) }.flat
         check_partial_factors(f3, n) || next
@@ -81,7 +92,7 @@ func a(n, from=2) {
 }
 
 #var from = 2
-var from = 1344181
+var from = 1345361
 
 for n in (16) {
     say "a(#{n}) = #{a(n, from)}"

@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# Smallest number such that k^n - 1 contains n distinct prime divisors.
+# https://oeis.org/A219019
+
+# Known terms:
+#   3, 4, 7, 8, 16, 11, 79, 44, 81, 91, 1024, 47
+
+# Lower-bounds:
+#   a(13) > 10667
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        say "Checking: #{k}"
+        var v = (k**n - 1)
+        v.is_omega_prime(n) || next
+        return k
+    }
+}
+
+#var from = 1
+var from = 10667
+
+for n in (13) {
+    say "a(#{n}) = #{a(n, from)}"
+}
+
+__END__
+a(1) = 3
+a(2) = 4
+a(3) = 7
+a(4) = 8
+a(5) = 16
+a(6) = 11
+a(7) = 79
+a(8) = 44
+a(9) = 81
+a(10) = 91
+a(11) = 1024
+a(12) = 47

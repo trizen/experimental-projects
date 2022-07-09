@@ -21,10 +21,11 @@ sub a($n) {
     my $z = Math::GMPz::Rmpz_init();
 
     for(my $p = 2; ; $p = next_prime($p)) {
-        say "Checking: $p";
+        #say "Checking: $p";
         Math::GMPz::Rmpz_ui_pow_ui($z, $p, $n);
         Math::GMPz::Rmpz_add_ui($z, $z, 1);
         my $t = Math::GMPz::Rmpz_get_str($z, 10);
+        #Math::Prime::Util::GMP::is_almost_prime($n, $t) || next;
         Math::Prime::Util::GMP::moebius($t) || next;
         if (Math::Prime::Util::GMP::prime_omega($t) == $n) {
             return $p;
@@ -32,7 +33,7 @@ sub a($n) {
     }
 }
 
-foreach my $n (16) {
+foreach my $n (1..10) {
     say "a($n) = ", a($n);
 }
 

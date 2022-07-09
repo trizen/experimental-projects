@@ -1,19 +1,18 @@
 #!/usr/bin/ruby
 
-# Least k such that k^n + 1 is the product of n distinct primes (k > 0).
-# https://oeis.org/A281940
+# Least prime p such that p^n and p^n+1 have the same number of prime factors (counted with multiplicity) or 0 if no such number exists
+# https://oeis.org/A242786
 
 # Known terms:
-#   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
+#   2, 3, 3, 43, 7, 41, 23, 643, 17, 557, 251, 13183, 1999, 10007, 107
 
 # Lower-bounds:
-#   a(16) > 1023493
+#   a(16) > 1462519
 
 include("../../../factordb/auto.sf")
 
 func check_partial_factors(f,n) {
 
-    f.uniq.len == f.len || return false
     f.sum {|p| p.is_prime ? 1 : 2 } > n && return false
 
     if (f.all_prime) {
@@ -27,18 +26,17 @@ func check_partial_factors(f,n) {
 }
 
 func a(n, from=2) {
-    for k in (from .. Inf) {
+    for (var p = from; true; p.next_prime!) {
 
-        var v = (k**n + 1)
-        v.is_prob_squarefree(1e6) || next
+        var v = (p**n + 1)
 
-        say "[#{n}] Checking: #{k}"
+        say "[#{n}] Checking: #{p}"
 
         var tf = v.trial_factor(1e6)
         check_partial_factors(tf, n) || next
         tf.len.dec + tf.last.ilog(1e6) + 1 >= n || next
 
-        var tf = v.trial_factor(1e7)
+        tf = v.trial_factor(1e7)
         check_partial_factors(tf, n) || next
         tf.len.dec + tf.last.ilog(1e7) + 1 >= n || next
 
@@ -83,13 +81,12 @@ func a(n, from=2) {
         check_partial_factors(f3, n) || next
 
         if (f3.len == n) {
-            return k
+            return p
         }
     }
 }
 
-#var from = 2
-var from = 1023493
+var from = 1462519
 
 for n in (16) {
     say "a(#{n}) = #{a(n, from)}"
