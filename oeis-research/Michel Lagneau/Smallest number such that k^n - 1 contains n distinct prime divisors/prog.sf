@@ -6,22 +6,53 @@
 # Known terms:
 #   3, 4, 7, 8, 16, 11, 79, 44, 81, 91, 1024, 47
 
-# Lower-bounds:
-#   a(13) > 10667
+# New terms found:
+#   12769, 389, 256, 413, 46656, 373
 
-func a(n, from=1) {
+# PARI/GP program:
+#   a(n) = my(k=2); while (omega(k^n-1) != n, k++); k;
+
+# Lower-bounds:
+#   a(19) > 368971
+#   a(23) > 89107
+#   a(26) > 100948
+#   a(27) > 19141
+
+# Upper-bounds:
+#   a(19) <= 1048576
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=2) {
     for k in (from..Inf) {
-        say "Checking: #{k}"
         var v = (k**n - 1)
+        say "[#{k}] Checking: #{v}"
+
+        if (k.is_prime && (v.len > 60)) {
+            say ":: Checking factordb..."
+            var f = try { FF_factordb_exp(v) }
+            if (defined(f)) {
+                say ":: Success..."
+                if (f.len == n) {
+                    return k
+                }
+                else {
+                    next
+                }
+            }
+            else {
+                say ":: Fail..."
+            }
+        }
+
         v.is_omega_prime(n) || next
         return k
     }
 }
 
-#var from = 1
-var from = 10667
+var from = 368971+1
 
-for n in (13) {
+for n in (19) {
     say "a(#{n}) = #{a(n, from)}"
 }
 
@@ -38,3 +69,17 @@ a(9) = 81
 a(10) = 91
 a(11) = 1024
 a(12) = 47
+a(13) = 12769
+a(14) = 389
+a(15) = 256
+a(16) = 413
+a(17) = 46656
+a(18) = 373
+a(19) = ?
+a(20) = 1000
+a(21) = 4096
+a(22) = 43541
+a(23) = ?
+a(24) = 563
+a(25) = 4096
+a(26) = ?

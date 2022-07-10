@@ -1,0 +1,48 @@
+#!/usr/bin/ruby
+
+# Least number k such that k^n and k^n-1 contain the same number of prime factors (counted with multiplicity) or 0 if no such k exists.
+# https://oeis.org/A241793
+
+# Known terms:
+#   3, 34, 5, 15, 17, 55, 79, 5, 53, 23, 337, 13, 601, 79, 241, 41, 18433, 31, 40961, 89, 3313, 1153
+
+# Lower-bounds:
+#   a(23) > 157639
+
+include("../../../factordb/auto.sf")
+
+func a(m, from=2) {
+    for k in (from..Inf) {
+
+        var n = bigomega(k)*m
+        var v = (k**m - 1)
+
+        say "[#{k}] Checking: #{v}"
+
+        if (k.is_prime && (v.len > 60)) {
+            say ":: Checking factordb..."
+            var f = try { FF_factordb(v) }
+            if (defined(f)) {
+                say ":: Success..."
+                if (f.len == n) {
+                    return k
+                }
+                else {
+                    next
+                }
+            }
+            else {
+                say ":: Fail..."
+            }
+        }
+
+        v.is_almost_prime(n) || next
+        return k
+    }
+}
+
+var from = 157639
+
+for n in (23) {
+    say "a(#{n}) = #{a(n, from)}"
+}

@@ -93,7 +93,7 @@ func a(m, from=2) {
     }
 }
 
-var from = 157057
+var from = 170369+1
 
 for n in (23) {
     say "a(#{n}) = #{a(n, from)}"
