@@ -2,7 +2,7 @@
 
 # Find special factors for FactorDB, given a list of numbers.
 
-var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e20) }.sort.uniq
+var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e19) }.sort.uniq
 
 var gcds = Math.batch_gcd(nums...).uniq
 

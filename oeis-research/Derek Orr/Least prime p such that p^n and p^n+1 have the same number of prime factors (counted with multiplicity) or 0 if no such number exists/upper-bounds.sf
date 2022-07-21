@@ -6,8 +6,8 @@
 # Known terms:
 #   2, 3, 3, 43, 7, 41, 23, 643, 17, 557, 251, 13183, 1999, 10007, 107
 
-# Lower-bounds:
-#   a(16) > 1462519
+# Conjectured lower-bounds:
+#   a(16) > 3048767
 
 include("../../../factordb/auto.sf")
 
@@ -48,48 +48,22 @@ func a(n, from=2) {
 
         say "Many factors (at least #{tf.len-1 + (tf.last.is_prime ? 1 : 2)} with C#{tf.last.len}): #{v}"
 
-        var sf = v.special_factor(10)
+        var sf = v.special_factor
         check_partial_factors(sf, n) || next
 
-        var f = factordb(v)
-        check_partial_factors(f, n) || next
+        #~ var f = factordb(v)
+        #~ check_partial_factors(f, n) || next
 
-        var f3 = gcd_factors(v, tf + sf + f)
+        var f3 = gcd_factors(v, tf + sf)
         check_partial_factors(f3, n) || next
 
-        if ((f3.last > 1e65) && f3.last.is_composite) {
-
-            say "Trial division up to 10^9 with C#{f3.last.len}..."
-
-            tf = v.trial_factor(1e9)
-            check_partial_factors(tf, n) || next
-            tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
-
-            say "Strong candidate..."
-
-            f3 = gcd_factors(v, tf + sf + f)
-            check_partial_factors(f3, n) || next
-
-            var pf = f3.grep{.is_prime}
-            var c = (v / pf.prod)
-            pf.len + c.ilog(1e9) + 1 >= n || next
-
-            say "Factoring C#{c.len}: #{c}"
-        }
-
-        f3 = f3.map{ .is_prime ? _ : factordb(_) }.flat
-        check_partial_factors(f3, n) || next
-
-        f3 = f3.map{ .factor }.flat
-        check_partial_factors(f3, n) || next
-
-        if (f3.len == n) {
+        if (f3.len >= 12) {
             return p
         }
     }
 }
 
-var from = 1777351+1
+var from = 3048767+1
 
 for n in (16) {
     say "a(#{n}) = #{a(n, from)}"
