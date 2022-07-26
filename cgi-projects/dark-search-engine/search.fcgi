@@ -66,22 +66,21 @@ use CGI qw/:standard *table -utf8/;
 #use URI::Escape qw(uri_escape_utf8);
 
 use WWW::Mechanize;
-use File::Basename qw(dirname);
+use File::Basename        qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
-use Text::Unidecode qw(unidecode);
-use Text::ParseWords qw(quotewords);
-use HTML::Entities qw(encode_entities);
+use Text::Unidecode       qw(unidecode);
+use Text::ParseWords      qw(quotewords);
+use HTML::Entities        qw(encode_entities);
 use WWW::RobotRules;
-use LWP::Simple qw(get);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-use ntheory qw(forcomb binomial);
+use ntheory    qw(forcomb binomial);
 use List::Util qw(uniq max);
 
 #use JSON::XS qw(decode_json encode_json);
 
-use Storable qw(freeze thaw);
-use Encode qw(decode_utf8 encode_utf8);
+use Storable       qw(freeze thaw);
+use Encode         qw(decode_utf8 encode_utf8);
 use Digest::xxHash qw(xxhash32_hex);
 
 use constant {
@@ -239,8 +238,35 @@ else {
     $mech = WWW::Mechanize->new(%mech_options);
 }
 
+my $lwp = LWP::UserAgent->new(%mech_options);
+
 if (USE_TOR) {    # set Tor proxy
     $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+    $lwp->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+}
+
+my $robot_rules = WWW::RobotRules->new($mech->agent);
+
+{
+    state $accepted_encodings = HTTP::Message::decodable();
+    $mech->default_header('Accept-Encoding' => $accepted_encodings);
+    $lwp->default_header('Accept-Encoding' => $accepted_encodings);
+};
+
+{
+    require LWP::ConnCache;
+    my $cache = LWP::ConnCache->new;
+    $cache->total_capacity(undef);    # no limit
+    $mech->conn_cache($cache);
+    $lwp->conn_cache($cache);
+};
+
+sub lwp_get ($url) {
+    my $resp = $lwp->get($url);
+    if ($resp->is_success) {
+        return $resp->decoded_content;
+    }
+    return undef;
 }
 
 # Support for cookies from file
@@ -265,20 +291,6 @@ if (defined($cookie_file) and -f $cookie_file) {
     $cookies->load;
     $mech->cookie_jar($cookies);
 }
-
-my $robot_rules = WWW::RobotRules->new($mech->agent);
-
-{
-    state $accepted_encodings = HTTP::Message::decodable();
-    $mech->default_header('Accept-Encoding' => $accepted_encodings);
-};
-
-{
-    require LWP::ConnCache;
-    my $cache = LWP::ConnCache->new;
-    $cache->total_capacity(undef);    # no limit
-    $mech->conn_cache($cache);
-};
 
 sub extract_words ($text) {
     grep { length($_) >= WORD_MIN_LEN and length($_) <= WORD_MAX_LEN and /[[:alnum:]]/ }
@@ -549,7 +561,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
         ## my $host = URI->new($url)->host;
 
         my $robots_url = $protocol . join('/', $host, 'robots.txt');
-        my $robots_txt = get($robots_url);
+        my $robots_txt = lwp_get($robots_url);
 
         $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
 
