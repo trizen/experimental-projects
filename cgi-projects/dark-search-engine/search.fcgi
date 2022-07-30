@@ -66,13 +66,14 @@ use CGI qw/:standard *table -utf8/;
 #use URI::Escape qw(uri_escape_utf8);
 
 use WWW::Mechanize;
+use WWW::RobotRules;
+
 use File::Basename        qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
 use Text::Unidecode       qw(unidecode);
 use Text::ParseWords      qw(quotewords);
 use HTML::Entities        qw(encode_entities);
-use WWW::RobotRules;
-use Time::HiRes qw(gettimeofday tv_interval);
+use Time::HiRes           qw(gettimeofday tv_interval);
 
 use ntheory    qw(forcomb binomial);
 use List::Util qw(uniq max);

@@ -54,13 +54,13 @@ sub super_poulet_pseudoprimes ($primes, $callback) {
                             #foreach my $k (uniq(factor($p+1))) {
 
                         #foreach my $j (3..10) {
-                                my $m = ($k + int rand 100);
+                                my $m = addint($k, int rand 100);
 
                                 if (($d % 2) * ($m % 2) != 0) {
-                                    ++$m;
+                                    $m = addint($m, 1);
                                 }
 
-                                my $q = $d*$m+1;
+                                my $q = addint(mulint($d,$m),1);
 
                                 #~ if (is_prime($q) and $d % znorder(2, $q) == 0) {
                                     #~ push @{$common_divisors{$d}}, $q;
@@ -69,9 +69,9 @@ sub super_poulet_pseudoprimes ($primes, $callback) {
                                 #if ((($q % 24 == 1) or ($q % 24 == 13)) and is_prime($q)) {
                                 if (is_prime($q)) {
                                     my $z = znorder(2, $q);
-                                    2*$z < $limit or next;
-                                    foreach my $d(divisors($q-1)) {
-                                        if ($d % $z == 0 and exists $common_divisors{$d}) {
+                                    #2*$z < $limit or next;
+                                    foreach my $d(divisors(subint($q,1))) {
+                                        if (modint($d, $z) == 0 and exists $common_divisors{$d}) {
                                             push @{$common_divisors{$d}}, $q;
                                         }
                                     }

@@ -46,15 +46,15 @@ Math::GMPz::Rmpz_primorial_ui($k, $B);
 sub isok ($p) {
 
     if ($p < ~0) {
-        is_smooth($p - 1, $B) || return;
         is_smooth($p + 1, $B) || return;
+        is_smooth($p - 1, $B) || return;
         return 1;
     }
 
     Math::GMPz::Rmpz_set_str($z, "$p", 10);
-    Math::GMPz::Rmpz_sub_ui($z, $z, 1);
+    Math::GMPz::Rmpz_add_ui($z, $z, 1);
     is_smooth_over_prod($z, $k) || return;
-    Math::GMPz::Rmpz_add_ui($z, $z, 2);
+    Math::GMPz::Rmpz_sub_ui($z, $z, 2);
     is_smooth_over_prod($z, $k) || return;
 
     return 1;
@@ -62,7 +62,7 @@ sub isok ($p) {
 
 my %seen;
 
-open my $fh, '>:raw', 'primes.txt';
+open my $fh, '>:raw', 'smooth_primes.txt';
 
 while (my ($n, $value) = each %db) {
 
