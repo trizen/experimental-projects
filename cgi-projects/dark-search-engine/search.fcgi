@@ -104,7 +104,7 @@ use constant {
     WORD_MAX_LEN => 45,
 
     # Maximum number of top best search results to return.
-    MAX_SEARCH_RESULTS => 100,
+    MAX_SEARCH_RESULTS => 200,
 
     # Show the description of each website in search results (if available).
     # When disabled, a snippet of the content will be shown instead.
@@ -476,7 +476,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $resp = $mech->get($url);
 
     # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
-    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|429|500)\z/) {
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|405|406|410|429|500)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
         }
