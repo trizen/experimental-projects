@@ -11,7 +11,7 @@ func a(n) {
     return 2 if (n == 2)
 
     var max = lcm(^n -> map{.lucas})
-    var arr = (1..Inf -> lazy.map{.lucas}.while { _ <= max }.grep{.divisors.count{.is_lucas} <= n})
+    var arr = (0..Inf -> lazy.map{.lucas}.while { _ <= max }.grep{.divisors.count{.is_lucas} <= n})
 
     var tt = Set(arr...)
 

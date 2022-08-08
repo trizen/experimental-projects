@@ -20,12 +20,12 @@ sub lucas ($n) {
 }
 
 sub is_lucas ($n) {
-    state $lookup = {2 => 1, 1 => 1};
-    state $max    = 2;
-    state $k      = 2;
-    while ($max <= $n) {
-        $max = lucas($k++);
-        $lookup->{$max} = 1;
+    state $lookup = {2 => undef, 1 => undef, 3 => undef};
+    state $x      = 1;
+    state $y      = 3;
+    while ($y < $n) {
+        ($x, $y) = ($y, addint($x, $y));
+        undef $lookup->{$y};
     }
     exists($lookup->{$n});
 }
@@ -53,6 +53,11 @@ sub a ($n) {
     @tt{@arr} = ();
 
     foreach my $k (@arr) {
+
+        if ($k > $max) {
+            next;
+        }
+
         foreach my $v (keys %tt) {
             my $t = lcm($v, $k);
             if ($t <= $max and !exists($tt{$t})) {
@@ -83,7 +88,7 @@ sub a ($n) {
     return -1;
 }
 
-foreach my $n (1 .. 12) {
+foreach my $n (1 .. 20) {
     say "a($n) = ", a($n);
 }
 
