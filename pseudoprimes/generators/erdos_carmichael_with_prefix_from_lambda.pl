@@ -39,7 +39,8 @@ sub vecprodmod ($arr, $mod) {
         $prod = Math::Prime::Util::GMP::mulmod($prod, $k, $mod);
     }
 
-    Math::GMPz->new($prod);
+    #Math::GMPz->new($prod);
+    Math::GMPz::Rmpz_init_set_str($prod, 10);
 }
 
 # Primes p such that p-1 divides L and p does not divide L

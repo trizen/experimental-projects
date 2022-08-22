@@ -4,7 +4,11 @@
 
 var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e19) }.sort.uniq
 
-var gcds = Math.batch_gcd(nums...).uniq
+define(
+    USE_BATCH_GCD = false
+)
+
+var gcds = (USE_BATCH_GCD ? Math.batch_gcd(nums...).uniq : [])
 
 for n in (nums) {
 
@@ -27,7 +31,13 @@ for n in (nums) {
     #~ f = Math.gcd_factors(n, f + gcds)
     #~ f = f.first(-1)
 
-    var f = Math.gcd_factors(n, gcds + n.special_factors).first(-1)
+    var f = if (USE_BATCH_GCD) {
+        Math.gcd_factors(n, gcds + n.special_factors).first(-1)
+    }
+    else {
+        n.special_factors.first(-1)
+    }
+
     f || next
     say "#{n} = #{f.join(' * ')}"
 }
