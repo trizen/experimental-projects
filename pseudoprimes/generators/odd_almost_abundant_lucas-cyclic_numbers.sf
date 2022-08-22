@@ -1,10 +1,7 @@
 #!/usr/bin/ruby
 
-# Generate odd cyclic numbers that are almost abundant.
-# If all odd cyclic numbers have Carmichael multiples, then abundant Carmichael numbers do exist.
-
-# See also:
-#   http://www.numericana.com/data/crump.htm
+# Generate odd Lucas-cyclic numbers that are almost abundant.
+# These are terms of: https://oeis.org/A255602
 
 var min = Inf
 

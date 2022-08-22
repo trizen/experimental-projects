@@ -1494,6 +1494,7 @@ Highly experimental personal projects.
         * [abundant carmichael cached.pl](./pseudoprimes/programs/abundant_carmichael_cached.pl)
         * [abundant fermat pseudoprimes.pl](./pseudoprimes/programs/abundant_fermat_pseudoprimes.pl)
         * [abundant fermat pseudoprimes cached.pl](./pseudoprimes/programs/abundant_fermat_pseudoprimes_cached.pl)
+        * [abundant lucas-carmichael.pl](./pseudoprimes/programs/abundant_lucas-carmichael.pl)
         * [abundant lucas-carmichael cached.pl](./pseudoprimes/programs/abundant_lucas-carmichael_cached.pl)
         * [almost-extra-strong-lucas not extra-strong-lucas.pl](./pseudoprimes/programs/almost-extra-strong-lucas_not_extra-strong-lucas.pl)
         * [almost abundant carmichael.pl](./pseudoprimes/programs/almost_abundant_carmichael.pl)
