@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# Number of Lucas divisors of the n-th Lucas number
+# https://oeis.org/A356122
+
+func a(k) {
+
+    return 2 if (k == 0)
+    return 1 if (k == 1)
+
+    var n = k.lucas
+    var count = 0
+    for k in (0..Inf) {
+        var t = k.lucas
+        if (t.divides(n)) {
+            ++count
+        }
+        break if (t >= n)
+    }
+    return count
+}
+
+for n in (0..10) {
+    say "#{n} #{a(n)}"
+}
+
+__END__
+
+# PARI/GP program:
+
+a(n) = if(n==1, return(1)); my(k=fibonacci(n+1)+fibonacci(n-1),c=0,x=2,y=1); while(x <= k, if(k%x == 0, c++); [x,y]=[y,x+y]); c;

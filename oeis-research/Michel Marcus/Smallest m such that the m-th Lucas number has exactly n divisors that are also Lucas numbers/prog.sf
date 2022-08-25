@@ -1,0 +1,44 @@
+#!/usr/bin/ruby
+
+# Smallest m such that the m-th Lucas number has exactly n divisors that are also Lucas numbers.
+# https://oeis.org/A356666
+
+# Known terms:
+#   1, 0, 3, 6, 15, 30, 45, 90, 105, 210, 405
+
+# New terms:
+#   1, 0, 3, 6, 15, 30, 45, 90, 105, 210, 405, 810, 315, 630, 3645, 2025, 945, 1890, 1575, 3150, 2835, 5670
+#   1, 0, 3, 6, 15, 30, 45, 90, 105, 210, 405, 810, 315, 630, 3645, 2025, 945, 1890, 1575, 3150, 2835, 5670, 36450, 25025, 3465, 6930
+
+# Using the PARI/GP program, finding the first 26 terms, took 5 hours.
+
+func count_lucas_divisors(n) {
+    var count = 0
+    for k in (0..Inf) {
+        var t = k.lucas
+        if (t.divides(n)) {
+            ++count
+        }
+        break if (t >= n)
+    }
+    return count
+}
+
+func a(n) {
+    return 1 if (n == 1)
+    return 0 if (n == 2)
+    0..Inf -> first_by {|k|
+        count_lucas_divisors(k.lucas) == n
+    }
+}
+
+for n in (1..100) {
+    say "#{n} #{a(n)}"
+}
+
+__END__
+
+# PARI/GP program:
+
+countLd(n) = my(c=0,x=2,y=1); while(x <= n, if(n%x == 0, c++); [x,y]=[y,x+y]); c;
+a(n) = if(n==1, return(1)); my(k=0,x=2,y=1); while(1, if(countLd(x) == n, return(k)); [x,y,k]=[y,x+y,k+1]); \\ ~~~~
