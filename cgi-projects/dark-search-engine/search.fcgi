@@ -123,7 +123,7 @@ use constant {
     RANK_ON_NON_BOUNDARY_MATCH => 0,
 
     # Maximum number of iterations to spend during the ranking process.
-    MAX_RANK_ITERATIONS => 1e4,
+    MAX_RANK_ITERATIONS => 10_000,
 
     # Make sure the SSL certificate is valid.
     SSL_VERIFY_HOSTNAME => 0,
@@ -134,11 +134,33 @@ use constant {
     # On "403 Forbidden" or "429 Too Many Requests" status, try to crawl the Web Archive version.
     CRAWL_ARCHIVE_FORBIDDEN => 1,
 
+    # Word popularity limit (ignore words with popularity larger than this)
+    MAX_WORD_POPULARITY => 10_000,
 };
 
-# Ignore these words in search requests, as too many websites contain them
+# Optimize for these words in search requests, as very many websites contain them
 my %too_common_words;
-@too_common_words{qw(about all and can for not that the this with you)} = ();
+@too_common_words{qw(
+
+    times are will program those like home via know must access life and another these read following
+    video below issues security 2022 place article off www given high end our only possible within less
+    still support better never over date file non image wayback information you website under from
+    contribute any government list own much once public again group type each find internet while both
+    well about open action then available services without can were best where such get com every control
+    however create using look want world that your not three email great things projects being business
+    also the old main people based few did with special most said his state point results site system policy
+    history during their too contact case years form next one small called link set 2020 previous same events
+    new than https show note contents just view number out privacy see after part known real review report
+    between archive text please right time around into was other mobile work here more related may this take
+    have sign used back good different org message full important made original line top blog search personal
+    give files 100 could change status research they last issue media version because say including features
+    several recent terms some does code been down many example service way account large log all learn use should
+    page there free help even 2021 its current project found against need power start when for but through contains
+    why how has team since who least run what let order had user which due long very name first before wiki would
+    data now post organization source machine cannot keep software news general later content links year rights
+    others day might inc them web two community make http don
+
+)} = ();
 
 # List of tracking query parameters to remove from URLs
 my @tracking_parameters = qw(
@@ -147,6 +169,8 @@ my @tracking_parameters = qw(
 
   utm_source utm_medium utm_term
   utm_content utm_campaign utm_referrer
+
+  mtm_kwd mtm_campaign mtm_medium
 
   __hssc __hstc __s _hsenc _openstat dclid fb_ref gclid
   hsCtaTracking igshid mc_eid mkt_tok ml_subscriber ml_subscriber_hash
@@ -413,7 +437,17 @@ sub normalize_url ($url) {
 sub add_to_database_index ($text, $key) {
 
     foreach my $word (extract_words($text)) {
+
+        # next if exists $too_common_words{$word};
+
         if (exists $WORDS_INDEX{$word}) {
+
+#<<<
+            #~ if (($WORDS_INDEX{$word} =~ tr/ //) >= MAX_WORD_POPULARITY) {
+                #~ next;
+            #~ }
+#>>>
+
             $WORDS_INDEX{$word} .= ' ' . $key;
         }
         else {
@@ -476,9 +510,9 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $resp = $mech->get($url);
 
     # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
-    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:403|404|405|406|410|429|500)\z/) {
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:400|403|404|405|406|410|429|462|500)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
-            return crawl("https://web.archive.org/web/" . $url, $depth, $recrawl);
+            return crawl("https://web.archive.org/web/1990/" . (($url =~ m{^https://}) ? 'https://' : 'http://') . normalize_url($url), $depth, $recrawl);
         }
     }
 
@@ -818,7 +852,7 @@ sub sanitize_index {
 
         my $ref_count = 1 + ($value =~ tr/ //);
 
-        if ($ref_count > 5000) {
+        if ($ref_count > MAX_WORD_POPULARITY) {
             say "$ref_count: $key";
         }
 

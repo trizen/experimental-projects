@@ -6,6 +6,9 @@
 # Terms:
 #   399, 6304359999, 408598269695, 517270926095
 
+# Most likely the next term is:
+#   20203946790335
+
 # The rounded values of sigma(k)/k are 1.604, 1.612, 1.666, 1.705, ...
 
 use 5.020;
@@ -27,6 +30,7 @@ while (<>) {
     my $n = (split(' ', $_))[-1];
 
     $n || next;
+    $n =~ /^[0-9]+\z/ or next;
 
     #next if $n > ~0;
     #next if length($n) > 65;
@@ -73,8 +77,10 @@ __END__
 1.6661 abundancy: 408598269695
 1.7057 abundancy: 517270926095
 1.7517 abundancy: 20203946790335
+1.7530 abundancy: 6401963975003135
 1.8251 abundancy: 20576473996736735
 1.8255 abundancy: 20904330094840610495
+1.8309 abundancy: 777695624868402683135
 1.8330 abundancy: 243947700662439007892735
 1.8400 abundancy: 3208259191987571864714495
 1.8474 abundancy: 4987929942854579874531455

@@ -39,7 +39,9 @@ while (<>) {
     my $phi = euler_phi($n);
     my $nm1 = subint($n, 1);
 
-    if (vecany { modint(mulint($nm1, $_), $phi) == 0 } factor($nm1)) {
+    my $p = divint($phi, gcd($phi, $nm1));
+
+    if (modint($nm1, $p) == 0 and is_prime($p)) {
         if (!$seen{$n}++) {
             say $n;
             push @terms, $n;

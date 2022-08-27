@@ -6,27 +6,25 @@
 use 5.020;
 use ntheory qw(:all);
 
-my @list = (471);
+my @list = (5);
 
-foreach my $p(grep {gcd($_, $list[0]) == 1} @{primes(36739)}) {
+foreach my $p (grep { gcd($_, $list[0]) == 1 } @{primes(36739)}) {
 
-    my @new = @list;
+    my @new;
 
-    say "[$#new] Prime: $p";
-    foreach my $n(@list) {
+    say "# [$#list] Prime: $p";
+
+    foreach my $n (@list) {
         my $t = $n*$p;
-        if ($t <= 4131709859199) {
-            if (gcd($p+1, $t) == 1) {
-                my @factors = factor($t);
-                if (vecall { gcd($t, $_+1) == 1 } @factors) {
-                    push @new, $t;
-                    if (vecall { ($t+1) % ($_+1) == 0 } @factors) {
-                        say $t;
-                    }
+        if ($t < 1e18) {
+            if (gcd($t, divisor_sum($t)) == 1) {
+                push @new, $t;
+                if (vecall { ($t+1) % ($_+1) == 0 } factor($t)) {
+                    say $t;
                 }
             }
         }
     }
 
-    @list = @new;
+    push @list, @new;
 }

@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k with n prime factors such that p^k == p (mod k) for every prime p dividing k.
+# https://oeis.org/A294179
+
+# Known terms:
+#   2, 65, 561, 41041, 825265, 321197185
+
+# New terms found:
+#   a(7) = 5394826801
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.squarefree_almost_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.squarefree_almost_primes_each(from, upto, {|v|
+                if (v.factor.all {|p|
+                    powmod(p, v, v) == p
+                }) {
+                    say "a(#{n}) = #{v}"
+                    return v;
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(7)
