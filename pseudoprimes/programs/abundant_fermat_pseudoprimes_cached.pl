@@ -3,6 +3,9 @@
 # a(n) = smallest pseudoprime to base 2 with n prime factors.
 # https://oeis.org/A007011
 
+# Smallest known Fermat pseudoprime to base 2:
+#   12796625128232187655293894634808130945
+
 use 5.020;
 use strict;
 use warnings;

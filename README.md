@@ -1444,6 +1444,8 @@ Highly experimental personal projects.
         * [fermat from lambdas.pl](./pseudoprimes/generators/fermat_from_lambdas.pl)
         * [fermat from lucas sequences.sf](./pseudoprimes/generators/fermat_from_lucas_sequences.sf)
         * [fermat pseudoprimes generation.jl](./pseudoprimes/generators/fermat_pseudoprimes_generation.jl)
+        * [fermat pseudoprimes in range.pl](./pseudoprimes/generators/fermat_pseudoprimes_in_range.pl)
+        * [fermat pseudoprimes in range with prefix.pl](./pseudoprimes/generators/fermat_pseudoprimes_in_range_with_prefix.pl)
         * [fermat pseudoprimes with small znorder.sf](./pseudoprimes/generators/fermat_pseudoprimes_with_small_znorder.sf)
         * [generate abundant carmichael numbers.pl](./pseudoprimes/generators/generate_abundant_carmichael_numbers.pl)
         * [generate carmichael cyclic multiple.pl](./pseudoprimes/generators/generate_carmichael_cyclic_multiple.pl)
