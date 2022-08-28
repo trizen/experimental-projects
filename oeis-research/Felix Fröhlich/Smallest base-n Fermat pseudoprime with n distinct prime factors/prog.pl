@@ -1,18 +1,27 @@
 #!/usr/bin/perl
 
-# Daniel "Trizen" Șuteu
-# Date: 28 August 2022
-# https://github.com/trizen
+# Smallest base-n Fermat pseudoprime with n distinct prime factors.
+# https://oeis.org/A271874
 
-# Generate all the squarefree Fermat pseudoprimes to given a base with n prime factors in a given range [a,b]. (not in sorted order)
+# Known terms:
+#   341, 286, 11305, 2203201, 12306385
 
-# See also:
-#   https://en.wikipedia.org/wiki/Almost_prime
+# New terms found:
+#   a(7)  = 9073150801
+#   a(8)  = 3958035081
+#   a(9)  = 2539184851126
+#   a(10) = 152064312120721
+#   a(11) = 10963650080564545
+#   a(12) = 378958695265110961
+#   a(13) = 1035551157050957605345
+#   a(14) = 57044715596229144811105
+#   a(15) = 6149883077429715389052001
 
 use 5.020;
 use ntheory qw(:all);
 use experimental qw(signatures);
-use Math::GMP qw(:constant);
+#use Math::GMP qw(:constant);
+#use Math::AnyNum qw(:overload);
 
 sub divceil ($x,$y) {   # ceil(x/y)
     my $q = divint($x, $y);
@@ -21,11 +30,7 @@ sub divceil ($x,$y) {   # ceil(x/y)
 
 sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
-    #my $m = "8833404609327838592895595408965";
-    #my $m = "1614825036214963273306005";
-    my $m = "775553931136780560856033387845";      # finds new abundant Fermat psp
-    #my $m = "1256975577207099774483036285";
-    #my $m = "847680446732501153015644492914585";
+    my $m = 1;
     my $L = znorder($base, $m);
 
     $A = mulint($A, $m);
@@ -67,7 +72,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
             my $z = znorder($base, $p) // next;
             my $L = lcm($lambda, $z);
 
-            ($p >= 3 and gcd($L, $t) == 1) or next;
+            gcd($L, $t) == 1 or next;
 
             my $u = divceil($A, $t);
             my $v = divint($B, $t);
@@ -76,22 +81,39 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
                 __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
             }
         }
-    }->($m, $L, 3, $k);
+    }->($m, $L, 2, $k);
 }
 
-my $base = 2;
-my $from = 2;
-my $upto = 2*$from;
+my $k = 12;  # number of prime factors
+
+my $from  = 1;
+my $upto  = 2*$from;
+my $base = $k;
 
 while (1) {
 
-    say "# Range: ($from, $upto)";
+    say "# Range ($from, $upto)";
 
-    foreach my $k (2..100) {
-        pn_primorial($k) < $upto or last;
-        fermat_pseudoprimes_in_range($from, $upto, $k, $base, sub ($n) { say $n });
+    my $found = 0;
+    my $min = 'inf';
+
+    if ($from >= pn_primorial($k)) {
+        fermat_pseudoprimes_in_range($from, $upto, $k, $base, sub ($n) {
+            say $n;
+            $found = 1;
+            if ($n < $min) {
+                $min = $n;
+            }
+    });
+    }
+
+    if ($found) {
+        say "a($k) = $min";
+        last;
     }
 
     $from = $upto+1;
-    $upto = 2*$from;
+    $upto = $from*2;
 }
+
+__END__

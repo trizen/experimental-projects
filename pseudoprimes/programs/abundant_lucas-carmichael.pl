@@ -6,8 +6,10 @@
 # Terms:
 #   399, 6304359999, 408598269695, 517270926095
 
-# Most likely the next term is:
+# Most likely the next terms are:
 #   20203946790335
+#   6401963975003135
+#   20576473996736735
 
 # The rounded values of sigma(k)/k are 1.604, 1.612, 1.666, 1.705, ...
 
