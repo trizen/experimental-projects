@@ -12,10 +12,10 @@
 use 5.020;
 use ntheory      qw(:all);
 use experimental qw(signatures);
-use Math::GMP    qw(:constant);
+#~ use Math::GMP    qw(:constant);
 
 sub divceil ($x, $y) {    # ceil(x/y)
-    my $q = $x / $y;
+    my $q = divint($x, $y);
     ($q * $y == $x) ? $q : ($q + 1);
 }
 
@@ -26,7 +26,7 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
     #my $m = "1056687375767188465946114009917285";
     #my $m = Math::GMPz->new("6863588485053268178811679453193455");
-    my $m = Math::GMP->new("8035018770721572330061486952496026236686375478339885");
+    my $m = 1;
     my $L = lcm(map { $_ - 1 } factor($m));
 
     if ($L == 0) {
@@ -38,12 +38,10 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
     $A = vecmax($A, pn_primorial($k));
 
-    $A = Math::GMP->new("$A");
-    $B = Math::GMP->new("$B");
+    #~ $A = Math::GMP->new("$A");
+    #~ $B = Math::GMP->new("$B");
 
-    if ($B > Math::GMP->new("2059832906607460252767290568443059994787898033540634712711845135488141590979778401392385")) {
-        $B = Math::GMP->new("2059832906607460252767290568443059994787898033540634712711845135488141590979778401392385");
-    }
+    $B = vecmin($B, 330468624532072027);
 
     if ($A > $B) {
         return;
@@ -53,18 +51,20 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
         if ($k == 1) {
 
-            $v = vecmin($v, $max_p);
+            #$v = vecmin($v, $max_p);
 
-            say "# Sieving: $m -> ($u, $v)" if ($v - $u > 2e6);
+            say "# Sieving: $m -> ($u, $v)" if ($v - $u > 1e7);
 
             if ($v - $u > 1e10) {
                 die "Range too large!\n";
             }
 
             forprimes {
-                my $t = $m * $_;
-                if (($t - 1) % $lambda == 0 and ($t - 1) % ($_ - 1) == 0) {
-                    $callback->($t);
+                if ($_ % 80 == 3) {
+                    my $t = $m * $_;
+                    if (($t - 1) % $lambda == 0 and ($t - 1) % ($_ - 1) == 0) {
+                        $callback->($t);
+                    }
                 }
             }
             $u, $v;
@@ -72,14 +72,16 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
             return;
         }
 
-        my $s = rootint($B / $m, $k);
+        my $s = rootint(divint($B, $m), $k);
 
         for (my $r ; $p <= $s ; $p = $r) {
 
-            last if ($p > $max_p);
+            #last if ($p > $max_p);
 
             $r = next_prime($p);
-            is_smooth($p - 1, 41) || next;
+            #is_smooth($p - 1, 41) || next;
+
+            $p%80 == 3 or next;
 
             if ($m % $p == 0) {
                 next;
@@ -90,7 +92,7 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
             my $t = $m * $p;
             my $u = divceil($A, $t);
-            my $v = $B / $t;
+            my $v = divint($B,$t);
 
             if ($u <= $v) {
                 __SUB__->($t, $L, $r, $k - 1, (($k == 2 && $r > $u) ? $r : $u), $v);
@@ -107,54 +109,12 @@ my $upto = 2 * $from;
 
 while (1) {
 
-    my $ok = 0;
     say "# Range: ($from, $upto)";
 
-    foreach my $k (9 .. 100) {
-        carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n }) or next;
-        $ok = 1;
+    foreach my $k (3,5) {
+        carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n });
     }
-
-    $ok || last;
 
     $from = $upto + 1;
     $upto = 2 * $from;
-}
-
-__END__
-#~ my $from = 2;
-#~ my $upto = 2*$from;
-
-#~ while (1) {
-
-    #~ say "# Range: ($from, $upto)";
-
-    #~ foreach my $k (2..50) {
-        #~ pn_primorial($k) < $upto or last;
-        #~ carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n });
-    #~ }
-
-    #~ $from = $upto+1;
-    #~ $upto = 2*$from;
-#~ }
-
-foreach my $k (reverse(2..100)) {
-
-    my $base = 2;
-    my $from = Math::GMPz->new(2);
-    my $upto = 2*$from;
-
-    my $pn_primorial = pn_primorial($k);
-
-    say "# [$k] Sieving...";
-
-    while (1) {
-
-        if ($pn_primorial < $upto) {
-            carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n }) or last;
-        }
-
-        $from = $upto+1;
-        $upto = 2*$from;
-    }
 }

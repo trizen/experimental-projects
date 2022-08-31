@@ -10,12 +10,12 @@
 #   https://en.wikipedia.org/wiki/Almost_prime
 
 use 5.020;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
-sub divceil ($x,$y) {   # ceil(x/y)
+sub divceil ($x, $y) {    # ceil(x/y)
     my $q = divint($x, $y);
-    (mulint($q, $y) == $x) ? $q : ($q+1);
+    ($q * $y == $x) ? $q : ($q + 1);
 }
 
 sub lucas_carmichael_numbers_in_range ($A, $B, $k, $callback) {
@@ -26,15 +26,15 @@ sub lucas_carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
         if ($k == 1) {
 
-            printf("# $m -> ($u, $v) -> 10^%.3f\n", log($v-$u)/log(10))  if ($v - $u > 2e6);
+            printf("# $m -> ($u, $v) -> 10^%.3f\n", log($v - $u) / log(10)) if ($v - $u > 2e6);
 
-            if ($v-$u > 1e10) {
+            if ($v - $u > 1e10) {
                 die "Range too large!\n";
             }
 
             foreach my $p (@{primes($u, $v)}) {
-                my $t = mulint($m, $p);
-                if (modint($t+1, $lambda) == 0 and modint($t+1, $p+1) == 0) {
+                my $t = $m * $p;
+                if (($t + 1) % $lambda == 0 and ($t + 1) % ($p + 1) == 0) {
                     $callback->($t);
                 }
             }
@@ -44,35 +44,34 @@ sub lucas_carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
         my $s = rootint(divint($B, $m), $k);
 
-        for (my $r; $p <= $s; $p = $r) {
+        for (my $r ; $p <= $s ; $p = $r) {
 
             $r = next_prime($p);
-            my $t = mulint($m, $p);
-            my $L = lcm($lambda, $p+1);
 
-            ($p >= 3 and gcd($L, $t) == 1) or next;
+            my $L = lcm($lambda, $p + 1);
+            gcd($L, $m) == 1 or next;
 
-            # gcd($t, divisor_sum($t)) == 1 or die "$t: not Lucas-cyclic";
-
+            my $t = $m * $p;
             my $u = divceil($A, $t);
             my $v = divint($B, $t);
 
             if ($u <= $v) {
-                __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
+                __SUB__->($t, $L, $r, $k - 1, (($k == 2 && $r > $u) ? $r : $u), $v);
             }
         }
-    }->(1, 1, 3, $k);
+      }
+      ->(1, 1, 3, $k);
 }
 
-my $min_k = 10;                 # mininum number of prime factors
-my $max_k = 1e4;                # maxinum number of prime factors
+my $min_k = 10;     # mininum number of prime factors
+my $max_k = 1e4;    # maxinum number of prime factors
 
 #my $from  = 1;                  # generate terms >= this
 #my $upto  = 196467189590024639; # generate terms <= this
 
 # Generate terms in this range
-my $from  = 3614740529402519;
-my $upto  = 20576473996736735;
+my $from = 3614740529402519;
+my $upto = 20576473996736735;
 
 foreach my $k ($min_k .. $max_k) {
 

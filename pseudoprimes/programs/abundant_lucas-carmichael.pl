@@ -6,7 +6,7 @@
 # Terms:
 #   399, 6304359999, 408598269695, 517270926095
 
-# Most likely the next terms are:
+# Most likely the next three terms are:
 #   20203946790335
 #   6401963975003135
 #   20576473996736735
@@ -37,7 +37,7 @@ while (<>) {
     #next if $n > ~0;
     #next if length($n) > 65;
 
-    Math::Prime::Util::GMP::modint($n, (5 * 7 * 11 * 17)) == 0 or next;
+    #Math::Prime::Util::GMP::modint($n, (5 * 7 * 11 * 17)) == 0 or next;
 
     #Math::Prime::Util::GMP::is_carmichael($n) || next;
     is_square_free($n) || next;
@@ -75,7 +75,8 @@ foreach my $n (@numbers) {
 }
 
 __END__
-1.5846 abundancy: 21408695
+1.6040 abundancy: 399
+1.6121 abundancy: 6304359999
 1.6661 abundancy: 408598269695
 1.7057 abundancy: 517270926095
 1.7517 abundancy: 20203946790335
@@ -83,10 +84,8 @@ __END__
 1.8251 abundancy: 20576473996736735
 1.8255 abundancy: 20904330094840610495
 1.8309 abundancy: 777695624868402683135
-1.8330 abundancy: 243947700662439007892735
-1.8400 abundancy: 3208259191987571864714495
-1.8474 abundancy: 4987929942854579874531455
-1.8516 abundancy: 98492803064611828976684735
+1.8329 abundancy: 1398174113665704383855
+1.8540 abundancy: 207108993941954571223295
 1.8638 abundancy: 178710767382159698135049215
 1.8766 abundancy: 562063860409115740951856735
 1.9088 abundancy: 58979992549396611582730578815

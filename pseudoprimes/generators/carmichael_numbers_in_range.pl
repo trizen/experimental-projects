@@ -10,56 +10,56 @@
 #   https://en.wikipedia.org/wiki/Almost_prime
 
 use 5.020;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
-sub divceil ($x,$y) {   # ceil(x/y)
+sub divceil ($x, $y) {    # ceil(x/y)
     my $q = divint($x, $y);
-    (mulint($q, $y) == $x) ? $q : ($q+1);
+    ($q * $y == $x) ? $q : ($q + 1);
 }
 
 sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
-    $A = vecmax($A, pn_primorial($k));
+    $A = vecmax($A, divint(pn_primorial($k + 1), 2));
 
     sub ($m, $lambda, $p, $k, $u = undef, $v = undef) {
 
         if ($k == 1) {
 
-            if ($v-$u > 1e10) {
+            if ($v - $u > 1e10) {
                 die "Range too large!\n";
             }
 
             forprimes {
-                my $t = mulint($m, $_);
-                if (modint($t-1, $lambda) == 0 and modint($t-1, $_-1) == 0) {
+                my $t = $m * $_;
+                if (($t - 1) % $lambda == 0 and ($t - 1) % ($_ - 1) == 0) {
                     $callback->($t);
                 }
-            } $u, $v;
+            }
+            $u, $v;
 
             return;
         }
 
         my $s = rootint(divint($B, $m), $k);
 
-        for (my $r; $p <= $s; $p = $r) {
+        for (my $r ; $p <= $s ; $p = $r) {
 
             $r = next_prime($p);
-            my $t = mulint($m, $p);
-            my $L = lcm($lambda, $p-1);
 
-            ($p >= 3 and gcd($L, $t) == 1) or next;
+            my $L = lcm($lambda, $p - 1);
+            gcd($L, $m) == 1 or next;
 
-            # gcd($t, euler_phi($t)) == 1 or die "$t: not cyclic";
-
+            my $t = $m * $p;
             my $u = divceil($A, $t);
             my $v = divint($B, $t);
 
             if ($u <= $v) {
-                __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
+                __SUB__->($t, $L, $r, $k - 1, (($k == 2 && $r > $u) ? $r : $u), $v);
             }
         }
-    }->(1, 1, 3, $k);
+      }
+      ->(1, 1, 3, $k);
 }
 
 # Generate all the 5-Carmichael numbers in the range [100, 10^8]
@@ -68,7 +68,8 @@ my $k    = 5;
 my $from = 100;
 my $upto = 1e8;
 
-my @arr; carmichael_numbers_in_range($from, $upto, $k, sub ($n) { push @arr, $n });
+my @arr;
+carmichael_numbers_in_range($from, $upto, $k, sub ($n) { push @arr, $n });
 
 say join(', ', sort { $a <=> $b } @arr);
 

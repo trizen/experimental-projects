@@ -12,28 +12,17 @@
 use 5.020;
 use ntheory qw(:all);
 use experimental qw(signatures);
-use Math::GMP qw(:constant);
+#use Math::GMP qw(:constant);
 
 sub divceil ($x,$y) {   # ceil(x/y)
-    my $q = $x/$y;
+    my $q = divint($x,$y);
     ($q*$y == $x) ? $q : ($q+1);
 }
 
 sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
-    my $max_p = 10000;
-    #my $m = "8833404609327838592895595408965";
-    #my $m = "1614825036214963273306005";
-    #my $m = Math::GMP->new("19258022593463164626195195");
-    #my $m = Math::GMP->new("19976310800932286865");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("2799500171953451613547965");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("551501533874829967868949105");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("1389172629407632160878965");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("3935333227783660512405");      # finds new abundant Fermat psp
-    my $m = Math::GMP->new("15312580652854710165");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("7051637712729097263345");
-    #my $m = Math::GMP->new("1256975577207099774483036285");
-    #my $m = Math::GMP->new("24383833295");
+    my $max_p = 30000;
+    my $m = 1;
     my $L = znorder($base, $m);
 
     $A = $A*$m;
@@ -41,12 +30,10 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
     $A = vecmax($A, pn_primorial($k));
 
-    $A = Math::GMP->new("$A");
-    $B = Math::GMP->new("$B");
+   # $A = Math::GMP->new("$A");
+   # $B = Math::GMP->new("$B");
 
-    if ($B > Math::GMP->new("2596282479202818734176082185090403265")) {
-        $B = Math::GMP->new("2596282479202818734176082185090403265");
-    }
+    $B = vecmin($B, 18436227497407654507);
 
     if ($A > $B) {
         return;
@@ -56,7 +43,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
         if ($k == 1) {
 
-            $v = vecmin($v, $max_p);
+         #   $v = vecmin($v, $max_p);
 
             say "# Sieving: $m -> ($u, $v)" if ($v - $u > 2e6);
 
@@ -65,22 +52,26 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
             }
 
             forprimes {
-                my $t = $m*$_;
-                if (($t-1)%$lambda == 0 and ($t-1)%znorder($base, $_) == 0) {
-                    $callback->($t);
+                if ($_%80 == 3) {
+                    my $t = $m*$_;
+                    if (($t-1)%$lambda == 0 and ($t-1)%znorder($base, $_) == 0) {
+                        $callback->($t);
+                    }
                 }
             } $u, $v;
 
             return;
         }
 
-        my $s = rootint($B/$m, $k);
+        my $s = rootint(divint($B,$m), $k);
 
         for(my $r; $p <= $s; $p = $r) {
 
-       last if ($p > $max_p);
+            #last if ($p > $max_p);
 
             $r = next_prime($p);
+
+            $p % 80 == 3 or next;
 
             if ($base % $p == 0) {
                 next;
@@ -90,7 +81,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
                 next;
             }
             my $z = znorder($base, $p);
-            is_smooth($z, 13) || next;
+           # is_smooth($z, 200) || next;
 
             my $L = lcm($lambda, $z);
 
@@ -98,7 +89,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
             my $t = $m*$p;
             my $u = divceil($A, $t);
-            my $v = $B/$t;
+            my $v = divint($B,$t);
 
             if ($u <= $v) {
                 __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
@@ -115,15 +106,11 @@ my $upto = 2*$from;
 
 while (1) {
 
-    my $ok = 0;
     say "# Range: ($from, $upto)";
 
-    foreach my $k (2..100) {
+    foreach my $k (3,5) {
         fermat_pseudoprimes_in_range($from, $upto, $k, $base, sub ($n) { say $n }) or next;
-        $ok = 1;
     }
-
-    $ok || last;
 
     $from = $upto+1;
     $upto = 2*$from;
