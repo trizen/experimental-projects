@@ -6,6 +6,11 @@
 # Known terms:
 #   341, 286, 11305, 2203201, 12306385
 
+# New terms:
+#   341, 286, 11305, 2203201, 12306385, 9073150801, 3958035081, 2539184851126, 152064312120721, 10963650080564545, 378958695265110961, 1035551157050957605345, 57044715596229144811105, 6149883077429715389052001, 426634466310819456228926101, 166532358913107245358261399361
+
+# a(7)-a(17) from ~~~~
+
 # New terms found:
 #   a(7)  = 9073150801
 #   a(8)  = 3958035081
@@ -21,105 +26,121 @@
 #   a(18) = 15417816366043964846263074467761
 #   a(19) = 7512467783390668787701493308514401
 #   a(20) = 182551639864089765855891394794831841
+#   a(21) = 73646340445282784237405289363506168161
+#   a(22) = 12758106140074522771498516740500829830401
+#   a(23) = 233342982005748265084053300837644203002001
+#   a(24) = 41711804619389959984296019492852898455016161
+#   a(25) = 35654496932132728635037829367481372591614792001
+#   a(26) = 13513093081489380840188651246675032067011140079201
+#   a(27) = 2758048007075525871042090011995729226316189827518801
+
+=for comment
+
+# PARI/GP program:
+
+fermat_psp(A, B, k, base=2) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(z=znorder(Mod(base, q)), L=lcm(l, z)); if(gcd(L, m)==1, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%l == 0 && (v-1)%z == 0 && Mod(base, v)^(v-1) == 1, listput(list, v)), if(v*r <= B, list=concat(list, f(v, l, r, j-1)))); v *= q)))); list); vecsort(Vec(f(1, 1, 2, k)));
+a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+=cut
 
 use 5.020;
-use ntheory qw(:all);
+use warnings;
+
+use ntheory      qw(:all);
 use experimental qw(signatures);
-#use Math::GMP qw(:constant);
-#use Math::AnyNum qw(:overload);
+use Math::GMP    qw(:constant);
 
-sub divceil ($x,$y) {   # ceil(x/y)
-    my $q = divint($x, $y);
-    (mulint($q, $y) == $x) ? $q : ($q+1);
-}
-
-sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
-
-    my $m = 1;
-    my $L = znorder($base, $m);
-
-    $A = mulint($A, $m);
-    $B = mulint($B, $m);
+sub fermat_pseudoprimes ($A, $B, $k, $base, $callback) {
 
     $A = vecmax($A, pn_primorial($k));
 
-    sub ($m, $lambda, $p, $k, $u = undef, $v = undef) {
+    sub ($m, $lambda, $p, $j) {
 
-        if ($k == 1) {
+        my $s = rootint(divint($B, $m), $j);
 
-            say "# Sieving: $m -> ($u, $v)" if ($v - $u > 2e6);
-
-            if ($v-$u > 1e10) {
-                die "Range too large!\n";
-            }
-
-            forprimes {
-                my $t = mulint($m, $_);
-                if (modint($t-1, $lambda) == 0 and modint($t-1, znorder($base, $_)) == 0) {
-                    $callback->($t);
-                }
-            } $u, $v;
-
-            return;
-        }
-
-        my $s = rootint(divint($B, $m), $k);
-
-        for(my $r; $p <= $s; $p = $r) {
+        for (my $r ; $p <= $s ; $p = $r) {
 
             $r = next_prime($p);
 
-            if (modint($m, $p) == 0) {
+            if ($base % $p == 0) {
                 next;
             }
 
-            my $t = mulint($m, $p);
-            my $z = znorder($base, $p) // next;
+            my $z = znorder($base, $p);
             my $L = lcm($lambda, $z);
 
-            gcd($L, $t) == 1 or next;
+            gcd($L, $m) == 1 or next;
 
-            my $u = divceil($A, $t);
-            my $v = divint($B, $t);
+            for (my $v = $m * $p ; $v <= $B ; $v *= $p) {
 
-            if ($u <= $v) {
-                __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
+                if ($j == 1) {
+                    $v >= $A or next;
+                    $k == 1 and is_prime($v) and next;
+                    ($v - 1) % $lambda == 0        or next;
+                    ($v - 1) % $z == 0             or next;
+                    powmod($base, $v - 1, $v) == 1 or next;
+                    $callback->($v);
+                    next;
+                }
+
+                $v * $r <= $B or next;
+                __SUB__->($v, $L, $r, $j - 1);
+
             }
         }
-    }->($m, $L, 2, $k);
+      }
+      ->(1, 1, 2, $k);
 }
 
-my $k = 12;  # number of prime factors
+#a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-my $from  = 1;
-my $upto  = 2*$from;
-my $base = $k;
+sub a($n) {
+    my $x = pn_primorial($n);
+    my $y = 2*$x;
 
-while (1) {
+    $x = Math::GMP->new("$x");
+    $y = Math::GMP->new("$y");
 
-    say "# Range ($from, $upto)";
+    for (;;) {
+        my @arr;
+        fermat_pseudoprimes($x, $y, $n, $n, sub($v) { push @arr, $v });
+        if (@arr) {
+            @arr = sort {$a <=> $b} @arr;
+            return $arr[0];
+        }
 
-    my $found = 0;
-    my $min = undef;
-
-    if ($from >= pn_primorial($k)) {
-        fermat_pseudoprimes_in_range($from, $upto, $k, $base, sub ($n) {
-            say $n;
-            $min //= $n;
-            $found = 1;
-            if ($n < $min) {
-                $min = $n;
-            }
-        });
+        $x = $y+1;
+        $y = 2*$x;
     }
+}
 
-    if ($found) {
-        say "a($k) = $min";
-        last;
-    }
-
-    $from = $upto+1;
-    $upto = $from*2;
+foreach my $n(2..100) {
+    say "a($n) = ", a($n);
 }
 
 __END__
+
+=for comment
+
+# Square array A(n, k) read by antidiagonals downwards: smallest base-n Fermat pseudoprime with k distinct prime factors for k, n >= 2.
+# https://oeis.org/A271873
+
+fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(z=znorder(Mod(base, q)), L=lcm(l, z)); if(gcd(L, m)==1, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%l == 0 && (v-1)%z == 0 && Mod(base, v)^(v-1) == 1, listput(list, v)), if(v*r <= B, list=concat(list, f(v, l, r, j-1)))); v *= q)))); list); vecsort(Vec(f(1, 1, 2, k)));
+T(n,k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=fermat_psp(x, y, k, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
+for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
+
+# New terms:
+#   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35, 370851481, 130027051, 418285, 41041, 1105, 6, 38504389105, 2531091745, 30534805, 2203201, 25585, 561, 21, 7550611589521, 38504389105, 370851481, 68800501, 682465, 62745, 105, 28
+
+=cut
+
+341, 561, 11305, 825265, 45593065, 370851481, 38504389105, 7550611589521, 277960972890601,
+91, 286, 41041, 825265, 130027051, 2531091745, 38504389105, 5342216661145, 929845918823185,
+15, 435, 11305, 418285, 30534805, 370851481, 38504389105, 7550611589521, 277960972890601,
+124, 561, 41041, 2203201, 68800501, 979865601, 232250619601, 9746347772161, 1237707914764321,
+35, 1105, 25585, 682465, 12306385, 305246305, 16648653385, 1387198666945, 75749848475665,
+6, 561, 62745, 902785, 87570145, 9073150801, 211215631705, 24465723528961, 1135341818898001,
+21, 105, 1365, 121485, 2103465, 96537441, 3958035081, 705095678001, 74398297074465,
+28, 286, 2926, 421876, 5533066, 85851766, 15539169646, 2539184851126, 65749886703865,
+33, 561, 41041, 1242241, 68800501, 4646703061, 216337302181, 9746347772161, 152064312120721,

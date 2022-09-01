@@ -4,7 +4,7 @@
 # https://oeis.org/A253598
 
 # Upper-bounds:
-#   a(155) <= 4131709859199
+#   a(155) <= 4131709859199     (confirmed)
 
 use 5.014;
 use ntheory qw(:all);

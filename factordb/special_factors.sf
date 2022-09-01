@@ -2,15 +2,21 @@
 
 # Find special factors for FactorDB, given a list of numbers.
 
-var nums = File(ARGV[0]).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e19) }.sort.uniq
-
 define(
     USE_BATCH_GCD = false
+    TRIAL_LIMIT   = 1e7     # trial division limit
 )
 
-var gcds = (USE_BATCH_GCD ? Math.batch_gcd(nums...).uniq : [])
+var seen = Set()
 
-for n in (nums) {
+for file in (ARGV) {
+
+    var nums = File(file).open_r.lines.map{.nums.last}.grep { defined(_) && (_ > 1e19) }.sort.uniq.grep{!seen.has(_)}
+    var gcds = (USE_BATCH_GCD ? Math.batch_gcd(nums...).uniq : [])
+
+    seen << nums...
+
+    for n in (nums) {
 
     #~ var f = [n]\
        #~ .map { .cop_factor(100)... }\
@@ -31,13 +37,22 @@ for n in (nums) {
     #~ f = Math.gcd_factors(n, f + gcds)
     #~ f = f.first(-1)
 
-    var f = if (USE_BATCH_GCD) {
-        Math.gcd_factors(n, gcds + n.special_factors).first(-1)
-    }
-    else {
-        n.special_factors.first(-1)
-    }
+        var f = []
+        var t = n
 
-    f || next
-    say "#{n} = #{f.join(' * ')}"
+        f += TRIAL_LIMIT.smooth_part(n).factor
+        n = idiv(n, f.prod)
+
+        f += if (USE_BATCH_GCD) {
+            Math.gcd_factors(n, gcds + n.special_factors).first(-1)
+        }
+        else {
+            n.special_factors.first(-1)
+        }
+
+        f = f.sort.uniq
+
+        f || next
+        say "#{t} = #{f.join(' * ')}"
+    }
 }

@@ -1,0 +1,113 @@
+# Searching for m = 471
+# Sieving: 3297 -> (11, 1253172538)
+# Sieving: 6123 -> (17, 674785213)
+# Sieving: 8949 -> (23, 461695145)
+# Sieving: 14601 -> (37, 282974444)
+# Sieving: 17427 -> (41, 237086696)
+# Sieving: 20253 -> (47, 204004831)
+# Sieving: 28731 -> (67, 143806684)
+# Sieving: 31557 -> (71, 130928474)
+# Sieving: 34383 -> (79, 120167229)
+# Sieving: 37209 -> (83, 111040604)
+471 4131709859199
+# Searching for m = 479
+479 5058719
+# Searching for m = 481
+481 505863371
+# Searching for m = 485
+485 218735
+# Searching for m = 487
+487 1901735
+# Searching for m = 489
+# Sieving: 3423 -> (11, 155448673)
+489 532100807679
+# Searching for m = 491
+491 966779
+# Searching for m = 493
+493 10260809
+# Searching for m = 497
+497 194327
+# Searching for m = 499
+499 14970499
+# Searching for m = 503
+503 761039
+# Searching for m = 505
+505 20705
+# Searching for m = 509
+509 11682059
+# Searching for m = 511
+511 50168447
+# Searching for m = 515
+515 760655
+# Searching for m = 517
+517 18095
+# Searching for m = 521
+521 31276151
+# Searching for m = 523
+523 2316562079
+# Searching for m = 527
+527 43383167
+# Searching for m = 533
+533 29315
+# Searching for m = 535
+535 265895
+# Searching for m = 541
+541 4992691535
+# Searching for m = 543
+543 377049487359
+# Searching for m = 547
+547 96078393179
+# Searching for m = 551
+551 60059
+# Searching for m = 553
+553 12719
+# Searching for m = 557
+557 185551739
+# Searching for m = 559
+559 8421335
+# Searching for m = 563
+563 65094623
+# Searching for m = 565
+565 129477095
+# Searching for m = 569
+569 973559
+# Searching for m = 571
+571 25149695
+# Searching for m = 577
+577 5778659039
+# Searching for m = 579
+# Sieving: 4053 -> (11, 251661077)
+# Sieving: 7527 -> (17, 135509810)
+579 1019982346239
+# Searching for m = 583
+583 2915
+# Searching for m = 587
+587 2416679
+# Searching for m = 589
+589 116628479
+# Searching for m = 593
+593 85595399
+# Searching for m = 595
+595 31535
+# Searching for m = 597
+597 6304359999
+# Searching for m = 599
+599 11141999
+# Searching for m = 601
+601 434886605
+# Searching for m = 607
+607 50561279
+# Searching for m = 611
+611 22575839
+# Searching for m = 613
+613 1645919099
+# Searching for m = 617
+617 1100831039
+# Searching for m = 619
+619 49124459
+# Searching for m = 623
+623 1017359
+# Searching for m = 629
+629 2276351
+# Searching for m = 631
+631 798215
