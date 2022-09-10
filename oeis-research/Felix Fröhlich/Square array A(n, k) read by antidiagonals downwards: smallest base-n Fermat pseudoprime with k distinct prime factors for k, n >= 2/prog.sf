@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# Square array A(n, k) read by antidiagonals downwards: smallest base-n Fermat pseudoprime with k distinct prime factors for k, n >= 2.
+# https://oeis.org/A271873
+
+# Previously known terms:
+#   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35
+
+# New terms:
+#   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35, 370851481, 130027051, 418285, 41041, 1105, 6, 38504389105, 2531091745, 30534805, 2203201, 25585, 561, 21, 7550611589521, 38504389105, 370851481, 68800501, 682465, 62745, 105, 28
+
+func T(n, k) {
+    var x = pn_primorial(k)
+    var y = 2*x
+
+    loop {
+        var arr = k.fermat_psp(n, x, y)
+        if (arr) {
+            return arr[0]
+        }
+
+        x = y+1
+        y = 2*x
+    }
+}
+
+var count = 2
+
+for k in (2..100) {
+    for n in (2..k) {
+        say (count++, " ", T(n, k - n + 2))
+    }
+}

@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+# a(n) = smallest pseudoprime to base 2 with n prime factors.
+# https://oeis.org/A007011
+
+# Known terms:
+#   341, 561, 11305, 825265, 45593065, 370851481, 38504389105, 7550611589521, 277960972890601, 32918038719446881, 1730865304568301265, 606395069520916762801, 59989606772480422038001, 6149883077429715389052001, 540513705778955131306570201, 35237869211718889547310642241
+
+# New terms found:
+#   a(18) = 13259400431578770557375638157521
+#   a(19) = 580827911915963785382253469211401
+#   a(20) = 292408776547176479576081475390697801
+#   a(21) = 39498823114155235923831808284152901601
+#   a(22) = 3284710806953570725820888298298841565601
+#   a(23) = 327373784481535488655521620744179013043601
+#   a(24) = 221404014114397213806721960178887462402717201
+#   a(25) = 43691666165877828056799483424028795272585383601
+#   a(26) = 13213974925373194568934435211730355813060799098001
+#   a(27) = 1952204134080476076724242017017925744953021675628161
+
+/*#/
+
+PARI/GP program:
+
+fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(v=m*q, t=q, r=nextprime(q+1)); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) == 1, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), if(v*r <= B, list=concat(list, f(v, L, r, j-1)))), break); v *= q; t *= q))); list); vecsort(Vec(f(1, 1, 2, k)));
+a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, 2)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+*/#/
+
+func T(k, base=2) {
+    var x = pn_primorial(k)
+    var y = 2*x
+
+    loop {
+        var arr = k.fermat_psp(base, x, y)
+        if (arr) {
+            return arr[0]
+        }
+
+        x = y+1
+        y = 2*x
+    }
+}
+
+for n in (2..100) {
+    say "a(#{n}) = #{T(n)}"
+}

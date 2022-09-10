@@ -47,12 +47,16 @@ foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } keys %$lucas_carmi
     if (exists $table{$key}) {
         if ($n < $table{$key}) {
             $table{$key} = $n;
+            say "a($key) <= $n";
         }
     }
     else {
         $table{$key} = $n;
+        say "a($key) <= $n";
     }
 }
+
+say "\n\nFinal results:\n";
 
 foreach my $n (sort { $a <=> $b } keys %table) {
     say "a($n) <= $table{$n}";

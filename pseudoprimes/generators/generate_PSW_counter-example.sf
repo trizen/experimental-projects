@@ -1,0 +1,89 @@
+#!/usr/bin/ruby
+
+# Try to generate a Fermat pseudoprime to base 2, that is also a Fibonacci pseudoprime and has the Kronecker symbol (5/n) = -1.
+
+func lucas_znorder(n, P=1, Q=-1) {
+    var e = kronecker(P*P - 4*Q, n)
+    n-e -> divisors.first {|d|
+        lucasUmod(P, Q, d, n) == 0
+    }
+}
+
+func squarefree_fermat_pseudoprimes_in_range(a, b, k, base, callback) {
+
+    a = max(k.pn_primorial, a)
+
+    func (m, lambda, lambda2, p, k) {
+
+        var y = idiv(b,m).iroot(k)
+
+        return nil if (p > y)
+
+        if (k == 1) {
+
+            var x = max(p, idiv_ceil(a, m))
+
+            say "# Prime: #{p} (#{x}, #{y}) -- #{[lambda, lambda2]} -- #{m}";
+
+            each_prime(x, y, {|p|
+
+                kronecker(5, p) == -1 || next
+
+                with (m*p - 1) {|t|
+                    if ((lambda `divides` t) && (kronecker(5, t+1) == -1) && (znorder(base, p) `divides` t)) {
+                        say "# Fermat: #{t+1}"
+                        with(m*p + 1) {|w|
+                            if ((lambda2 `divides` w) && (lucas_znorder(p) `divides` w)) {
+                                die "Found special term: #{t+1}"
+                                callback(t+1)
+                            }
+                        }
+                    }
+                }
+            })
+
+            return nil
+        }
+
+        for(var r; p <= y; p = r) {
+
+            r = p.next_prime
+            p.divides(base) && next
+            kronecker(5,p) == -1 || next
+
+            p.inc.is_smooth(43) || next
+            p.dec.is_smooth(43) || next
+
+            var L = lcm(lambda, znorder(base, p))
+            m.is_coprime(L) || next
+
+            var L2 = lcm(lambda2, lucas_znorder(p))
+            m.is_coprime(L2) || next
+
+            var t = m*p
+            var u = idiv_ceil(a, t)
+            var v = idiv(b, t)
+
+            if (u <= v) {
+                __FUNC__(t, L, L2, r, k-1)
+            }
+        }
+    }(1, 1, 1, 2, k)
+
+    return callback
+}
+
+var k    = 11
+var base = 2
+var from = 2**64
+var upto = 2*from
+
+loop {
+
+    say "# [#{k}] Sieving: #{[from, upto]}"
+
+    squarefree_fermat_pseudoprimes_in_range(from, upto, k, base, { .say })
+
+    from = upto+1
+    upto = 2*from
+}

@@ -1,0 +1,69 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number m such that m, m+1, m+2 and m+3 each have exactly n prime factors (counted with multiplicity).
+# https://oeis.org/A356893
+
+# Known terms:
+#   602, 4023, 57967, 8706123, 296299374, 4109290623
+
+# Upper-bounds:
+#   a(9) <= 1691788490622, a(10) <= 198629571578750, a(11) <= 3650742165781248. - David A. Corneth, Sep 04 2022
+
+# More upper-bounds:
+#   a(12) <= 1935381043498671872
+#   a(13) <= 496517054653412890622
+#   a(14) <= 313581852932425781247
+#   a(15) <= 5918329887013571574218749
+
+func isok(n, k) {
+    0..3 -> all { (k+_) -> is_almost_prime(n) }
+}
+
+func check(CRT, n) {
+    var m = CRT.modulus
+    var r = CRT.lift
+    for k in (1..20) {
+        var t = (m*k + r)
+        if (isok(n, t)) {
+            return t
+        }
+    }
+    return nil
+}
+
+say check(Mod(91487690622, 100018800000), 9)
+
+var n = 15
+var k = 8
+var min = Inf
+
+k.powerful(2, 11**k).combinations(4, {|a,b,c,d|
+
+    lcm(a,b,c,d) == (a*b*c*d) || next
+
+    [a,b,c,d].permutations {|a,b,c,d|
+
+        var CRT = chinese(Mod(0, a), Mod(-1, b), Mod(-2, c), Mod(-3, d))
+        var t = check(CRT, n)
+
+        if (defined(t)) {
+            if (t < min) {
+                say "a(#{n}) <= #{t}"
+                min = t
+            }
+        }
+    }
+})
+
+__END__
+primes(100).each_cons(4, {|a,b,c,d|
+    [a,b,c,d].permutations {|a,b,c,d|
+
+        var CRT = chinese(Mod(0, a**k), Mod(-1, b**k), Mod(-2, c**k), Mod(-3, d**k))
+        var t = check(CRT, n)
+
+        if (defined(t)) {
+            say "a(#{n}) <= #{t}"
+        }
+    }
+})

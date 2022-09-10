@@ -1,0 +1,109 @@
+#!/usr/bin/ruby
+
+# Smallest overpseudoprime to base 2 (A141232) with n distinct prime factors.
+# https://oeis.org/A353409
+
+# Known terms:
+#   2047, 13421773, 14073748835533
+
+# Upper-bounds:
+#   a(5) <= 1376414970248942474729
+#   a(6) <= 48663264978548104646392577273
+#   a(7) <= 294413417279041274238472403168164964689
+#   a(8) <= 98117433931341406381352476618801951316878459720486433149
+#   a(9) <= 1252977736815195675988249271013258909221812482895905512953752551821
+
+# New terms confirmed (03 September 2022):
+#   a(5) = 1376414970248942474729
+#   a(6) = 48663264978548104646392577273
+#   a(7) = 294413417279041274238472403168164964689
+
+func squarefree_fermat_overpseudoprimes_in_range(a, b, k, base, callback) {
+
+    a = max(k.pn_primorial, a)
+
+    func (m, lambda, p, k) {
+
+        var y = idiv(b,m).iroot(k)
+
+        if (k == 1) {
+
+            var x = max(p, idiv_ceil(a, m))
+
+            if (idiv(y-x, lambda) > prime_count(x, y)) {
+                say "Sieving: #{[x,y]}" if (y-x > 1e6)
+                each_prime(x, y, {|p|
+                    with (m*p - 1) {|t|
+                        if ((lambda `divides` t) && powmod(base, lambda, p).is_one && (lambda == znorder(base, p))) {
+                            callback(t+1)
+                        }
+                    }
+                })
+                return nil
+            }
+
+            var u = lambda*idiv_ceil(x-1, lambda)
+
+            if (idiv(y-u, lambda) > 1e6) {
+                say "Sieving: #{[u, y]} with L = #{lambda} -- #{idiv(y-u, lambda)}"
+            }
+
+            for w in (range(u, y, lambda)) {
+                with (w+1) { |p|
+                    p.is_prime || next
+                    with (m*p - 1) {|t|
+                        if ((lambda `divides` t) && powmod(base, lambda, p).is_one && (lambda == znorder(base, p))) {
+                            callback(t+1)
+                        }
+                    }
+                }
+            }
+
+            return nil
+        }
+
+        for(var r; p <= y; p = r) {
+
+            r = p.next_prime
+            p.divides(base) && next
+
+            var L = znorder(base, p)
+            ((lambda==1 || lambda==L) && m.is_coprime(L)) || next
+
+            var t = m*p
+            var u = idiv_ceil(a, t)
+            var v = idiv(b, t)
+
+            if (u <= v) {
+                __FUNC__(t, L, r, k-1)
+            }
+        }
+    }(1, 1, 2, k)
+
+    return callback
+}
+
+func a(n) {
+
+    var x = n.pn_primorial
+    var y = 2*x
+
+    loop {
+        var arr = gather { squarefree_fermat_overpseudoprimes_in_range(x, y, n, 2, {|n| take(n) }) }
+        if (arr) {
+            return arr[0]
+        }
+        x = y+1
+        y = 2*x
+    }
+}
+
+for n in (2..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(2) = 2047
+a(3) = 13421773
+a(4) = 14073748835533
+a(5) = 1376414970248942474729

@@ -70,8 +70,11 @@ while (my ($key, $value) = each %db) {
 
     if (Math::Prime::Util::GMP::is_pseudoprime($key, $k)) {
         $table{$k} = Math::GMPz::Rmpz_init_set($n);
+        say "a($k) <= $key";
     }
 }
+
+say "\n\nFinal results:\n";
 
 foreach my $k (sort { $a <=> $b } keys %table) {
     printf("a(%3d) <= %s\n", $k, $table{$k});

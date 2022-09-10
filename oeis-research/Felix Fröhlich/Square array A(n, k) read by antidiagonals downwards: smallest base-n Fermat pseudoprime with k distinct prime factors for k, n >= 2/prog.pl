@@ -1,50 +1,22 @@
 #!/usr/bin/perl
 
-# Smallest base-n Fermat pseudoprime with n distinct prime factors.
-# https://oeis.org/A271874
+# Square array A(n, k) read by antidiagonals downwards: smallest base-n Fermat pseudoprime with k distinct prime factors for k, n >= 2.
+# https://oeis.org/A271873
 
-# Known terms:
-#   341, 286, 11305, 2203201, 12306385
+# Previously known terms:
+#   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35
 
 # New terms:
-#   341, 286, 11305, 2203201, 12306385, 9073150801, 3958035081, 2539184851126, 152064312120721, 10963650080564545, 378958695265110961, 1035551157050957605345, 57044715596229144811105, 6149883077429715389052001, 426634466310819456228926101, 166532358913107245358261399361
-
-# a(7)-a(17) from ~~~~
-
-# New terms found:
-#   a(7)  = 9073150801
-#   a(8)  = 3958035081
-#   a(9)  = 2539184851126
-#   a(10) = 152064312120721
-#   a(11) = 10963650080564545
-#   a(12) = 378958695265110961
-#   a(13) = 1035551157050957605345
-#   a(14) = 57044715596229144811105
-#   a(15) = 6149883077429715389052001
-#   a(16) = 426634466310819456228926101
-#   a(17) = 166532358913107245358261399361
-#   a(18) = 15417816366043964846263074467761
-#   a(19) = 7512467783390668787701493308514401
-#   a(20) = 182551639864089765855891394794831841
-#   a(21) = 73646340445282784237405289363506168161
-#   a(22) = 12758106140074522771498516740500829830401
-#   a(23) = 233342982005748265084053300837644203002001
-#   a(24) = 41711804619389959984296019492852898455016161
-#   a(25) = 35654496932132728635037829367481372591614792001
-#   a(26) = 13513093081489380840188651246675032067011140079201
-#   a(27) = 2758048007075525871042090011995729226316189827518801
+#   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35, 370851481, 130027051, 418285, 41041, 1105, 6, 38504389105, 2531091745, 30534805, 2203201, 25585, 561, 21, 7550611589521, 38504389105, 370851481, 68800501, 682465, 62745, 105, 28
 
 =for comment
 
-# PARI/GP program (version 1):
-
-fermat_psp(A, B, k, base=2) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(z=znorder(Mod(base, q)), L=lcm(l, z)); if(gcd(L, m)==1, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%l == 0 && (v-1)%z == 0 && Mod(base, v)^(v-1) == 1, listput(list, v)), if(v*r <= B, list=concat(list, f(v, l, r, j-1)))); v *= q)))); list); vecsort(Vec(f(1, 1, 2, k)));
-a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
-
-# PARI/GP program (version 2):
+# PARI/GP program (VERSION 2)
 
 fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(v=m*q, t=q, r=nextprime(q+1)); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) == 1, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), if(v*r <= B, list=concat(list, f(v, L, r, j-1)))), break); v *= q; t *= q))); list); vecsort(Vec(f(1, 1, 2, k)));
-a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+T(n,k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=fermat_psp(x, y, k, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
+for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
 
 =cut
 
@@ -102,8 +74,12 @@ sub fermat_pseudoprimes ($A, $B, $k, $base, $callback) {
 
 #a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=fermat_psp(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-sub a($n) {
-    my $x = pn_primorial($n);
+#~ T(n,k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=fermat_psp(x, y, k, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+#~ print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
+#~ for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
+
+sub T($n, $k) {
+    my $x = pn_primorial($k);
     my $y = 2*$x;
 
     $x = Math::GMP->new("$x");
@@ -111,7 +87,7 @@ sub a($n) {
 
     for (;;) {
         my @arr;
-        fermat_pseudoprimes($x, $y, $n, $n, sub($v) { push @arr, $v });
+        fermat_pseudoprimes($x, $y, $k, $n, sub($v) { push @arr, $v });
         if (@arr) {
             @arr = sort {$a <=> $b} @arr;
             return $arr[0];
@@ -122,8 +98,12 @@ sub a($n) {
     }
 }
 
-foreach my $n (2..100) {
-    say "a($n) = ", a($n);
+my $count = 2;
+
+for my $k (2..100) {
+    for my $n (2..$k) {
+        say $count++, " ", T($n, $k-$n+2);
+    }
 }
 
 __END__
