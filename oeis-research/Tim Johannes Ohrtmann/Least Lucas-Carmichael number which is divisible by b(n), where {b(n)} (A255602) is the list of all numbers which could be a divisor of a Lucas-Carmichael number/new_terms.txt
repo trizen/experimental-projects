@@ -111,3 +111,139 @@
 629 2276351
 # Searching for m = 631
 631 798215
+633 10409957634999
+# Searching for m = 635 with limit = 78402815
+635 78402815
+# Searching for m = 641 with limit = 1172426819
+641 1172426819
+# Searching for m = 643 with limit = 178474295
+643 178474295
+# Searching for m = 647 with limit = 3354695
+647 3354695
+# Searching for m = 649 with limit = 46079
+649 46079
+# Searching for m = 651 with limit = 4962284607
+651 4962284607
+# Searching for m = 653 with limit = 5022676835
+653 5022676835
+# Searching for m = 655 with limit = 8421335
+655 8421335
+# Searching for m = 659 with limit = 6959699
+659 6959699
+# Searching for m = 661 with limit = 193849487
+661 193849487
+# Searching for m = 667 with limit = 51359
+667 51359
+# Searching for m = 669 with limit = 3211164543
+669 3211164543
+# Searching for m = 671 with limit = 5669279
+671 5669279
+# Searching for m = 673 with limit = 141070895
+673 141070895
+# Searching for m = 677 with limit = 96850943
+677 96850943
+# Searching for m = 683 with limit = 13081499
+683 13081499
+# Searching for m = 685 with limit = 39003215
+685 39003215
+# Searching for m = 687 with limit = 24319371999
+687 24319371999
+# Searching for m = 689 with limit = 3700619
+689 3700619
+# Searching for m = 691 with limit = 2710757759
+691 2710757759
+# Searching for m = 697 with limit = 120581
+697 120581
+# Searching for m = 701 with limit = 13287455
+701 13287455
+# Searching for m = 707 with limit = 140096999
+707 140096999
+# Searching for m = 709 with limit = 239110959
+709 239110959
+# Searching for m = 713 with limit = 4991
+713 4991
+# Searching for m = 715 with limit = 29315
+715 29315
+# Searching for m = 719 with limit = 3106799
+719 3106799
+# Searching for m = 721 with limit = 760655
+721 760655
+# Searching for m = 723 with limit = 25603599
+723 25603599
+# Searching for m = 727 with limit = 23287991
+727 23287991
+# Searching for m = 731 with limit = 588455
+731 588455
+# Searching for m = 733 with limit = 78372051407
+# Sieving: 733 -> (3, 106919579)
+733 78372051407
+# Searching for m = 737 with limit = 22847
+737 22847
+# Searching for m = 739 with limit = 107732159
+739 107732159
+# Searching for m = 741 with limit = 1293531436119
+# Sieving: 5187 -> (11, 249379494)
+# Sieving: 741 -> (3, 1745656459)
+741 1293531436119
+# Searching for m = 743 with limit = 1659119
+743 1659119
+# Searching for m = 749 with limit = 265895
+749 265895
+# Searching for m = 751 with limit = 187498415
+751 187498415
+# Searching for m = 755 with limit = 390335
+755 390335
+# Searching for m = 757 with limit = 49569379679
+757 49569379679
+# Searching for m = 761 with limit = 87562943
+761 87562943
+# Searching for m = 763 with limit = 1566265799
+763 1566265799
+# Searching for m = 767 with limit = 1915199
+767 1915199
+# Searching for m = 769 with limit = 6514199
+769 6514199
+# Searching for m = 773 with limit = 11368511
+773 11368511
+# Searching for m = 777 with limit = 1778324753919
+# Sieving: 14763 -> (23, 120458223)
+# Sieving: 777 -> (3, 2288706247)
+777 1778324753919
+# Searching for m = 779 with limit = 2150819
+779 2150819
+# Searching for m = 781 with limit = 46079
+781 46079
+# Searching for m = 785 with limit = 57872555
+785 57872555
+# Searching for m = 787 with limit = 1241099
+787 1241099
+# Searching for m = 791 with limit = 24205391
+791 24205391
+# Searching for m = 793 with limit = 30222023
+793 30222023
+# Searching for m = 797 with limit = 4452839
+797 4452839
+# Searching for m = 799 with limit = 90287
+799 90287
+# Searching for m = 803 with limit = 16719263
+803 16719263
+# Searching for m = 805 with limit = 8855
+805 8855
+# Searching for m = 809 with limit = 4587839
+809 4587839
+# Searching for m = 811 with limit = 11195855
+811 11195855
+# Searching for m = 813 with limit = 174550287
+813 174550287
+# Searching for m = 815 with limit = 240080255
+815 240080255
+# Searching for m = 817 with limit = 5719
+817 5719
+# Searching for m = 821 with limit = 984624479
+821 984624479
+# Searching for m = 823 with limit = 105114383
+823 105114383
+# Searching for m = 827 with limit = 2055095
+827 2055095
+# Searching for m = 829 with limit = 2596088939
+829 2596088939

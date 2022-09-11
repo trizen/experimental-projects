@@ -5,6 +5,12 @@
 
 # Upper-bounds:
 #   a(205) <= 649450807457655279
+#   a(271) <= 3394263983671190271
+#   a(274) <= 261147917637896799
+#   a(303) <= 160372803283722399
+
+# New term (11 September 2022):
+#   a(205) = 10409957634999
 
 use 5.020;
 use warnings;
@@ -63,7 +69,7 @@ my %table = qw(
  623                   1017359
  629                   2276351
  631                    798215
- 633        649450807457655279
+ 633            10409957634999
  635                  78402815
  641                1172426819
  643                 178474295
@@ -568,8 +574,9 @@ sub lucas_carmichael_numbers_in_range ($m, $A, $B, $k, $callback) {
 
 foreach my $m (sort { $a <=>$b } keys %table) {
 
-    next if ($m < 471);
-    #next if ($m < 633);
+    #next if ($m < 471);
+    #next if ($m <= 633);
+    next if ($m <= 849);
 
     my $upto = $table{$m};
 
