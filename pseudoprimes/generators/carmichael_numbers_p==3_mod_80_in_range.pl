@@ -13,6 +13,7 @@ use 5.020;
 use ntheory      qw(:all);
 use experimental qw(signatures);
 #~ use Math::GMP    qw(:constant);
+use Math::GMPz;
 
 sub divceil ($x, $y) {    # ceil(x/y)
     my $q = divint($x, $y);
@@ -22,7 +23,7 @@ sub divceil ($x, $y) {    # ceil(x/y)
 sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
     #my $max_p = 313897;
-    my $max_p = 10000;
+    #my $max_p = 10000;
 
     #my $m = "1056687375767188465946114009917285";
     #my $m = Math::GMPz->new("6863588485053268178811679453193455");
@@ -38,50 +39,45 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
     $A = vecmax($A, pn_primorial($k));
 
-    #~ $A = Math::GMP->new("$A");
-    #~ $B = Math::GMP->new("$B");
+    $A = Math::GMPz->new("$A");
+    $B = Math::GMPz->new("$B");
 
-    $B = vecmin($B, 330468624532072027);
+    #$B = vecmin($B, 330468624532072027);
 
-    if ($A > $B) {
-        return;
-    }
+    #~ if ($A > $B) {
+        #~ return;
+    #~ }
 
     sub ($m, $lambda, $p, $k, $u = undef, $v = undef) {
 
         if ($k == 1) {
 
-            #$v = vecmin($v, $max_p);
-
             say "# Sieving: $m -> ($u, $v)" if ($v - $u > 1e7);
 
-            if ($v - $u > 1e10) {
+            if (($v - $u)/80 > 1e10) {
                 die "Range too large!\n";
             }
 
-            forprimes {
-                if ($_ % 80 == 3) {
-                    my $t = $m * $_;
-                    if (($t - 1) % $lambda == 0 and ($t - 1) % ($_ - 1) == 0) {
+            for(my $x = divceil($u, 80)*80; $x <= $v; $x += 80) {
+                my $p = $x+3;
+                if (is_prime($p)) {
+                    my $t = $m * $p;
+                    if (($t - 1) % $lambda == 0 and ($t - 1) % ($p - 1) == 0) {
                         $callback->($t);
                     }
                 }
             }
-            $u, $v;
 
             return;
         }
 
-        my $s = rootint(divint($B, $m), $k);
+        my $s = rootint(($B / $m), $k);
 
-        for (my $r ; $p <= $s ; $p = $r) {
+        for(my $q = divceil($p, 80)*80; $q <= $s; $q += 80) {
 
-            #last if ($p > $max_p);
-
-            $r = next_prime($p);
-            #is_smooth($p - 1, 41) || next;
-
-            $p%80 == 3 or next;
+            my $p = $q+3;
+            $p < 1e7 and next;
+            is_prime($p) || next;
 
             if ($m % $p == 0) {
                 next;
@@ -92,26 +88,27 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
             my $t = $m * $p;
             my $u = divceil($A, $t);
-            my $v = divint($B,$t);
+            my $v = ($B / $t);
 
             if ($u <= $v) {
+                my $r = next_prime(14*$p);
                 __SUB__->($t, $L, $r, $k - 1, (($k == 2 && $r > $u) ? $r : $u), $v);
             }
         }
       }
-      ->($m, $L, 3, $k);
+      ->(Math::GMPz->new($m), $L, 3, $k);
 
     return 1;
 }
 
-my $from = 2;
+my $from = Math::GMPz->new(2)**64;
 my $upto = 2 * $from;
 
 while (1) {
 
     say "# Range: ($from, $upto)";
 
-    foreach my $k (3,5) {
+    foreach my $k (3) {
         carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n });
     }
 

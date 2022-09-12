@@ -1506,6 +1506,7 @@ Highly experimental personal projects.
         * [lucas-carmichael.pl](./pseudoprimes/generators/lucas-carmichael.pl)
         * [lucas-carmichael from combinations.sf](./pseudoprimes/generators/lucas-carmichael_from_combinations.sf)
         * [lucas-carmichael numbers in range.pl](./pseudoprimes/generators/lucas-carmichael_numbers_in_range.pl)
+        * [lucas carmichael divisible by n.pl](./pseudoprimes/generators/lucas_carmichael_divisible_by_n.pl)
         * [lucas psp from lambdas.pl](./pseudoprimes/generators/lucas_psp_from_lambdas.pl)
         * [non-residue generate.pl](./pseudoprimes/generators/non-residue_generate.pl)
         * [odd abundant cyclic numbers.sf](./pseudoprimes/generators/odd_abundant_cyclic_numbers.sf)
