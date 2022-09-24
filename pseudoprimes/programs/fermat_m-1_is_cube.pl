@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 use Math::GMPz;
-use ntheory qw(:all);
+use Math::Prime::Util::GMP qw(:all);
 
 my %seen;
 
@@ -19,12 +19,9 @@ while (<>) {
 
     $n || next;
 
-    if ($n > ((~0) >> 1)) {
-        $n = Math::GMPz->new("$n");
-    }
-
-    if (is_power($n - 1, 3) and is_pseudoprime($n, 2)) {
-        say rootint($n - 1, 3), " -> $n" if !$seen{$n}++;
+    if (is_power(subint($n, 1), 3) and is_pseudoprime($n, 2)) {
+        #say rootint(subint($n, 1), 3), " -> $n" if !$seen{$n}++;
+        printf("%s^3 + 1 = %s\n", rootint(subint($n, 1), 3), $n) if !$seen{$n}++;
     }
 
 #<<<
@@ -65,3 +62,5 @@ __END__
 9214178820^3 + 1 = 782293837499544845175052968001
 77526460200^3 + 1 = 465961317530333691518135208000001
 84855997590^3 + 1 = 611009032634107957276386802479001
+296551231020^3 + 1 = 26079495962445633235872174137208001
+13772593074240^3 + 1 = 2612444951766966131992650907329921024001

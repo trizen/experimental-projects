@@ -12,6 +12,8 @@ use ntheory qw(:all);
 
 my $z = Math::GMPz::Rmpz_init();
 
+my %seen;
+
 while (<>) {
     next if /^\h*#/;
     /\S/ or next;
@@ -23,7 +25,7 @@ while (<>) {
     Math::GMPz::Rmpz_sub_ui($z, $z, 1);
 
     if (Math::GMPz::Rmpz_perfect_square_p($z) and is_carmichael($n)) {
-        say $n;
+        say $n if !$seen{$n}++;
     }
 }
 
@@ -37,3 +39,4 @@ __END__
 458631349862401
 286245437364810001
 20717489165917230086401
+520417541686202544384000001

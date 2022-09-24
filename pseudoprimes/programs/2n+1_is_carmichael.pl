@@ -10,21 +10,24 @@ use strict;
 use warnings;
 use experimental qw(signatures);
 
-use Math::GMPz;
-use ntheory qw(:all);
+#use Math::GMPz;
+#use ntheory qw(:all);
+use Math::Prime::Util::GMP qw(:all);
 
 while (<>) {
     next if /^\h*#/;
     /\S/ or next;
+
     my $n = (split(' ', $_))[-1];
 
     $n || next;
+    $n > ~0 or next;
 
-    if ($n > ((~0) >> 2)) {
-        $n = Math::GMPz->new("$n");
-    }
+    #~ if ($n > ((~0) >> 2)) {
+        #~ $n = Math::GMPz->new("$n");
+    #~ }
 
-    if (is_carmichael(2 * $n + 1)) {
+    if (is_carmichael(addint(mulint(2, $n), 1))) {
         say "Candidate: $n";
 
         if (is_carmichael($n)) {
