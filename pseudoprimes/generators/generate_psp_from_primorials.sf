@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Most of these pseudoprimes are also super-pseudoprimes.
+
+var min = 2**64
+
+for k in (1..100), n in (1..100) {
+    #next if (k<=200 && n<=200)
+    var t = (k*n.pn_primorial + 1)
+    if (t.is_prob_prime) {
+        var w = (t * ((t-1)*2 + 1))
+        if (w > min && w.is_psp) {
+            say w
+        }
+    }
+}

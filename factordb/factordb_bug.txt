@@ -12,3 +12,8 @@ However, FactorDB says it is:
 Notice 3^76 instead of 3^75.
 
 Bug discovered on May 25, 2022.
+
+Two different numbers, with exactly the same prime factorization (according to FactorDB):
+
+http://factordb.com/index.php?id=1100000003569846926
+http://factordb.com/index.php?id=1100000003570484422

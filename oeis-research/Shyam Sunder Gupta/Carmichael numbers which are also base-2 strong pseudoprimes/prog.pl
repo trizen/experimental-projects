@@ -16,9 +16,28 @@
 #   a(11) = 120459489697022624089201
 #   a(12) = 27146803388402594456683201
 
+# New terms: (1st October 2022):
+#   a(13) = 14889929431153115006659489681
+
 # Lower-bounds:
 #   a(13) > 10^28.
 #   a(13) > 10704854480066618540513296383.
+
+# Finding a(13) took 1 hour and 34 minutes.
+
+=for comment
+
+# PARI/GP programs:
+
+# Version 1 (slower)
+carmichael_strong_psp(A, B, k, base) = A=max(A, vecprod(primes(k+1))\2); (f(m, l, p, k, k_exp, congr, u=0, v=0) = my(list=List()); if(k==1, forprime(q=u, v, my(tv=valuation(q-1, 2)); if(tv > k_exp && Mod(base, q)^(((q-1)>>tv)<<k_exp) == congr, my(t=m*q); if((t-1)%l == 0 && (t-1)%(q-1) == 0, listput(list, t)))), forprime(q = p, sqrtnint(B\m, k), if(base%q != 0, my(tv=valuation(q-1, 2)); if(tv > k_exp && Mod(base, q)^(((q-1)>>tv)<<k_exp) == congr, my(t = m*q); my(L=lcm(l, q-1)); if(gcd(L, t) == 1, my(u=ceil(A/t), v=B\t); if(u <= v, my(r=nextprime(q+1)); if(k==2 && r>u, u=r); list=concat(list, f(t, L, r, k-1, k_exp, congr, u, v)))))))); list); my(res=f(1, 1, 3, k, 0, 1)); for(v=0, logint(B, 2), res=concat(res, f(1, 1, 3, k, v, -1))); vecsort(Vec(res));
+a(n,base=2) = if(n < 3, return()); my(x=vecprod(primes(n+1))\2,y=2*x); while(1, my(v=carmichael_strong_psp(x,y,n,base)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+# Version 2 (faster)
+carmichael_strong_psp(A, B, k, base) = A=max(A, vecprod(primes(k+1))\2); (f(m, l, p, k, k_exp, congr, u=0, v=0) = my(list=List()); if(k==1, forprime(q=u, v, my(t=m*q); if((t-1)%l == 0 && (t-1)%(q-1) == 0, my(tv=valuation(q-1, 2)); if(tv > k_exp && Mod(base, q)^(((q-1)>>tv)<<k_exp) == congr, listput(list, t)))), forprime(q = p, sqrtnint(B\m, k), if(base%q != 0, my(tv=valuation(q-1, 2)); if(tv > k_exp && Mod(base, q)^(((q-1)>>tv)<<k_exp) == congr, my(L=lcm(l, q-1)); if(gcd(L, m) == 1, my(t = m*q, u=ceil(A/t), v=B\t); if(u <= v, my(r=nextprime(q+1)); if(k==2 && r>u, u=r); list=concat(list, f(t, L, r, k-1, k_exp, congr, u, v)))))))); list); my(res=f(1, 1, 3, k, 0, 1)); for(v=0, logint(B, 2), res=concat(res, f(1, 1, 3, k, v, -1))); vecsort(Vec(res));
+a(n,base=2) = if(n < 3, return()); my(x=vecprod(primes(n+1))\2,y=2*x); while(1, my(v=carmichael_strong_psp(x,y,n,base)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+=cut
 
 use 5.020;
 use warnings;

@@ -40,9 +40,11 @@ local $| = 1;
 
 # Tuning parameters
 use constant {
+              FACTOR_MIN_LEN            => 25,          # factor directly numbers with <= this many digits
+              PREFACTORIZATION          => 0,           # try to find very small prime factors of n
               MASK_LIMIT                => 200,         # show Cn if n > MASK_LIMIT, where n ~ log_10(N)
               LOOK_FOR_SMALL_FACTORS    => 1,
-              LOOK_FOR_SPECIAL_FORMS    => 1,
+              LOOK_FOR_SPECIAL_FORMS    => 0,
               SCRAPE_FACTORDB           => 0,           # factorize with factorDB by scrapping instead of API
               MAX_SIZE                  => 1e4,         # ignore numbers with length() greater than this
               TRIAL_DIVISION_LIMIT      => 1_000_000,
@@ -1893,7 +1895,7 @@ sub find_small_factors ($rem, $factors) {
 
         $len = length($rem);
 
-        if ($len <= 40) {    # factorize with SIQS directly
+        if ($len <= FACTOR_MIN_LEN) {    # factorize with SIQS directly
             return $rem;
         }
 
@@ -1975,7 +1977,7 @@ sub find_all_prime_factors ($n, $factors) {
 
     if (length("$n") < 45) {
         say ":: Factoring with ntheory (<45 len)...";
-        push @$factors, map { Math::GMPz->new("$_") } Math::Prime::Util::GMP::factor($n);
+        push @$factors, map { Math::GMPz->new("$_") } ntheory::factor($n);
         return 1;
     }
 
@@ -2475,7 +2477,7 @@ while (<>) {
 
     my @factors;
 
-    if ($len <= 40) {
+    if ($len <= FACTOR_MIN_LEN) {
         @factors = Math::Prime::Util::GMP::factor($n);
     }
     else {
@@ -2491,7 +2493,7 @@ while (<>) {
 
     #next if is_smooth($n, 1e7);
 
-    if (not @factors) {
+    if (PREFACTORIZATION and not @factors) {
         prefactorization($n, \@factors);
     }
 

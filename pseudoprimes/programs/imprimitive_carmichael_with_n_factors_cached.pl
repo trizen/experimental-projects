@@ -50,17 +50,13 @@ while (my ($key, $value) = each %$numbers) {
 
     my $n = Math::GMPz::Rmpz_init_set_str($key, 10);
 
-    if (not exists $table{$omega}) {
-        if (is_imprimitive_carmichael(\@factors)) {
-            $table{$omega} = $n;
-            printf("a(%2d) <= %s\n", $omega, $n);
-        }
+    if (exists $table{$omega}) {
+        next if ($table{$omega} < $n);
     }
-    elsif ($n < $table{$omega}) {
-        if (is_imprimitive_carmichael(\@factors)) {
-            $table{$omega} = $n;
-            printf("a(%2d) <= %s\n", $omega, $n);
-        }
+
+    if (is_imprimitive_carmichael(\@factors)) {
+        $table{$omega} = $n;
+        printf("a(%2d) <= %s\n", $omega, $n);
     }
 }
 
@@ -74,7 +70,7 @@ __END__
 
 a( 8) <= 1717329690048308373193368241
 a( 9) <= 3267914929260691848833226795711841
-a(10) <= 16412975107923138847512341751620644377601
+a(10) <= 9826697385996014043286435094944561164001
 a(11) <= 325533792014488126487416882038879701391121
 a(12) <= 1605045791181700950034233564955898780122791301414374937801
 a(13) <= 1802188215375086135161896807172372148518756613537876342449815601

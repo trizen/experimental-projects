@@ -16,7 +16,8 @@ use Math::Prime::Util::GMP;
 
 sub odd_part ($n) {
     #$n >> valuation($n, 2);
-    rshiftint($n, Math::Prime::Util::GMP::valuation($n, 2));
+    #rshiftint($n, Math::Prime::Util::GMP::valuation($n, 2));
+    Math::Prime::Util::GMP::divint($n, Math::Prime::Util::GMP::powint(2, Math::Prime::Util::GMP::valuation($n, 2)));
 }
 
 while (<>) {

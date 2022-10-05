@@ -11,6 +11,15 @@
 #   a(14) = 2162223198751674481689868383601
 #   a(15) = 548097717006566233800428685318301
 
+=for comment
+
+PARI/GP program:
+
+strong_fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j, k_exp, congr) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(tv=valuation(q-1, 2)); if(tv > k_exp && Mod(base, q)^(((q-1)>>tv)<<k_exp) == congr, my(v=m*q, t=q, r=nextprime(q+1)); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) == 1, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), if(v*r <= B, list=concat(list, f(v, L, r, j-1, k_exp, congr)))), break); v *= q; t *= q)))); list); my(res=f(1, 1, 2, k, 0, 1)); for(v=0, logint(B, 2), res=concat(res, f(1, 1, 2, k, v, -1))); vecsort(Vec(res));
+a(n) = if(n < 2, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=strong_fermat_psp(x, y, n, 2)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+=cut
+
 use 5.020;
 use warnings;
 
