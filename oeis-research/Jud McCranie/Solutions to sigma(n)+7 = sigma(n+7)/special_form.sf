@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# Solutions to sigma(n)+7 = sigma(n+7).
+# https://oeis.org/A063680
+
+# Known terms:
+#   74, 531434, 387420482, 2541865828322
+
+# Does the sequence contain any terms that are not of this special form?
+
+# See also:
+#   https://oeis.org/A063679
+
+for n in (1..1000000) {
+
+    var k = 3
+    var t = k**n
+    var u = t-7
+
+    say "#{k}^#{n} - 7" if (is_prob_prime(u/2))
+    #say "#{k}^#{n} - 7" if (is_prime(u/2) && (::sigma(u+7) == sigma(u)+7))
+    #say "[2] #{k}^#{n} - 7" if (is_prime(u/4) && (::sigma(u+7) == sigma(u)+7))
+    #say [n, t - 7] if (::sigma(t) == sigma(t - 7)+7)
+}
+
+__END__
+
+# Known terms of special form:
+
+3^4 - 7
+3^12 - 7
+3^18 - 7
+3^26 - 7
+3^106 - 7
+3^164 - 7
+3^246 - 7
+3^956 - 7
+3^2554 - 7
+3^3350 - 7
+3^6496 - 7
+3^8706 - 7
+3^9008 - 7
+3^15398 - 7
+3^15490 - 7
+3^20408 - 7
+3^39240 - 7
+3^41060 - 7
+3^41842 - 7
+3^58358 - 7
+3^60346 - 7
+3^82214 - 7
+3^134972 - 7
+3^194014 - 7
+3^344204 - 7

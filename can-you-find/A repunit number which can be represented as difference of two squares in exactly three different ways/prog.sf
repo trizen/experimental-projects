@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+include('../../factordb/auto.sf')
+
+func difference_of_two_squares_solutions(n) {
+
+    try { sigma(n, 0) } \\ return [] > 100 && return []   # too many
+
+    divisors(n).map {|d|
+
+        break if (d*d > n)
+
+        var a = d
+        var b = n/d
+
+        (a+b).is_even || next
+
+        var x = (a + b)/2
+        var y = (b - a)/2
+
+        [x, y]
+    }.flip
+}
+
+for n in (1..10000) {
+    next if (n <= 1129)
+    #next if (n <= 365)
+    #next if (n <= 377)
+    #next if (n <= 383)
+    #next if (n <= 407)
+    var t = Num('1' * n)
+    say "Testing: #{n}"
+    if (difference_of_two_squares_solutions(t).len == 3) {
+        say n
+        break
+    }
+}
+
+__END__
+not FF: 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111

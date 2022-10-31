@@ -113,6 +113,12 @@ use constant {
     # Respect the rules from robots.txt
     RESPECT_ROBOT_RULES => 1,
 
+    # Include only the results that fully match the given query
+    EXACT_MATCH => 0,
+
+    # Include all the results that include all the words from the given query, but not necessarily consecutive
+    FAST_MATCH => 1,
+
     # Rank the results based on content of the pages (better ranking, but it's much slower)
     RANK_ON_CONTENT => 1,
 
@@ -165,6 +171,8 @@ my %too_common_words;
 # List of tracking query parameters to remove from URLs
 my @tracking_parameters = qw(
 
+  ac itc
+
   yclid fbclid gclsrc
 
   utm_source utm_medium utm_term
@@ -192,6 +200,7 @@ my %hostname_alternatives = (
                              reddit  => 'teddit.net',
                              medium  => 'scribe.rip',
                              twitter => 'nitter.net',
+                             odysee  => 'lbry.projectsegfau.lt',
                             );
 
 my $cookie_file     = 'cookies.txt';
@@ -322,38 +331,72 @@ sub extract_words ($text) {
       uniq(split(/[_\W]+/, CORE::fc($text)));
 }
 
-sub encode_content_entry ($entry) {
+sub zstd_decode ($zstd_data) {
 
-    if (USE_ZSTD) {
-        my $storable_data = freeze($entry);
+    IO::Uncompress::UnZstd::unzstd(\$zstd_data, \my $decoded_data)
+        or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
 
-        IO::Compress::Zstd::zstd(\$storable_data, \my $zstd_data)
+    return $decoded_data;
+}
+
+sub zstd_encode ($data) {
+
+    IO::Compress::Zstd::zstd(\$data, \my $zstd_data)
           or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
 
-        return $zstd_data;
+    return $zstd_data;
+}
+
+sub encode_content_entry ($entry) {
+
+    my $data = freeze($entry);
+
+    if (USE_ZSTD) {
+        $data = zstd_encode($data);
     }
 
-    freeze($entry);
+    return $data;
 }
 
 sub decode_content_entry ($entry) {
 
+    my $data = $entry;
+
     if (USE_ZSTD) {
-
-        IO::Uncompress::UnZstd::unzstd(\$entry, \my $storable_data)
-          or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
-
-        return thaw($storable_data);
+        $data = zstd_decode($data);
     }
 
-    thaw($entry);
+    return thaw($data);
+}
+
+sub encode_index_entry ($entry) {
+
+    my $data = $entry;
+
+    if (USE_ZSTD) {
+        $data = zstd_encode($data);
+    }
+
+    return $data;
+}
+
+sub decode_index_entry ($entry) {
+
+    my $data = $entry;
+
+    if (USE_ZSTD) {
+        $data = zstd_decode($data);
+    }
+
+    return $data;
 }
 
 sub surprise_me {
 
     while (my ($word, $value) = each %WORDS_INDEX) {
         if (length($word) >= 5 and rand() < 0.1) {
-            my $ref_count = ($value =~ tr/ //);
+            my $entry = decode_index_entry($value);
+            my $ref_count = ($entry =~ tr/ //);
             if ($ref_count >= 10 and $ref_count <= 1000) {
                 return $word;
             }
@@ -390,6 +433,12 @@ sub sanitize_url ($url) {
 
     # Medium
     $url =~ s{^(?:www\.)?medium\.com(?=[/?])}{$hostname_alternatives{medium}};
+
+    # Odysee / LBRY
+    $url =~ s{^(?:www\.)?odysee\.com(?=[/?])}{$hostname_alternatives{odysee}};
+    $url =~ s{^(?:www\.)?open\.lbry\.com(?=[/?])}{$hostname_alternatives{odysee}};
+    $url =~ s{^(?:www\.)?lbry\.com(?=[/?])}{$hostname_alternatives{odysee}};
+    $url =~ s{^(?:www\.)?lbry\.tv(?=[/?])}{$hostname_alternatives{odysee}};
 
     return ($protocol . $url);
 }
@@ -442,16 +491,19 @@ sub add_to_database_index ($text, $key) {
 
         if (exists $WORDS_INDEX{$word}) {
 
+            my $entry = decode_index_entry($WORDS_INDEX{$word});
+
 #<<<
-            #~ if (($WORDS_INDEX{$word} =~ tr/ //) >= MAX_WORD_POPULARITY) {
+            #~ if (($entry =~ tr/ //) >= MAX_WORD_POPULARITY) {
                 #~ next;
             #~ }
 #>>>
 
-            $WORDS_INDEX{$word} .= ' ' . $key;
+            delete $WORDS_INDEX{$word};
+            $WORDS_INDEX{$word} = encode_index_entry($entry . ' ' . $key);
         }
         else {
-            $WORDS_INDEX{$word} = $key;
+            $WORDS_INDEX{$word} = encode_index_entry($key);
         }
     }
 
@@ -462,10 +514,12 @@ sub readd_to_database_index ($text, $key) {
 
     foreach my $word (extract_words($text)) {
         if (exists $WORDS_INDEX{$word}) {
-            $WORDS_INDEX{$word} = join(' ', uniq(split(' ', $WORDS_INDEX{$word}), $key));
+            my $entry = decode_index_entry($WORDS_INDEX{$word});
+            delete $WORDS_INDEX{$word};
+            $WORDS_INDEX{$word} = encode_index_entry(join(' ', uniq(split(' ', $entry), $key)));
         }
         else {
-            $WORDS_INDEX{$word} = $key;
+            $WORDS_INDEX{$word} = encode_index_entry($key);
         }
     }
 
@@ -477,6 +531,8 @@ sub valid_content_type {
 }
 
 sub crawl ($url, $depth = 0, $recrawl = 0) {
+
+    state %seen_url;
 
     # Must be http:// or https://
     $url =~ m{^https?://} or return;
@@ -491,6 +547,12 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     }
 
     my $id = xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
+
+    if (not $recrawl and $depth == 0 and exists $seen_url{$id}) {
+        return 1;
+    }
+
+    $seen_url{$id} = 1;
 
     if ($depth == 0 and exists $CONTENT_DB{$id}) {
         if (not $recrawl) {
@@ -681,7 +743,7 @@ sub search ($text) {
     my %counts;
 
     foreach my $word (@known_words) {
-        my @refs = split(' ', $WORDS_INDEX{$word});
+        my @refs = split(' ', decode_index_entry($WORDS_INDEX{$word}));
 
         $counts{$word} = scalar(@refs);
 
@@ -711,6 +773,10 @@ sub search ($text) {
     my @regexes;
     for (my $k = scalar(@original_words) ; $k >= 1 ; --$k) {
 
+        if (FAST_MATCH) {
+            $k == 1 or next;
+        }
+
         my $current_cost =
           ((RANK_ON_NON_BOUNDARY_MATCH ? 1 : 0) + (RANK_ON_BOUNDARY_MATCH ? 1 : 0)) * binomial(scalar(@original_words), $k);
 
@@ -735,8 +801,9 @@ sub search ($text) {
                       (RANK_ON_BOUNDARY_MATCH     ? (b_re => qr/\b$b_regex\b/si) : ()),
                       factor => $k,
                      };
-        }
-        scalar(@original_words), $k;
+        } scalar(@original_words), $k;
+
+        EXACT_MATCH && last;
     }
 
     foreach my $key (keys %matches) {
@@ -843,14 +910,17 @@ sub repair_index {    # very slow operation
 sub sanitize_index {
 
     my @for_delete_keys;
+
     my $index_len = 0;
     my $uniq_refs = 0;
 
     while (my ($key, $value) = each %WORDS_INDEX) {
 
+        my $entry = decode_index_entry($value);
+
         ++$index_len;
 
-        my $ref_count = 1 + ($value =~ tr/ //);
+        my $ref_count = 1 + ($entry =~ tr/ //);
 
         if ($ref_count > MAX_WORD_POPULARITY) {
             say "$ref_count: $key";
