@@ -3,7 +3,10 @@
 # Shyam Sunder Gupta asked: "Can you find the smallest abundant number which is also pseudoprime (base-2)".
 # If it exists it is a term of A328691 and it is larger than 2^64.
 
-# Probably the smallest abundant Fermat pseudoprime to base 2, is: 3470207934739664512679701940114447720865
+# Several abundant Fermat pseudoprimes to base 2:
+#   2596282479202818734176082185090403265
+#   12796625128232187655293894634808130945
+#   3470207934739664512679701940114447720865
 
 use 5.020;
 use strict;
