@@ -37,10 +37,10 @@ my $p     = 2;
 my @bases = ($p);
 
 foreach my $n (@terms) {
-    while (is_pseudoprime($n, @bases)) {
+    while (is_pseudoprime($n, $bases[-1])) {
         printf("a(%2d) <= %s\n", scalar(@bases), $n);
         $p = next_prime($p);
-        unshift @bases, $p;
+        push @bases, $p;
     }
 }
 
