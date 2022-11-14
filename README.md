@@ -1512,6 +1512,7 @@ Highly experimental personal projects.
         * [generate lucas-carmichael multiple.pl](./pseudoprimes/generators/generate_lucas-carmichael_multiple.pl)
         * [generate lucas pseudoprimes.pl](./pseudoprimes/generators/generate_lucas_pseudoprimes.pl)
         * [generate psp from primorials.sf](./pseudoprimes/generators/generate_psp_from_primorials.sf)
+        * [generate psp from primorials 2.sf](./pseudoprimes/generators/generate_psp_from_primorials_2.sf)
         * [generate psp from root.sf](./pseudoprimes/generators/generate_psp_from_root.sf)
         * [generate PSW counter-example.sf](./pseudoprimes/generators/generate_PSW_counter-example.sf)
         * [generate psw counter-example from prime factors.pl](./pseudoprimes/generators/generate_psw_counter-example_from_prime_factors.pl)

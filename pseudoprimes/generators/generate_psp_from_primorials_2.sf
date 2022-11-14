@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Most of these pseudoprimes are also super-pseudoprimes.
+
+var j = 2           # even multiple
+var min = 2**64
+
+for n in (1..1000) {
+    #var t = n.pn_primorial
+    #var t = n.factorial
+    var t = n.prime.consecutive_lcm
+    for k in (n .. 1000) {
+        var u = ((k*t + 1) * (j*k*t + 1))
+        if (u > min && u.is_psp) {
+            say u
+        }
+    }
+}
