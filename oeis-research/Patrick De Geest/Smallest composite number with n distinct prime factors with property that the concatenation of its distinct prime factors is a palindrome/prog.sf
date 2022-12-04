@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Smallest composite number with n distinct prime factors with property that the concatenation of its distinct prime factors is a palindrome
+# https://oeis.org/A046449
+
+# Known terms:
+#   4, 39, 429, 5565, 94605, 1040655, 2332655745, 178516966485, 4105890229155, 867388559982945, 37297708079266635, 1529206031249932035
+
+# Observation: a(n) is odd for all n > 1.
+
+# PARI/GP program:
+/*
+
+S(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, s, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, t=concat(s, Str(q)), r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, if(t==concat(Vecrev(t)), listput(list, v))), if(v*r <= B, list=concat(list, f(v, t, r, j-1)))); v *= q; t=concat(t, Str(q)))); list); vecsort(Vec(f(1, "", 3, n)));
+a(n) = if(n==1, return(4)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+*/
+
+# Squarefree version:
+/*
+
+S(A, B, k) = A=max(A, vecprod(primes(k+1))\2); (f(m, s, p, k, u=0, v=0) = my(list=List()); if(k==1, forprime(p=u, v, my(t=m*p, t2=concat(s, Str(p))); if(t2==concat(Vecrev(t2)), listput(list, t))), forprime(q = p, sqrtnint(B\m, k), my(t = m*q, L=concat(s, Str(q)), u=ceil(A/t), v=B\t); if(u <= v, my(r=nextprime(q+1)); if(k==2 && r>u, u=r); list=concat(list, f(t, L, r, k-1, u, v))))); list); vecsort(Vec(f(1, "", 3, k)));
+a(n) = if(n == 1, return(4)); my(x=vecprod(primes(n+1))\2, y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+
+*/

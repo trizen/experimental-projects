@@ -146,27 +146,29 @@ use constant {
 
 # Optimize for these words in search requests, as very many websites contain them
 my %too_common_words;
-@too_common_words{qw(
+@too_common_words{
+    qw(
 
-    times are will program those like home via know must access life and another these read following
-    video below issues security 2022 place article off www given high end our only possible within less
-    still support better never over date file non image wayback information you website under from
-    contribute any government list own much once public again group type each find internet while both
-    well about open action then available services without can were best where such get com every control
-    however create using look want world that your not three email great things projects being business
-    also the old main people based few did with special most said his state point results site system policy
-    history during their too contact case years form next one small called link set 2020 previous same events
-    new than https show note contents just view number out privacy see after part known real review report
-    between archive text please right time around into was other mobile work here more related may this take
-    have sign used back good different org message full important made original line top blog search personal
-    give files 100 could change status research they last issue media version because say including features
-    several recent terms some does code been down many example service way account large log all learn use should
-    page there free help even 2021 its current project found against need power start when for but through contains
-    why how has team since who least run what let order had user which due long very name first before wiki would
-    data now post organization source machine cannot keep software news general later content links year rights
-    others day might inc them web two community make http don
+      times are will program those like home via know must access life and another these read following
+      video below issues security 2022 place article off www given high end our only possible within less
+      still support better never over date file non image wayback information you website under from
+      contribute any government list own much once public again group type each find internet while both
+      well about open action then available services without can were best where such get com every control
+      however create using look want world that your not three email great things projects being business
+      also the old main people based few did with special most said his state point results site system policy
+      history during their too contact case years form next one small called link set 2020 previous same events
+      new than https show note contents just view number out privacy see after part known real review report
+      between archive text please right time around into was other mobile work here more related may this take
+      have sign used back good different org message full important made original line top blog search personal
+      give files 100 could change status research they last issue media version because say including features
+      several recent terms some does code been down many example service way account large log all learn use should
+      page there free help even 2021 its current project found against need power start when for but through contains
+      why how has team since who least run what let order had user which due long very name first before wiki would
+      data now post organization source machine cannot keep software news general later content links year rights
+      others day might inc them web two community make http don
 
-)} = ();
+      )
+} = ();
 
 # List of tracking query parameters to remove from URLs
 my @tracking_parameters = qw(
@@ -253,7 +255,7 @@ my %mech_options = (
                     show_progress => 1,
                     stack_depth   => 10,
                     cookie_jar    => {},
-                    ssl_opts      => {verify_hostname => SSL_VERIFY_HOSTNAME},
+                    ssl_opts      => {verify_hostname => SSL_VERIFY_HOSTNAME, Timeout => 20},
                     agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
                    );
 
@@ -283,8 +285,19 @@ my $robot_rules = WWW::RobotRules->new($mech->agent);
 
 {
     state $accepted_encodings = HTTP::Message::decodable();
-    $mech->default_header('Accept-Encoding' => $accepted_encodings);
-    $lwp->default_header('Accept-Encoding' => $accepted_encodings);
+
+    my %default_headers = (
+                           'Accept-Encoding' => $accepted_encodings,
+                           'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                           'Accept-Language' => 'en-US,en;q=0.5',
+                           'Connection'      => 'keep-alive',
+                           'Upgrade-Insecure-Requests' => '1',
+                          );
+
+    foreach my $key (sort keys %default_headers) {
+        $mech->default_header($key, $default_headers{$key});
+        $lwp->default_header($key, $default_headers{$key});
+    }
 };
 
 {
@@ -334,7 +347,7 @@ sub extract_words ($text) {
 sub zstd_decode ($zstd_data) {
 
     IO::Uncompress::UnZstd::unzstd(\$zstd_data, \my $decoded_data)
-        or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+      or die "unzstd failed: $IO::Uncompress::UnZstd::UnZstdError\n";
 
     return $decoded_data;
 }
@@ -342,7 +355,7 @@ sub zstd_decode ($zstd_data) {
 sub zstd_encode ($data) {
 
     IO::Compress::Zstd::zstd(\$data, \my $zstd_data)
-          or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
+      or die "zstd failed: $IO::Compress::Zstd::ZstdError\n";
 
     return $zstd_data;
 }
@@ -395,7 +408,7 @@ sub surprise_me {
 
     while (my ($word, $value) = each %WORDS_INDEX) {
         if (length($word) >= 5 and rand() < 0.1) {
-            my $entry = decode_index_entry($value);
+            my $entry     = decode_index_entry($value);
             my $ref_count = ($entry =~ tr/ //);
             if ($ref_count >= 10 and $ref_count <= 1000) {
                 return $word;
@@ -574,7 +587,14 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
     if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:400|403|404|405|406|410|429|462|500)\z/) {
         if ($url !~ m{^https://web\.archive\.org/}) {
-            return crawl("https://web.archive.org/web/1990/" . (($url =~ m{^https://}) ? 'https://' : 'http://') . normalize_url($url), $depth, $recrawl);
+            return
+              crawl(
+                    "https://web.archive.org/web/1990/"
+                      . (($url =~ m{^https://}) ? 'https://' : 'http://')
+                      . normalize_url($url),
+                    $depth,
+                    $recrawl
+                   );
         }
     }
 
@@ -1017,14 +1037,27 @@ while (my $c = CGI::Fast->new) {
             #~ src => 'css/popup.css',
             #~ },
         ],
-        -head => Link(
-                      {
-                       -rel  => 'shortcut icon',
-                       -type => 'image/png',
-                       -href => 'img/favicon.png',
-                      }
-                     ),
-                );
+        -head => [
+            Link(
+                 {
+                  -rel  => 'shortcut icon',
+                  -type => 'image/png',
+                  -href => 'img/favicon.png',
+                 }
+                ),
+
+            (-e "opensearch.xml")
+            ? Link(
+                   {
+                    -rel   => 'search',
+                    -type  => 'application/opensearchdescription+xml',
+                    -title => 'Dark search',
+                    -href  => 'opensearch.xml',
+                   }
+                  )
+            : ()
+        ],
+      );
 
     if (defined($id)) {
 
