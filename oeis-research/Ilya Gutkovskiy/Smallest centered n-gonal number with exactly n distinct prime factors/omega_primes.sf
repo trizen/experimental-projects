@@ -1,0 +1,85 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest centered n-gonal number with exactly n distinct prime factors.
+# https://oeis.org/A358894
+
+# Known terms:
+#   460, 99905, 463326, 808208947, 23089262218
+
+# PARI/GP program:
+#`(
+
+# Version 1
+omega_polygonals(A, B, n, k) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(s=q%k); if(s==1 || s==7 || s==9 || s==15, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, my(z=sqrtint((2*(v-1))\k)); if ((k*z*(z+1))/2+1 == v, listput(list, v))), if(v*r <= B, list=concat(list, f(v, r, j-1)))); v *= q))); list); vecsort(Vec(f(1, 2, n)));
+a(n, k=n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+# Version 2
+omega_polygonals(A, B, n, k) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(s=q%k); if(s==1 || s==9, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, if (issquare((8*(v-1))/k + 1), listput(list, v))), if(v*r <= B, list=concat(list, f(v, r, j-1)))); v *= q))); list); vecsort(Vec(f(1, 2, n)));
+a(n, k=n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+# Find the residues of the prime factors of centered n-gonal numbers:
+#   for n in (3..20) { say [n, 1000.of {|k| ((n*k*(k+1))/2 + 1) }.map{.factor.map{.mod(n)}}.flat.uniq.sort] }
+
+# Resides for each n = 3..n:
+#`(
+    [3, [1, 2]]
+    [4, [1]]
+    [5, [1, 2, 3, 4]]
+    [6, [1]]
+    [7, [1, 2, 4]]
+    [8, [1, 3, 5, 7]]
+    [9, [1, 2, 4, 5, 7, 8]]
+    [10, [1, 9]]
+    [11, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    [12, [1, 11]]
+    [13, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+    [14, [1, 3, 5, 9, 11, 13]]
+    [15, [1, 2, 4, 7, 8, 11, 13, 14]]
+    [16, [1, 7, 9, 15]]
+    [17, [1, 2, 3, 4, 8, 9, 13, 15, 16]]
+    [18, [1, 5, 7, 11, 13, 17]]
+    [19, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]]
+    [20, [1, 3, 7, 9, 11, 13, 17, 19]]
+)
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.squarefree_almost_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.squarefree_almost_primes_each(from, upto, {|v|
+                if ((n `divides` 8*v.dec) && (8*v.dec / n + 1 -> is_square)) {
+                    say "a(#{n}) = #{v}"
+                    return v
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(13)
+
+__END__
+a(3) = 460
+a(4) = 99905
+a(5) = 463326
+a(6) = 808208947
+a(7) = 23089262218
+a(8) = 12442607161209225
+a(9) = 53780356630
+a(10) = 700326051644920151
+a(11) = 46634399568693102
+a(12) = 45573558879962759570353

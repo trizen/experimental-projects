@@ -7,12 +7,42 @@
 #   66, 44100, 11310, 103740, 3333330, 185040240, 15529888374, 626141842326, 21647593547580, 351877410344460, 82634328555218440
 
 # PARI/GP program:
-/*
+#`(
 
+# General version
 omega_polygonals(A, B, n, k) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A && ispolygonal(v,k), listput(list, v)), if(v*r <= B, list=concat(list, f(v, r, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
 a(n, k=n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-*/
+# Optimized version, using residues of prime factors
+omega_polygonals(A, B, n, k) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(s=q%k); if(s==1||s==2||s==3||s==5||s==7||s==9||s==11||s==13||s==15, my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A && ispolygonal(v,k), listput(list, v)), if(v*r <= B, list=concat(list, f(v, r, j-1)))); v *= q))); list); vecsort(Vec(f(1, 2, n)));
+a(n, k=n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+# Find the residues of the prime factors of n-gonal numbers:
+#   for n in (3..20) { say [n, 1000.of {|k| polygonal(k, n) }.map{.factor.map{.mod(n)}}.flat.uniq.sort] }
+
+# Resides for each n = 3..n:
+#`(
+    [3, [0, 1, 2]]
+    [4, [1, 2, 3]]
+    [5, [0, 1, 2, 3, 4]]
+    [6, [1, 2, 3, 5]]
+    [7, [0, 1, 2, 3, 4, 5, 6]]
+    [8, [1, 2, 3, 5, 7]]
+    [9, [1, 2, 3, 4, 5, 7, 8]]
+    [10, [1, 2, 3, 5, 7, 9]]
+    [11, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    [12, [1, 2, 3, 5, 7, 11]]
+    [13, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+    [14, [1, 2, 3, 5, 7, 9, 11, 13]]
+    [15, [1, 2, 3, 4, 5, 7, 8, 11, 13, 14]]
+    [16, [1, 2, 3, 5, 7, 9, 11, 13, 15]]
+    [17, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]]
+    [18, [1, 2, 3, 5, 7, 11, 13, 17]]
+    [19, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]]
+    [20, [1, 2, 3, 5, 7, 9, 11, 13, 17, 19]]
+)
 
 func upper_bound(n, from = 2, upto = 2*from) {
 
