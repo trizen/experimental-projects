@@ -1,0 +1,70 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number k such that A046660(k) = A046660(k+1) = n.
+# https://oeis.org/A358818
+
+# Known terms:
+#   1, 44, 135, 80, 8991, 29888, 123200, 2316032, 1043199, 24151040, 217713663, 689278976, 11573190656, 76876660736, 311969153024, 2035980763136, 2741258240000
+
+var K = 19
+#var multiplier = 2**K
+var multiplier = 3**K
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.almost_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.almost_primes_each(from, upto, {|v|
+                var u = v*multiplier
+                var t = (u.bigomega - u.omega)
+                if (t >= 17) {
+                    var t1 = (u.inc.bigomega - u.inc.omega)
+                    if (t == t1) {
+                        say "a(#{t}) <= #{u}"
+                    }
+                    var t2 = (u.dec.bigomega - u.dec.omega)
+                    if (t == t2) {
+                        say "a(#{t}) <= #{u-1}"
+                    }
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(6)
+
+__END__
+
+a(17) <= 215189482110975
+a(18) <= 766556765683712
+a(19) <= 1061522454347775
+a(20) <= 19656708706009088
+a(21) <= 63530609986764800
+a(22) <= 2280241934368767
+a(23) <= 1581740688041574399
+
+
+# Old upper-bounds:
+
+a(17) <= 258756982341632
+a(17) <= 350602757668863
+a(17) <= 553722671005695
+a(17) <= 664996809015296
+a(17) <= 2381801891037183
+a(18) <= 1985276245704704
+a(19) <= 1375916505694208
+a(19) <= 5936400374431743
+a(20) <= 24217192574746623

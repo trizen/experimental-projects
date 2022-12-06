@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number k such that A046660(k) = A046660(k+1) = n.
+# https://oeis.org/A358818
+
+# Known terms:
+#   1, 44, 135, 80, 8991, 29888, 123200, 2316032, 1043199, 24151040, 217713663, 689278976, 11573190656, 76876660736, 311969153024, 2035980763136, 2741258240000
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.almost_prime_count(from, upto)
+
+        if (count > 0 && (upto > 2741258240000)) {
+
+            from = max(2741258240000, from)
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.almost_primes_each(from, upto, {|v|
+                var t = (n - v.omega)
+                if (t >= 17) {
+                    var t1 = (v.inc.bigomega - v.inc.omega)
+                    if (t == t1) {
+                        say "a(#{t}) <= #{v}"
+                    }
+                    var t2 = (v.dec.bigomega - v.dec.omega)
+                    if (t == t2) {
+                        say "a(#{t}) <= #{v-1}"
+                    }
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(20)
+
+__END__

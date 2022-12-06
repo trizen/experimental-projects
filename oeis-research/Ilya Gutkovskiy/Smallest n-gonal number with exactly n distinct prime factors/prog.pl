@@ -21,7 +21,8 @@ sub a($n) {
         my $t = rshiftint(mulint($k, ($n*$k - $n - 2*$k + 4)), 1);
         #my $t = ($k * ($n*$k - $n - 2*$k + 4))>>1;
 
-        if (prime_omega($t) == $n) {
+        #if (prime_omega($t) == $n) {
+        if (is_omega_prime($n, $t)) {
             return $t;
         }
     }

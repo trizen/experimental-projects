@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest n-gonal pyramidal number with exactly n distinct prime factors.
+# https://oeis.org/A358864
+
+# Known terms:
+#   84, 1785, 299880, 1020510, 8897460, 102612510, 33367223274, 249417828660, 9177835927260, 10064864238489060, 5558913993302670, 15633689593760207970, 3792821921183752657200
+
+# PARI/GP program:
+
+/*
+
+a(n) = if(n<3, return()); for(k=1, oo, my(t=(k*(k+1)*((n-2)*k + (5-n)))\6); if(omega(t) == n, return(t))); \\ ~~~~
+
+*/
+
+func a(n) {
+    for k in (1..Inf) {
+        if (pyramidal(k, n).is_omega_prime(n)) {
+            return pyramidal(k, n)
+        }
+    }
+}
+
+for n in (3..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(12) = 10064864238489060
+a(13) = 5558913993302670
+a(14) = 15633689593760207970
+a(15) = 3792821921183752657200

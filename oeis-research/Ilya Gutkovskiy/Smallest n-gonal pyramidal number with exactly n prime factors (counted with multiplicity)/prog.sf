@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest n-gonal pyramidal number with exactly n prime factors (counted with multiplicity).
+# https://oeis.org/A358865
+
+# Known terms:
+#   20, 140, 405, 2856, 25296, 111720, 25984, 5474000, 237600, 223826688, 3852800, 268565760, 1834725376, 175861400000, 335674368, 2863363937280, 4383831556096, 206015846400, 3400704000, 938209120583680, 2981338216980480, 21463949229465600, 45410367307776, 72056803765911552
+
+# PARI/GP program:
+
+/*
+
+a(n) = if(n<3, return()); for(k=1, oo, my(t=(k*(k+1)*((n-2)*k + (5-n)))\6); if(bigomega(t) == n, return(t))); \\ ~~~~
+
+*/
+
+func a(n) {
+    for k in (1..Inf) {
+        if (pyramidal(k, n).is_almost_prime(n)) {
+            return pyramidal(k, n)
+        }
+    }
+}
+
+for n in (3..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(22) = 938209120583680
+a(23) = 2981338216980480
+a(24) = 21463949229465600
+a(25) = 45410367307776
+a(26) = 72056803765911552
+a(27) = 4803826408397209600
