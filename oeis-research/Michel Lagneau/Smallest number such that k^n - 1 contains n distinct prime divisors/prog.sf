@@ -13,7 +13,7 @@
 #   a(n) = my(k=2); while (omega(k^n-1) != n, k++); k;
 
 # Lower-bounds:
-#   a(19) > 368971
+#   a(19) > 370066
 #   a(23) > 89107
 #   a(26) > 100948
 #   a(27) > 19141
@@ -25,6 +25,7 @@ include("../../../factordb/auto.sf")
 
 func a(n, from=2) {
     for k in (from..Inf) {
+
         var v = (k**n - 1)
         say "[#{k}] Checking: #{v}"
 
@@ -50,7 +51,7 @@ func a(n, from=2) {
     }
 }
 
-var from = 368971+1
+var from = 370066
 
 for n in (19) {
     say "a(#{n}) = #{a(n, from)}"

@@ -7,7 +7,7 @@
 #   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
 
 # Lower-bounds:
-#   a(16) > 1023493
+#   a(16) > 1136859
 
 include("../../../factordb/auto.sf")
 
@@ -28,6 +28,11 @@ func check_partial_factors(f,n) {
 
 func a(n, from=2) {
     for k in (from .. Inf) {
+
+        # Already checked the primes below this bound
+        if ((n == 16) && (k <= 1471819) && (k.is_prime)) {
+            next
+        }
 
         var v = (k**n + 1)
         v.is_prob_squarefree(1e6) || next
@@ -89,8 +94,8 @@ func a(n, from=2) {
 }
 
 #var from = 2
-var from = 1023493
 
-for n in (16) {
-    say "a(#{n}) = #{a(n, from)}"
-}
+var n = 16
+var from = 1136859
+
+say "a(#{n}) = #{a(n, from)}"

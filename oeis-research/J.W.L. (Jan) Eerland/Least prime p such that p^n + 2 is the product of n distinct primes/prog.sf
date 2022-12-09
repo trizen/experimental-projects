@@ -1,16 +1,17 @@
 #!/usr/bin/ruby
 
-# Least prime p such that p^n + 1 is the product of n distinct primes.
-# https://oeis.org/A280005
-
-# Similar sequence: A242786
+# Least prime p such that p^n + 2 is the product of n distinct primes.
+# https://oeis.org/A358656
 
 # Known terms:
-#   2, 3, 13, 43, 73, 47, 457, 1697, 109, 8161, 10429, 13183, 30089, 66569, 5281
+#   3, 2, 7, 71, 241, 83, 157, 6947, 4231, 35509, 15541, 199499
+
+# New terms:
+#   a(13) = 649147
 
 # Lower-bounds:
-#   a(16) > 1471819
-#   a(17) > 43889
+#   a(14) > 1043083
+#   a(15) > 196459
 
 include("../../../factordb/auto.sf")
 
@@ -32,7 +33,7 @@ func check_partial_factors(f,n) {
 func a(n, from=2) {
     for (var p = from; true ; p.next_prime!) {
 
-        var v = (p**n + 1)
+        var v = (p**n + 2)
         v.is_prob_squarefree(1e6) || next
 
         say "[#{n}] Checking: #{p}"
@@ -91,9 +92,7 @@ func a(n, from=2) {
     }
 }
 
-#var from = 2
-
-var n = 16
-var from = 1471819
+var n = 14
+var from = 1043083
 
 say "a(#{n}) = #{a(n, from)}"
