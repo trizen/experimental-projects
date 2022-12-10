@@ -9,8 +9,11 @@
 #   2, 3, 13, 43, 73, 47, 457, 1697, 109, 8161, 10429, 13183, 30089, 66569, 5281
 
 # Lower-bounds:
-#   a(16) > 1471819
+#   a(16) > 1746439
 #   a(17) > 43889
+
+# Upper-bounds:
+#   a(16) <= 206874667
 
 include("../../../factordb/auto.sf")
 
@@ -94,6 +97,6 @@ func a(n, from=2) {
 #var from = 2
 
 var n = 16
-var from = 1471819
+var from = 1746439
 
 say "a(#{n}) = #{a(n, from)}"

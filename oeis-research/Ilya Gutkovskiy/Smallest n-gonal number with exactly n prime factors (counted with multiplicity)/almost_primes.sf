@@ -7,12 +7,12 @@
 #   28, 16, 176, 4950, 8910, 1408, 346500, 277992, 7542080, 326656, 544320, 120400000, 145213440, 48549888, 4733575168, 536813568, 2149576704, 3057500160, 938539560960, 1358951178240
 
 # PARI/GP program:
-/*
+#`(
 
 bigomega_polygonals(A, B, n, k) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p,ceil(A/m)), B\m, my(t=m*q); if(ispolygonal(t,k), listput(list, t))), forprime(q = p, sqrtnint(B\m, n), my(t=m*q); if(ceil(A/t) <= B\t, list=concat(list, f(t, q, n-1))))); list); vecsort(Vec(f(1, 2, n)));
 a(n, k=n) = if(k < 3, return()); my(x=2^n, y=2*x); while(1, my(v=bigomega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-*/
+)
 
 func upper_bound(n, from = 2, upto = 2*from) {
 

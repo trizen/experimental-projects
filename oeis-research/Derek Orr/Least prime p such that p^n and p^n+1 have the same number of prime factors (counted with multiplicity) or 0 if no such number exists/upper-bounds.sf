@@ -9,6 +9,9 @@
 # Conjectured lower-bounds:
 #   a(16) > 3048767
 
+# Upper-bounds:
+#   a(16) <= 206874667
+
 include("../../../factordb/auto.sf")
 
 func check_partial_factors(f,n) {

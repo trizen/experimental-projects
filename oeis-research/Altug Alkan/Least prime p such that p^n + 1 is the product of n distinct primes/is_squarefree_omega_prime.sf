@@ -9,21 +9,25 @@
 #   2, 3, 13, 43, 73, 47, 457, 1697, 109, 8161, 10429, 13183, 30089, 66569, 5281
 
 # Lower-bounds:
-#   a(16) > 1345361
+#   a(16) > 1746439
 #   a(17) > 43889
 
+# Upper-bounds:
+#   a(16) <= 206874667
+
 func a(n, from=2) {
+    assert(from.is_prime)
     for(var p = from; true; p.next_prime!) {
         var t = (p**n + 1)
         say "[#{n}] Checking: #{p} -> #{t}"
         #if (t.is_squarefree_almost_prime(n)) {
-        if (t.is_prob_squarefree(1e6) && t.is_omega_prime(n) && t.is_squarefree) {
+        if (t.is_prob_squarefree(1e6) && t.is_almost_prime(n) && t.is_squarefree) {
             return p
         }
     }
 }
 
 var n = 16
-var from = 1345361
+var from = 1746439
 
 say "a(#{n}) = #{a(n, from)}"
