@@ -1,0 +1,55 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number k such that 3^k-2 and 3^k+2 are the product of n prime factors counted with multiplicity.
+# https://oeis.org/A335799
+
+# Known terms:
+#   2, 12, 18, 38, 79, 75, 153, 313
+
+# Lower-bounds:
+#   a(12) >= 565
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=2) {
+    for k in (from..Inf) {
+
+        say "[#{n}] Checking: #{k}"
+
+        var v1 = (3**k - 2)
+        var v2 = (3**k + 2)
+
+        var f1 = factordb(v1)
+        var f2 = factordb(v2)
+
+        var o1 = f1.sum {|p| p.is_prime ? 1 : 2 }
+        var o2 = f2.sum {|p| p.is_prime ? 1 : 2 }
+
+        next if (o1 > n)
+        next if (o2 > n)
+
+        var c1 = f1.grep{.is_composite}.prod
+        var c2 = f2.grep{.is_composite}.prod
+
+        var p1 = f1.grep{.is_prime}
+        var p2 = f2.grep{.is_prime}
+
+        c1 >= (p1.max||1 -> next_prime)**(n - p1.len) || next
+        c2 >= (p2.max||1 -> next_prime)**(n - p2.len) || next
+
+        if ((bigomega(v1) == n) && (bigomega(v2) == n)) {
+            return k
+        }
+    }
+}
+
+#var from = 2
+
+#say a(9, 521)
+#say a(10, 368)
+#say a(11, 339)
+say a(12, 551)
+
+#~ for n in (1..100) {
+    #~ say "a(#{n}) = #{a(n, 1)}"
+#~ }

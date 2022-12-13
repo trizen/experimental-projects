@@ -21,7 +21,7 @@ sub a ($n) {
         is_smooth($k, 3) || next;
 
         foreach my $v (inverse_totient(powint($k, $n))) {
-            if (is_square_free($v) and is_almost_prime($n, $v)) {
+            if (is_almost_prime($n, $v) and is_square_free($v)) {
                 push @list, $v;
             }
         }

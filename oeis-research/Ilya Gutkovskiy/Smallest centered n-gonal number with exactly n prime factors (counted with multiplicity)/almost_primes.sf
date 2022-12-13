@@ -15,7 +15,7 @@
 bigomega_polygonals(A, B, n, k) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p,ceil(A/m)), B\m, my(t=m*q); if(issquare((8*(t-1))/k + 1) && ((sqrtint((8*(t-1))/k + 1)-1)%2 == 0), listput(list, t))), forprime(q = p, sqrtnint(B\m, n), my(t=m*q); if(ceil(A/t) <= B\t, list=concat(list, f(t, q, n-1))))); list); vecsort(Vec(f(1, 2, n)));
 a(n, k=n) = if(k < 3, return()); my(x=2^n, y=2*x); while(1, my(v=bigomega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-# Version with primes in certain residues classes
+# Version with primes in certain residue classes
 bigomega_polygonals(A, B, n, k) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p,ceil(A/m)), B\m, my(s=q%k); if(s==1 || s==7 || s==9 || s==15, my(t=m*q); if(issquare((8*(t-1))/k + 1) && ((sqrtint((8*(t-1))/k + 1)-1)%2 == 0), listput(list, t)))), forprime(q = p, sqrtnint(B\m, n), my(s=q%k); if(s==1 || s==7 || s==9 || s==15, my(t=m*q); if(ceil(A/t) <= B\t, list=concat(list, f(t, q, n-1)))))); list); vecsort(Vec(f(1, 2, n)));
 a(n, k=n) = if(k < 3, return()); my(x=2^n, y=2*x); while(1, my(v=bigomega_polygonals(x, y, n, k)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
@@ -36,7 +36,7 @@ func upper_bound(n, from = 2, upto = 2*from) {
 
             n.almost_primes_each(from, upto, {|v|
 
-                 if (is_square((n + 8*(v - 1))/n) && is_even(isqrt((n + 8*(v - 1))/n)-1)) {
+                 if (v.is_centered_polygonal(n)) {
                     say "a(#{n}) = #{v}"
                     return v
                 }
@@ -48,7 +48,7 @@ func upper_bound(n, from = 2, upto = 2*from) {
     }
 }
 
-upper_bound(9)
+upper_bound(16)
 
 __END__
 a(3) = 316

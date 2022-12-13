@@ -13,6 +13,9 @@ use experimental qw(signatures);
 # PARI/GP program:
 #   a(n) = if(n<3, return()); for(k=1, oo, my(t=(k*(n*k - n - 2*k + 4))\2); if(bigomega(t) == n, return(t)));
 
+# PARI/GP program for A359014:
+#   a(n) = if(n<3, return()); for(k=1, oo, my(t=(k*(n*k - n - 2*k + 4))\2); if(bigomega(t) == n, return(k)));
+
 sub a($n) {
 
     for(my $k = 1; ; ++$k) {

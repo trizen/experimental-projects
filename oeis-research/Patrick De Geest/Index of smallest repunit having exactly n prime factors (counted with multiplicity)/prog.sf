@@ -1,0 +1,95 @@
+#!/usr/bin/ruby
+
+# Index of smallest repunit having exactly n prime factors (counted with multiplicity).
+# https://oeis.org/A046421
+
+# Known terms:
+#   1, 2, 3, 13, 8, 6, 15, 12, 28, 18, 24, 32, 36, 30, 54, 42, 78, 100, 72, 176, 60, 208, 84, 132, 160, 198, 120, 204, 216, 308, 168, 280, 306, 180, 210, 264, 270, 252, 378, 336, 300
+
+# Lower-bounds:
+#   a(41) >= 377
+
+include("../../../factordb/auto.sf")
+
+func check_partial_factors(f,n) {
+
+    #f.len == f.len || return false
+    f.sum {|p| p.is_prime ? 1 : 2 } > n && return false
+
+    if (f.all_prime) {
+        if (f.len == n) {
+            return true
+        }
+        return false
+    }
+
+    return true
+}
+
+func a(n, from=2) {
+    for k in (from..Inf) {
+
+        var v = (10**k - 1)/9
+
+        say "[#{n}] Checking: #{k}"
+
+        var tf = v.trial_factor(1e6)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e6) + 1 >= n || next
+
+        tf = v.trial_factor(1e7)
+        check_partial_factors(tf, n) || next
+        tf.len.dec + tf.last.ilog(1e7) + 1 >= n || next
+
+        if (tf.last > 1e60) {
+            tf = v.trial_factor(1e8)
+            check_partial_factors(tf, n) || next
+            tf.len.dec + tf.last.ilog(1e8) + 1 >= n || next
+        }
+
+        say "Many factors (at least #{tf.len-1 + (tf.last.is_prime ? 1 : 2)} with C#{tf.last.len}): #{v}"
+
+        var ff = v.special_factor
+        check_partial_factors(ff, n) || next
+
+        var f = factordb(v)
+        check_partial_factors(f, n) || next
+
+        var f3 = gcd_factors(v, tf + ff + f)
+        check_partial_factors(f3, n) || next
+
+        if ((f3.last > 1e65) && f3.last.is_composite) {
+            tf = v.trial_factor(1e9)
+            check_partial_factors(tf, n) || next
+            tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
+
+            say "Strong candidate..."
+
+            f3 = gcd_factors(v, tf + ff + f)
+            check_partial_factors(f3, n) || next
+
+            var pf = f3.grep{.is_prime}
+            var c = (v / pf.prod)
+            pf.len + c.ilog(1e9) + 1 >= n || next
+
+            say "Factoring C#{c.len}: #{c}"
+        }
+
+        f3 = f3.map{ .is_prime ? _ : factordb(_) }.flat
+        check_partial_factors(f3, n) || next
+
+        f3 = f3.map{ .factor }.flat
+        check_partial_factors(f3, n) || next
+
+        if (f3.len == n) {
+            return k
+        }
+    }
+}
+
+#var from = 2
+
+var n = 41
+var from = 404
+
+say "a(#{n}) = #{a(n, from)}"
