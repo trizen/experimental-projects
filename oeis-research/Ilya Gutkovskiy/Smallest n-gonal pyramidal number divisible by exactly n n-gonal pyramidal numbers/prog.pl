@@ -7,8 +7,8 @@
 #   56, 140, 4200, 331800, 611520, 8385930
 
 # PARI/GP program:
-#   pyramidal(k,r)=(k*(k+1)*((r-2)*k + (5-r)))\6;
-#   ispyramidal(n,r)=my(k=sqrtnint(6*n\(r-2), 3)); pyramidal(k,r) == n;
+#   pyramidal(k,r) = (k*(k+1)*((r-2)*k + (5-r)))\6;
+#   ispyramidal(n,r) = pyramidal(sqrtnint(6*n\(r-2) + sqrtnint(n, 3), 3), r) == n;
 #   a(n) = if(n<3, return()); for(k=1, oo, my(t=pyramidal(k,n)); if(sumdiv(t, d, ispyramidal(d, n)) == n, return(t)));
 
 use 5.020;
@@ -22,7 +22,7 @@ sub pyramidal ($k, $r) {
 }
 
 sub is_pyramidal($n, $r) {
-    my $k = rootint(divint(mulint($n, 6), $r-2), 3);
+    my $k = rootint(divint(mulint($n, 6), $r-2) + rootint($n, 3), 3);
     pyramidal($k, $r) == $n;
 }
 
@@ -55,6 +55,13 @@ a(5) = 4200
 a(6) = 331800
 a(7) = 611520
 a(8) = 8385930
+a(9) = 1071856800
+a(10) = 41086892000
+a(11) = 78540000
+
+
+# Incorrect terms:
+
 a(9) = 2334564960
 a(10) = 4775553032250
 a(11) = 1564399200

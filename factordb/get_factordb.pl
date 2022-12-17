@@ -54,7 +54,21 @@ $expr = join('', split(' ', $expr));    # remove any whitespace
 my $main_url = "http://factordb.com/api?query=" . uri_escape($expr);
 
 my $resp = $mech->get($main_url);
-my $data = from_json($resp->decoded_content);
+
+if (not $resp->is_success) {
+    $mech->invalidate_last_request;
+    $resp = $mech->get($main_url);
+}
+
+if (not $resp->is_success) {
+    $mech->invalidate_last_request;
+    die "Failed to get factors...\n";
+}
+
+my $data = eval { from_json($resp->decoded_content) } // do {
+    $mech->invalidate_last_request;
+    die "Failed to get factors...\n";
+};
 
 if ($data->{status} =~ /^(?:C|CF|U|PRP)\z/i) {
     $mech->invalidate_last_request;

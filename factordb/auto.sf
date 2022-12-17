@@ -8,6 +8,7 @@ define (
 )
 
 const script = File(__FILE__).dir+File("get_factordb.pl")
+const scrape_script = File(__FILE__).dir+File("scrape_factordb.pl")
 
 func factordb(n) is cached {
 
@@ -16,6 +17,10 @@ func factordb(n) is cached {
     }
 
     var f = `#{$^PERL} #{script} #{Str(n).escape}`.nums.sort
+
+    if (f == []) {     # failed; try again
+        f = `#{$^PERL} #{scrape_script} #{Str(n).escape}`.nums.sort
+    }
 
     # Factor small composite factors (if any)
     f = f.map { .is_prime ? _ : (.len <= MIN_SIZE ? .factor : _) }.flat.sort

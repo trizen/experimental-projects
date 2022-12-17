@@ -1,0 +1,34 @@
+#!/usr/bin/ruby
+
+# Smallest k > 1 such that k^n - 1 is the product of n distinct primes.
+# https://oeis.org/A359070
+
+# Known terms:
+#   3, 4, 15, 12, 39, 54, 79, 86, 144, 318, 1591, 144, 20131, 2014, 1764, 1308, 46656, 1296
+
+# Lower-bounds:
+#   a(19) > 521430
+#   a(23) > 227371
+#   a(25) > 109327
+
+# New terms:
+#   a(21) = 132023
+#   a(22) = 229430
+#   a(24) = 4842
+
+func a(n, from = 1) {
+    for k in (from..Inf) {
+
+        var t = (k**n - 1)
+        say "[#{n}] Checking: #{k} -> #{t}"
+
+        if (t.is_squarefree_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+var n = 19
+var from = 521430
+
+say "a(#{n}) = #{a(n, from)}"

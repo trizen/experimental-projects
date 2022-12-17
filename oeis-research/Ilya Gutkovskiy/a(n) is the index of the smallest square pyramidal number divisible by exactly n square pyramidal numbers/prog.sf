@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest square pyramidal number divisible by exactly n square pyramidal numbers.
+# https://oeis.org/A359095
+
+# Known terms:
+#   1, 2, 4, 7, 24, 77, 27, 87, 220, 104, 1007, 175, 1000, 1287, 6187, 10867, 5967, 13727, 5719, 22847, 18980, 21735, 55912, 245024, 195975, 288144, 196735, 108927
+
+var table = Hash()
+
+for n in (1..1e7) {
+    var count = n.pyramidal(4).divisors.count{ .is_pyramidal(4) }
+    if (!table.has(count)) {
+        say "#{count} #{n}"
+        table{count} = true
+    }
+}
+
+__END__
+1 1
+2 2
+3 4
+4 7
+5 24
+7 27
+6 77
+8 87
+10 104
+12 175
+9 220
+13 1000
+11 1007
+14 1287
+19 5719
+17 5967
+15 6187
+16 10867
+18 13727
+21 18980
+22 21735
+20 22847
+23 55912
+28 108927
+25 195975
+27 196735
+24 245024
+26 288144
