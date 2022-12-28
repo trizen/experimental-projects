@@ -53,7 +53,8 @@
 # a(10) <= 88324702304929
 
 # New bounds:
-#   a(14) <= 252946994093616419
+#   a(10) <= 17012632873031
+#   a(14) <= 99466287423954043
 #   a(15) <= 1917321601810486343
 #   a(16) <= 6091565756519625353
 #   a(17) <= 379430283012423635659
@@ -63,6 +64,9 @@
 #   a(21) <= 4649486272754125989703301
 #   a(22) <= 6060465438321601810486343
 #   a(23) <= 7385439332929272937836433
+#   a(24) <= 8316715055212188813502662611
+#   a(25) <= 29901250515623818002025296521
+#   a(26) <= 82180030043271641984960850223
 
 # How to efficiently find the smallest integer value x, such that n is also an integer?
 #   (x^2 + x + 8) / 10^8 = n
@@ -98,11 +102,11 @@
 
 func solve_modular_quadratic(a,b,c,m) {
 
-    var D = (b**2 - 4*a*c).mod(4*m)
+    var D = (b**2 - 4*a*c).mod(m)
 
     var solutions = []
 
-    sqrtmod_all(D, 4*m).each {|t|
+    sqrtmod_all(D, m).each {|t|
         for u in (-b + t, -b - t) {
             var x = (u/(2*a))%m
             if ((a*x*x + b*x + c) % m == 0) {
@@ -118,10 +122,10 @@ var MIN_BOUNDS = Hash()
 
 func a(n, d=8, max=nil) {
 
-    var seen = Set()
     var f = 10**n
 
-    for x in (solve_modular_quadratic(1, 1, -f + d, f)) {
+    #for x in (solve_modular_quadratic(1, 1, d, f)) {
+    for x in (modular_quadratic_formula(1, 1, d, f) + solve_modular_quadratic(1, 1, d, f) -> sort.uniq) {
 
         defined(max) && (x > max) && break
 
@@ -132,16 +136,14 @@ func a(n, d=8, max=nil) {
 
         say ":: Searching with x = #{x}"
 
-        for n in (0 .. 1e5) {
+        for k in (0 .. Inf) {
 
-            var p = (f*n + x)
+            var p = (f*k + x)
             #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
 
             defined(max) && (p > max) && break
 
-            #p.is_prime || next
-            #(p+d).is_prime || next
-            all_prime(p, p+d) || next
+            all_prime(p+d, p) || next
 
             var u = (p*p + p.next_prime)
 
@@ -149,36 +151,51 @@ func a(n, d=8, max=nil) {
 
             var v = u.valuation(10)
 
-            if (!seen.has(v)) {
-                seen << v
-                say "a(#{v}) <= #{p}"
-                MIN_BOUNDS{v} := p
-                MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+            say "a(#{v}) <= #{p}"
+            MIN_BOUNDS{v} := p
+            MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+
+            if (v == n) {
+                max := p
+                max = min(p, max)
             }
         }
     }
 
-    return nil
+    return max
 }
 
-for d in (2 .. 100 `by` 2) {
+var n = 16
+var max = 6091565756519625353
+
+for d in (2 .. 2000 `by` 2) {
     say "Checking: d = #{d}"
-    #a(10, d, 17012632873031)
-    #a(11, d, 43502632873031)
-    #a(12, d, 2322601810486343)
-    #a(13, d, 5470654702304929)
-    #a(14, d, 1155109202632873031)
-    #a(15, d, 23946409202632873031)
-    #a(16, d, 6091565756519625353)
-    #a(17, d, 379430283012423635659)
-    #a(18, d, 1857717470295105527413)
-    #a(19, d, 215001933409202632873031)
-    #a(20, d, 116117030954234923769461)
-    a(21, d)
+    max = a(n, d, max)
 }
 
 say "Minimum found bounds:"
 say MIN_BOUNDS
+
+__END__
+
+Confirmed terms:
+
+a(10) = 17012632873031
+a(11) = 43502632873031
+a(12) = 2322601810486343
+a(13) = 5470654702304929
+a(14) = 99466287423954043
+a(15) = 1917321601810486343
+a(16) = 6091565756519625353
+
+# Confirmed terms, assuming that Cramer's conjecture is true:
+
+a(17) = 379430283012423635659
+a(18) = 1857717470295105527413
+
+2, 523, 2243, 39419, 763031, 37427413, 594527413, 5440486343, 1619625353, 35960850223, 17012632873031, 43502632873031, 2322601810486343, 5470654702304929, 99466287423954043, 1917321601810486343, 6091565756519625353, 379430283012423635659, 1857717470295105527413
+
+For n >= 1, a(n) has the form k * 10^n + x, for some k >= 0, where x is a solution to the modular quadratic equation x^2 + x + d == 0 (mod 10^n), where d = q-p.
 
 __END__
 

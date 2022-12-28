@@ -40,7 +40,7 @@
 
 # New bounds:
 #   a(16) <= 3288779373987568759
-#   a(17) <= 440765472066701060119
+#   a(17) <= 73421283931459964959
 #   a(18) <= 3895482305490671986711
 #   a(19) <= 78624665472066701060119
 #   a(20) <= 1105336353410163225058471
@@ -49,14 +49,16 @@
 #   a(23) <= 177815369277033631620648079
 #   a(24) <= 17851980754482305490671986711
 #   a(25) <= 69587976634261881432233925799
+#   a(26) <= 125171915369277033631620648079
+#   a(27) <= 31594928719850170531982385757759
 
 func solve_modular_quadratic(a,b,c,m) {
 
-    var D = (b**2 - 4*a*c).mod(4*m)
+    var D = (b**2 - 4*a*c).mod(m)
 
     var solutions = []
 
-    sqrtmod_all(D, 4*m).each {|t|
+    sqrtmod_all(D, m).each {|t|
         for u in (-b + t, -b - t) {
             var x = (u/(2*a))%m
 
@@ -73,13 +75,15 @@ var MIN_BOUNDS = Hash()
 
 func a(n, d=10, max=nil) {
 
-    var seen = Set()
     var f = 10**n
 
-    var X = Poly(1)
-    var (a, b, c) = ((X+d)**2 + X -> coeffs.map { .tail }.flip...)
+    #var X = Poly(1)
+    #var (a, b, c) = ((X+d)**2 + X -> coeffs.map { .tail }.flip...)
 
-    for x in (solve_modular_quadratic(a, b, -f + c, f)) {
+    #for x in (solve_modular_quadratic(a, b, -f + c, f)) {
+    #for x in (modular_quadratic_formula(a, b, -f + c, f)) {
+    #for x in (modular_quadratic_formula(1, 2*d + 1, d**2, f)) {
+    for x in (solve_modular_quadratic(1, 2*d + 1, d**2, f) + modular_quadratic_formula(1, 2*d + 1, d**2, f) -> sort.uniq) {
 
         defined(max) && (x > max) && break
 
@@ -90,54 +94,68 @@ func a(n, d=10, max=nil) {
 
         say ":: Searching with x = #{x}"
 
-        for n in (0 .. 1e5) {
+        for k in (0 .. Inf) {
 
-            var p = (f*n + x)
+            var p = (f*k + x)
             #var t = (f * n**2 + (2*x + 1)*n + ((x*x + x + 8) / f))
 
             defined(max) && (p > max) && break
 
-            #p.is_prime || next
-            #(p+d).is_prime || next
-            all_prime(p, p+d) || next
+            all_prime(p+d, p) || next
 
             var u = (p + p.next_prime**2)
-
             u.remdiv(10).is_prime || next
 
             var v = u.valuation(10)
 
-            if (!seen.has(v)) {
-                seen << v
-                say "a(#{v}) <= #{p}"
-                MIN_BOUNDS{v} := p
-                MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+            say "a(#{v}) <= #{p}"
+            MIN_BOUNDS{v} := p
+            MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+
+            if (v == n) {
+                max := p
+                max = min(p, max)
             }
         }
     }
 
-    return nil
+    return max
 }
 
-for d in (2..100 `by` 2) {
+var n = 13
+var max = 2735490671986711
+
+for d in (2..2000 `by` 2) {
     say "Checking: d = #{d}"
-    #a(10, d, 18300671986711)
-    #a(11, d, 154590671986711)
-    #a(13, d, 2735490671986711)
-    #a(14, d, 193086838131073519)
-    #a(15, d, 1529978199609971479)
-    #a(16, d, 3288779373987568759)
-    #a(17, d, 440765472066701060119)
-    #a(18, d, 3895482305490671986711)
-    #a(19, d, 78624665472066701060119)
-    #a(20, d, 1105336353410163225058471)
-    #a(21, d, 1538369277033631620648079)
-    #a(22, d, 89010754482305490671986711)
-    #a(23, d, 177815369277033631620648079)
-    #a(24, d, 17851980754482305490671986711)
-    #a(25, d, 69587976634261881432233925799)
-    a(26, d)
+    max = a(n, d, max)
 }
 
 say "Minimum found bounds:"
 say MIN_BOUNDS
+
+__END__
+
+Confirmed terms:
+
+a(10) = 18300671986711
+a(11) = 154590671986711
+a(12) = 2237199609971479
+a(13) = 2735490671986711
+a(14) = 193086838131073519
+a(15) = 1529978199609971479
+a(16) = 3288779373987568759
+
+Confirmed terms, assuming that Cramer's conjecture is true:
+
+a(17) = 73421283931459964959
+a(18) = 3895482305490671986711
+
+For n >= 1, a(n) has the form k * 10^n + x, for some k >= 0, where x is a solution to the modular quadratic equation x^2 + (2*d + 1)*x + d^2 == 0 (mod 10^n), where d = q-p.
+
+
+2, 409, 25819, 101119, 3796711, 4160119, 264073519, 2310648079, 165231073519, 9671986711, 18300671986711, 154590671986711, 2237199609971479, 2735490671986711, 193086838131073519, 1529978199609971479, 3288779373987568759
+
+
+
+
+__END__

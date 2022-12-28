@@ -144,7 +144,7 @@ use constant {
     MAX_WORD_POPULARITY => 10_000,
 };
 
-# Optimize for these words in search requests, as very many websites contain them
+# Unused list of very common words
 my %too_common_words;
 @too_common_words{
     qw(
@@ -584,8 +584,8 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
     $resp = $mech->get($url);
 
-    # On "403 Forbidden" or "429 Too Many Requests" status, try again with WebArchive
-    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code =~ /^(?:400|403|404|405|406|410|429|462|500)\z/) {
+    # On HTTP 400+ errors, try again with WebArchive
+    if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code >= 400) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return
               crawl(
@@ -726,6 +726,9 @@ sub set_intersection ($sets) {
     my @sets = @$sets;
     @sets || return;
 
+    # Optimization: sort the sets by their number of elements
+    @sets = sort { scalar(@$a) <=> scalar(@$b) } @sets;
+
     my $intersection = {};
     @{$intersection}{@{shift(@sets)}} = ();
 
@@ -759,23 +762,15 @@ sub search ($text) {
     my @known_words = grep { exists($WORDS_INDEX{$_}) } @words;
 
     my @ref_sets;
-    my @common_ref_sets;
     my %counts;
 
     foreach my $word (@known_words) {
         my @refs = split(' ', decode_index_entry($WORDS_INDEX{$word}));
-
         $counts{$word} = scalar(@refs);
-
-        if (exists $too_common_words{$word}) {
-            push @common_ref_sets, \@refs;
-        }
-        else {
-            push @ref_sets, \@refs;
-        }
+        push @ref_sets, \@refs;
     }
 
-    foreach my $key (set_intersection([@ref_sets, @common_ref_sets])) {
+    foreach my $key (set_intersection(\@ref_sets)) {
         $matches{$key} = eval { decode_content_entry($CONTENT_DB{$key}) } // next;
     }
 

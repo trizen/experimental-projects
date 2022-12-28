@@ -1,0 +1,124 @@
+#!/usr/bin/ruby
+
+# a(n) is the first prime p such that, if q is the next prime, (p*q+p+q)/5^n is a prime.
+# https://oeis.org/A358482
+
+# Known terms:
+#   2, 7, 1847, 90793, 139313, 1790293, 3834043, 5521543, 24996487, 2062865293, 5555052793, 12111965183, 95460776921, 6045070151921, 10204150316653, 70501997496487, 442748358250633
+
+# This can be solved efficiently by solving the following modular quadratic equation:
+#
+#   p*(p+d) + p + p + d == 0 (mod 5^n)
+#   p^2 + (d + 2)*p + d == 0 (mod 5^n)
+#
+# where d = q-p.
+
+# For n >= 1, a(n) has the form k * 5^n + x, for some k >= 0, where x is a solution to the modular quadratic equation x^2 + (d+2)*x + d == 0 (mod 5^n), where d = q-p.
+
+# See also:
+#   https://en.wikipedia.org/wiki/Binary_quadratic_form
+
+# Upper-bounds:
+#   a(17) <= 368313674465183
+#   a(18) <= 2935956099058987
+#   a(19) <= 10360552690003447
+#   a(20) <= 120999670013476223
+#   a(21) <= 1820610211470152737
+#   a(22) <= 7593010113813902737
+#   a(23) <= 4914170321437339421
+#   a(24) <= 40153835997869969383
+#   a(25) <= 253546569989302183987
+#   a(26) <= 2202079659518214683171
+#   a(27) <= 20603287552044966246487
+#   a(28) <= 46865266414271947204313
+#   a(29) <= 27464878227068803284697
+
+func solve_modular_quadratic(a,b,c,m) {
+
+    var D = (b**2 - 4*a*c).mod(m)
+
+    var solutions = []
+
+    sqrtmod_all(D, m).each {|t|
+        for u in (-b + t, -b - t) {
+            var x = (u/(2*a))%m
+            if ((a*x*x + b*x + c) % m == 0) {
+                solutions << x
+            }
+        }
+    }
+
+    return solutions.sort.uniq
+}
+
+var MIN_BOUNDS = Hash()
+
+func a(n, d=8, max=nil) {
+
+    var f = 5**n
+
+    for x in (solve_modular_quadratic(1, d+2, d, f) + modular_quadratic_formula(1, d+2, d, f) -> sort.uniq) {
+    #for x in (modular_quadratic_formula(1, d+2, d, f)) {
+
+        defined(max) && (x > max) && break
+
+        say ":: Searching with x = #{x}"
+
+        for k in (0 .. Inf) {
+
+            var p = (f*k + x)
+
+            defined(max) && (p > max) && break
+
+            all_prime(p+d, p) || next
+
+            var q = p.next_prime
+            var u = (p*q + p + q)
+
+            u.remdiv(5).is_prime || next
+
+            var v = u.valuation(5)
+
+            say "a(#{v}) <= #{p}"
+            MIN_BOUNDS{v} := p
+            MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+
+            if (v == n) {
+                max := p
+                max = min(p, max)
+            }
+        }
+    }
+
+    return max
+}
+
+var n = 27
+var max = 20603287552044966246487
+
+for d in (2 .. ceil(max.log**2) `by` 2) {
+    say "Checking: d = #{d}"
+    max = a(n, d, max)
+}
+
+say "Minimum found bounds:"
+say MIN_BOUNDS
+
+__END__
+
+Confirmed terms:
+
+a(17) = 368313674465183
+a(18) = 2935956099058987
+a(19) = 10360552690003447
+a(20) = 120999670013476223
+a(21) = 1820610211470152737
+a(22) = 7593010113813902737
+a(23) = 4914170321437339421
+
+Confirmed terms, assuming Cramer's conjecture is true:
+
+a(24) = 40153835997869969383
+a(25) = 253546569989302183987
+a(26) = 2202079659518214683171
+a(27) = 20603287552044966246487

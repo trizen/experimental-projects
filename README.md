@@ -1214,6 +1214,8 @@ Highly experimental personal projects.
         * [The smallest k such that k! + 1 has exactly n prime factors (with multiplicity)](./oeis-research/Robert%20G.%20Wilson%20v/The%20smallest%20k%20such%20that%20k!%20+%201%20has%20exactly%20n%20prime%20factors%20(with%20multiplicity))
             * [prog.sf](./oeis-research/Robert%20G.%20Wilson%20v/The%20smallest%20k%20such%20that%20k!%20+%201%20has%20exactly%20n%20prime%20factors%20(with%20multiplicity)/prog.sf)
     * [Robert Israel](./oeis-research/Robert%20Israel)
+        * [A(n) is the first prime p such that, if q is the next prime, (p*q+p+q) is 5^n times a prime](./oeis-research/Robert%20Israel/a(n)%20is%20the%20first%20prime%20p%20such%20that,%20if%20q%20is%20the%20next%20prime,%20(p*q+p+q)%20is%205^n%20times%20a%20prime)
+            * [modular equation solutions.sf](./oeis-research/Robert%20Israel/a(n)%20is%20the%20first%20prime%20p%20such%20that,%20if%20q%20is%20the%20next%20prime,%20(p*q+p+q)%20is%205^n%20times%20a%20prime/modular_equation_solutions.sf)
         * [A(n) is the first prime that begins a sequence of exactly n consecutive primes that are emirps](./oeis-research/Robert%20Israel/a(n)%20is%20the%20first%20prime%20that%20begins%20a%20sequence%20of%20exactly%20n%20consecutive%20primes%20that%20are%20emirps)
             * [prog.pl](./oeis-research/Robert%20Israel/a(n)%20is%20the%20first%20prime%20that%20begins%20a%20sequence%20of%20exactly%20n%20consecutive%20primes%20that%20are%20emirps/prog.pl)
         * [Least k > 1 such that all divisors of (k^n-1) over (k-1) are == 1 (mod n)](./oeis-research/Robert%20Israel/Least%20k%20>%201%20such%20that%20all%20divisors%20of%20(k^n-1)%20over%20(k-1)%20are%20==%201%20(mod%20n))
