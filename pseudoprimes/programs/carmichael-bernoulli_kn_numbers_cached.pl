@@ -30,13 +30,13 @@ while (my ($n, $value) = each %$carmichael) {
 
     my $len = length($n);
 
-    next if $len > 70;
+    next if $len > 35;
 
     #~ my @factors = split(' ', $value);
     #~ @factors == 3 or next;
 
     # Problem 1 condition
-    Math::Prime::Util::GMP::modint($n, 3) == 0 or next;
+    #~ Math::Prime::Util::GMP::modint($n, 3) == 0 or next;
 
     my $nm1 = Math::Prime::Util::GMP::subint($n, 1);
 
@@ -50,9 +50,9 @@ while (my ($n, $value) = each %$carmichael) {
     #~ }
 
     # Are there Carmichael numbers n where D_{n-1} = 6n?
-    #~ if ($bern_den eq Math::Prime::Util::GMP::mulint($n, 6)) {   # problem 2
-        #~ say $n;
-    #~ }
+    if ($bern_den eq Math::Prime::Util::GMP::mulint($n, 6)) {   # problem 2
+        say $n;
+    }
 
     # Are there Carmichael numbers m such that D_{m-1} = 2(m-2)m ?
     #~ if ($bern_den eq Math::Prime::Util::GMP::vecprod(2, $n, Math::Prime::Util::GMP::subint($n, 2))) {   # problem 3
@@ -60,15 +60,15 @@ while (my ($n, $value) = each %$carmichael) {
     #~ }
 
     # Are there Carmichael numbers m such that D_{m-1} = 2*p*m with prime p > 3?
-    if (Math::Prime::Util::GMP::modint($bern_den, $n) == 0) {   # problem 4
-        my $t = Math::Prime::Util::GMP::divint($bern_den, $n);
-        if (Math::Prime::Util::GMP::modint($t, 2) == 0) {
-            my $p = Math::Prime::Util::GMP::divint($t, 2);
-            if (Math::Prime::Util::GMP::is_prime($p)) {
-                say "[$p] $n";
-            }
-        }
-    }
+    #~ if (Math::Prime::Util::GMP::modint($bern_den, $n) == 0) {   # problem 4
+        #~ my $t = Math::Prime::Util::GMP::divint($bern_den, $n);
+        #~ if (Math::Prime::Util::GMP::modint($t, 2) == 0) {
+            #~ my $p = Math::Prime::Util::GMP::divint($t, 2);
+            #~ if (Math::Prime::Util::GMP::is_prime($p)) {
+                #~ say "[$p] $n";
+            #~ }
+        #~ }
+    #~ }
 }
 
 __END__
@@ -78,3 +78,4 @@ __END__
 326454636194318621086787
 1789416066515261322576456299
 5271222682189523956137705530039
+31102303189601659841480317050599

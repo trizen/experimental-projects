@@ -68,6 +68,10 @@ while (my ($key, $value) = each %$lucas_carmichael) {
     Math::GMPq::Rmpq_set_den($q, $phi);
     Math::GMPq::Rmpq_canonicalize($q);
 
+    if (Math::GMPq::Rmpq_integer_p($q)) {
+        die "Found counter-example: $key";
+    }
+
     Math::MPFR::Rmpfr_set_q($f, $q, 0);
 
     #if (Math::MPFR::Rmpfr_cmp_d($f, 2) > 0) {

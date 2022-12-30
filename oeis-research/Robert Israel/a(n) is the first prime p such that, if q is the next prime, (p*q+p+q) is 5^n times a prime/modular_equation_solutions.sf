@@ -93,8 +93,8 @@ func a(n, d=8, max=nil) {
     return max
 }
 
-var n = 27
-var max = 20603287552044966246487
+var n = 29
+var max = 27464878227068803284697
 
 for d in (2 .. ceil(max.log**2) `by` 2) {
     say "Checking: d = #{d}"
