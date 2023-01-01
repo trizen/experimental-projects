@@ -18,8 +18,7 @@ func a(n, from = 2) {
     for (var p = from; true; p.next_prime!) {
         var t = (p**n + 2)
         say "[#{n}] Checking: #{p} -> #{t}"
-        #if (t.is_squarefree_almost_prime(n)) {
-        if (t.is_prob_squarefree(1e6) && t.is_almost_prime(n) && t.is_squarefree) {
+        if (t.is_squarefree_almost_prime(n)) {
             return p
         }
     }

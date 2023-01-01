@@ -1,0 +1,12 @@
+12/31/22 23:29:29, =====================================
+12/31/22 23:29:29, System/Build Info: 
+12/31/22 23:29:29, YAFU Version 2.10
+12/31/22 23:29:29, Built with GCC 12
+12/31/22 23:29:29, Using GMP-ECM 7.0.5-dev, Powered by GMP 6.2.1
+12/31/22 23:29:29, detected Intel(R) Celeron(R) CPU G1820 @ 2.70GHz
+detected L1 = 32768 bytes, L2 = 2097152 bytes, CL = 64 bytes
+12/31/22 23:29:29, using 1 random witness for Rabin-Miller PRP checks
+12/31/22 23:29:29, Cached 664579 primes: max prime is 9999991
+12/31/22 23:29:29, Could not parse yafu.ini from /home/swampyx/Other/Programare/experimental-projects/oeis-research/J.W.L. (Jan) Eerland/Least prime p such that p^n + 4 is the product of n distinct primes
+
+12/31/22 23:29:29, Random seed: 11509456725840880442

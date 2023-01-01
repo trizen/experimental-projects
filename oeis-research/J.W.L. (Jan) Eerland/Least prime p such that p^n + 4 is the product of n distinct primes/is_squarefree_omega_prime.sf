@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+# Least prime p such that p^n + 4 is the product of n distinct primes.
+# https://oeis.org/A358979
+
+# Known terms:
+#   3, 19, 11, 29, 131, 631, 983, 353, 9941, 20089, 15031, 8387, 102931
+
+# Lower-bounds (by J.W.L. (Jan) Eerland, Dec 27 2022):
+#   a(14) > 57527
+#   a(15) > 35311
+#   a(16) > 29231
+
+# Improved lower-bounds:
+#   a(14) > 3002113
+#   a(15) > 361237
+
+func a(n, from = 2) {
+    assert(from.is_prime)
+    for (var p = from; true; p.next_prime!) {
+        var t = (p**n + 4)
+        say "[#{n}] Checking: #{p} -> #{t}"
+        if (t.is_squarefree_almost_prime(n)) {
+            return p
+        }
+    }
+}
+
+var n = 14
+var from = 3002113.next_prime
+
+say "a(#{n}) = #{a(n, from)}"
+
+__END__
+
+The idea goes like this: in order to check if a given number k has n prime factors, we first need to do trial division up to T (or GCD with the primorial of T), which allows us to write k = g * r, where g is the product of some primes <= T, and r is the product of some primes > T. If g is the product of m primes and m < n, then we need to check if r is the product of n-m primes > T, and therefore r must be > T^(n-m). If r < T^(n-m), then we do not need to factorize r, as we already know that k has less than n prime factors.

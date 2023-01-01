@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest tetrahedral number with exactly n prime factors (counted with multiplicity), or -1 if no such number exists.
+# https://oeis.org/A359090
+
+# Previously known terms:
+#   1, -1, 2, 4, 6, 8, 14, 30, 48, 62, 126, 160, 350, 510, 1022, 2046, 1024, 4095, 4094, 13310, 28672, 32768, 65534, 180224, 262142, 360448, 262143
+
+# New terms a(27)-a(34):
+#   2097151, 3276800, 4194302, 2097150, 33554432, 16777214, 66715648, 33554430
+
+#`(
+
+# PARI/GP program:
+a(n) = if(n==1, return(-1)); for(k=1, oo, my(t=(k*(k+1)*(k+2))\6); if(bigomega(t) == n, return(k))); \\ ~~~~
+
+)
+
+func a(n) {
+    for k in (1..Inf) {
+        if (pyramidal(k, 3).is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+for n in (2..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(2) = 2
+a(3) = 4
+a(4) = 6
+a(5) = 8
+a(6) = 14
+a(7) = 30
+a(8) = 48
+a(9) = 62
+a(10) = 126
+a(11) = 160
+a(12) = 350
+a(13) = 510
+a(14) = 1022
+a(15) = 2046
+a(16) = 1024
+a(17) = 4095
+a(18) = 4094
+a(19) = 13310
+a(20) = 28672
+a(21) = 32768
+a(22) = 65534
+a(23) = 180224
+a(24) = 262142
+a(25) = 360448
+a(26) = 262143
+a(27) = 2097151
+a(28) = 3276800
+a(29) = 4194302
+a(30) = 2097150
+a(31) = 33554432
+a(32) = 16777214
+a(33) = 66715648
+a(34) = 33554430

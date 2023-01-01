@@ -1,0 +1,104 @@
+#!/usr/bin/ruby
+
+# Primes prime(k) such that prime(k)^2 + prime(k+1)^2 - 1 is the square of a prime.
+# https://oeis.org/A359414
+
+# Known terms:
+#   7, 11, 23, 109, 211, 1021, 42967, 297779, 125211211, 11673806759
+
+# Formulas generated with Wolfram|Alpha:
+#   solve in integers: x^2 + (x+14)^2 - 1 = p^2 with x > 0, p > 0
+
+# Prime gaps:
+#   2, 4, 6, 10, 12, 14
+
+# Extra gaps (from A160054):
+#   2, 4, 6, 8, 10, 12, 14, 18, 28, 36, 42, 66, 70, 228
+
+# For gap = 14, we need to solve the following binary quadratic form:
+#   2*x^2 + 28*x + 195 - p^2 = 0
+
+var d = 14
+
+for n in (1..1e6) {
+
+    # For gap = 14:
+    var x = ((3 - 13/(2*sqrtQ(2)))*(3 - 2*sqrtQ(2))**n + (3 + 13/(2*sqrtQ(2)))*(3 + 2*sqrtQ(2))**n - 7)
+    var p = (1/2)*((13 - 6*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (13 + 6*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 14:
+    #~ var x = ((13/(2*sqrtQ(2)) - 3)*(3 + 2*sqrtQ(2))**n - (1/4)*(12 + 13*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 7)
+    #~ var p = (1/2)*((13 - 6*sqrtQ(2))*(3 + 2*sqrtQ(2))**n + (13 + 6*sqrtQ(2))*(3 - 2*sqrtQ(2))**n)
+
+    # For gap = 12:
+    #~ var x = (1/4)*((11*sqrtQ(2) - 10)*(3 + 2*sqrtQ(2))**n - (10 + 11*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 24)
+    #~ var p = (1/2)*((11 - 5*sqrtQ(2))*(3 + 2*sqrtQ(2))**n + (11 + 5*sqrtQ(2))*(3 - 2*sqrtQ(2))**n)
+
+    # For gap = 12:
+    #~ var x = (1/4)*((10 - 11*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (10 + 11*sqrtQ(2))*(3 + 2*sqrtQ(2))**n - 24)
+    #~ var p = (1/2)*((11 - 5*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (11 + 5*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 10:
+    #~ var x = (1/4)*(-7*sqrtQ(2)*(3 - 2*sqrtQ(2))**n + 7*sqrtQ(2)*(3 + 2*sqrtQ(2))**n - 20)
+    #~ var p = (7/2)*((3 - 2*sqrtQ(2))**n + (3 + 2*sqrtQ(2))**n)
+
+    # For gap = 10:
+    #~ var x = (1/4)*((9*sqrtQ(2) - 8)*(3 + 2*sqrtQ(2))**n - (8 + 9*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 20)
+    #~ var p = (1/2)*((9 - 4*sqrtQ(2))*(3 + 2*sqrtQ(2))**n + (9 + 4*sqrtQ(2))*(3 - 2*sqrtQ(2))**n)
+
+    # For gap = 10:
+    #~ var x = (1/4)*((8 - 9*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (8 + 9*sqrtQ(2))*(3 + 2*sqrtQ(2))**n - 20)
+    #~ var p = (1/2)*((9 - 4*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (9 + 4*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 6:
+    #~ var x = (1/4)*((5*sqrtQ(2) - 4)*(3 + 2*sqrtQ(2))**n - (4 + 5*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 12)
+    #~ var p = ((5/2 + sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (1/2)*(5 - 2*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 6:
+    #~ var x = ((1 - 5/(2*sqrtQ(2)))*(3 - 2*sqrtQ(2))**n + (1/4)*(4 + 5*sqrtQ(2))*(3 + 2*sqrtQ(2))**n - 3)
+    #~ var p = ((5/2 - sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (1/2)*(5 + 2*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 4:
+    #~ var x = (1/4)*((3*sqrtQ(2) - 2)*(3 + 2*sqrtQ(2))**n - (2 + 3*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 8)
+    #~ var p = (1/2)*((3 + sqrtQ(2))*(3 - 2*sqrtQ(2))**n - (sqrtQ(2) - 3)*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 4:
+    #~ var x = (1/4)*((2 - 3*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (2 + 3*sqrtQ(2))*(3 + 2*sqrtQ(2))**n - 8)
+    #~ var p = (1/2)*((sqrtQ(2) - 3)*(-((3 - 2*sqrtQ(2))**n)) + (3 + sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    # For gap = 2:
+    #~ var x = (1/4)*(-sqrtQ(2)*(3 - 2*sqrtQ(2))**n + sqrtQ(2)*(3 + 2*sqrtQ(2))**n - 4)
+    #~ var p = (1/2)*((3 - 2*sqrtQ(2))**n + (3 + 2*sqrtQ(2))**n)
+
+    # For gap = 8:
+    #~ var x = (1/4)*((7*sqrtQ(2) - 6)*(3 + 2*sqrtQ(2))**n - (6 + 7*sqrtQ(2))*(3 - 2*sqrtQ(2))**n - 16)
+    #~ var p = (1/2)*((7 - 3*sqrtQ(2))*(3 + 2*sqrtQ(2))**n + (7 + 3*sqrtQ(2))*(3 - 2*sqrtQ(2))**n)
+
+    # For gap = 8:
+    #~ var x = (1/4)*((6 - 7*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (6 + 7*sqrtQ(2))*(3 + 2*sqrtQ(2))**n - 16)
+    #~ var p = (1/2)*((7 - 3*sqrtQ(2))*(3 - 2*sqrtQ(2))**n + (7 + 3*sqrtQ(2))*(3 + 2*sqrtQ(2))**n)
+
+    if (all_prime(x.a, x.a + d, p.a) && (x.a.next_prime == x.a+d)) {
+        say [n, x, p]
+    }
+}
+
+__END__
+
+# For gap = 14:
+[6, Quadratic(297779, 0, 2), Quadratic(421133, 0, 2)]
+[12, Quadratic(11673806759, 0, 2), Quadratic(16509255853, 0, 2)]
+
+# For gap = 10:
+[3, Quadratic(1021, 0, 2), Quadratic(1451, 0, 2)]
+
+# For gap = 6:
+[2, Quadratic(23, 0, 2), Quadratic(37, 0, 2)]
+[10, Quadratic(125211211, 0, 2), Quadratic(177075397, 0, 2)]
+
+# For gap = 4:
+[1, Quadratic(7, 0, 2), Quadratic(13, 0, 2)]
+[3, Quadratic(109, 0, 2), Quadratic(157, 0, 2)]
+
+# For gap = 2:
+[2, Quadratic(11, 0, 2), Quadratic(17, 0, 2)]
