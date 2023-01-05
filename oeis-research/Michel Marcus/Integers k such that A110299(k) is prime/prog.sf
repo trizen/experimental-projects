@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Integers k such that A110299(k) is prime.
+# https://oeis.org/A359518
+
+# Known terms:
+#   1, 2, 3, 5, 10, 17, 21, 28, 38, 50, 86, 88, 100, 375, 408, 630, 646, 1241, 1860, 4359, 15444
+
+# New terms found:
+#   17916
+
+var from = 47132
+
+for k in (from..Inf) {
+
+    #var p = sum(^k, {|j| prime(k - j) << j })
+    var p = pn_primes(k).flip.digits2num(2)
+
+    say ":: Checking: #{k} (length: #{p.len})"
+
+    if (p.is_prime) {
+        #print(k, ", ")
+        say "Found: #{k}"
+
+        if (k > from) {
+            break
+        }
+    }
+}

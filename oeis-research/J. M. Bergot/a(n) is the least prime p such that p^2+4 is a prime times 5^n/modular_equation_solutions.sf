@@ -1,0 +1,83 @@
+#!/usr/bin/ruby
+
+# a(n) is the least prime p such that p^2+4 is a prime times 5^n.
+# https://oeis.org/A357435
+
+# Known terms:
+#   3, 19, 11, 239, 9011, 61511, 75989, 299011, 4517761, 24830261, 666575989, 2541575989, 41989674011, 147951732239, 455568919739, 174807200989, 9513186107239, 215201662669739, 759834958424011, 5581612302174011, 5404715822825989
+
+# New terms:
+#   112788443850169739, 2606148434986511
+
+# a(n) has the form 5^n * k + x, for some k >= 0, where x is a solution to the modular quadratic equation x^2 + 4 == 0 (mod 5^n).
+
+func solve_modular_quadratic(a,b,c,m) {
+
+    var D = (b**2 - 4*a*c).mod(m)
+
+    var solutions = []
+
+    sqrtmod_all(D, m).each {|t|
+        for u in (-b + t, -b - t) {
+            var x = (u/(2*a))%m
+            if ((a*x*x + b*x + c) % m == 0) {
+                solutions << x
+            }
+        }
+    }
+
+    return solutions.sort.uniq
+}
+
+var MIN_BOUNDS = Hash()
+
+func a(n, max=nil) {
+
+    var f = 5**n
+
+    for x in (solve_modular_quadratic(1, 0, 4, f) + modular_quadratic_formula(1, 0, 4, f) -> sort.uniq) {
+
+        defined(max) && (x > max) && break
+
+        #say ":: Searching with x = #{x}"
+
+        for k in (0 .. Inf) {
+
+            var p = (f*k + x)
+
+            defined(max) && (p > max) && break
+
+            p.is_prime || next
+
+            var u = (p*p + 4)
+            var is_pow5 = u.is_power_of(5)
+
+            if (is_pow5) {
+                ## ok
+            }
+            else {
+                u.remdiv(5).is_prime || next
+            }
+
+            var v = u.valuation(5)
+
+            if (is_pow5) {
+                v -= 1
+            }
+
+            #say "a(#{v}) <= #{p}"
+            #MIN_BOUNDS{v} := p
+            #MIN_BOUNDS{v} = min(MIN_BOUNDS{v}, p)
+
+            if (v == n) {
+                max = min(p, max \\ p)
+            }
+        }
+    }
+
+    return max
+}
+
+for n in (0..1000) {
+    say "#{n} #{a(n)}"
+}

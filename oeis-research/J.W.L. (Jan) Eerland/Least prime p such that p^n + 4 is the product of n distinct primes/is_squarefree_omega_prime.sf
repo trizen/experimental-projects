@@ -12,7 +12,7 @@
 #   a(16) > 29231
 
 # Improved lower-bounds:
-#   a(14) > 3002113
+#   a(14) > 3148351
 #   a(15) > 361237
 
 func a(n, from = 2) {
@@ -27,7 +27,7 @@ func a(n, from = 2) {
 }
 
 var n = 14
-var from = 3002113.next_prime
+var from = 3148351.next_prime
 
 say "a(#{n}) = #{a(n, from)}"
 
