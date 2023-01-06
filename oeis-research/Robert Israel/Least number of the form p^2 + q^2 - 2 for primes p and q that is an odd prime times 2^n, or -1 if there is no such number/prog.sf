@@ -1,0 +1,53 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number of the form p^2 + q^2 - 2 for primes p and q that is an odd prime times 2^n, or -1 if there is no such number
+# https://oeis.org/A359492
+
+# Known terms:
+#   11, 6, -1, 56, 48, 96, 192, 384, 2816, 1536, 109568, 10582016, 12288, 7429922816, 64176128, 4318724096, 196608, 60486975488, 9388028592128
+
+# New terms found:
+#   a(19) = 849566088298496
+
+func a(n) {
+    var t = 2**n
+
+    each_prime(3, 1e13, {|p|
+    #each_prime(381469721, 1e13, {|p|
+
+        if (sum_of_squares(t*p + 2).any{.all_prime}) {
+            return (t*p)
+        }
+    })
+
+    return -1
+}
+
+for n in (3..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(3) = 56
+a(4) = 48
+a(5) = 96
+a(6) = 192
+a(7) = 384
+a(8) = 2816
+a(9) = 1536
+a(10) = 109568
+a(11) = 10582016
+a(12) = 12288
+a(13) = 7429922816
+a(14) = 64176128
+a(15) = 4318724096
+a(16) = 196608
+a(17) = 60486975488
+a(18) = 9388028592128
+a(19) = 849566088298496
+a(20) = 214058289594368
+a(21) = 896029329195008
+
+__END__
+a(19) = 849566088298496
+sidef prog.sf  6557.60s user 18.65s system 92% cpu 1:58:41.70 total
