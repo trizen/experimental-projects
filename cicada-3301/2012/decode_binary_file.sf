@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+# Execute the script with the "binary_file.txt" argument.
+
+# Source of binary file:
+#   https://web.archive.org/web/20220929001937/https://connortumbleson.com/2021/04/12/the-cicada-3301-mystery-puzzle-1-extra/
+#   https://web.archive.org/web/20210919053655/https://connortumbleson.com/uploads/2021/01/845145127-binary.txt
+
+ARGF.each {|line|
+    say line.bin2ascii
+}

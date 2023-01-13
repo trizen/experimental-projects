@@ -1,0 +1,9 @@
+10, 2, 14, 7, 19, 6, 18, 12, 7, 8, 17, 0, 19, 7, 14, 18, 14, 19, 13, 0, 1, 2, 0
+
+
+The first word of the garbage text is “Ukbn” — taking the first four numbers in the sequence and applying them in a manner similar to a shift cipher, we get this:
+
+U - 10 = K
+k - 2 = i
+b - 14 = n
+n - 7 = g
