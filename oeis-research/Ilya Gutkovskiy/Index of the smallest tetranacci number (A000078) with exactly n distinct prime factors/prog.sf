@@ -1,0 +1,44 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest tetranacci number (A000078) with exactly n distinct prime factors.
+# https://oeis.org/A359851
+
+# Known terms:
+#   3, 5, 8, 15, 20, 30, 53, 60, 80, 89, 130
+
+# New terms:
+#   a(11) = 252
+
+# Lower-bound:
+#   a(12) > 355
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        var t = fibonacci(k,4)
+        say "[#{n},#{k}] Checking: #{t}"
+        if (try { omega(t) == n } catch { t.is_omega_prime(n) }) {
+            return k
+        }
+    }
+}
+
+say a(12, 356)
+
+#~ for n in (0..100) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }
+
+__END__
+a(0) = 3
+a(1) = 5
+a(2) = 8
+a(3) = 15
+a(4) = 20
+a(5) = 30
+a(6) = 53
+a(7) = 60
+a(8) = 80
+a(9) = 89
+a(10) = 130

@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest Fibonacci n-step number with exactly n distinct prime factors.
+# https://oeis.org/A359853
+
+# Known terms:
+#   8, 13, 20, 18, 50, 56, 73, 95, 267
+
+# Lower-bounds:
+#   a(11) > 327
+#   a(12) > 282
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        var t = fibonacci(k,n)
+        say "[#{n},#{k}] Checking: #{t}"
+        if (try { omega(t) == n } catch { t.is_omega_prime(n) }) {
+            return k
+        }
+    }
+}
+
+#say a(11, 328)
+say a(12, 283)
+
+#~ for n in (12..100) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }
+
+__END__
+a(2) = 8
+a(3) = 13
+a(4) = 20
+a(5) = 18
+a(6) = 50
+a(7) = 56
+a(8) = 73
+a(9) = 95

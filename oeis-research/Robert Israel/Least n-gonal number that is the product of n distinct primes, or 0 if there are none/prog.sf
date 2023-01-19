@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# a(n) is the least n-gonal number that is the product of n distinct primes, or 0 if there are none.
+# https://oeis.org/A359854
+
+# Known terms:
+#   6, 66, 0, 11310, 303810, 28962934, 557221665, 15529888374, 1219300152070
+
+func a(n) {
+
+    return 0 if (n == 4)
+
+    for k in (1..Inf) {
+        if (k.polygonal(n).is_squarefree_almost_prime(n)) {
+            return k.polygonal(n)
+        }
+    }
+}
+
+for n in (2..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(2) = 6
+a(3) = 66
+a(4) = 0
+a(5) = 11310
+a(6) = 303810
+a(7) = 28962934
+a(8) = 557221665
+a(9) = 15529888374
+a(10) = 1219300152070
+a(11) = 23900058257790
+a(12) = 1231931106828345

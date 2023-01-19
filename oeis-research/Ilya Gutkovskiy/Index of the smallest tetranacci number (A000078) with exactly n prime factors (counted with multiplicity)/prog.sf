@@ -1,0 +1,53 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest tetranacci number (A000078) with exactly n prime factors (counted with multiplicity).
+# https://oeis.org/A359879
+
+# Known terms:
+#   3, 5, 6, 7, 10, 11, 17, 30, 20, 22, 82, 60, 37, 100, 236, 157, 156, 242
+
+# New terms:
+#   240
+
+# a(19) > 400
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        var t = fib(k,4)
+        say "[#{n},#{k}] Checking: #{t}"
+        if (try { bigomega(t) == n } catch { t.is_almost_prime(n) }) {
+        #if (t.is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+say a(19, 401)
+#say a(19, 441)     # conjecture
+
+#~ for n in (0..100) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }
+
+__END__
+a(0) = 3
+a(1) = 5
+a(2) = 6
+a(3) = 7
+a(4) = 10
+a(5) = 11
+a(6) = 17
+a(7) = 30
+a(8) = 20
+a(9) = 22
+a(10) = 82
+a(11) = 60
+a(12) = 37
+a(13) = 100
+a(14) = 236
+a(15) = 157
+a(16) = 156
+a(17) = 242
+a(18) = 240

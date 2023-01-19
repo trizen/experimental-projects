@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest tribonacci number (A000073) with exactly n distinct prime factors.
+# https://oeis.org/A359850
+
+# Known terms:
+#   2, 4, 8, 13, 20, 29, 49, 56, 101, 93, 124
+
+# New terms:
+#   a(11) = 268
+#   a(12) = 221
+
+# Lower-bounds:
+#   a(13) > 390
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        var t = fibonacci(k,3)
+        say "[#{n},#{k}] Checking: #{t}"
+        if (try { omega(t) == n } catch { t.is_omega_prime(n) }) {
+            return k
+        }
+    }
+}
+
+say a(13, 391)
+
+#~ for n in (0..100) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }
+
+__END__
+a(0) = 2
+a(1) = 4
+a(2) = 8
+a(3) = 13
+a(4) = 20
+a(5) = 29
+a(6) = 49
+a(7) = 56
+a(8) = 101
+a(9) = 93
+a(10) = 124
