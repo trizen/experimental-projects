@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# Numbers k such that Omega(k) = Omega(2^k-1), where Omega(k) is the number of prime factors of k counted with multiplicity (A001222).
+# https://oeis.org/A155900
+
+# Known terms:
+#   1, 2, 3, 4, 5, 7, 8, 9, 13, 16, 17, 19, 27, 31, 32, 49, 61, 89, 107, 127, 521, 607
+
+# New terms:
+#   1279, 2203, 2281, 3217
+
+# added using factordb.com by ~~~~
+
+include("../../../factordb/auto.sf")
+
+func isok(k) {
+
+    var t = (2**k - 1)
+    var r = k.bigomega
+
+    say "[#{r},#{k}] Checking: #{t}"
+
+    if (try { bigomega(t) == r } catch { t.is_almost_prime(r) }) {
+        return true
+    }
+
+    return false
+}
+
+for n in (3226.inc .. 1e5) {
+    if (isok(n)) {
+        #print(n, ", ")
+        die "New term: #{n}\n"
+    }
+}

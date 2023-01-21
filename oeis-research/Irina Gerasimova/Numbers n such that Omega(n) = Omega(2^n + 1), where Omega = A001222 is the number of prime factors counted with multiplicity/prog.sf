@@ -1,0 +1,37 @@
+#!/usr/bin/ruby
+
+# Numbers n such that Omega(n) = Omega(2^n + 1), where Omega = A001222 is the number of prime factors counted with multiplicity.
+# https://oeis.org/A226368
+
+# Known terms:
+#   2, 6, 36, 44, 52, 60, 72, 88, 112, 116, 136, 140, 152, 184, 288, 292, 320, 352, 388, 400, 404, 536, 544, 584, 632, 796, 844, 928
+
+# New terms:
+#   1072,
+
+# added using factordb.com by ~~~~
+
+# Next term is >= 1136.
+
+include("../../../factordb/auto.sf")
+
+func isok(k) {
+
+    var t = (2**k + 1)
+    var r = k.bigomega
+
+    say "[#{r},#{k}] Checking: #{t}"
+
+    if (try { bigomega(t) == r } catch { t.is_almost_prime(r) }) {
+        return true
+    }
+
+    return false
+}
+
+for n in (1073..1e5) {
+    if (isok(n)) {
+        #print(n, ", ")
+        die "New terms: #{n}\n"
+    }
+}

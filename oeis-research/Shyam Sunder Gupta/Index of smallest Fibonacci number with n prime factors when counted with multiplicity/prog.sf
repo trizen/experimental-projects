@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Index of smallest Fibonacci number with n prime factors when counted with multiplicity.
+# https://oeis.org/A072396
+
+# Known terms:
+#   3, 8, 6, 20, 18, 12, 30, 54, 24, 36, 138, 48, 84, 72, 108, 96, 210, 120, 276, 168, 216, 252, 288, 240, 336, 570, 384, 420, 360, 576, 480, 540, 504, 660, 600, 672, 990, 720, 792, 840, 1152, 1140
+
+# Lower-bounds:
+#   a(43) > 1452
+
+# 1452 < a(43) <= 1596. a(44) = 1296. a(45) = 1368. a(46) = 1080. a(47) = 1200. a(48) <= 1728.
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        #k.is_prime && next
+        var t = fib(k)
+        say "[#{n},#{k}] Checking: #{t}"
+        if (try { bigomega(t) == n } catch { t.is_almost_prime(n) }) {
+        #if (t.is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+say a(48)
+
+#~ for n in (1..100) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }

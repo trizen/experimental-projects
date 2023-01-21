@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+
+# Smallest Zuckerman number (A007602) with exactly n distinct prime factors.
+# https://oeis.org/A359961
+
+# Known terms:
+#   1, 2, 6, 132, 3276, 27132, 1117116, 111914712
+
+# New terms:
+#   a(8) = 6111417312
+#   a(9) = 1113117121116
+
+#`( PARI/GP program:
+
+omega_polygonals(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, r=nextprime(q+1)); while(v <= B, if(j==1, my(dp=vecprod(digits(v))); if(v>=A && dp != 0 && v%dp == 0, listput(list, v)), if(v*r <= B, list=concat(list, f(v, r, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = if(n==0, return(1)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_polygonals(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+func upper_bound(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.omega_primes_each(from, upto, {|v|
+                if (v.is_div(v.digits.prod)) {
+                    say "a(#{n}) = #{v}"
+                    return v
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+upper_bound(7)
