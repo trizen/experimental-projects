@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# Index of smallest repunit having exactly n prime factors (counted with multiplicity).
+# https://oeis.org/A046421
+
+# Known terms:
+#   1, 2, 3, 13, 8, 6, 15, 12, 28, 18, 24, 32, 36, 30, 54, 42, 78, 100, 72, 176, 60, 208, 84, 132, 160, 198, 120, 204, 216, 308, 168, 280, 306, 180, 210, 264, 270, 252, 378, 336, 300
+
+# Lower-bounds:
+#   a(41) >= 377
+
+# Conjecture:
+#   a(41) >= 431
+#   a(49) >= 961
+
+# Upper-bounds:
+#   a(41) <= 684
+#   a(42) <= 546
+#   a(43) <= 528
+#   a(44) <= 462
+#   a(45) = 360
+#   a(46) <= 576
+#   a(47) <= 624
+#   a(48) <= 768
+
+include("../../../factordb/auto.sf")
+
+func a(n, from=1) {
+
+    for k in (from..Inf) {
+
+        say "Checking: #{k}"
+
+        var t = (10**k - 1)/9
+        var f = factordb(t)
+
+        if (f.all_prime) {
+            f.len == n && return k
+            next
+        }
+
+        var cf = f.grep{.is_composite}
+        var pf = f.grep{.is_prime}
+
+        if ((2*cf.len + pf.len) > n) {
+            next
+        }
+
+        var rem  = cf.prod
+        #var gkpf = pf.max
+        var gkpf = max(pf.max\\0, 10**20)
+
+        if (defined(gkpf)) {
+            rem >= (gkpf**(n - pf.len)) || next
+        }
+
+        say ":: Slow check: #{k}"
+        if (t.is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+say a(49, 322)
