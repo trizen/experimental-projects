@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Numbers n such that phi(n) divides n+1, where phi is Euler's totient function (A000010).
+# https://oeis.org/A203966
+
+# Known terms:
+#   1, 2, 3, 15, 255, 65535, 83623935, 4294967295, 6992962672132095
+
+Math.smooth_numbers(2, 11, 29).each{|k|
+    if (k.inc.is_prime) {
+        var p = k.inc
+        for n in (255, 65535, 83623935, 4294967295, 6992962672132095) {
+            var m = n*p
+            if (m.phi `divides` m.inc) {
+                say m
+            }
+        }
+    }
+}

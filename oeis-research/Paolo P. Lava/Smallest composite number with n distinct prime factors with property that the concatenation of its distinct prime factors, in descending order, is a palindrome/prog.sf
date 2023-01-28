@@ -10,7 +10,7 @@
 #   a(7) = 199472910
 
 # PARI/GP program:
-/*
+#`(
 
 # Old version (slow):
 
@@ -22,28 +22,53 @@ a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, r
 S(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, s, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, t=concat(Str(q),s), r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, if(t==concat(Vecrev(t)), listput(list, v))), if(v*r <= B, list=concat(list, f(v, t, r, j-1)))); v *= q; t=concat(Str(q), t))); list); vecsort(Vec(f(1, "", 2, n)));
 a(n) = if(n==1, return(4)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-*/
+)
 
 # Squarefree version:
-/*
+#`(
 
 S(A, B, k) = A=max(A, vecprod(primes(k))); (f(m, s, p, k, u=0, v=0) = my(list=List()); if(k==1, forprime(p=u, v, my(t=m*p, t2=concat(Str(p), s)); if(t2==concat(Vecrev(t2)), listput(list, t))), forprime(q = p, sqrtnint(B\m, k), my(t = m*q, L=concat(Str(q), s), u=ceil(A/t), v=B\t); if(u <= v, my(r=nextprime(q+1)); if(k==2 && r>u, u=r); list=concat(list, f(t, L, r, k-1, u, v))))); list); vecsort(Vec(f(1, "", 2, k)));
 a(n) = if(n == 1, return(4)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
 
-*/
+)
 
 # Omega version with concatenation of distinct factors:
 
-/*
+#`(
 
-S(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, s, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, t=concat(Str(q),s), r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, if(t==concat(Vecrev(t)), listput(list, v))), if(v*r <= B, list=concat(list, f(v, t, r, j-1)))); v *= q)); list); vecsort(Vec(f(1, "", 2, n)));
-a(n) = if(n==1, return(4)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=S(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, s, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q, t=concat(Str(q),s), r=nextprime(q+1)); while(v <= B, if(j==1, if(v>=A, if(t==concat(Vecrev(t)), listput(list, v))), if(v*r <= B, list=concat(list, f(v, t, r, j-1)))); v *= q)); list); vecsort(Vec(f(1, "", 2, n)));
+a(n) = if(n==1, return(4)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
-*/
+)
 
+func a(n, from = 2, upto = 2*from) {
 
+   # say "\n:: Searching an upper-bound for a(#{n})\n"
 
+    loop {
 
+        #var count = n.squarefree_almost_prime_count(from, upto)
+        var count = n.omega_prime_count(from, upto)
 
+        if (count > 0) {
+
+           # say "Sieving range: [#{from}, #{upto}]"
+          #  say "This range contains: #{count.commify} elements\n"
+
+            #n.squarefree_almost_primes_each(from, upto, {|v|
+            n.omega_primes_each(from, upto, {|v|
+                 if (v.factor_exp.map{.head}.flip.join.to_n.is_palindrome) {
+                    say "a(#{n}) = #{v}"
+                    return v
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+a(7)
 
 __END__
