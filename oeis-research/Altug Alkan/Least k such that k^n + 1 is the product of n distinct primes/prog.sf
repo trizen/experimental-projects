@@ -7,9 +7,11 @@
 #   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
 
 # Lower-bounds:
-#   a(16) > 1136859
+#   a(16) > 1500947
 
 include("../../../factordb/auto.sf")
+
+Num!VERBOSE = true
 
 func check_partial_factors(f,n) {
 
@@ -29,12 +31,9 @@ func check_partial_factors(f,n) {
 func a(n, from=2) {
     for k in (from .. Inf) {
 
-        # Already checked the primes below this bound
-        if ((n == 16) && (k <= 1471819) && (k.is_prime)) {
-            next
-        }
-
         var v = (k**n + 1)
+
+        v.is_prob_squarefree(1e3) || next
         v.is_prob_squarefree(1e6) || next
 
         say "[#{n}] Checking: #{k}"
@@ -47,7 +46,7 @@ func a(n, from=2) {
         check_partial_factors(tf, n) || next
         tf.len.dec + tf.last.ilog(1e7) + 1 >= n || next
 
-        if (tf.last > 1e60) {
+        if (tf.last > 1e65) {
             tf = v.trial_factor(1e8)
             check_partial_factors(tf, n) || next
             tf.len.dec + tf.last.ilog(1e8) + 1 >= n || next
@@ -64,7 +63,7 @@ func a(n, from=2) {
         var f3 = gcd_factors(v, tf + ff + f)
         check_partial_factors(f3, n) || next
 
-        if ((f3.last > 1e65) && f3.last.is_composite) {
+        if ((f3.last > 1e70) && f3.last.is_composite) {
             tf = v.trial_factor(1e9)
             check_partial_factors(tf, n) || next
             tf.len.dec + tf.last.ilog(1e9) + 1 >= n || next
@@ -96,6 +95,6 @@ func a(n, from=2) {
 #var from = 2
 
 var n = 16
-var from = 1136859
+var from = 1500947
 
 say "a(#{n}) = #{a(n, from)}"

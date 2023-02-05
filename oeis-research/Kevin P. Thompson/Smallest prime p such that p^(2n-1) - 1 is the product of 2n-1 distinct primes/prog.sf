@@ -7,10 +7,13 @@
 #   3, 59, 47, 79, 347, 6343, 56711, 4523
 
 # Lower-bounds:
-#   a(9)  > 1275019
+#   a(9)  > 1310807
 #   a(10) > 467611
+#   a(11) > 671219
 
 include("../../../factordb/auto.sf")
+
+Num!VERBOSE = true
 
 func check_partial_factors(f,n) {
 
@@ -31,6 +34,8 @@ func a(n, from=2) {
     assert(from.is_prime)
 
     for (var k = from; true; k.next_prime!) {
+
+        k.dec.is_squarefree || next
 
         var v = (k**n - 1)
         v.is_prob_squarefree(1e6) || next
@@ -95,7 +100,10 @@ func a(n, from=2) {
     }
 }
 
-var n = 9
-var from = 1275019.next_prime
+#var n = 9
+#var from = 1310807.next_prime
+
+var n = 11
+var from = 671219.prev_prime
 
 say "a(#{n}) = #{a(2*n - 1, from)}"

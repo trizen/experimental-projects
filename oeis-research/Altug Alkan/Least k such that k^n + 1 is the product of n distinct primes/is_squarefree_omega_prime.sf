@@ -7,26 +7,22 @@
 #   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
 
 # Lower-bounds:
-#   a(16) > 1136859
+#   a(16) > 1500947
+
+Num!VERBOSE = true
 
 func a(n, from = 1) {
     for k in (from..Inf) {
 
-        # Already checked the primes below this bound
-        if ((n == 16) && (k <= 1471819) && (k.is_prime)) {
-            next
-        }
-
         var t = (k**n + 1)
         say "[#{n}] Checking: #{k} -> #{t}"
-        #if (t.is_squarefree_almost_prime(n)) {
-        if (t.is_prob_squarefree(1e6) && t.is_almost_prime(n) && t.is_squarefree) {
+        if (t.is_squarefree_almost_prime(n)) {
             return k
         }
     }
 }
 
 var n = 16
-var from = 1136859
+var from = 1500947
 
 say "a(#{n}) = #{a(n, from)}"

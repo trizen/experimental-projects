@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+# Smallest k such that n, k and n+k have the same prime signature (canonical form), or 0 if no such number exists.
+# https://oeis.org/A085080
+
+# Here is a temporary list of integers <= 1000 for which a(n) is unknown (greater than a(48) or 0): 72, 200, 288, 432, 500, 648, 800, 864, 968, 972. - Michel Marcus, David A. Corneth, Mar 08 2019
+
+# Try to find upper-bounds, using the Chinese remainder theorem.
+
+var n = 288
+var sig = n.factor_exp.map{.tail}.sort
+
+func isok(k) {
+    (k.factor_exp.map{.tail}.sort == sig) && (k.add(n).factor_exp.map{.tail}.sort == sig)
+}
+
+var P = 1e3.primes
+
+P.combinations(2, {|p,q|
+    [p,q].permutations {|p,q|
+
+        var m = chinese(Mod(0, p**5), Mod(-n, q**5))
+        var a = m.lift
+        var b = m.modulus
+
+        a.is_nan && next
+
+        for k in (0..1000) {
+            var t = (b*k + a)
+            if (t.factor_exp.map{.tail}.sort == sig) {
+                say [k, t]
+                if (isok(t)) {
+                    die "Found: #{[n, k, t]}"
+                }
+            }
+        }
+    }
+})

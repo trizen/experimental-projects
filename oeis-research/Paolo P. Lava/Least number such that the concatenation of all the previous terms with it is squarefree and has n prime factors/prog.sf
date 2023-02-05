@@ -1,0 +1,55 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number such that the concatenation of all the previous terms with it is squarefree and has n prime factors. a(0)=0.
+# https://oeis.org/A309234
+
+# Known terms:
+#   0, 2, 1, 10, 29, 5, 154, 66, 1005, 158, 18634, 8190
+
+# Incorrect terms:
+#   285510, 196790, 847630
+
+# Corrected terms:
+#   a(12) = 113022
+#   a(13) = 62010
+#   a(14) = 102310
+#   a(15) = 5313758
+#   a(16) = 15617985
+#   a(17) = 510510
+
+# Lower-bounds:
+#   a(18) > 47168981
+
+# PARI/GP program:
+#   a(n) = if(n==0, return(0)); my(prefix=vector(n-1, k, Str(a(k)))); for(k=1, oo, my(t=eval(concat(concat(prefix, [Str(k)])))); if(issquarefree(t) && bigomega(t) == n, return(k))); \\ ~~~~
+
+# PARI/GP program (v2):
+#   my(n=1,L=[]); print1("0, "); while(1, for(k=1, oo, my(t=eval(concat(concat(L, [Str(k)])))); if(issquarefree(t) && bigomega(t) == n, print1(k, ", "); L=concat(L, [Str(k)]); n += 1; break))); \\ ~~~~
+
+func prefix(n) {
+
+    var known = [0, 2, 1, 10, 29, 5, 154, 66, 1005, 158, 18634, 8190, 113022, 62010, 102310, 5313758, 15617985, 510510]
+
+    if (n <= known.end) {
+        return known[n]
+    }
+
+    die "Too large: n = #{n}"
+}
+
+func a(n, from=0) {
+
+    return 0 if (n == 0)
+
+    var v = (^n -> map(prefix).join)
+
+    for k in (from..Inf) {
+        say "Checking: #{k}"
+        if (v + k -> to_n.is_squarefree_almost_prime(n)) {
+            say "Found: a(#{n}) = #{k}"
+            return k
+        }
+    }
+}
+
+say a(18, 47168981)

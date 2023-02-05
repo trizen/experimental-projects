@@ -1,0 +1,75 @@
+#!/usr/bin/ruby
+
+# Numbers k such that the partition number p(k) = A000041(k) is a term of A057109, i.e., it is not a divisor of the factorial of its greatest prime factor.
+# https://oeis.org/A360169
+
+# Known terms:
+#   14, 19, 24, 28, 118
+
+# No more terms < 10000
+
+var file = File("../../../factorizations/partition_numbers.txt")
+
+var table = Hash()
+
+say ":: Parsing factorizations..."
+
+file.open_r.each {|line|
+
+    if (line =~ /^p\((\d+)\)\s*=\s*(.+)/) {|m|
+        var k = m[0]
+        var f = m[1]
+
+        f = f.split(/\s*\*\s*/)
+
+        var f_exp = []
+
+        for pp in (f) {
+            if (pp =~ /^(\d+)\^(\d+)/) {|m|
+                f_exp << [m[0].to_i, m[1].to_i]
+            }
+            else {
+                f_exp << [pp.to_i, 1]
+            }
+        }
+
+        var t = k.to_i.partitions
+        assert(f_exp.map{.head}.all_prime, f_exp) if (t > 1)
+        assert_eq(f_exp.map_2d{|p,e| p**e }.prod, t)
+
+        table{k} = f_exp
+    }
+}
+
+say ":: Done parsing..."
+
+func isok(n) {
+    var f = table{n}
+    var g = f.pop
+
+    if (g.tail > 1) {
+        return true
+    }
+
+    if (f.len == 0) {
+        return false
+    }
+
+    g = g.head
+
+    f.each_2d {|p,e|
+        factorial_power(g, p) < e && return true
+    }
+
+    return false
+}
+
+for k in (1..1e6) {
+
+    say "[#{k}] Checking: #{k}"
+
+    if (isok(k)) {
+        say "New term: #{k}"
+        die "New term found: #{k}" if (k > 118)
+    }
+}

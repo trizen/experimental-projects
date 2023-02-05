@@ -16,8 +16,12 @@
 #   a(22) = 229430
 #   a(24) = 4842
 
+Num!VERBOSE = true
+
 func a(n, from = 1) {
     for k in (from..Inf) {
+
+        k.dec.is_squarefree || next
 
         var t = (k**n - 1)
         say "[#{n}] Checking: #{k} -> #{t}"

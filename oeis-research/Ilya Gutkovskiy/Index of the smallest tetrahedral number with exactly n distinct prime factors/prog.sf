@@ -1,0 +1,43 @@
+#!/usr/bin/ruby
+
+# a(n) is the index of the smallest tetrahedral number with exactly n distinct prime factors.
+# https://oeis.org/A359089
+
+# Known terms:
+#   1, 2, 3, 7, 18, 34, 90, 259, 988, 2583, 5795, 37960, 101268, 424268, 3344614, 17168723, 74282570, 351200178, 1082950218, 5313193819, 31439710664, 317760710839, 1782400663483
+
+#`( PARI/GP program:
+
+is_tetrahedral(n) = my(k=sqrtnint(6*n, 3)); k*(k+1)*(k+2)==6*n;
+omega_tetrahedral(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q); while(v <= B, if(j==1, if(v>=A && is_tetrahedral(v), listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_tetrahedral(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+func a(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.omega_primes(from, upto).each {|v|
+                if (v.is_pyramidal(3)) {
+                    say "a(#{n}) = #{v.pyramidal_root(3)}"
+                    return v
+                }
+            }
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+a(11)

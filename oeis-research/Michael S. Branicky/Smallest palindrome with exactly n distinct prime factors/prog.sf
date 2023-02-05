@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# Smallest palindrome with exactly n distinct prime factors.
+# https://oeis.org/A335645
+
+# Known terms:
+#   1, 2, 6, 66, 858, 6006, 222222, 20522502, 244868442, 6172882716, 231645546132, 49795711759794, 2415957997595142, 495677121121776594, 22181673755737618122
+
+# New term found:
+#   a(15) =  5521159517777159511255     (took 3h, 40min, 22,564 ms.)
+
+#`( PARI/GP program:
+
+omega_palindromes(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q); if(q == 5 && v%2 == 0, next); while(v <= B, if(j==1, if(v>=A && fromdigits(Vecrev(digits(v))) == v, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = if(n==0, return(1)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_palindromes(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+func a(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.omega_primes(from, upto).each {|v|
+                if (v.is_palindrome) {
+                    say "a(#{n}) = #{v}"
+                    return v
+                }
+            }
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+a(11)

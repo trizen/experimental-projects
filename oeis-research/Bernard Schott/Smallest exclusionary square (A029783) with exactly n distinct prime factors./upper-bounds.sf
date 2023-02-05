@@ -1,0 +1,41 @@
+#!/usr/bin/ruby
+
+# Smallest exclusionary square (A029783) with exactly n distinct prime factors.
+# https://oeis.org/A360301
+
+# Known terms:
+#   2, 18, 84, 858, 31122, 3383898, 188841114, 68588585868, 440400004044
+
+# Lower-bounds:
+#   a(10) > 1695991262347263
+#   a(11) > 3285983070306303
+
+# Upper-bounds:
+#   a(10) <= 7722272777722272
+#   a(10) <= 333333333333333333333333
+#   a(11) <= 333333333333333333333333333333333333
+
+var max = Inf
+var n = 11
+var j = 2
+
+say "Searching an upper-bound for a(#{n}) with #{j} unique digits."
+
+for k in (20..25) {
+    say "k = #{k}"
+    @(1..9).combinations(j, {|*comb|
+        say "Combination: #{comb}"
+        comb.sort.variations_with_repetition(k, {|*arr|
+            with (arr.flip.digits2num) {|v|
+
+                v < max || break
+                v.is_omega_prime(n) || next
+
+                if (arr & v.sqr.digits -> is_empty) {
+                    say "a(#{n}) <= #{v}"
+                    max = v
+                }
+            }
+        })
+    })
+}

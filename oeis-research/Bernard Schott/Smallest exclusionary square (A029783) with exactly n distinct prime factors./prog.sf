@@ -1,0 +1,51 @@
+#!/usr/bin/ruby
+
+# Smallest exclusionary square (A029783) with exactly n distinct prime factors.
+# https://oeis.org/A360301
+
+# Known terms:
+#   2, 18, 84, 858, 31122, 3383898, 188841114, 68588585868, 440400004044
+
+# Lower-bounds:
+#   a(10) > 1695991262347263 > 7^18
+#   a(11) > 3285983070306303
+
+# Upper-bounds:
+#   a(10) <= 7722272777722272
+
+# 1.69 * 10^15 < a(10) <= 7722272777722272. - ~~~~
+
+#`( PARI/GP program:
+
+omega_exclusionary_squares(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(q == 5, next); my(v=m*q); while(v <= B, if(j==1, if(v>=A && #setintersect(Set(digits(v)), Set(digits(v^2))) == 0, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_exclusionary_squares(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+func a(n, from = 2, upto = 2*from) {
+
+    say "\n:: Searching an upper-bound for a(#{n})\n"
+
+    loop {
+
+        var count = n.omega_prime_count(from, upto)
+
+        if (count > 0) {
+
+            say "Sieving range: [#{from}, #{upto}]"
+            say "This range contains: #{count.commify} elements\n"
+
+            n.omega_primes_each(from, upto, {|v|
+                if (v.digits & v.sqr.digits -> is_empty) {
+                    say "a(#{n}) = #{v}"
+                    return v
+                }
+            })
+        }
+
+        from = upto+1
+        upto *= 2
+    }
+}
+
+a(6)
