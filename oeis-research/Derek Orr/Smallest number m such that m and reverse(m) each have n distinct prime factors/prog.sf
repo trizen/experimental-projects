@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Smallest number m such that m and reverse(m) each have n distinct prime factors.
+# https://oeis.org/A239696
+
+# Known terms:
+#   2, 6, 66, 858, 6006, 204204, 10444434, 208888680, 6172882716
+
+# New terms (a(10)-a(12)):
+#   231645546132, 49795711759794, 2400532020354468
+
+#`(
+
+# PARI/GP program:
+
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q); while(v <= B, if(j==1, if(v>=A && omega(fromdigits(Vecrev(digits(v)))) == n, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)

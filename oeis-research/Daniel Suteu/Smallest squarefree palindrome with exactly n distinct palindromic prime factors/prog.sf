@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# Smallest squarefree palindrome with exactly n distinct palindromic prime factors.
+
+# See also:
+#   http://www.worldofnumbers.com/assign3.htm
+#   https://oeis.org/A046379
+
+# Known terms:
+#   1, 2, 6, 66, 6666, 334826628433, 15710977901751, 329443151344923
+
+# It took 5min, 39,015 ms to find a(5).
+# It took 5min, 27,260 ms to find a(6).
+# It took 3min, 57,612 ms to find a(7).
+
+# Lower-bounds:
+#   a(8) > 2666230760083554303
+
+#`(
+
+# PARI/GP program:
+
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); my(s=sqrtnint(B\m, j)); if(j==1, forprime(q=max(p, ceil(A/m)), s, if(fromdigits(Vecrev(digits(q))) != q, next); if(q==5 && m%2 == 0, next); my(t=m*q); if(fromdigits(Vecrev(digits(t))) == t, listput(list, t))), forprime(q=p, s, if(fromdigits(Vecrev(digits(q))) != q, next); if(q==5 && m%2 == 0, next); list=concat(list, f(m*q, q+1, j-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, print([x,y]); my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+__END__
+
+# Already known terms:
+# https://nazva.net/forum/index.php?topic=352.1440
+
+5
+71317*70607*373*11*2=      41321144112314
+3*5*11*181*173919371=      5194102014915
+5*11*191*757*746151647=  5933610550163395
+5*101*191*757*746151647=54481333233318445
+2*3*191*787*9919199=        8946145416498
+11*101*353*919*929=          334826628433
+3*5*929*10601*3400043=    502271131172205
+3*11*373*11311*96469=      13431099013431
+3*101*373*11311*96469=    123321909123321
+3*11*373*31513*96469=      37419699691473
+3*101*797*32323*93239=    727796929697727
+
+6
+3*11*101*131*373*96469=        15710977901751
+3*5*11*929*10601*3400043=    5524982442894255
+3*5*101*929*10601*3400043=  50729384248392705
+3*5*11*313*13931*7856587=    5652551111552565
+2*11*131*13331*16561*78487=49939132223193994
+
+7
+3*7*11*181*353*727*30703=329443151344923

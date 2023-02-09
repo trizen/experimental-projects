@@ -73,7 +73,7 @@ func a(n, from = 2, upto = 1e9) {
 
             return (k, true) if (c.len == 0)
 
-            if (c.all { .len <= 50 }) {     # unlikely
+            if (c.all { .len <= 65 }) {     # unlikely
                 if (c.map { .factor }.flat.all { .is_congruent(1, m) }) {
                     return (k, true)
                 }
@@ -82,7 +82,7 @@ func a(n, from = 2, upto = 1e9) {
                 }
             }
 
-            var t = c.grep { .len <= 50 }.map { .factor }.flat
+            var t = c.grep { .len <= 65 }.map { .factor }.flat
 
             t.all { is_congruent(_, 1, m) } || next
             t.all { is_congruent(v/_, 1, m) } || next

@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Smallest palindrome in base 10 whose factorization contains n distinct base 10 palindromic prime factors.
+# https://oeis.org/A335934
+
+# Known terms:
+#   1, 2, 6, 66, 2772, 279972, 67566576, 5159488849515, 83797355379738
+
+# Palindromes with exactly n distinct palindromic prime factors:
+#   f(8) = 2459090770909542
+
+# See also:
+#   http://www.worldofnumbers.com/assign3.htm
+
+
+#`( PARI/GP program:
+
+omega_palindromes(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(q == 5 && m%2 == 0, next); if(fromdigits(Vecrev(digits(q))) != q, next); my(v=m*q); while(v <= B, if(j==1, if(v>=A && fromdigits(Vecrev(digits(v))) == v, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = if(n==0, return(1)); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=omega_palindromes(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)

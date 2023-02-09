@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+# Smallest number k such that k^n + 1 contains n distinct prime divisors.
+# https://oeis.org/A219018
+
+# Clarified name:
+#    Smallest number k > 0 such that k^n + 1 has exactly n distinct prime factors.
+
+# Cf. A281940.
+
+# Known terms:
+#   1, 3, 5, 43, 17, 47, 51, 1697, 59, 512, 521, 3255
+
+# New terms (a(13)-a(15)):
+#   1, 3, 5, 43, 17, 47, 51, 1697, 59, 512, 521, 3255, 8189, 18951, 656
+
+# Extra-terms:
+#   a(18) = 19208
+
+# Lower-bounds:
+#   a(16) > 2345280
+#   a(17) > 116050
+#   a(19) > 100000
+#   a(20) > 100000
+#   a(21) > 38283
+
+# PARI/GP program:
+#   a(n) = my(k=1); while (omega(k^n+1) != n, k++); k; \\ ~~~~
+
+Num!VERBOSE = true
+
+func a(n, from = 1) {
+    for k in (from..Inf) {
+
+        var t = (k**n + 1)
+        say "[#{n}] Checking: #{k} -> #{t}"
+
+        if (t.is_omega_prime(n)) {
+            return k
+        }
+    }
+}
+
+var n = 16
+var from = 2345280
+
+say "a(#{n}) = #{a(n, from)}"

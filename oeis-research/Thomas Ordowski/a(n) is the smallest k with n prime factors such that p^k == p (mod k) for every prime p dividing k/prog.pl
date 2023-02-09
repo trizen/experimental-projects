@@ -6,9 +6,15 @@
 # Known terms:
 #   2, 65, 561, 41041, 825265, 321197185
 
+# Upper-bounds:
+#   a(7) <= 6295936465
+
 # New terms found:
 #   a(7) = 5394826801
 #   a(8) = 232250619601
+
+# Lower-bounds:
+#   a(9) > 4398046511105
 
 use 5.020;
 use strict;
@@ -85,4 +91,4 @@ sub upper_bound($n, $from = 2, $upto = 2*$from) {
     }
 }
 
-upper_bound(8);
+upper_bound(9);

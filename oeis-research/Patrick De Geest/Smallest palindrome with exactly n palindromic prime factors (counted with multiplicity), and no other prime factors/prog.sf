@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+# Smallest palindrome with exactly n palindromic prime factors (counted with multiplicity), and no other prime factors.
+# https://oeis.org/A046385
+
+# Known terms:
+#   1, 2, 4, 8, 88, 252, 2772, 82728, 2112, 4224, 8448, 236989632, 48384, 2977792
+
+# PARI/GP program:
+#`(
+
+bigomega_palindromes(A, B, n) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p,ceil(A/m)), B\m, if(fromdigits(Vecrev(digits(q))) != q, next); if(q == 5 && m%2 == 0, next); my(t=m*q); if(fromdigits(Vecrev(digits(t))) == t, listput(list, t))), forprime(q = p, sqrtnint(B\m, n), if(fromdigits(Vecrev(digits(q))) != q, next); if(q == 5 && m%2 == 0, next); my(t=m*q); if(ceil(A/t) <= B\t, list=concat(list, f(t, q, n-1))))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=2^n, y=2*x); while(1, print([x,y]); my(v=bigomega_palindromes(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
