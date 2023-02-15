@@ -21,6 +21,9 @@
 # Upper-bounds:
 #   a(19) <= 1048576
 
+# New term:
+#   a(19) = 1048576 (confirmed by Jinyuan Wang, Feb 13 2023)
+
 include("../../../factordb/auto.sf")
 
 func a(n, from=2) {

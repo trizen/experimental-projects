@@ -8,6 +8,8 @@
 
 # a(n) >= A239696(n).
 
+# This sequence does not allow ending in 0, else a(8) = 208888680, a(11) = 64635504163230 and a(13) = 477566276048801940. - Michael S. Branicky, Feb 14 2023
+
 # New terms (a(11)-a(12)):
 #   64635504163230, 2400532020354468
 

@@ -29,34 +29,38 @@ function omega_palindromes(A, B, n::Int64)
 
     A = max(A, big_prod(primes(prime(n))))
 
-    F = function(m, p::Int64, j::Int64)
+    F = function(m, lo::Int64, j::Int64)
 
         lst = []
-        q = nextprime(p)
-        s = round(Int64, fld(B, m)^(1/j))
+        hi = round(Int64, fld(B, m)^(1/j))
 
-        while (q <= s)
+        if (lo > hi)
+            return lst
+        end
 
-            v = m*q
+        for q in (primes(lo, hi))
 
-            if (q == 5 && v%2 == 0)
-                q = nextprime(q+1)
+            if (q == 5 && iseven(m))
                 continue
             end
 
+            v = m*q
+
             while (v <= B)
                 if (j == 1)
-                    if (v >= A && reverse(string(v)) == string(v))
-                        println("Found upper-bound: ", v)
-                        push!(lst, v)
+                    if (v >= A)
+                        s = string(v)
+                        if (reverse(s) == s)
+                            println("Found upper-bound: ", v)
+                            B = min(v, B)
+                            push!(lst, v)
+                        end
                     end
                 elseif (v*(q+1) <= B)
                     lst = vcat(lst, F(v, q+1, j-1))
                 end
                 v *= q
             end
-
-            q = nextprime(q+1)
         end
 
         return lst
@@ -69,7 +73,8 @@ function a(n::Int64)
     if (n == 0)
         return 1
     end
-    x = big_prod(primes(prime(n)))
+    #x = big_prod(primes(prime(n)))
+    x = big"7875626394231654969634815"
     y = 2*x
     while (true)
         println("Sieving range: ", [x,y]);

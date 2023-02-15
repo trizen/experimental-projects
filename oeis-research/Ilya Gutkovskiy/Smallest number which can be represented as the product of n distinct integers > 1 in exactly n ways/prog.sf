@@ -1,0 +1,80 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number which can be represented as the product of n distinct integers > 1 in exactly n ways.
+# https://oeis.org/A360590
+
+# Known terms:
+#   2, 12, 60, 420, 3456, 60060
+
+# New terms found:
+#   a(7) = 155520
+
+func almost_prime_numbers(n, k, primes, callback, squarefree = false) {
+
+    var sqf = (squarefree ? 1 : 0)
+
+    var factors = primes.sort.uniq
+    var factors_end = factors.end
+
+    if (k == 0) {
+        callback(1)
+        return nil
+    }
+
+    func f(m, k, i=0) {
+
+        if (k == 1) {
+
+            var L = idiv(n,m)
+
+            for j in (i..factors_end) {
+                with (factors[j]) {|q|
+                    q > L && break
+                    callback(m*q)
+                }
+            }
+
+            return nil
+        }
+
+        var L = idiv(n,m).iroot(k)
+
+        for j in (i..factors_end) {
+            with (factors[j]) { |q|
+                q > L && break
+                __FUNC__(m*q, k-1, j + sqf)
+            }
+        }
+    }(1, k)
+
+    f = nil     # to prevent memory leak due to circular references
+    return nil
+}
+
+func isok(k, n) {
+    var count = 0
+    almost_prime_numbers(k, n, k.divisors.grep { _ > 1 }, {|t|
+        ++count if (t == k)
+    }, true)
+    count == n
+}
+
+func a(n) {
+    for k in (2..Inf) {
+        if (isok(k, n)) {
+            return k
+        }
+    }
+}
+
+for n in (2..100) {
+    say [n, a(n)]
+}
+
+__END__
+[2, 12]
+[3, 60]
+[4, 420]
+[5, 3456]
+[6, 60060]
+[7, 155520]

@@ -28,12 +28,13 @@ def omega_cond(A, B, n):
     def f(m, p, j):
         lst = []
         for q in primerange(p, integer_nthroot(B//m, j)[0]+2):
-            v =  m*q
-            if q == 5 and v%2 == 0:
+            if q == 5 and m%2 == 0:
                 continue
+            v = m*q
             while v <= B:
                 if j == 1:
                     if v >= A and cond(v):
+                        print("Found upper-bound: ", v)
                         lst.append(v)
                 elif v*(q+1) <= B:
                     lst += f(v, q+1, j-1)
@@ -47,21 +48,24 @@ def a(n):
     x = primorial(n)
     y = 2*x
     while True:
+        print("Sieving range: ", [x,y]);
         v = omega_cond(x, y, n)
         if len(v) > 0:
             return v[0]
         x = y+1
         y = 2*x
 
-print([a(n) for n in range(0, 12)])
+print(a(13))
 
-from time import time
-time0 = time()
+# ~ print([a(n) for n in range(0, 12)])
 
-alst = []
-for n in range(20):
-    an = a(n)
-    alst.append(an)
-    print(n, an, len(str(alst))-2, time()-time0)
-    print("   ", alst)
-    print("   ", data)
+# ~ from time import time
+# ~ time0 = time()
+
+# ~ alst = []
+# ~ for n in range(20):
+    # ~ an = a(n)
+    # ~ alst.append(an)
+    # ~ print(n, an, len(str(alst))-2, time()-time0)
+    # ~ print("   ", alst)
+    # ~ print("   ", data)

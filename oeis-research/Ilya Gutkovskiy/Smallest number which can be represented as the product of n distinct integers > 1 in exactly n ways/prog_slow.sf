@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number which can be represented as the product of n distinct integers > 1 in exactly n ways.
+# https://oeis.org/A360590
+
+# Known terms:
+#   2, 12, 60, 420, 3456, 60060
+
+# New terms found:
+#   a(7) = 155520
+
+func isok(k, n) {
+
+    func f(n, target, factors, res = 1, k = 0, i = 0) {
+
+        if ((res == target) && (k == n)) {
+            return 1
+        }
+
+        if (k == n) {
+            return 0
+        }
+
+        if (res >= target) {
+            return 0
+        }
+
+        var count = 0
+
+        for j in (i .. factors.end) {
+            var t = res*factors[j]
+            t <= target || break
+            count += f(n, target, factors, t, k+1,  j+1)
+        }
+
+        return count
+    }
+
+    var count = f(n, k, k.divisors.grep{ _ > 1})
+    f = nil
+    count == n
+}
+
+func a(n) {
+    for k in (2..Inf) {
+        if (isok(k, n)) {
+            return k
+        }
+    }
+}
+
+for n in (2..100) {
+    say [n, a(n)]
+}

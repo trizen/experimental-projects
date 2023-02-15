@@ -7,11 +7,14 @@
 #   3, 4, 15, 12, 39, 54, 79, 86, 144, 318, 1591, 144, 20131, 2014, 1764, 1308, 46656, 1296
 
 # Lower-bounds:
-#   a(19) > 521430
+#   a(19) > 1048576
+
+# Upper-bounds:
+#   a(19) <= 15023074
 
 include("../../../factordb/auto.sf")
 
-Num!VERBOSE = 1
+Num!VERBOSE = true
 
 func check_partial_factors(f,n) {
 
@@ -100,6 +103,6 @@ func a(n, from=2) {
 #var from = 2
 
 var n = 19
-var from = 521430
+var from = 1048576
 
 say "a(#{n}) = #{a(n, from)}"

@@ -29,34 +29,40 @@ function squarefree_omega_palindromes(A, B, n::Int64)
 
     A = max(A, big_prod(primes(prime(n))))
 
-    F = function(m, p::Int64, j::Int64)
+    F = function(m, lo::Int64, j::Int64)
 
         lst = []
-        s = round(Int64, fld(B, m)^(1/j))
+        hi = round(Int64, fld(B, m)^(1/j))
+
+        if (lo > hi)
+            return lst
+        end
 
         if (j == 1)
-            q = nextprime(max(p, cld(A, m)))
 
-            while (q <= s)
+            lo = round(Int64, max(lo, cld(A, m)))
+
+            if (lo > hi)
+                return lst
+            end
+
+            for q in (primes(lo, hi))
                 v = m*q
-                if (reverse(string(v)) == string(v))
+                s = string(v)
+                if (reverse(s) == s)
                     println("Found upper-bound: ", v)
+                    B = min(v, B)
                     push!(lst, v)
                 end
-                q = nextprime(q+1)
             end
         else
-            q = nextprime(p)
+            for q in (primes(lo, hi))
 
-            while (q <= s)
-
-                if (q == 5 && m%2 == 0)
-                    q = nextprime(q+1)
-                    continue
+                if (q == 5 && iseven(m))
+                    ## ok
+                else
+                    lst = vcat(lst, F(m*q, q+1, j-1))
                 end
-
-                lst = vcat(lst, F(m*q, q+1, j-1))
-                q = nextprime(q+1)
             end
         end
 
