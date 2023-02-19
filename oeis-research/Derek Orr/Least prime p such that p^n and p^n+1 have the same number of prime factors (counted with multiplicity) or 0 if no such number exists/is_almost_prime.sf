@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# Least prime p such that p^n and p^n+1 have the same number of prime factors (counted with multiplicity) or 0 if no such number exists
+# https://oeis.org/A242786
+
+# Known terms:
+#   2, 3, 3, 43, 7, 41, 23, 643, 17, 557, 251, 13183, 1999, 10007, 107
+
+# Lower-bounds:
+#   a(16) > 3493361
+
+# Upper-bounds:
+#   a(16) <= 206874667
+
+Num!VERBOSE = true
+
+func a(n, from=2) {
+
+    assert(from.is_prime)
+
+    for (var p = from; true; p.next_prime!) {
+
+        var v = (p**n + 1)
+
+         say "[#{n}] Checking: #{p}^#{n}+1"
+
+        if (v.is_almost_prime(n)) {
+            return p
+        }
+    }
+}
+
+var from = 3493361.next_prime
+
+for n in (16) {
+    say "a(#{n}) = #{a(n, from)}"
+}
+
+__END__
+for n in (1..100) {
+    say "a(#{n}) = #{a(n)}"
+}

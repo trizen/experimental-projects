@@ -13,7 +13,17 @@
 #   a(16) = 477552751050050157255774
 
 # Lower-bounds:
-#   a(17) > 63005011153853239757078527
+#   a(17) > 252020044615415406440021243
+#   a(17) > 252020044615424516440020252
+
+# Timings:
+#   a(12) is found in 0.2 seconds
+#   a(13) is found in 6.5 seconds
+#   a(14) is found in 9.7 seconds
+#   a(15) is found in 17 minutes
+
+# While searching for a(17), it took 9 hours to check the range [63005011153853239757078527, 126010022307706479514157054].
+# While searching for a(17), it took 33 hours to check the range [126010022307707703220010621, 252020044615415406440021243]
 
 use 5.020;
 use ntheory qw(:all);
@@ -58,8 +68,8 @@ sub squarefree_omega_palindromes ($A, $B, $k, $callback) {
                 return;
             }
 
-            forprimes {
-                Math::GMPz::Rmpz_mul_ui($v, $m, $_);
+            foreach my $p (@{primes($lo, $hi)}) {
+                Math::GMPz::Rmpz_mul_ui($v, $m, $p);
                 my $s = Math::GMPz::Rmpz_get_str($v, 10);
                 if ($s eq reverse($s)) {
                     my $r = Math::GMPz::Rmpz_init_set($v);
@@ -67,7 +77,7 @@ sub squarefree_omega_palindromes ($A, $B, $k, $callback) {
                     $B = $r if ($r < $B);
                     $callback->($r);
                 }
-            } $lo, $hi;
+            }
 
             return;
         }
@@ -76,7 +86,7 @@ sub squarefree_omega_palindromes ($A, $B, $k, $callback) {
 
         foreach my $p (@{primes($lo, $hi)}) {
             if ($p == 5 and Math::GMPz::Rmpz_even_p($m)) {
-                ## ok
+                ## last digit can't be zero
             }
             else {
                 Math::GMPz::Rmpz_mul_ui($z, $m, $p);
@@ -93,8 +103,8 @@ sub a($n) {
     }
 
     #my $x = Math::GMPz->new(pn_primorial($n));
-    my $x = Math::GMPz->new("63005011153853239757078527");
-    my $y = 2*$x;
+    my $x = Math::GMPz->new("252020044615424516440020252");
+    my $y = (5*$x)>>2;
 
     while (1) {
         say("Sieving range: [$x, $y]");
@@ -107,7 +117,7 @@ sub a($n) {
             return $v[0];
         }
         $x = $y+1;
-        $y = 2*$x;
+        $y = (5*$x)>>2;
     }
 }
 

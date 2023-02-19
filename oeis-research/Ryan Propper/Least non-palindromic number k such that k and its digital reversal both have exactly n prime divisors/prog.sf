@@ -11,13 +11,13 @@
 # This sequence does not allow ending in 0, else a(8) = 208888680, a(11) = 64635504163230 and a(13) = 477566276048801940. - Michael S. Branicky, Feb 14 2023
 
 # New terms (a(11)-a(12)):
-#   64635504163230, 2400532020354468
+#   136969856585562, 2400532020354468
 
 #`(
 
 # PARI/GP program:
 
-generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), my(v=m*q); while(v <= B, if(j==1, my(r=fromdigits(Vecrev(digits(v)))); if(v>=A && r != v && omega(r) == n, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(q==5 && m%2==0, next); my(v=m*q); while(v <= B, if(j==1, my(r=fromdigits(Vecrev(digits(v)))); if(v>=A && r != v && omega(r) == n, listput(list, v)), if(v*(q+1) <= B, list=concat(list, f(v, q+1, j-1)))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
 a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
 )

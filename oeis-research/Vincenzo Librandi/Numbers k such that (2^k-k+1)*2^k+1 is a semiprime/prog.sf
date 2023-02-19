@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Numbers k such that (2^k-k+1)*2^k+1 is a semiprime.
+# https://oeis.org/A268110
+
+# Known terms:
+#   3, 4, 6, 9, 10, 15, 19, 22, 26, 34, 47, 55, 67, 69, 72, 92, 100, 117, 160, 169, 268, 278, 296, 298, 309, 386, 430, 495
+
+# Next term is > 542.
+
+# Other terms:
+#   566,
+
+Num!VERBOSE = true
+
+for k in (542..1000) {
+
+    var t = ((2**k - k + 1) * 2**k + 1)
+
+    say "[#{k}] Checking: #{t}"
+
+    if (t.is_semiprime) {
+        die "New term: #{k}"
+    }
+}

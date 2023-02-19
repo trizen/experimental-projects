@@ -29,6 +29,9 @@ func check_partial_factors(f,n) {
 }
 
 func a(n, from=2) {
+
+    assert(from.is_prime)
+
     for (var p = from; true; p.next_prime!) {
 
         var v = (p**n + 1)
@@ -66,7 +69,7 @@ func a(n, from=2) {
     }
 }
 
-var from = 3048767+1
+var from = 3048767.next_prime
 
 for n in (16) {
     say "a(#{n}) = #{a(n, from)}"

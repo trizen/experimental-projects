@@ -1,0 +1,66 @@
+#!/usr/bin/ruby
+
+# Least number k such that k^n and k^n-1 contain the same number of prime factors (counted with multiplicity) or 0 if no such k exists.
+# https://oeis.org/A241793
+
+# Known terms:
+#   3, 34, 5, 15, 17, 55, 79, 5, 53, 23, 337, 13, 601, 79, 241, 41, 18433, 31, 40961, 89, 3313, 1153
+
+# New terms:
+#   a(23) = 286721
+#   a(24) = 79
+#   a(25) = ?
+#   a(26) = 15937
+#   a(27) = 23041
+#   a(28) = 1693
+
+# Lower-bounds:
+#   a(23) > 239328
+#   a(25) > 57600
+#   a(29) > 65536
+
+# Upper-bounds:
+#   a(23) <= 286721. - Jon E. Schoenfield, Sep 25 2018
+
+Num!VERBOSE = true
+
+func a(m, from=2) {
+    for k in (from..Inf) {
+
+        var n = bigomega(k)*m
+        var v = (k**m - 1)
+
+        say "[#{m}] Checking: #{k}^#{m}-1 for n = #{n}"
+
+        if (v.is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+var from = 57600
+
+for n in (25) {
+    say "a(#{n}) = #{a(n, from)}"
+}
+
+__END__
+for n in (1..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+# Unfactorized candidates:
+
+239329^23-1
+239873^23-1 -- disproved
+241793^23-1 -- disproved
+261761^23-1
+269953^23-1 -- disproved
+273313^23-1
+273457^23-1
+274177^23-1
+276049^23-1
+278017^23-1
+280001^23-1
+280897^23-1
+285841^23-1

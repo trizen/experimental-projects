@@ -1,0 +1,42 @@
+>> factor(228353^23-1)
+fac: factoring 1769923907546330914652927655742049770427028495512680000371317885742088057183155203801441515872511318954470607687358674379776
+fac: using pretesting plan: normal
+fac: no tune info: using qs/gnfs crossover of 95 digits
+fac: no tune info: using qs/snfs crossover of 75 digits
+nfs: searching for brent special forms...
+nfs: input divides 228353^23 - 1
+nfs: snfs form detection took 0.017509 seconds
+nfs: checking for data file
+nfs: commencing nfs on c117: 164911870619522353195377317413471565588459594995620795998722938917565868556714531410394545400653500135146951895781529
+nfs: resumesieve; last_spq = 0, nfs_phases = 0
+nfs: using provided snfs difficulty 128.000000
+nfs: continuing with sieving - could not determine last special q; using default startq
+nfs: commencing rational side lattice sieving over range: 1110000 - 1130000
+total yield: 323561, q=1130011 (0.00117 sec/rel)
+nfs: found 323561 relations, need at least 4468504 (filtering ETA: 1h 43m), continuing with sieving ...
+nfs: commencing rational side lattice sieving over range: 1130000 - 1150000
+
+...
+
+nfs: found 4239103 relations, need at least 4468504 (filtering ETA: 0h 4m), continuing with sieving ...
+nfs: commencing rational side lattice sieving over range: 1370000 - 1390000
+total yield: 330747, q=1390003 (0.00119 sec/rel)
+nfs: commencing msieve filtering
+164911870619522353195377317413471565588459594995620795998722938917565868556714531410394545400653500135146951895781529
+nfs: commencing rational side lattice sieving over range: 1390000 - 1410000
+total yield: 330010, q=1410007 (0.00120 sec/rel)
+nfs: commencing msieve filtering
+164911870619522353195377317413471565588459594995620795998722938917565868556714531410394545400653500135146951895781529
+checking relations array at location 1
+checking relations array at location 1
+nfs: commencing msieve linear algebra
+linear algebra completed 226584 of 228653 dimensions (99.1%, ETA 0h 0m)
+nfs: commencing msieve sqrt
+NFS elapsed time = 7310.5884 seconds.
+Total factoring time = 7310.6072 seconds
+
+
+***factors found***
+
+P84 = 270424389760031912618179150081801831311365702247942639356059616000624037041225427019
+P33 = 609826172727471710300112440501291
