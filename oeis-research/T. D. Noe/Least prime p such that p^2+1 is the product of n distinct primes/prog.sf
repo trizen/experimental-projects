@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+# Least prime p such that p^2+1 is the product of n distinct primes.
+# https://oeis.org/A164511
+
+# Known terms:
+#   2, 3, 13, 47, 463, 2917, 30103, 241727, 3202337, 26066087, 455081827, 7349346113, 122872146223
+
+# New terms:
+#   a(14) = 2523038248697
+#   a(15) = 28435279521433
+#   a(16) = 119919330795347
+
+# Lower-bounds:
+#   a(17) > 7556406103017807681911625110923
+
+#`(
+
+# PARI/GP program (squarefree version):
+
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); my(s=sqrtnint(B\m, j)); if(j==1, forprime(q=max(p, ceil(A/m)), s, if(q%4 == 3, next); my(v=m*q); if(issquare(v-1) && isprime(sqrtint(v-1)), listput(list, sqrtint(v-1)))), forprime(q=p, s, if(q%4 == 3, next); list=concat(list, f(m*q, q+1, j-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+# PARI/GP program (omega version -- slower):
+
+generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(q%4 == 3, next); my(v=m*q); while(v <= B, if(j==1, if(v>=A && issquare(v-1) && isprime(sqrtint(v-1)), listput(list, sqrtint(v-1))), list=concat(list, f(v, q+1, j-1))); v *= q)); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)

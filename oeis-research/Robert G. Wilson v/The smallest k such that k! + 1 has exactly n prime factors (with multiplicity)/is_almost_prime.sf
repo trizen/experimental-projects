@@ -1,0 +1,27 @@
+#!/usr/bin/ruby
+
+# The smallest k such that k! + 1 has exactly n prime factors (with multiplicity).
+# https://oeis.org/A060250
+
+# Known terms:
+#   1, 4, 9, 23, 16, 18, 40, 89
+
+# Lower-bounds:
+#   a(9) >= 140
+
+Num!VERBOSE = true
+
+func a(n, from=1) {
+    for k in (from .. Inf) {
+
+        say "[#{n}] Checking: #{k}! + 1"
+        if (is_almost_prime(k! + 1, n)) {
+            return k
+        }
+    }
+}
+
+var n = 9
+var from = 140
+
+say "a(#{n}) = #{a(n, from)}"

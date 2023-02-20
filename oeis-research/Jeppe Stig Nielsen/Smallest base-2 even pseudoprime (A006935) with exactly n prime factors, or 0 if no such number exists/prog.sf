@@ -1,0 +1,56 @@
+#!/usr/bin/ruby
+
+# Smallest base-2 even pseudoprime (A006935) with exactly n prime factors, or 0 if no such number exists.
+# https://oeis.org/A270973
+
+# Known terms:
+#   161038, 215326, 209665666, 4783964626, 1656670046626, 1202870727916606
+
+# New terms:
+#   a(9)  = 52034993731418446
+#   a(10) = 1944276680165220226
+#   a(11) = 1877970990972707747326
+#   a(12) = 1959543009026971258888306
+
+#`(
+
+# PARI/GP program:
+
+even_fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q != 0, my(v=m*q, t=q, r=nextprime(q+1)); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) == 1, if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), if(v*r <= B, list=concat(list, f(v, L, r, j-1)))), break); v *= q; t *= q))); list); vecsort(Vec(f(2, 1, 3, k-1)));
+a(n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=even_fermat_psp(x, y, n, 2)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+# PARI/GP program (version 2) (faster):
+
+even_fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q == 0, next); my(v=m*q, t=q); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) != 1, break); if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), list=concat(list, f(v, L, q+1, j-1))); v *= q; t *= q)); list); vecsort(Vec(f(2, 1, 3, k-1)));
+a(n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=3*x); while(1, my(v=even_fermat_psp(x, y, n, 2)); if(#v >= 1, return(v[1])); x=y+1; y=3*x); \\ ~~~~
+
+even_fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, p, j) = my(list=List()); forprime(q=p, sqrtnint(B\m, j), if(base%q == 0, next); my(v=m*q, t=q); while(v <= B, my(L=lcm(l, znorder(Mod(base, t)))); if(gcd(L, v) != 1, break); if(j==1, if(v>=A && if(k==1, !isprime(v), 1) && (v-1)%L == 0, listput(list, v)), list=concat(list, f(v, L, q+1, j-1))); v *= q; t *= q)); list); vecsort(Vec(f(2, 1, 3, k-1)));
+a(n) = if(n < 3, return()); my(x=vecprod(primes(n)), y=2*x); while(1, my(v=even_fermat_psp(x, y, n, 2)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+
+)
+
+# For 3..7:
+#   ***   last result: cpu time 2,996 ms, real time 3,566 ms.
+#   ***   last result: cpu time 2,582 ms, real time 2,908 ms.
+#   ***   last result: cpu time 2,560 ms, real time 4,091 ms.
+#   ***   last result: cpu time 2,275 ms, real time 3,871 ms.
+
+# For a(8):
+#   ***   last result: cpu time 1min, 11,187 ms, real time 1min, 17,658 ms.
+#   ***   last result: cpu time 43,307 ms, real time 46,671 ms.
+
+# For a(9):
+#   ***   last result: cpu time 42,434 ms, real time 46,736 ms.
+
+# For a(10):
+#   ***   last result: cpu time 6,611 ms, real time 6,959 ms.
+
+# ? even_fermat_psp(1, 3220041826, 3, 2)
+# %2 = [161038, 49699666, 760569694]
+
+# ? even_fermat_psp(1, 3220041826, 4, 2)
+# %2 = [215326, 2568226, 3020626, 7866046, 9115426, 143742226, 161292286, 196116194, 293974066, 336408382, 410857426, 665387746, 667363522, 672655726, 1610063326, 2001038066, 2138882626]
+
+# ? even_fermat_psp(1, 3220041826, 5, 2)
+# %2 = [209665666, 213388066, 377994926, 1066079026, 1105826338, 1423998226, 1451887438, 2952654706, 3220041826]

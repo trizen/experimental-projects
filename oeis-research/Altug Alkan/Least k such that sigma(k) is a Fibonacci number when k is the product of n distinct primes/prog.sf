@@ -1,25 +1,38 @@
 #!/usr/bin/ruby
 
-# a(7) > 1709943212167773357407100
-# a(7) = 276320525457530886869600795810
-
 # a(n) is the least k such that sigma(k) is a Fibonacci number when k is the product of n distinct primes, or 0 if no such k exists.
 # https://oeis.org/A290936
 
-func a(n) {
-    for k in (1..Inf) {
+# Known terms:
+#   2, 94, 66, 19290, 2000006490, 247917529768610, 276320525457530886869600795810
+
+# a(7) > 1709943212167773357407100
+# a(7) = 276320525457530886869600795810
+
+# Lower-bounds:
+#   sigma(a(8)) >= fibonacci(240)
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+
+        say "[#{n}] Checking k = #{k}"
         var arr = k.fib.inverse_sigma
 
-        if (arr.first { .is_squarefree && (.omega == n) }) {|v|
+        with (arr.first { .is_squarefree_almost_prime(n) }) {|v|
             return v
         }
     }
 }
 
-for n in (1..100) {
-    var v = a(n)
-    say "#{n} #{v}"
-}
+var n = 8
+var from = 240      # requires more than 4GB of RAM
+
+say "a(#{n}) = #{a(n, from)}"
+
+#~ for n in (8) {
+    #~ var v = a(n)
+    #~ say "#{n} #{v}"
+#~ }
 
 __END__
 1 2
