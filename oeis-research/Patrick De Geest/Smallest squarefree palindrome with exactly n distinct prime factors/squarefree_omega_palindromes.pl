@@ -25,6 +25,8 @@
 # While searching for a(17), it took 9 hours to check the range [63005011153853239757078527, 126010022307706479514157054].
 # While searching for a(17), it took 33 hours to check the range [126010022307707703220010621, 252020044615415406440021243]
 
+# Tried to sieve the range [252020044615424516440020252, 282020044615424516440020282], but the program didn't finish after 8 hours... (I had to stop the program after 8 hours)
+
 use 5.020;
 use ntheory qw(:all);
 use experimental qw(signatures);
@@ -104,7 +106,8 @@ sub a($n) {
 
     #my $x = Math::GMPz->new(pn_primorial($n));
     my $x = Math::GMPz->new("252020044615424516440020252");
-    my $y = (5*$x)>>2;
+    #my $y = (5*$x)>>2;
+    my $y = Math::GMPz->new("282020044615424516440020282");
 
     while (1) {
         say("Sieving range: [$x, $y]");

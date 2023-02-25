@@ -19,9 +19,11 @@ sub divceil ($x,$y) {   # ceil(x/y)
     ($q*$y == $x) ? $q : ($q+1);
 }
 
+my $max_p = 10000;
+my %znorder = map { $_ => znorder(2, $_) } @{primes($max_p)};
+
 sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
-    my $max_p = 10000;
     #my $m = "8833404609327838592895595408965";
     #my $m = "1614825036214963273306005";
     #my $m = Math::GMP->new("19258022593463164626195195");
@@ -34,6 +36,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
     #my $m = Math::GMP->new("7051637712729097263345");
     #my $m = Math::GMP->new("1256975577207099774483036285");
     #my $m = Math::GMP->new("24383833295");
+
     my $L = znorder($base, $m);
 
     $A = $A*$m;
@@ -52,35 +55,37 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
         return;
     }
 
-    sub ($m, $lambda, $p, $k, $u = undef, $v = undef) {
+    sub ($m, $L, $lo, $k) {
+
+        my $hi = rootint($B/$m, $k);
+        $hi = vecmin($max_p, $hi);
+
+        if ($lo > $hi) {
+            return;
+        }
 
         if ($k == 1) {
 
-            $v = vecmin($v, $max_p);
+            $lo = vecmax($lo, divceil($A, $m));
+            $lo > $hi && return;
 
-            say "# Sieving: $m -> ($u, $v)" if ($v - $u > 2e6);
+            my $t = invmod($m, $L);
+            $t > $hi && return;
+            $t += $L while ($t < $lo);
 
-            if ($v-$u > 1e10) {
-                die "Range too large!\n";
-            }
-
-            forprimes {
-                my $t = $m*$_;
-                if (($t-1)%$lambda == 0 and ($t-1)%znorder($base, $_) == 0) {
-                    $callback->($t);
+            for (my $p = $t ; $p <= $hi ; $p += $L) {
+                if (is_prime($p)) {
+                    my $n = $m*$p;
+                    if (($n - 1) % $znorder{$p} == 0) {
+                        $callback->($n);
+                    }
                 }
-            } $u, $v;
+            }
 
             return;
         }
 
-        my $s = rootint($B/$m, $k);
-
-        for(my $r; $p <= $s; $p = $r) {
-
-       last if ($p > $max_p);
-
-            $r = next_prime($p);
+        foreach my $p (@{primes($lo, $hi)}) {
 
             if ($base % $p == 0) {
                 next;
@@ -89,20 +94,15 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
             if ($m%$p == 0) {
                 next;
             }
-            my $z = znorder($base, $p);
+
+            my $z = $znorder{$p};
+
             is_smooth($z, 13) || next;
+            #is_smooth($z, 19) || next;
 
-            my $L = lcm($lambda, $z);
+            gcd($m, $z) == 1 or next;
 
-            gcd($L, $m) == 1 or next;
-
-            my $t = $m*$p;
-            my $u = divceil($A, $t);
-            my $v = $B/$t;
-
-            if ($u <= $v) {
-                __SUB__->($t, $L, $r, $k - 1, (($k==2 && $r>$u) ? $r : $u), $v);
-            }
+            __SUB__->($m*$p, lcm($L, $z), $p+1, $k-1);
         }
     }->($m, $L, 3, $k);
 

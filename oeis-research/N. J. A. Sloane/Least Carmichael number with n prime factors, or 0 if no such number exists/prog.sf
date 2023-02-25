@@ -1,0 +1,56 @@
+#!/usr/bin/ruby
+
+# Least Carmichael number with n prime factors, or 0 if no such number exists.
+# https://oeis.org/A006931
+
+# First few terms:
+#   561, 41041, 825265, 321197185, 5394826801, 232250619601, 9746347772161, 1436697831295441, 60977817398996785, 7156857700403137441, 1791562810662585767521, 87674969936234821377601, 6553130926752006031481761, 1590231231043178376951698401
+
+#`(
+
+# PARI/GP program:
+
+carmichael(A, B, k) = A=max(A, vecprod(primes(k+1))\2); (f(m, l, lo, k) = my(list=List()); my(hi=sqrtnint(B\m, k)); if(lo > hi, return(list)); if(k==1, lo=max(lo, ceil(A/m)); my(t=lift(1/Mod(m,l))); while(t < lo, t += l); forstep(p=t, hi, l, if(isprime(p), my(n=m*p); if((n-1)%(p-1) == 0, listput(list, n)))), forprime(p=lo, hi, if(gcd(m, p-1) == 1, list=concat(list, f(m*p, lcm(l, p-1), p+1, k-1))))); list); vecsort(Vec(f(1, 1, 3, k)));
+a(n) = if(n < 3, return()); my(x=vecprod(primes(n+1))\2,y=2*x); while(1, my(v=carmichael(x,y,n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+)
+
+func a(n) {
+    return nil if (n < 3)
+
+    var x = pn_primorial(n+1)/2
+    var y = 2*x
+
+    loop {
+        #say "Sieving range: #{[x,y]}"
+        var arr = n.carmichael(x,y)
+
+        if (arr.len >= 1) {
+            return arr[0]
+        }
+
+        x = y+1
+        y = 2*x
+    }
+}
+
+for n in (3..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(3) = 561
+a(4) = 41041
+a(5) = 825265
+a(6) = 321197185
+a(7) = 5394826801
+a(8) = 232250619601
+a(9) = 9746347772161
+a(10) = 1436697831295441
+a(11) = 60977817398996785
+a(12) = 7156857700403137441
+a(13) = 1791562810662585767521
+a(14) = 87674969936234821377601
+a(15) = 6553130926752006031481761
+a(16) = 1590231231043178376951698401
+a(17) = 35237869211718889547310642241

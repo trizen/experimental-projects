@@ -22,11 +22,15 @@ sub divceil ($x, $y) {    # ceil(x/y)
 sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
 
     #my $max_p = 313897;
-    my $max_p = 10000;
+    my $max_p = 1e6;
 
     #my $m = "1056687375767188465946114009917285";
-    #my $m = Math::GMPz->new("6863588485053268178811679453193455");
-    my $m = Math::GMP->new("8035018770721572330061486952496026236686375478339885");
+    #my $m = Math::GMP->new("6863588485053268178811679453193455");
+    my $m = Math::GMP->new("1049092636351906987863186392741166403295");
+    #my $m = Math::GMP->new("8035018770721572330061486952496026236686375478339885");
+    #my $m = Math::GMP->new("288796538380586656981514139972529852735632478655");
+    #my $m = Math::GMP->new("1127872835696879363649741868028740611132217832559978865049182075837136570515");
+
     my $L = lcm(map { $_ - 1 } factor($m));
 
     if ($L == 0) {
@@ -49,52 +53,46 @@ sub carmichael_numbers_in_range ($A, $B, $k, $callback) {
         return;
     }
 
-    sub ($m, $lambda, $p, $k, $u = undef, $v = undef) {
+    sub ($m, $L, $lo, $k) {
+
+        my $hi = rootint($B/$m, $k);
+        $hi = vecmin($max_p, $hi);
+
+        if ($lo > $hi) {
+            return;
+        }
 
         if ($k == 1) {
 
-            $v = vecmin($v, $max_p);
+            $lo = vecmax($lo, divceil($A, $m));
+            $lo > $hi && return;
 
-            say "# Sieving: $m -> ($u, $v)" if ($v - $u > 2e6);
+            my $t = invmod($m, $L);
+            $t > $hi && return;
+            $t += $L while ($t < $lo);
 
-            if ($v - $u > 1e10) {
-                die "Range too large!\n";
-            }
-
-            forprimes {
-                my $t = $m * $_;
-                if (($t - 1) % $lambda == 0 and ($t - 1) % ($_ - 1) == 0) {
-                    $callback->($t);
+            for (my $p = $t ; $p <= $hi ; $p += $L) {
+                if (is_prime($p)) {
+                    my $n = $m*$p;
+                    if (($n-1) % ($p-1) == 0) {
+                        $callback->($n);
+                    }
                 }
             }
-            $u, $v;
 
             return;
         }
 
-        my $s = rootint($B / $m, $k);
-
-        for (my $r ; $p <= $s ; $p = $r) {
-
-            last if ($p > $max_p);
-
-            $r = next_prime($p);
-            is_smooth($p - 1, 41) || next;
+        foreach my $p (@{primes($lo, $hi)}) {
 
             if ($m % $p == 0) {
                 next;
             }
 
-            my $L = lcm($lambda, $p - 1);
-            gcd($L, $m) == 1 or next;
+            gcd($m, $p-1) == 1 or next;
+            is_smooth($p-1, 41) || next;
 
-            my $t = $m * $p;
-            my $u = divceil($A, $t);
-            my $v = $B / $t;
-
-            if ($u <= $v) {
-                __SUB__->($t, $L, $r, $k - 1, (($k == 2 && $r > $u) ? $r : $u), $v);
-            }
+            __SUB__->($m*$p, lcm($L, $p - 1), $p+1, $k-1);
         }
       }
       ->($m, $L, 3, $k);
@@ -110,7 +108,7 @@ while (1) {
     my $ok = 0;
     say "# Range: ($from, $upto)";
 
-    foreach my $k (9 .. 100) {
+    foreach my $k (10 .. 100) {
         carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n }) or next;
         $ok = 1;
     }
@@ -119,42 +117,4 @@ while (1) {
 
     $from = $upto + 1;
     $upto = 2 * $from;
-}
-
-__END__
-#~ my $from = 2;
-#~ my $upto = 2*$from;
-
-#~ while (1) {
-
-    #~ say "# Range: ($from, $upto)";
-
-    #~ foreach my $k (2..50) {
-        #~ pn_primorial($k) < $upto or last;
-        #~ carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n });
-    #~ }
-
-    #~ $from = $upto+1;
-    #~ $upto = 2*$from;
-#~ }
-
-foreach my $k (reverse(2..100)) {
-
-    my $base = 2;
-    my $from = Math::GMPz->new(2);
-    my $upto = 2*$from;
-
-    my $pn_primorial = pn_primorial($k);
-
-    say "# [$k] Sieving...";
-
-    while (1) {
-
-        if ($pn_primorial < $upto) {
-            carmichael_numbers_in_range($from, $upto, $k, sub ($n) { say $n }) or last;
-        }
-
-        $from = $upto+1;
-        $upto = 2*$from;
-    }
 }

@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Least k such that the decimal representation of 2^k contains all possible n-digit strings
+# https://oeis.org/A360656
+
+# Known terms:
+#   68, 975, 16963, 239697, 2994863
+
+func a(n, from=0) {
+
+    var v = gather {
+        @(0..9).variations_with_repetition(n, {|*a|
+            take(a.join)
+        })
+    }
+
+    for k in (from..Inf) {
+        var t = (2**k -> to_s)
+        if (v.all { t.contains(_) }) {
+            return k
+        }
+    }
+}
+
+for n in (1..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(1) = 68
+a(2) = 975
+a(3) = 16963

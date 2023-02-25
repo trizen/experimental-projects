@@ -18,14 +18,14 @@ func a(n, from=1) {
         say "[#{n}] Checking k = #{k}"
         var arr = k.fib.inverse_sigma
 
-        with (arr.first { .is_squarefree_almost_prime(n) }) {|v|
+        with (arr.first_by { .is_squarefree_almost_prime(n) }) {|v|
             return v
         }
     }
 }
 
 var n = 8
-var from = 240      # requires more than 4GB of RAM
+var from = 240      # requires more than 6GB of RAM
 
 say "a(#{n}) = #{a(n, from)}"
 

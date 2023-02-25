@@ -247,3 +247,759 @@
 827 2055095
 # Searching for m = 829 with limit = 2596088939
 829 2596088939
+# Searching for m = 831 with limit = 3394263983671190271
+# !!!Smaller term found!!!
+831 1651927794936159
+# Searching for m = 835 with limit = 2048255
+835 2048255
+# Searching for m = 839 with limit = 14800799
+839 14800799
+# Searching for m = 849 with limit = 261147917637896799
+# !!!Smaller term found!!!
+849 162023782886679
+# Searching for m = 851 with limit = 6730559
+851 6730559
+# Searching for m = 853 with limit = 759786719
+853 759786719
+# Searching for m = 857 with limit = 13971671
+857 13971671
+# Searching for m = 859 with limit = 126325399
+859 126325399
+# Searching for m = 863 with limit = 9694079
+863 9694079
+# Searching for m = 865 with limit = 1116663965
+865 1116663965
+# Searching for m = 869 with limit = 6023039
+869 6023039
+# Searching for m = 871 with limit = 23176439
+871 23176439
+# Searching for m = 877 with limit = 20271948839
+877 20271948839
+# Searching for m = 881 with limit = 6994259
+881 6994259
+# Searching for m = 883 with limit = 603383039
+883 603383039
+# Searching for m = 887 with limit = 501737759
+887 501737759
+# Searching for m = 889 with limit = 162687
+889 162687
+# Searching for m = 893 with limit = 895679
+893 895679
+# Searching for m = 899 with limit = 12676799
+899 12676799
+# Searching for m = 901 with limit = 31535
+901 31535
+# Searching for m = 903 with limit = 2215225217919
+903 2215225217919
+# Searching for m = 905 with limit = 45708573455
+905 45708573455
+# Searching for m = 907 with limit = 285774839
+907 285774839
+# Searching for m = 911 with limit = 10801727
+911 10801727
+# Searching for m = 913 with limit = 20999
+913 20999
+# Searching for m = 917 with limit = 42624911
+917 42624911
+# Searching for m = 919 with limit = 487842879
+919 487842879
+# Searching for m = 921 with limit = 14970106227
+921 14970106227
+# Searching for m = 923 with limit = 7366463
+923 7366463
+# Searching for m = 929 with limit = 33695759
+929 33695759
+# Searching for m = 935 with limit = 935
+935 935
+# Searching for m = 937 with limit = 35847939959
+937 35847939959
+# Searching for m = 939 with limit = 160372803283722399
+# !!!Smaller term found!!!
+939 482519796233727
+# Searching for m = 941 with limit = 326947004999
+941 326947004999
+# Searching for m = 943 with limit = 30071327
+943 30071327
+# Searching for m = 947 with limit = 6613769399
+947 6613769399
+# Searching for m = 949 with limit = 306871487
+949 306871487
+# Searching for m = 953 with limit = 7274249
+953 7274249
+# Searching for m = 955 with limit = 73535
+955 73535
+# Searching for m = 959 with limit = 13971671
+959 13971671
+# Searching for m = 965 with limit = 1840311935
+965 1840311935
+# Searching for m = 967 with limit = 4681247
+967 4681247
+# Searching for m = 971 with limit = 796578299
+971 796578299
+# Searching for m = 977 with limit = 22824172799
+977 22824172799
+# Searching for m = 979 with limit = 1097459
+979 1097459
+# Searching for m = 983 with limit = 60939119
+983 60939119
+# Searching for m = 985 with limit = 117215
+985 117215
+# Searching for m = 989 with limit = 588455
+989 588455
+# Searching for m = 991 with limit = 1218027199
+991 1218027199
+# Searching for m = 993 with limit = 1464337823871
+993 1464337823871
+# Searching for m = 997 with limit = 16070342903
+997 16070342903
+# Searching for m = 1003 with limit = 895679
+1003 895679
+# Searching for m = 1007 with limit = 2756159
+1007 2756159
+# Searching for m = 1009 with limit = 35669159
+1009 35669159
+# Searching for m = 1011 with limit = 69622135643825751
+# !!!Smaller term found!!!
+1011 291617098239999
+# Searching for m = 1013 with limit = 90393029
+1013 90393029
+# Searching for m = 1019 with limit = 115372199
+1019 115372199
+# Searching for m = 1021 with limit = 142955315
+1021 142955315
+# Searching for m = 1027 with limit = 9486399
+1027 9486399
+# Searching for m = 1031 with limit = 1759843799
+1031 1759843799
+# Searching for m = 1033 with limit = 62778871583
+1033 62778871583
+# Searching for m = 1037 with limit = 3354695
+1037 3354695
+# Searching for m = 1039 with limit = 77801359
+1039 77801359
+# Searching for m = 1043 with limit = 54958799
+1043 54958799
+# Searching for m = 1047 with limit = 286306774599
+1047 286306774599
+# Searching for m = 1049 with limit = 135479399
+1049 135479399
+# Searching for m = 1051 with limit = 135470012351
+1051 135470012351
+# Searching for m = 1055 with limit = 760655
+1055 760655
+# Searching for m = 1057 with limit = 61947599
+1057 61947599
+# Searching for m = 1061 with limit = 1522283543
+1061 1522283543
+# Searching for m = 1063 with limit = 29407895
+1063 29407895
+# Searching for m = 1067 with limit = 218735
+1067 218735
+# Searching for m = 1069 with limit = 12583199
+1069 12583199
+# Searching for m = 1073 with limit = 4874639
+1073 4874639
+# Searching for m = 1079 with limit = 104663
+1079 104663
+# Searching for m = 1081 with limit = 76751
+1081 76751
+# Searching for m = 1085 with limit = 1747955615
+1085 1747955615
+# Searching for m = 1087 with limit = 240080255
+1087 240080255
+# Searching for m = 1091 with limit = 158453567
+1091 158453567
+# Searching for m = 1093 with limit = 888437399
+1093 888437399
+# Searching for m = 1097 with limit = 1396023551
+1097 1396023551
+# Searching for m = 1099 with limit = 2770408655
+1099 2770408655
+# Searching for m = 1101 with limit = 94637939036799
+1101 94637939036799
+# Searching for m = 1103 with limit = 59668991
+1103 59668991
+# Searching for m = 1105 with limit = 49412285
+1105 49412285
+# Searching for m = 1109 with limit = 129255059
+1109 129255059
+# Searching for m = 1111 with limit = 13670855
+1111 13670855
+# Searching for m = 1115 with limit = 2048255
+1115 2048255
+# Searching for m = 1117 with limit = 2291560127
+1117 2291560127
+# Searching for m = 1119 with limit = 2215225217919
+1119 2215225217919
+# Searching for m = 1121 with limit = 88559
+1121 88559
+# Searching for m = 1123 with limit = 96250502879
+1123 96250502879
+# Searching for m = 1129 with limit = 29343839
+1129 29343839
+# Searching for m = 1133 with limit = 1612670279
+1133 1612670279
+# Searching for m = 1135 with limit = 461819015
+1135 461819015
+# Searching for m = 1137 with limit = 37348274919
+1137 37348274919
+# Searching for m = 1141 with limit = 3075810815
+1141 3075810815
+# Searching for m = 1147 with limit = 381626399
+1147 381626399
+# Searching for m = 1151 with limit = 25194239
+1151 25194239
+# Searching for m = 1153 with limit = 15997348079
+1153 15997348079
+# Searching for m = 1157 with limit = 939989609
+1157 939989609
+# Searching for m = 1159 with limit = 1922689439
+1159 1922689439
+# Searching for m = 1163 with limit = 565861139
+1163 565861139
+# Searching for m = 1165 with limit = 9868715
+1165 9868715
+# Searching for m = 1171 with limit = 997794304415
+1171 997794304415
+# Searching for m = 1177 with limit = 196559
+1177 196559
+# Searching for m = 1181 with limit = 3334906619
+1181 3334906619
+# Searching for m = 1187 with limit = 16923059
+1187 16923059
+# Searching for m = 1189 with limit = 2581319
+1189 2581319
+# Searching for m = 1191 with limit = 116301812274074491239
+# Better upper-bound: 8160453508890423
+# Better upper-bound: 366538619405919
+# !!!Smaller term found!!!
+1191 366538619405919
+# Searching for m = 1193 with limit = 10197581471
+1193 10197581471
+# Searching for m = 1201 with limit = 572531110799
+1201 572531110799
+# Searching for m = 1205 with limit = 14605403735
+1205 14605403735
+# Searching for m = 1207 with limit = 194327
+1207 194327
+# Searching for m = 1209 with limit = 84895311423
+1209 84895311423
+# Searching for m = 1211 with limit = 1046435999
+1211 1046435999
+# Searching for m = 1213 with limit = 20373173183
+1213 20373173183
+# Searching for m = 1217 with limit = 69669599
+1217 69669599
+# Searching for m = 1219 with limit = 913031
+1219 913031
+# Searching for m = 1223 with limit = 37425023
+1223 37425023
+# Searching for m = 1227 with limit = 187243828239
+1227 187243828239
+# Searching for m = 1229 with limit = 105818129
+1229 105818129
+# Searching for m = 1231 with limit = 295736671
+1231 295736671
+# Searching for m = 1237 with limit = 1245426650579
+1237 1245426650579
+# Searching for m = 1241 with limit = 532070063
+1241 532070063
+# Searching for m = 1243 with limit = 50407379
+1243 50407379
+# Searching for m = 1247 with limit = 113024339
+1247 113024339
+# Searching for m = 1249 with limit = 485549999
+1249 485549999
+# Searching for m = 1253 with limit = 1256759
+1253 1256759
+# Searching for m = 1255 with limit = 11195855
+1255 11195855
+# Searching for m = 1259 with limit = 1587599
+1259 1587599
+# Searching for m = 1261 with limit = 104663
+1261 104663
+# Searching for m = 1263 with limit = 1707581786703519
+1263 1707581786703519
+# Searching for m = 1265 with limit = 8855
+1265 8855
+# Searching for m = 1271 with limit = 34562303
+1271 34562303
+# Searching for m = 1273 with limit = 26456759
+1273 26456759
+# Searching for m = 1277 with limit = 256226219
+1277 256226219
+# Searching for m = 1279 with limit = 62211839
+1279 62211839
+# Searching for m = 1281 with limit = 162687
+1281 162687
+# Searching for m = 1283 with limit = 3695056679
+1283 3695056679
+# Searching for m = 1285 with limit = 102310415
+1285 102310415
+# Searching for m = 1289 with limit = 256074029
+1289 256074029
+# Searching for m = 1291 with limit = 178474295
+1291 178474295
+# Searching for m = 1295 with limit = 461819015
+1295 461819015
+# Searching for m = 1297 with limit = 77924443519
+1297 77924443519
+# Searching for m = 1299 with limit = 12304798623039
+1299 12304798623039
+# Searching for m = 1301 with limit = 49124459
+1301 49124459
+# Searching for m = 1303 with limit = 22824172799
+1303 22824172799
+# Searching for m = 1307 with limit = 1710863
+1307 1710863
+# Searching for m = 1309 with limit = 1710863
+1309 1710863
+# Searching for m = 1313 with limit = 279173999
+1313 279173999
+# Searching for m = 1315 with limit = 67418735
+1315 67418735
+# Searching for m = 1317 with limit = 286306774599
+1317 286306774599
+# Searching for m = 1319 with limit = 3483479
+1319 3483479
+# Searching for m = 1321 with limit = 95663965319
+1321 95663965319
+# Searching for m = 1327 with limit = 193849487
+1327 193849487
+# Searching for m = 1333 with limit = 29010079
+1333 29010079
+# Searching for m = 1337 with limit = 73535
+1337 73535
+# Searching for m = 1343 with limit = 2193119
+1343 2193119
+# Searching for m = 1349 with limit = 9349919
+1349 9349919
+# Searching for m = 1351 with limit = 1840311935
+1351 1840311935
+# Searching for m = 1355 with limit = 240080255
+1355 240080255
+# Searching for m = 1357 with limit = 14800799
+1357 14800799
+# Searching for m = 1361 with limit = 1925976959
+1361 1925976959
+# Searching for m = 1363 with limit = 1707839
+1363 1707839
+# Searching for m = 1367 with limit = 3741479
+1367 3741479
+# Searching for m = 1371 with limit = 714791836281522999
+# Better upper-bound: 12441373101219999
+# !!!Smaller term found!!!
+1371 12441373101219999
+# Searching for m = 1373 with limit = 1439402399
+1373 1439402399
+# Searching for m = 1379 with limit = 117215
+1379 117215
+# Searching for m = 1381 with limit = 221511111527
+1381 221511111527
+# Searching for m = 1385 with limit = 3075786974315
+1385 3075786974315
+# Searching for m = 1387 with limit = 850615199
+1387 850615199
+# Searching for m = 1389 with limit = 99467679
+1389 99467679
+# Searching for m = 1391 with limit = 57872555
+1391 57872555
+# Searching for m = 1393 with limit = 128912399
+1393 128912399
+# Searching for m = 1397 with limit = 54408959
+1397 54408959
+# Searching for m = 1399 with limit = 95972799
+1399 95972799
+# Searching for m = 1403 with limit = 30222023
+1403 30222023
+# Searching for m = 1405 with limit = 900744095
+1405 900744095
+# Searching for m = 1407 with limit = 28050394272159
+1407 28050394272159
+# Searching for m = 1409 with limit = 669515939
+1409 669515939
+# Searching for m = 1411 with limit = 7055
+1411 7055
+# Searching for m = 1415 with limit = 18209964695
+1415 18209964695
+# Searching for m = 1417 with limit = 2906220239
+1417 2906220239
+# Searching for m = 1423 with limit = 239110959
+1423 239110959
+# Searching for m = 1427 with limit = 279173999
+1427 279173999
+# Searching for m = 1429 with limit = 3032510909
+1429 3032510909
+# Searching for m = 1433 with limit = 310294655
+1433 310294655
+# Searching for m = 1439 with limit = 343979999
+1439 343979999
+# Searching for m = 1443 with limit = 30073928079
+1443 30073928079
+# Searching for m = 1447 with limit = 22695814439
+1447 22695814439
+# Searching for m = 1451 with limit = 250716839
+1451 250716839
+# Searching for m = 1453 with limit = 25578000287
+1453 25578000287
+# Searching for m = 1457 with limit = 38999519
+1457 38999519
+# Searching for m = 1459 with limit = 96403747439
+1459 96403747439
+# Searching for m = 1461 with limit = 88330062057663
+1461 88330062057663
+# Searching for m = 1463 with limit = 24685199
+1463 24685199
+# Searching for m = 1465 with limit = 4609544855
+1465 4609544855
+# Searching for m = 1469 with limit = 252654779
+1469 252654779
+# Searching for m = 1471 with limit = 595462271
+1471 595462271
+# Searching for m = 1477 with limit = 760655
+1477 760655
+# Searching for m = 1481 with limit = 1501273409
+1481 1501273409
+# Searching for m = 1483 with limit = 270696439
+1483 270696439
+# Searching for m = 1487 with limit = 73019135
+1487 73019135
+# Searching for m = 1489 with limit = 18234757079
+1489 18234757079
+# Searching for m = 1493 with limit = 45598971599
+1493 45598971599
+# Searching for m = 1495 with limit = 8421335
+1495 8421335
+# Searching for m = 1497 with limit = 306307407999
+1497 306307407999
+# Searching for m = 1499 with limit = 2249999
+1499 2249999
+# Searching for m = 1501 with limit = 88559
+1501 88559
+# Searching for m = 1505 with limit = 588455
+1505 588455
+# Searching for m = 1507 with limit = 11882931599
+1507 11882931599
+# Searching for m = 1511 with limit = 130225535
+1511 130225535
+# Searching for m = 1513 with limit = 80189
+1513 80189
+# Searching for m = 1517 with limit = 7110179
+1517 7110179
+# Searching for m = 1523 with limit = 7947283571
+1523 7947283571
+# Searching for m = 1529 with limit = 10138799
+1529 10138799
+# Searching for m = 1531 with limit = 3586258799
+1531 3586258799
+# Searching for m = 1533 with limit = 6587452767
+1533 6587452767
+# Searching for m = 1535 with limit = 67418735
+1535 67418735
+# Searching for m = 1537 with limit = 35669159
+1537 35669159
+# Searching for m = 1541 with limit = 214199
+1541 214199
+# Searching for m = 1543 with limit = 88043680295
+1543 88043680295
+# Searching for m = 1549 with limit = 890753999
+1549 890753999
+# Searching for m = 1553 with limit = 4230625139
+1553 4230625139
+# Searching for m = 1555 with limit = 2061639215
+1555 2061639215
+# Searching for m = 1559 with limit = 133763759
+1559 133763759
+# Searching for m = 1565 with limit = 9059114946815
+1565 9059114946815
+# Searching for m = 1567 with limit = 130225535
+1567 130225535
+# Searching for m = 1569 with limit = 12084948601239
+1569 12084948601239
+# Searching for m = 1571 with limit = 219797039
+1571 219797039
+# Searching for m = 1577 with limit = 1241099
+1577 1241099
+# Searching for m = 1579 with limit = 14970499
+1579 14970499
+# Searching for m = 1583 with limit = 20061359
+1583 20061359
+# Searching for m = 1585 with limit = 30036458495
+1585 30036458495
+# Searching for m = 1589 with limit = 108946607
+1589 108946607
+# Searching for m = 1591 with limit = 7110179
+1591 7110179
+# Searching for m = 1597 with limit = 119945879
+1597 119945879
+# Searching for m = 1601 with limit = 10260809
+1601 10260809
+# Searching for m = 1603 with limit = 8164079
+1603 8164079
+# Searching for m = 1607 with limit = 31010279
+1607 31010279
+# Searching for m = 1609 with limit = 1111321819
+1609 1111321819
+# Searching for m = 1613 with limit = 208916200349
+1613 208916200349
+# Searching for m = 1619 with limit = 338340239
+1619 338340239
+# Searching for m = 1621 with limit = 143846925641
+1621 143846925641
+# Searching for m = 1623 with limit = 127460742488347071999
+# Better upper-bound: 40576030028823639
+# !!!Smaller term found!!!
+1623 40576030028823639
+# Searching for m = 1627 with limit = 2452749683
+1627 2452749683
+# Searching for m = 1631 with limit = 202767551
+1631 202767551
+# Searching for m = 1633 with limit = 76751
+1633 76751
+# Searching for m = 1637 with limit = 356628635
+1637 356628635
+# Searching for m = 1639 with limit = 67199
+1639 67199
+# Searching for m = 1641 with limit = 821474220921489687
+# Better upper-bound: 16118479481223279
+# Better upper-bound: 175384415496099
+# !!!Smaller term found!!!
+1641 175384415496099
+# Searching for m = 1643 with limit = 103727519
+1643 103727519
+# Searching for m = 1645 with limit = 18095
+1645 18095
+# Searching for m = 1649 with limit = 7234163
+1649 7234163
+# Searching for m = 1651 with limit = 32869759
+1651 32869759
+# Searching for m = 1655 with limit = 196377335
+1655 196377335
+# Searching for m = 1657 with limit = 30222023
+1657 30222023
+# Searching for m = 1659 with limit = 108992419599
+1659 108992419599
+# Searching for m = 1661 with limit = 390335
+1661 390335
+# Searching for m = 1663 with limit = 3259800959
+1663 3259800959
+# Searching for m = 1667 with limit = 436548959
+1667 436548959
+# Searching for m = 1669 with limit = 60301722719
+1669 60301722719
+# Searching for m = 1673 with limit = 10210319
+1673 10210319
+# Searching for m = 1677 with limit = 1464337823871
+1677 1464337823871
+# Searching for m = 1679 with limit = 81802559
+1679 81802559
+# Searching for m = 1685 with limit = 288733827095
+1685 288733827095
+# Searching for m = 1687 with limit = 25603599
+1687 25603599
+# Searching for m = 1691 with limit = 1097459
+1691 1097459
+# Searching for m = 1693 with limit = 306871487
+1693 306871487
+# Searching for m = 1697 with limit = 103264532219
+1697 103264532219
+# Searching for m = 1699 with limit = 9667141799
+1699 9667141799
+# Searching for m = 1703 with limit = 3700619
+1703 3700619
+# Searching for m = 1705 with limit = 287379455
+1705 287379455
+# Searching for m = 1709 with limit = 2924099
+1709 2924099
+# Searching for m = 1711 with limit = 152279
+1711 152279
+# Searching for m = 1713 with limit = 17156013520359
+1713 17156013520359
+# Searching for m = 1721 with limit = 2723515199
+1721 2723515199
+# Searching for m = 1723 with limit = 245754407039
+1723 245754407039
+# Searching for m = 1727 with limit = 696825503
+1727 696825503
+# Searching for m = 1731 with limit = 430717758620799
+# Better upper-bound: 2250151308831
+# !!!Smaller term found!!!
+1731 2250151308831
+# Searching for m = 1733 with limit = 5778659039
+1733 5778659039
+# Searching for m = 1735 with limit = 18476015
+1735 18476015
+# Searching for m = 1739 with limit = 2276351
+1739 2276351
+# Searching for m = 1741 with limit = 315349800479
+1741 315349800479
+# Searching for m = 1747 with limit = 19318062203
+1747 19318062203
+# Searching for m = 1751 with limit = 202767551
+1751 202767551
+# Searching for m = 1753 with limit = 5083021278719
+1753 5083021278719
+# Searching for m = 1759 with limit = 95972799
+1759 95972799
+# Searching for m = 1763 with limit = 7110179
+1763 7110179
+# Searching for m = 1765 with limit = 103382437535
+1765 103382437535
+# Searching for m = 1767 with limit = 189099039
+1767 189099039
+# Searching for m = 1769 with limit = 139098239
+1769 139098239
+# Searching for m = 1771 with limit = 8855
+1771 8855
+# Searching for m = 1777 with limit = 13228853399
+1777 13228853399
+# Searching for m = 1781 with limit = 107556371
+1781 107556371
+# Searching for m = 1783 with limit = 75173549759
+1783 75173549759
+# Searching for m = 1787 with limit = 252419111
+1787 252419111
+# Searching for m = 1789 with limit = 404717546519
+1789 404717546519
+# Searching for m = 1793 with limit = 3075810815
+1793 3075810815
+# Searching for m = 1799 with limit = 275766911
+1799 275766911
+# Searching for m = 1801 with limit = 207377944199
+1801 207377944199
+# Searching for m = 1803 with limit = 53399465726494719
+1803 53399465726494719
+# Searching for m = 1807 with limit = 66709019
+1807 66709019
+# Searching for m = 1811 with limit = 1834378199
+1811 1834378199
+# Searching for m = 1817 with limit = 12719
+1817 12719
+# Searching for m = 1819 with limit = 7234163
+1819 7234163
+# Searching for m = 1821 with limit = 1778324753919
+1821 1778324753919
+# Searching for m = 1823 with limit = 282639743
+1823 282639743
+# Searching for m = 1829 with limit = 12676799
+1829 12676799
+# Searching for m = 1831 with limit = 146348770399
+1831 146348770399
+# Searching for m = 1835 with limit = 15389361455
+1835 15389361455
+# Searching for m = 1837 with limit = 196559
+1837 196559
+# Searching for m = 1839 with limit = 15187052332978239
+1839 15187052332978239
+# Searching for m = 1841 with limit = 325428047
+1841 325428047
+# Searching for m = 1843 with limit = 2616973379
+1843 2616973379
+# Searching for m = 1847 with limit = 1396023551
+1847 1396023551
+# Searching for m = 1853 with limit = 679389479
+1853 679389479
+# Searching for m = 1855 with limit = 31535
+1855 31535
+# Searching for m = 1857 with limit = 620418252540639
+1857 620418252540639
+# Searching for m = 1861 with limit = 10397407
+1861 10397407
+# Searching for m = 1865 with limit = 4379107655
+1865 4379107655
+# Searching for m = 1867 with limit = 53722314491
+1867 53722314491
+# Searching for m = 1871 with limit = 84062159
+1871 84062159
+# Searching for m = 1873 with limit = 2170525568639
+1873 2170525568639
+# Searching for m = 1877 with limit = 181061935067
+1877 181061935067
+# Searching for m = 1879 with limit = 17664479
+1879 17664479
+# Searching for m = 1883 with limit = 3722941439
+1883 3722941439
+# Searching for m = 1889 with limit = 10712519
+1889 10712519
+# Searching for m = 1893 with limit = 570014742966591
+# Better upper-bound: 227767811184759
+# !!!Smaller term found!!!
+1893 227767811184759
+# Searching for m = 1897 with limit = 108946607
+1897 108946607
+# Searching for m = 1901 with limit = 6345558911
+1901 6345558911
+# Searching for m = 1903 with limit = 19716983
+1903 19716983
+# Searching for m = 1907 with limit = 800484227
+1907 800484227
+# Searching for m = 1909 with limit = 20999
+1909 20999
+# Searching for m = 1913 with limit = 11097953855
+1913 11097953855
+# Searching for m = 1915 with limit = 147455
+1915 147455
+# Searching for m = 1919 with limit = 115372199
+1919 115372199
+# Searching for m = 1921 with limit = 90287
+1921 90287
+# Searching for m = 1927 with limit = 64456223
+1927 64456223
+# Searching for m = 1929 with limit = 290679333699
+1929 290679333699
+# Searching for m = 1931 with limit = 406647359
+1931 406647359
+# Searching for m = 1933 with limit = 726969805631
+1933 726969805631
+# Searching for m = 1937 with limit = 271038599
+1937 271038599
+# Searching for m = 1939 with limit = 987831967199
+1939 987831967199
+# Searching for m = 1943 with limit = 36981119
+1943 36981119
+# Searching for m = 1949 with limit = 1181972999
+1949 1181972999
+# Searching for m = 1951 with limit = 4962284607
+1951 4962284607
+# Searching for m = 1955 with limit = 588455
+1955 588455
+# Searching for m = 1957 with limit = 189099039
+1957 189099039
+# Searching for m = 1961 with limit = 632648015
+1961 632648015
+# Searching for m = 1963 with limit = 1171355471
+1963 1171355471
+# Searching for m = 1967 with limit = 10346390495
+1967 10346390495
+# Searching for m = 1969 with limit = 966779
+1969 966779
+# Searching for m = 1973 with limit = 1250201315
+1973 1250201315
+# Searching for m = 1979 with limit = 97962479
+1979 97962479
+# Searching for m = 1981 with limit = 22644087935
+1981 22644087935
+# Searching for m = 1983 with limit = 128828457866303103
+1983 128828457866303103
+# Searching for m = 1985 with limit = 247545314495
+1985 247545314495
+# Searching for m = 1987 with limit = 1915827647
+1987 1915827647
+# Searching for m = 1991 with limit = 677913599
+1991 677913599
+# Searching for m = 1993 with limit = 43716455
+1993 43716455
+# Searching for m = 1997 with limit = 107732159
+1997 107732159
+# Searching for m = 1999 with limit = 103949999
+1999 103949999
+# Searching for m = 2003 with limit = 8923150679
+2003 8923150679
+# Searching for m = 2005 with limit = 65766708755
+2005 65766708755
+# Searching for m = 2011 with limit = 2621128819063
+2011 2621128819063
+# Searching for m = 2015 with limit = 2015
+2015 2015
+# Searching for m = 2017 with limit = 1355053713089
+2017 1355053713089
