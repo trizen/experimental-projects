@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+# Numbers k such that P(k)^4 | k and P(k+1)^2 | (k+1), where P(k) = A006530(k) is the largest prime dividing k.
+# https://oeis.org/A354566
+
+func upto (k, j1, j2) {
+
+    var limit = k.iroot(j1)
+    var smooth = []
+
+    var pi = limit.prime_count
+
+    limit.each_prime {|p|
+
+        say "[#{p.prime_count} / #{pi}] Processing prime #{p}"
+
+        var pj = ipow(p, j1)
+        var smooth_limit = idiv(k, pj)
+
+        Math.smooth_numbers(p.primes...).each {|r|
+            break if (r > smooth_limit)
+            var s = pj*r
+            var m = s+1
+            if (m.valuation(m.gpf) >= j2) {
+                smooth << s
+            }
+        }
+    }
+
+    smooth.sort
+}
+
+var i = 0
+var n = 10**10
+
+upto(n, 4, 2).each {|k|
+   printf("%s %s\n", ++i, k)
+}

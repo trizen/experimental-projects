@@ -43,7 +43,7 @@ while (my ($n, $value) = each %db) {
 
     my $v = check($n);
 
-    next if ($v <= 23);
+    next if ($v < 23);
 
     if (not defined $table[$v]) {
         $table[$v] = Math::GMPz->new($n);

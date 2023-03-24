@@ -19,7 +19,7 @@ sub divceil ($x,$y) {   # ceil(x/y)
     ($q*$y == $x) ? $q : ($q+1);
 }
 
-my $max_p = 10000;
+my $max_p = 1000000;
 my %znorder = map { $_ => znorder(2, $_) } @{primes($max_p)};
 
 sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
@@ -28,11 +28,11 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
     #my $m = "1614825036214963273306005";
     #my $m = Math::GMP->new("19258022593463164626195195");
     #my $m = Math::GMP->new("19976310800932286865");      # finds new abundant Fermat psp
-    #my $m = Math::GMP->new("2799500171953451613547965");      # finds new abundant Fermat psp
+    my $m = Math::GMP->new("2799500171953451613547965");      # finds new abundant Fermat psp
     #my $m = Math::GMP->new("551501533874829967868949105");      # finds new abundant Fermat psp
     #my $m = Math::GMP->new("1389172629407632160878965");      # finds new abundant Fermat psp
     #my $m = Math::GMP->new("3935333227783660512405");      # finds new abundant Fermat psp
-    my $m = Math::GMP->new("15312580652854710165");      # finds new abundant Fermat psp
+    #my $m = Math::GMP->new("15312580652854710165");      # finds new abundant Fermat psp
     #my $m = Math::GMP->new("7051637712729097263345");
     #my $m = Math::GMP->new("1256975577207099774483036285");
     #my $m = Math::GMP->new("24383833295");
@@ -47,8 +47,8 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
     $A = Math::GMP->new("$A");
     $B = Math::GMP->new("$B");
 
-    if ($B > Math::GMP->new("2596282479202818734176082185090403265")) {
-        $B = Math::GMP->new("2596282479202818734176082185090403265");
+    if ($B > Math::GMP->new("898943937249247967890084629421065")) {
+        $B = Math::GMP->new("898943937249247967890084629421065");
     }
 
     if ($A > $B) {
@@ -97,7 +97,7 @@ sub fermat_pseudoprimes_in_range ($A, $B, $k, $base, $callback) {
 
             my $z = $znorder{$p};
 
-            is_smooth($z, 13) || next;
+            #is_smooth($z, 13) || next;
             #is_smooth($z, 19) || next;
 
             gcd($m, $z) == 1 or next;

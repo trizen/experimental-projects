@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# Smallest base-n strong Fermat pseudoprime with n distinct prime factors.
+
+# See also:
+#   https://oeis.org/A271874
+
+func a(n) {
+    return nil if (n < 2)
+
+    var x = 1
+    var y = 2*x
+
+    loop {
+        #say "Sieving range: #{[x,y]}"
+        var arr = n.strong_fermat_psp(n,x,y)
+
+        if (arr.len >= 1) {
+            return arr[0]
+        }
+
+        x = y+1
+        y = 2*x
+    }
+}
+
+for n in (2..100) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(2) = 2047
+a(3) = 8911
+a(4) = 129921
+a(5) = 381347461
+a(6) = 333515107081
+a(7) = 37388680793101
+a(8) = 713808066913201
+a(9) = 665242007427361
+a(10) = 179042026797485691841
+a(11) = 8915864307267517099501
+a(12) = 331537694571170093744101

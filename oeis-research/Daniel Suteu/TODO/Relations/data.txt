@@ -1,0 +1,4 @@
+
+
+# For A061483 (https://oeis.org/A061483):
+#   a(n) = numerator(A121586(n) / n!)

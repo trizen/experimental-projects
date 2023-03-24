@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+# Number of 0's minus number of 1's among the edge truncated binary representations of the first n positive integers.
+
+# Cf. A037861, A301336, A308430.
+
+# Formula:
+#   a(n) = Sum_{k=2..n} (A037861(n) + (1 - (-1)^n))
+
+# (PARI) a(n) = sum(k=2, n, #binary(k) - 2*hammingweight(k) + (1 - (-1)^k))
+
+# See also:
+#   https://oeis.org/A037861
+#   https://oeis.org/A301336
+#   https://oeis.org/A308430
+
+func A037861(n) {
+   var t = n.as_bin
+   (t.count('0') - t.count('1'))
+}
+
+func f(n) {
+   # var t = n.as_bin
+   # (t.count('0') - t.count('1')) #+ (n.is_odd ? 2 : 0)
+
+   if (n <= 1) {
+       return 0
+   }
+
+   # n.is_odd ? 2+A037861(n) : A037861(n)
+
+   #A037861(n) + (1 - (-1)**n)
+   A037861(n) + (1 - (-1)**n)
+}
+
+101.of(f).accumulate.each{.say}
+
+# Program for A301336:
+#   a(n) = sum(k=2, n, 2*hammingweight(k) - #binary(k)); \\ for n >0

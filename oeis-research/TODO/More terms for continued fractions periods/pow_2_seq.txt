@@ -1,9 +1,0 @@
-Least m such that continued fraction for sqrt(m) has period 2^n.
-
-2, 3, 7, 31, 94, 463, 1324, 3949, 16831, 54679, 183166, 723031, 2869351
-
-For n=3, a(3) = 31, which is the smallest integer m that has the continued fraction period for sqrt(m) equal to 2^3, which is: [[5], [1, 1, 3, 5, 3, 1, 1, 10]].
-
-a(n) = A013646(2^n).
-
-Cf. A013642, A013646.

@@ -1,17 +1,8 @@
 #!/usr/bin/perl
 
-# Try to find a squarefree number n such that n+1 | sigma(n).
+# Find prime gap records, from the factors of pseudoprimes.
 
-# See also:
-#   https://math.stackexchange.com/questions/4576393/if-n-is-square-free-and-n1-mid-sigman-is-n-a-prime
-
-# No counter-example found...
-
-use 5.020;
-use strict;
-use warnings;
-use experimental qw(signatures);
-
+use 5.036;
 use Storable;
 use POSIX qw(ULONG_MAX);
 
@@ -75,7 +66,7 @@ Merit: 3.53787442283434 with g = 210 for p = 60077339080249258834663873
 Merit: 3.95233801271049 with g = 274 for p = 1282102862013350567377590730597
 Merit: 4.11829942456146 with g = 226 for p = 680435527254568598106721
 Merit: 4.38561379855734 with g = 220 for p = 6108790953688828846561
-Merit: 5.1842155589249 with g = 328 for p = 3001693421814001736596239433
+Merit: 5.82605203757676 with g = 300 for p = 23070597828321430685567
 Merit: 6.14519150536919 with g = 678 for p = 823725213912413947530390077834174890593144661261
 Merit: 7.36779003891085 with g = 406 for p = 854427865432681725179473
 Merit: 8.57040810150965 with g = 462 for p = 257786279140373792788201

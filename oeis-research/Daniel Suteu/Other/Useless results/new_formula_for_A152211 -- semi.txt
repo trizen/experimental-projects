@@ -1,0 +1,17 @@
+
+
+# https://oeis.org/A152211
+
+#   2, 7, 10, 19, 16, 36, 22, 47, 40, 58, 34, 100, 40, 80, 84, 111, 52, 147, 58, 162
+
+# a(n) = Sum_{d|n} (n + d). - ~~~~
+
+# Sidef program
+
+func foo(n) {
+    n.divisors.sum { |d|
+        n + d
+    }
+}
+
+say 30.of(foo)

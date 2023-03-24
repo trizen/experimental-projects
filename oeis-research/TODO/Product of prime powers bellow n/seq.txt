@@ -1,3 +1,0 @@
-Product of prime powers less than or equal to n.
-
-Partial products of A000961

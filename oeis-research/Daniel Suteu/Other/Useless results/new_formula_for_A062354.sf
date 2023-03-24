@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+
+# https://oeis.org/A062354
+
+#   1, 3, 8, 14, 24, 24, 48, 60, 78, 72, 120, 112, 168, 144, 192, 248, 288
+#   1, 3, 8, 14, 24, 24, 48, 60, 78, 72, 120, 112, 168, 144, 192, 248, 288, 234, 360, 336, 384, 360, 528, 480
+
+# a(n) = Sum_{k=1..n} gcd(n, k) * phi(n) / phi(n / gcd(n, k))
+
+# Equivalent with:
+
+# a(n) = phi(n) * Sum_{k=1..n} gcd(n, k) / euler_phi(n / gcd(n, k))
+
+# Very interesting:
+# sigma(n) = Sum_{k=1..n} gcd(n, k) / euler_phi(n / gcd(n, k))
+
+# Sidef program:
+
+func foo(n) {
+    euler_phi(n) * sum (1..n, {|k|
+        gcd(n, k) / euler_phi(n / gcd(n, k))
+    })
+}
+
+say 20.of(foo)

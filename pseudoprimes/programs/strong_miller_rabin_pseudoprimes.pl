@@ -18,19 +18,19 @@ while (<>) {
     next if /^\h*#/;
     /\S/ or next;
     my $n = (split(' ', $_))[-1];
+    $n =~ /^\d+\z/ or next;
 
     $n || next;
 
-    next if $n > ~0;
-
-    #next if (length($n) > 40);
+    #next if $n > ~0;
+    next if (length($n) > 100);
 
     if (is_strong_pseudoprime($n, 2)) {
         push @terms, $n;
     }
 }
 
-@terms = sort { $a <=> $b } @terms;
+@terms = sort { log($a) <=> log($b) } @terms;
 
 my $p     = 2;
 my @bases = ($p);

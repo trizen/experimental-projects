@@ -7,11 +7,7 @@
 
 # No counter-example found...
 
-use 5.020;
-use strict;
-use warnings;
-use experimental qw(signatures);
-
+use 5.036;
 use Storable;
 use POSIX qw(ULONG_MAX);
 

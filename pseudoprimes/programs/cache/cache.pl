@@ -22,7 +22,13 @@ use Math::GMPz;
 use POSIX qw(ULONG_MAX);
 use experimental qw(signatures);
 
+use Math::Sidef qw();
 use Math::AnyNum qw(is_smooth);
+
+$Sidef::Types::Number::Number::USE_YAFU = 1;
+$Sidef::Types::Number::Number::USE_FACTORDB = 0;
+$Sidef::Types::Number::Number::VERBOSE = 1;
+$Sidef::Types::Number::Number::SPECIAL_FACTORS = 1;
 
 use ntheory qw(
   urandomm valuation sqrtmod invmod random_prime factor_exp vecmin vecall
@@ -42,6 +48,7 @@ local $| = 1;
 use constant {
               FACTOR_MIN_LEN            => 25,          # factor directly numbers with <= this many digits
               PREFACTORIZATION          => 0,           # try to find very small prime factors of n
+              FACTORIZE_WITH_SIDEF      => 1,           # true to factorize large numbers with Math::Sidef
               MASK_LIMIT                => 200,         # show Cn if n > MASK_LIMIT, where n ~ log_10(N)
               LOOK_FOR_SMALL_FACTORS    => 1,
               LOOK_FOR_SPECIAL_FORMS    => 0,
@@ -2498,7 +2505,16 @@ while (<>) {
     }
 
     if (not @factors) {
-        @factors = eval { factorize($n) }
+        if (FACTORIZE_WITH_SIDEF) {
+            @factors = map { Math::Sidef::factor($_) } Math::Sidef::special_factors($n, 0);
+        }
+        else {
+            @factors = eval { factorize($n) }
+        }
+    }
+
+    if (scalar(@factors) == 1) {
+        Math::Prime::Util::GMP::is_provable_prime($n) || die "BPSW counter-example(?): $n";
     }
 
     if (    scalar(@factors) > 1

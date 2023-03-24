@@ -25,6 +25,10 @@ dbmopen(my %db, $cache_db, 0444)
 
 my %table;
 
+my $t = Math::GMPz::Rmpz_init();
+my $n = Math::GMPz::Rmpz_init();
+my $z = Math::GMPz::Rmpz_init();
+
 while (my ($key, $value) = each %db) {
 
     my @f     = split(' ', $value);
@@ -34,23 +38,28 @@ while (my ($key, $value) = each %db) {
 
     Math::Prime::Util::GMP::is_pseudoprime($key, 2) || next;
 
-    my $n = Math::GMPz::Rmpz_init_set_str($key, 10);
+    Math::GMPz::Rmpz_set_str($n, $key, 10);
 
     if (exists $table{$omega}) {
         next if ($table{$omega} < $n);
     }
 
-    my $t = $n - 1;
+    Math::GMPz::Rmpz_sub_ui($t, $n, 1);
+
     if (vecany {
             ($_ < ULONG_MAX)
                 ? Math::GMPz::Rmpz_divisible_ui_p($t, $_ - 1)
-                : Math::GMPz::Rmpz_divisible_p($t, Math::GMPz::Rmpz_init_set_str($_, 10) - 1)
+                : do {
+                    Math::GMPz::Rmpz_set_str($z, $_, 10);
+                    Math::GMPz::Rmpz_sub_ui($z, $z, 1);
+                    Math::GMPz::Rmpz_divisible_p($t, $z);
+                }
     } @f) {
         next;
     }
 
     printf("a(%2d) <= %s\n", $omega, $n);
-    $table{$omega} = $n;
+    $table{$omega} = Math::GMPz::Rmpz_init_set($n);
 }
 
 dbmclose(%db);

@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+var list = []
+
+ARGF.each{|line|
+    var n = line.nums.last
+    list << n
+}
+
+for n in (1..list.len) {
+
+    var head = list.drop_first(n)
+
+    say head
+
+    head.each_kv{|k,v|
+        assert(v.is_strong_psp(k + 2))
+        assert_eq(v.omega, n - k + 1)
+        assert(v.is_omega_prime(n - k + 1))
+    }
+
+    list || break
+}
+
+say "** Test passed!"

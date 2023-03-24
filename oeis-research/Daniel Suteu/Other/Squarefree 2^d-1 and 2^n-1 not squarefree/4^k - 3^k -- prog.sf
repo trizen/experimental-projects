@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# Numbers n such that 4^n - 3^n is not squarefree, but 4^d - 3^d is squarefree for every proper divisor d of n.
+# https://oeis.org/A280208
+
+# Probably in the sequence:
+# 4, 14, 55, 78, 111, 253, 342, 355, 915, 930, 1081, 1703, 1711, 1810, 2934, 3403, 4422, 5671, 5886, 6123, 6394, 8138, 9015, 9641, 10121, 10506,
+
+#~ func f(k) {
+    #~ k.divisors.first(-1).grep{_ < 150}.all {|d|
+        #~ is_prob_squarefree(4**d - 3**d, 1e8)
+        #~ #is_squarefree(4**d - 3**d)
+    #~ }
+#~ }
+
+#~ for k in (1..100) {
+    #~ var t = (4**k - 3**k)
+
+    #~ if (!t.is_prob_squarefree(1e7) && f(k)) {
+        #~ say k
+    #~ }
+    #~ else {
+        #~ say "Counter-example: #{k}"
+    #~ }
+#~ }
+
+#~ __END__
+
+func f(k) {
+    k.divisors.first(-1).all {|d|
+        is_prob_squarefree(4**d - 3**d)
+        #is_squarefree(4**d - 3**d)
+    }
+}
+
+for k in (1..30000) {
+    var t = (4**k - 3**k)
+
+    if (!t.is_prob_squarefree(1e6) && !t.is_prob_squarefree && f(k)) {
+        print(k, ", ")
+    }
+}

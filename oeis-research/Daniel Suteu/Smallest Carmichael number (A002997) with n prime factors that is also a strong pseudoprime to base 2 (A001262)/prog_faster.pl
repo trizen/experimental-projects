@@ -154,13 +154,13 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
 
     say "# Sieving range: [$A, $B]";
 
-    # Case where 2^d == 1 (mod p), where d is the odd part of p-1.
-    $generator->(Math::GMPz->new(1), Math::GMPz->new(1), 2, $k, 0, 1);
-
     # Cases where 2^(d * 2^v) == -1 (mod p), for some v >= 0.
-    foreach my $v (0 .. logint($B, 2)) {
+    foreach my $v (reverse(0 .. logint($B, 2))) {
         $generator->(Math::GMPz->new(1), Math::GMPz->new(1), 2, $k, $v, -1);
     }
+
+    # Case where 2^d == 1 (mod p), where d is the odd part of p-1.
+    $generator->(Math::GMPz->new(1), Math::GMPz->new(1), 2, $k, 0, 1);
 }
 
 my $k = 14;
@@ -176,7 +176,7 @@ while (1) {
 
     if (@found) {
         @found = sort { $a <=> $b } @found;
-        say "Terms: @found";
+        #say "Terms: @found";
         say "a($k) = $found[0]";
         last;
     }

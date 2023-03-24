@@ -1,0 +1,61 @@
+#!/usr/bin/ruby
+
+# Square array A(n, k) read by antidiagonals downwards: smallest base-n strong Fermat pseudoprime with k distinct prime factors for k, n >= 2.
+
+# See also:
+#   https://oeis.org/A271873
+
+#`(
+
+# PARI/GP program:
+
+strong_check(p, base, e, r) = my(tv=valuation(p-1, 2)); tv > e && Mod(base, p)^((p-1)>>(tv-e)) == r;
+strong_fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, lo, k, e, r) = my(list=List()); my(hi=sqrtnint(B\m, k)); if(lo > hi, return(list)); if(k==1, forstep(p=lift(1/Mod(m, l)), hi, l, if(isprimepower(p) && gcd(m*base, p) == 1 && strong_check(p, base, e, r), my(n=m*p); if(n >= A && (n-1) % znorder(Mod(base, p)) == 0, listput(list, n)))), forprime(p=lo, hi, base%p == 0 && next; strong_check(p, base, e, r) || next; my(z=znorder(Mod(base, p))); gcd(m,z) == 1 || next; my(q=p, v=m*p); while(v <= B, list=concat(list, f(v, lcm(l, z), p+1, k-1, e, r)); q *= p; Mod(base, q)^z == 1 || break; v *= p))); list); my(res=f(1, 1, 2, k, 0, 1)); for(v=0, logint(B, 2), res=concat(res, f(1, 1, 2, k, v, -1))); vecsort(Set(res));
+T(n, k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=strong_fermat_psp(x, y, k, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
+for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
+
+)
+
+func T(n,k) {       # OEIS: A271873
+    if (n < 2) {
+        return []
+    }
+
+    var x = 1
+    var y = 2*x
+
+    loop {
+        var v = k.strong_fermat_psp(n,x,y)
+        v.len >= 1 && return v[0]
+        x = y+1
+        y = 2*x
+    }
+}
+
+say "\nTable:\n"
+
+{|x| {|y| T(x,y) }.map(2..6) }.map(2..6).each{.say}
+
+say "\nTerms:\n"
+
+{|k|
+    {|n|
+        print(T(n, k - n + 2), ", ")
+    }.map(2..k)
+}.map(2..14).flat,
+
+say ''
+
+__END__
+Table:
+
+[2047, 15841, 800605, 293609485, 10761055201]
+[703, 8911, 152551, 41341321, 12283706701]
+[341, 4371, 129921, 9224391, 2592053871]
+[781, 24211, 4382191, 381347461, 9075517561]
+[217, 29341, 3405961, 557795161, 333515107081]
+
+Terms:
+
+2047, 15841, 703, 800605, 8911, 341, 293609485, 152551, 4371, 781, 10761055201, 41341321, 129921, 24211, 217, 5478598723585, 12283706701, 9224391, 4382191, 29341, 325, 713808066913201, 1064404682551, 2592053871, 381347461, 3405961, 58825, 65, 90614118359482705, 19142275066201, 201068525791, 9075517561, 557795161, 1611805, 15841, 91, 5993318051893040401, 31475449738947061, 15804698567581, 2459465259031, 333515107081, 299048101, 205465, 1729, 91, 24325630440506854886701, 5405254780334022901, 8211666556476901, 1009614375233101, 17075314684351, 451698887431, 62338081, 63973, 1729, 133, 27146803388402594456683201, 649053318057640906411, 285574887575981641, 97383398181018301, 2805619369385521, 37388680793101, 10761055201, 20821801, 251251, 50997, 91, 4365221464536367089854499301, 512362775244582336338551, 350010251220384686701, 11290262679772872301, 364410024106892401, 5290810955703001, 1387708021141, 130027051, 67976623, 111055, 1729, 85,

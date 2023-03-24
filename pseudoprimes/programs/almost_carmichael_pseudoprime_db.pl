@@ -69,7 +69,7 @@ dbmclose(%db);
 
 say "\nFinal results:";
 
-foreach my $i(0..$#table) {
+foreach my $i (0..$#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }
