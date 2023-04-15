@@ -1,0 +1,56 @@
+#!/usr/bin/ruby
+
+# Generate parameterized Carmichael numbers with 3 prime factors, of the form:
+#   (a*m + 1) * (b*m + 1) * (c*m + 1)
+
+var k = Poly(1)
+
+for a in (2 .. 100), b in (a.inc .. 100), c in (b.inc .. 100) {
+
+    {|m| [a*m + 1, b*m + 1, c*m + 1] }.map(1..10).all{.all{.is_odd}} || next
+
+    var t = ((a*k + 1) * (b*k + 1) * (c*k + 1))
+    var tm1 = t-1
+
+    if ((tm1 % (a*k) == 0) && (tm1 % (b*k) == 0) && (tm1 % (c*k) == 0)) {
+
+        1..100 -> any {|m|
+            t.eval(m).is_carmichael
+        } || next
+
+        var from = [cubic_formula(t.coeffs.flip.first(-1).map{.tail}..., 1 - 2**64)].map{.abs}.min.ceil.int
+        #var from = { t.eval(_) <=> 2**64 }.bsearch_ge
+
+        say "# #{t}"
+
+        for k in (from .. (from + 1e6)) {
+            var m = [(a*k + 1), (b*k + 1), (c*k + 1)]
+            say m.prod if (m.all_prime && m.prod.is_carmichael)
+        }
+    }
+}
+
+__END__
+
+for n in (10165..1e7) {
+    #var m = [(6*n + 1),(18*n + 1),(54*n.sqr + 12*n + 1)]
+    var m = [(6*n + 1),(12*n + 1),(24*n.sqr + 6*n + 1)]
+    say m.prod if m.all_prime
+}
+
+# Several such polynomials:
+#   48*x^3 + 44*x^2 + 12*x + 1
+#   80*x^3 + 68*x^2 + 16*x + 1
+#   112*x^3 + 92*x^2 + 20*x + 1
+#   144*x^3 + 116*x^2 + 24*x + 1
+#   208*x^3 + 164*x^2 + 32*x + 1
+#   240*x^3 + 188*x^2 + 36*x + 1
+#   272*x^3 + 212*x^2 + 40*x + 1
+#   336*x^3 + 260*x^2 + 48*x + 1
+#   400*x^3 + 308*x^2 + 56*x + 1
+#   432*x^3 + 332*x^2 + 60*x + 1
+#   464*x^3 + 356*x^2 + 64*x + 1
+#   560*x^3 + 428*x^2 + 76*x + 1
+#   592*x^3 + 452*x^2 + 80*x + 1
+#   720*x^3 + 548*x^2 + 96*x + 1
+#   784*x^3 + 596*x^2 + 104*x + 1

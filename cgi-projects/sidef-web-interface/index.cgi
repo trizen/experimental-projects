@@ -10,7 +10,7 @@ use strict;
 #use warnings;
 
 use CGI qw(:standard -utf8);
-use CGI::Carp qw(fatalsToBrowser);
+#use CGI::Carp qw(fatalsToBrowser);
 
 use autouse 'File::Slurp' => qw(read_file);
 use autouse 'URI::Escape' => qw(uri_escape);
@@ -19,6 +19,7 @@ use autouse 'Encode'      => qw(decode_utf8);
 use Capture::Tiny qw(capture);
 use File::Basename qw(basename);
 use File::Spec::Functions qw(catdir catfile);
+use HTML::Entities qw(encode_entities);
 
 # Path where Sidef exists (when not installed)
 #use lib qw(/home/user/Sidef/lib);
@@ -66,7 +67,7 @@ print header(
                {-src => 'css/iconFont.min.css'},
               ],
     -script => [
-        {-src => 'js/jquery-2.1.3.min.js'},
+        {-src => 'js/jquery-3.6.0.min.js'},
 
         #{-src => 'js/jquery.mousewheel.js'},
         {-src => 'js/jquery.widget.min.js'},
@@ -140,7 +141,7 @@ print a({-href => $ENV{SCRIPT_NAME}}, h1("Sidef"));
 print start_form(
                  -method          => 'POST',
                  -action          => 'index.cgi',
-                 'accept-charset' => "UTF-8"
+                 'accept-charset' => "UTF-8",
                 ),
   textarea(
            -name    => 'code',
@@ -224,7 +225,7 @@ if (param) {
 
         if ($errors ne '') {
             chomp($errors);
-            print pre($errors);
+            print pre(encode_entities($errors));
             print hr;
             $errors = '';
         }
@@ -234,12 +235,12 @@ if (param) {
 
             if ($errors ne "") {
                 chomp($errors);
-                print pre($errors);
+                print pre(encode_entities($errors));
                 print hr;
             }
 
             if (defined $output and $output ne '') {
-                print pre($output);
+                print pre(encode_entities($output));
             }
         }
     }

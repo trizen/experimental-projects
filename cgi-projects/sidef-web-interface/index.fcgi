@@ -23,6 +23,7 @@ use Encode qw(decode_utf8);
 use Capture::Tiny qw(capture);
 use File::Basename qw(basename);
 use File::Spec::Functions qw(catdir catfile);
+use HTML::Entities qw(encode_entities);
 
 # Path where Sidef exists (when not installed)
 #use lib qw(/home/user/Sidef/lib);
@@ -164,12 +165,8 @@ while (my $c = CGI::Fast->new) {
                    {-src => 'css/iconFont.min.css'},
                   ],
         -script => [
-            {-src => 'js/jquery-2.1.3.min.js'},
-
-            #{-src => 'js/jquery.mousewheel.js'},
+            {-src => 'js/jquery-3.6.0.min.js'},
             {-src => 'js/jquery.widget.min.js'},
-
-            #{-src => 'js/jquery.autosize.min.js'},
             {-src => 'min/metro.min.js'},
             {-src => 'js/metro-dropdown.js'},
             {-src => 'js/tabby.js'},
@@ -227,7 +224,7 @@ CODE
 
         if ($errors ne '') {
             chomp($errors);
-            print pre($errors);
+            print pre(encode_entities($errors));
             print hr;
             $errors = '';
         }
@@ -237,12 +234,12 @@ CODE
 
             if ($errors ne "") {
                 chomp($errors);
-                print pre($errors);
+                print pre(encode_entities($errors));
                 print hr;
             }
 
             if (defined $output and $output ne '') {
-                print pre($output);
+                print pre(encode_entities($output));
             }
         }
     }

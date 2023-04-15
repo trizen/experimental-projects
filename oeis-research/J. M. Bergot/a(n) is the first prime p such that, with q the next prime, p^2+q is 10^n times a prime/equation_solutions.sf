@@ -126,6 +126,7 @@ func a(n, d=8, max=nil) {
 
     #for x in (solve_modular_quadratic(1, 1, d, f)) {
     for x in (modular_quadratic_formula(1, 1, d, f) + solve_modular_quadratic(1, 1, d, f) -> sort.uniq) {
+    #for x in (modular_quadratic_formula(1, 1, d, f)) {
 
         defined(max) && (x > max) && break
 

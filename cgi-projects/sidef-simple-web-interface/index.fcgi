@@ -5,12 +5,13 @@
 use utf8;
 use 5.018;
 use strict;
-use autodie;
+#use autodie;
 
 use CGI::Fast;
 use CGI qw(:standard -utf8);
-use CGI::Carp qw(fatalsToBrowser);
+#use CGI::Carp qw(fatalsToBrowser);
 use Capture::Tiny qw(capture);
+use HTML::Entities qw(encode_entities);
 
 # Path where Sidef exists (when not installed)
 #use lib qw(/home/user/Sidef/lib);
@@ -81,9 +82,8 @@ while (my $c = CGI::Fast->new) {
                  -style  => [{-src => 'css/main.css'}],
                  -script => [
                              {
-                              -src => 'js/jquery-2.1.3.min.js',
+                              -src => 'js/jquery-3.6.0.min.js',
                              },
-                             {-src => 'js/jquery.autosize.min.js'},
                              {
                               -src => 'js/tabby.js',
                              },
@@ -119,7 +119,7 @@ while (my $c = CGI::Fast->new) {
 
         if ($errors ne '') {
             chomp($errors);
-            print pre($errors);
+            print pre(encode_entities($errors));
             print hr;
             $errors = '';
         }
@@ -129,12 +129,12 @@ while (my $c = CGI::Fast->new) {
 
             if ($errors ne "") {
                 chomp($errors);
-                print pre($errors);
+                print pre(encode_entities($errors));
                 print hr;
             }
 
             if (defined $output and $output ne '') {
-                print pre($output);
+                print pre(encode_entities($output));
             }
         }
     }

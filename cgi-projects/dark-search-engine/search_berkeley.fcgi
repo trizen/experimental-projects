@@ -21,16 +21,6 @@
 #   --fix-index         : fix the index in case it gets messed up (slow operation)
 #   --sanitize-index    : sanitize the index and show some stats
 
-# To repair a database, in case it gets corrupted, use:
-#   $ gdbmtool [filename.db]
-#   gdbmtool> recover summary
-#   gdbmtool> quit
-
-# The index database grows quite large over time. To optimize its size, run:
-#   $ gdbmtool [filename.db]
-#   gdbmtool> reorganize
-#   gdbmtool> quit
-
 # Limitations:
 #   - the search engine cannot be used while the crawler is being used
 #   - the crawler cannot be used while the search engine is being used
@@ -47,14 +37,12 @@
 #       https://yewtu.be/watch?v=PkjuJZSrudE
 
 use utf8;
-use 5.020;
-use strict;
-use warnings;
-
-#use autodie;
+use 5.036;
 
 no warnings qw(once);
-use experimental qw(signatures);
+
+#use autodie;
+#use experimental qw(signatures);
 
 use CGI::Fast;
 use CGI qw/:standard *table -utf8/;
@@ -65,24 +53,19 @@ use CGI qw/:standard *table -utf8/;
 #use IO::Uncompress::UnZstd qw(unzstd);
 #use URI::Escape qw(uri_escape_utf8);
 
-use WWW::Mechanize;
-use WWW::RobotRules;
+#use WWW::Mechanize;
+#use WWW::RobotRules;
 
-use File::Basename        qw(dirname);
-use File::Spec::Functions qw(rel2abs catdir);
-use Text::Unidecode       qw(unidecode);
-use Text::ParseWords      qw(quotewords);
-use HTML::Entities        qw(encode_entities);
-use Time::HiRes           qw(gettimeofday tv_interval);
+use Text::Unidecode  qw(unidecode);
+use Text::ParseWords qw(quotewords);
+use HTML::Entities   qw(encode_entities);
+use Time::HiRes      qw(gettimeofday tv_interval);
 
 use ntheory    qw(forcomb binomial);
 use List::Util qw(uniq max);
 
-#use JSON::XS qw(decode_json encode_json);
-
-use Storable       qw(freeze thaw);
-use Encode         qw(decode_utf8 encode_utf8);
-use Digest::xxHash qw(xxhash32_hex);
+use JSON::XS qw(decode_json encode_json);
+use Encode   qw(decode_utf8 encode_utf8);
 
 use constant {
 
@@ -183,107 +166,116 @@ my %hostname_alternatives = (
                             );
 
 my $cookie_file     = 'cookies.txt';
-my $crawled_db_file = "crawled.db";
-my $index_db_file   = "index-content.db";
+my $crawled_db_file = "content_berkeley.db";
+my $index_db_file   = "index_berkeley.db";
 
-$index_db_file   = xxhash32_hex($index_db_file,   XXHASH_SEED) . ".db";
-$crawled_db_file = xxhash32_hex($crawled_db_file, XXHASH_SEED) . ".db";
+use DB_File;
 
-use GDBM_File;
+my $DB_OPTIONS = O_RDONLY;
 
-#my $GDBM_OPTIONS = &GDBM_WRCREAT | &GDBM_SYNC;
-#my $GDBM_OPTIONS = &GDBM_WRCREAT;
+if (@ARGV) {
+    $DB_OPTIONS = O_CREAT | O_RDWR;
+}
 
-my $GDBM_OPTIONS = &GDBM_READER;
+tie(my %CONTENT_DB, 'DB_File', $crawled_db_file, $DB_OPTIONS, 0666, $DB_HASH)
+  or die "Can't create/access database <<$crawled_db_file>>: $!";
+
+tie(my %WORDS_INDEX, 'DB_File', $index_db_file, $DB_OPTIONS, 0666, $DB_HASH)
+  or die "Can't create/access database <<$index_db_file>>: $!";
+
+my ($mech, $lwp, $robot_rules);
 
 if (@ARGV) {
 
-    #$GDBM_OPTIONS = &GDBM_WRCREAT | &GDBM_SYNC;
-    $GDBM_OPTIONS = &GDBM_WRCREAT;
-}
+    my %mech_options = (
+                        timeout       => 20,
+                        autocheck     => 0,
+                        show_progress => 1,
+                        stack_depth   => 10,
+                        cookie_jar    => {},
+                        ssl_opts      => {verify_hostname => SSL_VERIFY_HOSTNAME, Timeout => 20},
+                        agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                       );
 
-tie(my %CONTENT_DB, 'GDBM_File', $crawled_db_file, $GDBM_OPTIONS, 0777)
-  or die "Can't create/access database <<$crawled_db_file>>: $!";
+    if (CACHE) {
 
-tie(my %WORDS_INDEX, 'GDBM_File', $index_db_file, $GDBM_OPTIONS, 0777)
-  or die "Can't create/access database <<$index_db_file>>: $!";
+        require File::Basename;
+        require File::Spec::Functions;
 
-#eval { require GDBM_File };
-#~ eval { require DB_File };
+        require CHI;
+        require WWW::Mechanize::Cached;
 
-#~ dbmopen(my %CONTENT_DB, $crawled_db_file, 0777)
-#~ or die "Can't create/access database <<$crawled_db_file>>: $!";
+        my $cache = CHI->new(
+                driver   => 'BerkeleyDB',
+                root_dir => File::Spec::Functions::catdir(File::Basename::dirname(File::Spec::Functions::rel2abs($0)), 'cache')
+        );
 
-#~ dbmopen(my %WORDS_INDEX, $index_db_file, 0777)
-#~ or die "Can't create/access database <<$index_db_file>>: $!";
+        $mech = WWW::Mechanize::Cached->new(%mech_options, cache => $cache);
 
-#~ use DB_File;
-
-#~ tie(my %CONTENT_DB, 'DB_File', $crawled_db_file, O_CREAT|O_RDWR, 0777)
-#~ or die "Can't create/access database <<$crawled_db_file>>: $!";
-
-#~ tie(my %WORDS_INDEX, 'DB_File', $index_db_file, O_CREAT|O_RDWR, 0777)
-#~ or die "Can't create/access database <<$index_db_file>>: $!";
-
-my $mech;
-my %mech_options = (
-                    timeout       => 20,
-                    autocheck     => 0,
-                    show_progress => 1,
-                    stack_depth   => 10,
-                    cookie_jar    => {},
-                    ssl_opts      => {verify_hostname => SSL_VERIFY_HOSTNAME, Timeout => 20},
-                    agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
-                   );
-
-if (CACHE) {
-
-    require CHI;
-    require WWW::Mechanize::Cached;
-
-    my $cache = CHI->new(driver   => 'BerkeleyDB',
-                         root_dir => catdir(dirname(rel2abs($0)), 'cache'));
-
-    $mech = WWW::Mechanize::Cached->new(%mech_options, cache => $cache);
-
-}
-else {
-    $mech = WWW::Mechanize->new(%mech_options);
-}
-
-my $lwp = LWP::UserAgent->new(%mech_options);
-
-if (USE_TOR) {    # set Tor proxy
-    $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
-    $lwp->proxy(['http', 'https'], "socks://127.0.0.1:9050");
-}
-
-my $robot_rules = WWW::RobotRules->new($mech->agent);
-
-{
-    state $accepted_encodings = HTTP::Message::decodable();
-
-    my %default_headers = (
-                           'Accept-Encoding' => $accepted_encodings,
-                           'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                           'Accept-Language' => 'en-US,en;q=0.5',
-                           'Connection'      => 'keep-alive',
-                           'Upgrade-Insecure-Requests' => '1',
-                          );
-
-    foreach my $key (sort keys %default_headers) {
-        $mech->default_header($key, $default_headers{$key});
-        $lwp->default_header($key, $default_headers{$key});
     }
-};
+    else {
+        require WWW::Mechanize;
+        $mech = WWW::Mechanize->new(%mech_options);
+    }
 
-{
-    require LWP::ConnCache;
-    my $cache = LWP::ConnCache->new;
-    $cache->total_capacity(undef);    # no limit
-    $mech->conn_cache($cache);
-    $lwp->conn_cache($cache);
-};
+    $lwp = LWP::UserAgent->new(%mech_options);
+
+    if (USE_TOR) {    # set Tor proxy
+        $mech->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+        $lwp->proxy(['http', 'https'], "socks://127.0.0.1:9050");
+    }
+
+    require WWW::RobotRules;
+    $robot_rules = WWW::RobotRules->new($mech->agent);
+
+    {
+        state $accepted_encodings = HTTP::Message::decodable();
+
+        my %default_headers = (
+                               'Accept-Encoding' => $accepted_encodings,
+                               'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                               'Accept-Language'           => 'en-US,en;q=0.5',
+                               'Connection'                => 'keep-alive',
+                               'Upgrade-Insecure-Requests' => '1',
+                              );
+
+        foreach my $key (sort keys %default_headers) {
+            $mech->default_header($key, $default_headers{$key});
+            $lwp->default_header($key, $default_headers{$key});
+        }
+    };
+
+    {
+        require LWP::ConnCache;
+        my $cache = LWP::ConnCache->new;
+        $cache->total_capacity(undef);    # no limit
+        $mech->conn_cache($cache);
+        $lwp->conn_cache($cache);
+    };
+
+    # Support for cookies from file
+    if (defined($cookie_file) and -f $cookie_file) {
+
+        ## Netscape HTTP Cookies
+
+        # Firefox extension:
+        #   https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/
+
+        # See also:
+        #   https://github.com/ytdl-org/youtube-dl#how-do-i-pass-cookies-to-youtube-dl
+
+        require HTTP::Cookies::Netscape;
+
+        my $cookies = HTTP::Cookies::Netscape->new(
+                                                   hide_cookie2 => 1,
+                                                   autosave     => 1,
+                                                   file         => $cookie_file,
+                                                  );
+
+        $cookies->load;
+        $mech->cookie_jar($cookies);
+    }
+}
 
 sub lwp_get ($url) {
     my $resp = $lwp->get($url);
@@ -291,29 +283,6 @@ sub lwp_get ($url) {
         return $resp->decoded_content;
     }
     return undef;
-}
-
-# Support for cookies from file
-if (defined($cookie_file) and -f $cookie_file) {
-
-    ## Netscape HTTP Cookies
-
-    # Firefox extension:
-    #   https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/
-
-    # See also:
-    #   https://github.com/ytdl-org/youtube-dl#how-do-i-pass-cookies-to-youtube-dl
-
-    require HTTP::Cookies::Netscape;
-
-    my $cookies = HTTP::Cookies::Netscape->new(
-                                               hide_cookie2 => 1,
-                                               autosave     => 1,
-                                               file         => $cookie_file,
-                                              );
-
-    $cookies->load;
-    $mech->cookie_jar($cookies);
 }
 
 sub extract_words ($text) {
@@ -339,7 +308,7 @@ sub zstd_decode ($zstd_data) {
 
 sub encode_content_entry ($entry) {
 
-    my $data = freeze($entry);
+    my $data = encode_json($entry);
 
     if (USE_ZSTD) {
         $data = zstd_encode($data);
@@ -356,7 +325,7 @@ sub decode_content_entry ($entry) {
         $data = zstd_decode($data);
     }
 
-    return thaw($data);
+    return decode_json($data);
 }
 
 sub encode_index_entry ($entry) {
@@ -534,7 +503,8 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
         return;
     }
 
-    my $id = xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
+    require Digest::xxHash;
+    my $id = Digest::xxHash::xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
 
     if (not $recrawl and $depth == 0 and exists $seen_url{$id}) {
         return 1;
@@ -971,6 +941,8 @@ if (@ARGV) {
         crawl($url, $depth, $recrawl);
     }
 
+    untie(%CONTENT_DB);
+    untie(%WORDS_INDEX);
     exit;
 }
 
@@ -1066,7 +1038,7 @@ while (my $c = CGI::Fast->new) {
   <div class="row">
     <div class="col-xs-12 col-md-8">
       <div class="input-group search-margin">
-        <input type="search" autofocus name="q" class="form-control" id="q" placeholder="Search for..." aria-label="Search for..." autocomplete="off" value="${\encode_entities($query // '')}" accesskey="s">
+        <input type="search" autofocus="" name="q" class="form-control autofocus" id="q" placeholder="${\encode_entities($query // '')}" aria-label="Search for..." autocomplete="off" value="" accesskey="s">
         <span class="input-group-btn">
             <button type="submit" class="btn btn-default" aria-label="Search"><span>Search</span></button>
         </span>
@@ -1131,11 +1103,12 @@ EOT
             {-class => "result_header"},
             a(
                {
-                -href   => encode_utf8($url),
-                -target => "_blank",
-                -rel    => "noopener noreferrer",
+                   #-href   => encode_utf8($url),
+                   -href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
+                   -target => "_blank",
+                   -rel    => "noopener noreferrer",
 
-                #(defined($result->{description}) ? (-class => 'popup') : ()),
+                   #(defined($result->{description}) ? (-class => 'popup') : ()),
                },
 
                #(defined($result->{description}) ? small(span(encode_utf8(encode_entities($result->{description})))) : ()),
@@ -1180,16 +1153,17 @@ EOT
 
         # Text only (cached version)
         say small(
-                  a(
-                    {
-                     -href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
-                     -class  => 'text-info',
-                     -target => '_blank',
-                     -rel    => 'noopener noreferrer',
-                    },
-                    "text",
-                   )
-                 );
+            a(
+               {
+                   #-href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
+                   -href   => encode_utf8($url),
+                   -class  => 'text-info',
+                   -target => '_blank',
+                   -rel    => 'noopener noreferrer',
+               },
+               "text",
+             )
+        );
 
         say q{<b> | </b>};
         say small("rank: $result->{score}");
