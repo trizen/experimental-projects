@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 # https://oeis.org/A076960
 
-
 # Number of primes <= n!.
 # https://oeis.org/A003604
 

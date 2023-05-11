@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# PARI/GP programs
+
+# a(n) = n - sum(k=1, sqrtint(n), moebius(k) * (n\k^2));
+# a(n) = my(s=0); forsquarefree(k=1, sqrtint(n), s += (-1)^(#k[2]~) * (n\k[1]^2)); n - s;
+
+func a(n) {
+    n.non_squarefree_count
+}
+
+func b(n) {
+    n - sum(1..n.isqrt, {|k|
+        moebius(k) * floor(n / k**2)
+    })
+}
+
+func f(n) {     # incorrect formula
+    var s = 0
+    each_prime(1..n.isqrt, {|p|
+        s += idiv(n, p**2)
+    })
+    s
+}
+
+say 40.of(a)
+say 40.of(b)
+say 40.of(f)

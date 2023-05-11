@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# Integers k such that the fractional part of (3/2)^k gives a new record for the closest value to the fractional part of Pi.
+# https://oeis.org/A359698
+
+# Known terms:
+#   1, 2, 4, 7, 24, 25, 27, 49, 189, 698, 5780, 9407, 13230, 17823, 19517, 23443, 177689, 240673, 1040418
+
+var record = Inf
+var pi = Num.pi
+var base = 3/2
+
+for k in (1..Inf) {
+
+    var r = base**k
+    r -= r.int
+
+    var d = abs(pi - 3 - r)
+
+    if (d < record) {
+        record = d
+        print(k, ", ")
+    }
+}

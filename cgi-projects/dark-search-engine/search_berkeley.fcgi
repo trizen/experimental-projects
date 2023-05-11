@@ -53,9 +53,6 @@ use CGI qw/:standard *table -utf8/;
 #use IO::Uncompress::UnZstd qw(unzstd);
 #use URI::Escape qw(uri_escape_utf8);
 
-#use WWW::Mechanize;
-#use WWW::RobotRules;
-
 use Text::Unidecode  qw(unidecode);
 use Text::ParseWords qw(quotewords);
 use HTML::Entities   qw(encode_entities);
@@ -177,11 +174,20 @@ if (@ARGV) {
     $DB_OPTIONS = O_CREAT | O_RDWR;
 }
 
-tie(my %CONTENT_DB, 'DB_File', $crawled_db_file, $DB_OPTIONS, 0666, $DB_HASH)
+my $content_db = tie(my %CONTENT_DB, 'DB_File', $crawled_db_file, $DB_OPTIONS, 0666, $DB_HASH)
   or die "Can't create/access database <<$crawled_db_file>>: $!";
 
-tie(my %WORDS_INDEX, 'DB_File', $index_db_file, $DB_OPTIONS, 0666, $DB_HASH)
+my $index_db = tie(my %WORDS_INDEX, 'DB_File', $index_db_file, $DB_OPTIONS, 0666, $DB_HASH)
   or die "Can't create/access database <<$index_db_file>>: $!";
+
+local $SIG{INT} = sub {
+    $index_db->sync;
+    $content_db->sync;
+
+    #untie %CONTENT_DB;
+    #untie %WORDS_INDEX;
+    exit;
+};
 
 my ($mech, $lwp, $robot_rules);
 
@@ -211,7 +217,6 @@ if (@ARGV) {
         );
 
         $mech = WWW::Mechanize::Cached->new(%mech_options, cache => $cache);
-
     }
     else {
         require WWW::Mechanize;
@@ -228,30 +233,26 @@ if (@ARGV) {
     require WWW::RobotRules;
     $robot_rules = WWW::RobotRules->new($mech->agent);
 
-    {
-        state $accepted_encodings = HTTP::Message::decodable();
+    state $accepted_encodings = HTTP::Message::decodable();
 
-        my %default_headers = (
-                               'Accept-Encoding' => $accepted_encodings,
-                               'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                               'Accept-Language'           => 'en-US,en;q=0.5',
-                               'Connection'                => 'keep-alive',
-                               'Upgrade-Insecure-Requests' => '1',
-                              );
+    my %default_headers = (
+                           'Accept-Encoding' => $accepted_encodings,
+                           'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                           'Accept-Language' => 'en-US,en;q=0.5',
+                           'Connection'      => 'keep-alive',
+                           'Upgrade-Insecure-Requests' => '1',
+                          );
 
-        foreach my $key (sort keys %default_headers) {
-            $mech->default_header($key, $default_headers{$key});
-            $lwp->default_header($key, $default_headers{$key});
-        }
-    };
+    foreach my $key (sort keys %default_headers) {
+        $mech->default_header($key, $default_headers{$key});
+        $lwp->default_header($key, $default_headers{$key});
+    }
 
-    {
-        require LWP::ConnCache;
-        my $cache = LWP::ConnCache->new;
-        $cache->total_capacity(undef);    # no limit
-        $mech->conn_cache($cache);
-        $lwp->conn_cache($cache);
-    };
+    require LWP::ConnCache;
+    my $cache = LWP::ConnCache->new;
+    $cache->total_capacity(undef);    # no limit
+    $mech->conn_cache($cache);
+    $lwp->conn_cache($cache);
 
     # Support for cookies from file
     if (defined($cookie_file) and -f $cookie_file) {
@@ -487,6 +488,10 @@ sub valid_content_type {
     $mech->is_html() or (lc($mech->content_type) =~ m{^(?:text/|message/)});
 }
 
+sub extract_protocol ($url) {
+    ("$url" =~ m{^https://}) ? 'https://' : 'http://';
+}
+
 sub crawl ($url, $depth = 0, $recrawl = 0) {
 
     state %seen_url;
@@ -533,13 +538,8 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code >= 400) {
         if ($url !~ m{^https://web\.archive\.org/}) {
             return
-              crawl(
-                    "https://web.archive.org/web/1990/"
-                      . (($url =~ m{^https://}) ? 'https://' : 'http://')
-                      . normalize_url($url),
-                    $depth,
-                    $recrawl
-                   );
+              crawl(join('', "https://web.archive.org/web/1990/", extract_protocol($url), normalize_url($url)),
+                    $depth, $recrawl);
         }
     }
 
@@ -554,7 +554,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     $url = sanitize_url("$url");
 
     my $normalized_url = normalize_url($url);
-    my $protocol       = (($url =~ m{^https://}) ? 'https://' : 'http://');
+    my $protocol       = extract_protocol($url);
 
     if ($recrawl or not exists $CONTENT_DB{$id}) {
 
@@ -619,13 +619,15 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
     if ($depth >= 1) {
 
-        my $host = $normalized_url =~ s{/.*}{}sr;
-        ## my $host = URI->new($url)->host;
+        if (RESPECT_ROBOT_RULES) {
+            my $host = $normalized_url =~ s{/.*}{}sr;
+            ## my $host = URI->new($url)->host;
 
-        my $robots_url = $protocol . join('/', $host, 'robots.txt');
-        my $robots_txt = lwp_get($robots_url);
+            my $robots_url = $protocol . join('/', $host, 'robots.txt');
+            my $robots_txt = lwp_get($robots_url);
 
-        $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
+            $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
+        }
 
         my @links = $mech->find_all_links(text_regex => qr/./);
 
@@ -845,10 +847,10 @@ sub search ($text) {
     # Keep entries with score > 0
     @sorted = grep { $_->{score} > 0 } @sorted;
 
-    # Prefer shorter URLs for results with the same score
+    # Prefer longer content for results with the same score
     @sorted = map { $_->[0] }
-      sort { ($b->[1] <=> $a->[1]) || ($a->[2] <=> $b->[2]) }
-      map { [$_, $_->{score}, length($_->{url})] } @sorted;
+      sort { ($b->[1] <=> $a->[1]) || ($b->[2] <=> $a->[2]) }
+      map { [$_, $_->{score}, length($_->{content})] } @sorted;
 
     # Fix some ArchWiki links
     foreach my $entry (@sorted) {
@@ -939,10 +941,12 @@ if (@ARGV) {
     foreach my $url (@ARGV) {
         warn "Crawling: $url\n";
         crawl($url, $depth, $recrawl);
+        $index_db->sync;
+        $content_db->sync;
     }
 
-    untie(%CONTENT_DB);
-    untie(%WORDS_INDEX);
+    #untie(%CONTENT_DB);
+    #untie(%WORDS_INDEX);
     exit;
 }
 

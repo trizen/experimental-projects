@@ -21,21 +21,6 @@
 #   --fix-index         : fix the index in case it gets messed up (slow operation)
 #   --sanitize-index    : sanitize the index and show some stats
 
-# To repair a database, in case it gets corrupted, use:
-#   $ gdbmtool [filename.db]
-#   gdbmtool> recover summary
-#   gdbmtool> quit
-
-# The index database grows quite large over time. To optimize its size, run:
-#   $ gdbmtool [filename.db]
-#   gdbmtool> reorganize
-#   gdbmtool> quit
-
-# Alternatively, to recover and reorganize the databses, execute:
-#   $ perl search.fcgi --recover
-#   $ perl search.fcgi --reorganize-index
-#   $ perl search.fcgi --reorganize-content
-
 # Limitations:
 #   - the search engine cannot be used while the crawler is being used
 #   - the crawler cannot be used while the search engine is being used
@@ -76,11 +61,8 @@ use Time::HiRes      qw(gettimeofday tv_interval);
 use ntheory    qw(forcomb binomial);
 use List::Util qw(uniq max);
 
-#use JSON::XS qw(decode_json encode_json);
-
-use Storable       qw(freeze thaw);
-use Encode         qw(decode_utf8 encode_utf8);
-use Digest::xxHash qw(xxhash32_hex);
+use JSON::XS qw(decode_json encode_json);
+use Encode   qw(decode_utf8 encode_utf8);
 
 use constant {
 
@@ -88,7 +70,7 @@ use constant {
     CACHE => 0,
 
     # Use Tor proxy for crawling (127.0.0.1:9050)
-    USE_TOR => 1,
+    USE_TOR => 0,
 
     # Compress the values of the content database with Zstandard.
     # When enabled, the content database will be ~3x smaller.
@@ -124,10 +106,10 @@ use constant {
     RANK_ON_CONTENT => 1,
 
     # Rank the results based on boundary matches (with \b)
-    RANK_ON_BOUNDARY_MATCH => 1,
+    RANK_ON_BOUNDARY_MATCH => 0,
 
     # Rank the results based on non-boundary matches (without \b)
-    RANK_ON_NON_BOUNDARY_MATCH => 0,
+    RANK_ON_NON_BOUNDARY_MATCH => 1,
 
     # Maximum number of iterations to spend during the ranking process.
     MAX_RANK_ITERATIONS => 10_000,
@@ -181,36 +163,29 @@ my %hostname_alternatives = (
                             );
 
 my $cookie_file     = 'cookies.txt';
-my $crawled_db_file = "crawled.db";
-my $index_db_file   = "index-content.db";
+my $crawled_db_file = "content_berkeley_deep.db";
+my $index_db_file   = "index_berkeley_deep.db";
 
-$index_db_file   = xxhash32_hex($index_db_file,   XXHASH_SEED) . ".db";
-$crawled_db_file = xxhash32_hex($crawled_db_file, XXHASH_SEED) . ".db";
+use DB_File;
 
-use GDBM_File;
-
-my $GDBM_OPTIONS = &GDBM_READER;
+my $DB_OPTIONS = O_RDONLY;
 
 if (@ARGV) {
-    $GDBM_OPTIONS = &GDBM_WRCREAT;
+    $DB_OPTIONS = O_CREAT | O_RDWR;
 }
 
-my $content_db = tie(my %CONTENT_DB, 'GDBM_File', $crawled_db_file, $GDBM_OPTIONS, 0666)
+my $content_db = tie(my %CONTENT_DB, 'DB_File', $crawled_db_file, $DB_OPTIONS, 0666, $DB_HASH)
   or die "Can't create/access database <<$crawled_db_file>>: $!";
 
-my $index_db = tie(my %WORDS_INDEX, 'GDBM_File', $index_db_file, $GDBM_OPTIONS, 0666)
+my $index_db = tie(my %WORDS_INDEX, 'DB_File', $index_db_file, $DB_OPTIONS, 0666, $DB_HASH)
   or die "Can't create/access database <<$index_db_file>>: $!";
 
 local $SIG{INT} = sub {
-
     $index_db->sync;
     $content_db->sync;
 
-    $index_db->close;
-    $content_db->close;
-
-    untie %CONTENT_DB;
-    untie %WORDS_INDEX;
+    #untie %CONTENT_DB;
+    #untie %WORDS_INDEX;
     exit;
 };
 
@@ -334,7 +309,7 @@ sub zstd_decode ($zstd_data) {
 
 sub encode_content_entry ($entry) {
 
-    my $data = freeze($entry);
+    my $data = encode_json($entry);
 
     if (USE_ZSTD) {
         $data = zstd_encode($data);
@@ -351,7 +326,7 @@ sub decode_content_entry ($entry) {
         $data = zstd_decode($data);
     }
 
-    return thaw($data);
+    return decode_json($data);
 }
 
 sub encode_index_entry ($entry) {
@@ -513,13 +488,15 @@ sub valid_content_type {
     $mech->is_html() or (lc($mech->content_type) =~ m{^(?:text/|message/)});
 }
 
+sub extract_hostname ($url) {
+    normalize_url(sanitize_url("$url")) =~ s{/.*}{}sr;
+}
+
 sub extract_protocol ($url) {
     ("$url" =~ m{^https://}) ? 'https://' : 'http://';
 }
 
-sub crawl ($url, $depth = 0, $recrawl = 0) {
-
-    state %seen_url;
+sub crawl ($url, $seen_hostname = {}) {
 
     # Must be http:// or https://
     $url =~ m{^https?://} or return;
@@ -533,18 +510,11 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
         return;
     }
 
-    my $id = xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
+    require Digest::xxHash;
+    my $id = Digest::xxHash::xxhash32_hex(encode_utf8(normalize_url($url)), XXHASH_SEED);
 
-    if (not $recrawl and $depth == 0 and exists $seen_url{$id}) {
+    if (keys(%$seen_hostname) and exists($CONTENT_DB{$id})) {
         return 1;
-    }
-
-    $seen_url{$id} = 1;
-
-    if ($depth == 0 and exists $CONTENT_DB{$id}) {
-        if (not $recrawl) {
-            return 1;
-        }
     }
 
     my $resp = $mech->head($url);
@@ -561,9 +531,8 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     # On HTTP 400+ errors, try again with WebArchive
     if (CRAWL_ARCHIVE_FORBIDDEN and $resp->code >= 400) {
         if ($url !~ m{^https://web\.archive\.org/}) {
-            return
-              crawl(join('', "https://web.archive.org/web/1990/", extract_protocol($url), normalize_url($url)),
-                    $depth, $recrawl);
+            return crawl(join('', "https://web.archive.org/web/1990/", extract_protocol($url), normalize_url($url)),
+                         $seen_hostname);
         }
     }
 
@@ -580,7 +549,7 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
     my $normalized_url = normalize_url($url);
     my $protocol       = extract_protocol($url);
 
-    if ($recrawl or not exists $CONTENT_DB{$id}) {
+    if (not exists $CONTENT_DB{$id}) {
 
         my %info;
         my $decoded_content = $resp->decoded_content() // $resp->content() // return;
@@ -631,33 +600,32 @@ sub crawl ($url, $depth = 0, $recrawl = 0) {
 
         my $relevant_content = join(' ', unidecode($normalized_url), unidecode($info{title}), $info{content});
 
-        if ($recrawl) {
-            readd_to_database_index($relevant_content, $id);
-        }
-        else {
-            add_to_database_index($relevant_content, $id);
-        }
-
+        add_to_database_index($relevant_content, $id);
         $CONTENT_DB{$id} = encode_content_entry(\%info);
     }
 
-    if ($depth >= 1) {
+    if (RESPECT_ROBOT_RULES) {
+        my $host = $normalized_url =~ s{/.*}{}sr;
+        ## my $host = URI->new($url)->host;
 
-        if (RESPECT_ROBOT_RULES) {
-            my $host = $normalized_url =~ s{/.*}{}sr;
-            ## my $host = URI->new($url)->host;
+        $seen_hostname->{$host} = 1;
 
-            my $robots_url = $protocol . join('/', $host, 'robots.txt');
-            my $robots_txt = lwp_get($robots_url);
+        my $robots_url = $protocol . join('/', $host, 'robots.txt');
+        my $robots_txt = lwp_get($robots_url);
 
-            $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
-        }
+        $robot_rules->parse($robots_url, $robots_txt) if defined($robots_txt);
+    }
 
-        my @links = $mech->find_all_links(text_regex => qr/./);
+    my @links = $mech->find_all_links(text_regex => qr/./);
 
-        foreach my $link (@links) {
-            crawl(join('', $link->url_abs), $depth - 1, $recrawl);
-        }
+    foreach my $link (@links) {
+
+        my $abs_url = join('', $link->url_abs);
+        my $host    = extract_hostname($abs_url);
+
+        next if $seen_hostname->{$host};
+        crawl($abs_url, $seen_hostname);
+        $seen_hostname->{$host} = 1;
     }
 
     return 1;
@@ -940,45 +908,8 @@ sub sanitize_index {
 
 if (@ARGV) {
 
-    my $depth   = 0;
-    my $recrawl = 0;
-
     require Getopt::Long;
     Getopt::Long::GetOptions(
-
-        "depth=i"    => \$depth,
-        "r|recrawl!" => \$recrawl,
-
-        'reorganize-index!' => sub {
-            warn "Reorganizing index database...\n";
-            $index_db->reorganize;
-            exit;
-        },
-
-        'reorganize-content!' => sub {
-            warn "Reorganizing content database...\n";
-            $content_db->reorganize;
-            exit;
-        },
-
-        'recover!' => sub {
-            warn "Recovering databse...\n";
-            if ($index_db->needs_recovery) {
-                warn "Recovering indexDB...\n";
-                $index_db->recover();
-            }
-            else {
-                warn "IndexDB does not need recovery...\n";
-            }
-            if ($content_db->needs_recovery) {
-                warn "Recovering contentDB...\n";
-                $content_db->recover();
-            }
-            else {
-                warn "ContentDB does not need recovery...\n";
-            }
-            exit;
-        },
 
         "sanitize-index" => sub {
             warn "Sanitzing index...\n";
@@ -995,11 +926,13 @@ if (@ARGV) {
 
     foreach my $url (@ARGV) {
         warn "Crawling: $url\n";
-        crawl($url, $depth, $recrawl);
+        crawl($url);
+        $index_db->sync;
+        $content_db->sync;
     }
 
-    untie(%CONTENT_DB);
-    untie(%WORDS_INDEX);
+    #untie(%CONTENT_DB);
+    #untie(%WORDS_INDEX);
     exit;
 }
 
@@ -1095,7 +1028,7 @@ while (my $c = CGI::Fast->new) {
   <div class="row">
     <div class="col-xs-12 col-md-8">
       <div class="input-group search-margin">
-        <input type="search" autofocus name="q" class="form-control" id="q" placeholder="Search for..." aria-label="Search for..." autocomplete="off" value="${\encode_entities($query // '')}" accesskey="s">
+        <input type="search" autofocus="" name="q" class="form-control autofocus" id="q" placeholder="${\encode_entities($query // '')}" aria-label="Search for..." autocomplete="off" value="" accesskey="s">
         <span class="input-group-btn">
             <button type="submit" class="btn btn-default" aria-label="Search"><span>Search</span></button>
         </span>
@@ -1160,11 +1093,12 @@ EOT
             {-class => "result_header"},
             a(
                {
-                -href   => encode_utf8($url),
-                -target => "_blank",
-                -rel    => "noopener noreferrer",
+                   #-href   => encode_utf8($url),
+                   -href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
+                   -target => "_blank",
+                   -rel    => "noopener noreferrer",
 
-                #(defined($result->{description}) ? (-class => 'popup') : ()),
+                   #(defined($result->{description}) ? (-class => 'popup') : ()),
                },
 
                #(defined($result->{description}) ? small(span(encode_utf8(encode_entities($result->{description})))) : ()),
@@ -1209,16 +1143,17 @@ EOT
 
         # Text only (cached version)
         say small(
-                  a(
-                    {
-                     -href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
-                     -class  => 'text-info',
-                     -target => '_blank',
-                     -rel    => 'noopener noreferrer',
-                    },
-                    "text",
-                   )
-                 );
+            a(
+               {
+                   #-href   => "$ENV{SCRIPT_NAME}?text=" . $result->{id},
+                   -href   => encode_utf8($url),
+                   -class  => 'text-info',
+                   -target => '_blank',
+                   -rel    => 'noopener noreferrer',
+               },
+               "text",
+             )
+        );
 
         say q{<b> | </b>};
         say small("rank: $result->{score}");
