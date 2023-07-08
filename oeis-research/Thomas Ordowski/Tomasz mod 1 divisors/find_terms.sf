@@ -44,7 +44,7 @@ for n in (5) {
                 f = t.ecm_factor
             }
 
-            say f.ft(0,-2)
+            say f.slice(0,-1)
 
             (f[-1]%k == 1) && ((orig/f[-1])%k == 1) || do {
                 say "Last factor counter-example";
@@ -55,13 +55,13 @@ for n in (5) {
            # say f
             assert(f.len > 1)
 
-            f.ft(0,-2).all {|d|
+            f.slice(0,-1).all {|d|
                 (d%k == 1) &&
                 ((orig/d)%k == 1) && d.divisors.all {|d|
                     (d%k == 1) && ((orig/d)%k == 1)
                 }
             } || do {
-                #say "Counter-example for k=#{k} with #{f.ft(-1)}"
+                #say "Counter-example for k=#{k} with #{f.slice(-1)}"
                 ok = false
                 break
             }

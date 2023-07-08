@@ -26,7 +26,7 @@ func lucasU_kth_order(k, n, m, *params) {
 func lucasV_kth_order(k, n, m, *params) {
     var A = fibonacci_matrix(k)
     A[-1] = params.flip
-    var V = Matrix.column_vector(2, params.ft(0,-2)...)
+    var V = Matrix.column_vector(2, params.slice(0,-1)...)
     var B = A.powmod(n, m)*V
     B.flat
 }

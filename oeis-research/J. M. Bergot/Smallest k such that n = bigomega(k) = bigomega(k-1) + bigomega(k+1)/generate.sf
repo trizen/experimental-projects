@@ -3,13 +3,18 @@
 # a(n) is the first k such that n = Omega(k) = Omega(k-1) + Omega(k+1), or 0 if there is no such k, where Omega is A001222.
 # https://oeis.org/A338302
 
+# New terms:
+#   a(20) = 96467701761
+#   a(21) = 2558408523776
+#   a(22) = 4857090670593
+
 # a(20) <= 816982654976
 # a(21) <= 2558408523776
 # a(22) <= 5707559600128
 # a(23) <= 24607835029504
 
-var n = 20
-var limit = 816982654976
+var n = 22
+var limit = 5707559600128
 
 say n.almost_prime_count(limit).log10
 

@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Numbers k such that tau(k) + tau(Fibonacci(k)) is in A001248, where tau(k) is the number of divisors of k.
+# https://oeis.org/A362697
+
+# Known terms:
+#   3, 5, 7, 11, 13, 17, 23, 25, 29, 36, 43, 47, 83, 131, 137, 359, 431, 433, 449, 509, 569, 571
+
+# Next terms is > 1422.
+
+include("../../../factordb/auto.sf")
+
+for k in (1..10000) {
+    var t = (sigma(k.fib, 0) + k.sigma0)
+    #var s = try { sigma(k.fib, 0) } \\ next
+    #var t = (s + k.sigma0)
+
+    if (t.is_square && t.isqrt.is_prime) {
+        print(k, ", ")
+    }
+}

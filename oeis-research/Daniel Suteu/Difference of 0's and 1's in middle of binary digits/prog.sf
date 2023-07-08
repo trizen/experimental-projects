@@ -12,7 +12,7 @@
 func b(n) is cached {
     return 0 if (n == 0)
     return 0 if (n == 1)
-    var t = n.as_bin.chars.ft(1, -2)
+    var t = n.as_bin.chars.slice(1, -1)
     b(n-1) + (t.count('0') - t.count('1'))
 }
 
@@ -92,7 +92,7 @@ for k in (1..1000) {
 __END__
 
 func g(n) {
-    var t = n.as_bin.chars.ft(1, -2)
+    var t = n.as_bin.chars.slice(1, -1)
     t.count('0') - t.count('1')
 }
 
@@ -107,7 +107,7 @@ __END__
 func f(n) is cached {
     n == 0 && return 0
     #n ==  && return 0
-    #var t = n.as_bin.chars.ft(1, -2)
+    #var t = n.as_bin.chars.slice(1, -1)
     #f(n-1) + t.count('0') - t.count('1')
     f(n-1) + g(n.prime)
 
