@@ -15,16 +15,34 @@
 #   a(20) = 63685431525375
 #   a(21) = 45922887663615
 
+# New terms (2023):
+#   a(22) = 1956754664980479
+#   a(23) = 30987856352641023
+
 # Lower-bounds:
 #   a(22) > 1377686629908450
+#   a(23) > 23131806279931653
+#   a(24) > 5451438573140647
+
+=for comment
+
+# PARI/GP program:
+
+generate(A, B, n, k) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p, ceil(A/m)), B\m, if(bigomega(m*q-1) == k, listput(list, m*q-1))), forprime(q=p, sqrtnint(B\m, n), list=concat(list, f(m*q, q, n-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=2^n, y=2*x); while(1, my(v=generate(x, y, n+1, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+=cut
 
 use 5.036;
 use ntheory qw(:all);
 
-my $n = 19;
+my $n = 24;
 
 my $from = 1;
 my $upto = 2;
+
+#$from = "23131806279931653";
+#$upto = int(1.001*$from);
 
 while (1) {
 
@@ -39,7 +57,7 @@ while (1) {
     }
 
     $from = $upto+1;
-    $upto = 2*$from;
+    $upto = int(1.001*$from);
 }
 
 __END__
@@ -54,3 +72,9 @@ Sieving range: (17592186044415, 35184372088830)
 Sieving range: (35184372088831, 70368744177662)
 a(21) = 45922887663615
 perl prog_faster.pl  40.60s user 2.70s system 99% cpu 43.594 total
+
+Sieving range: (1913179763628255, 1932311561264537)
+Sieving range: (1932311561264538, 1951634676877183)
+Sieving range: (1951634676877184, 1971151023645955)
+a(22) = 1956754664980479
+perl prog_faster.pl  263.70s user 10.59s system 98% cpu 4:37.93 total
