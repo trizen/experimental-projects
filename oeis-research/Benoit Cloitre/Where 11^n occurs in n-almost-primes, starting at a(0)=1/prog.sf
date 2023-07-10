@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# Where 11^n occurs in n-almost-primes, starting at a(0)=1.
+# https://oeis.org/A078846
+
+# New terms:
+#   a(16) = 8683388113017
+#   a(17) = 50433408838966
+
+# Known terms:
+#   1, 5, 40, 328, 2556, 18452, 126096, 827901, 5276913, 32887213, 201443165, 1217389949, 7279826998, 43168558912, 254258462459, 1489291941733
+
+#`(
+# PARI/GP program:
+
+almost_prime_count(N, k) = if(k==1, return(primepi(N))); (f(m, p, k, j=0) = my(c=0, s=sqrtnint(N\m, k)); if(k==2, forprime(q=p, s, c += primepi(N\(m*q))-j; j += 1), forprime(q=p, s, c += f(m*q, q, k-1, j); j += 1)); c); f(1, 2, k);
+a(n) = if(n == 0, 1, almost_prime_count(11^n, n)); \\ ~~~~
+
+)
+
+#   a(n) = my(x=2^n, y=2*x); while(1, my(v=count(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+
+for n in (0..100) {
+    say [n, n.almost_prime_count(11**n)]
+}
+
+__END__
+[0, 1]
+[1, 5]
+[2, 40]
+[3, 328]
+[4, 2556]
+[5, 18452]
+[6, 126096]
+[7, 827901]
+[8, 5276913]
+[9, 32887213]
+[10, 201443165]
+[11, 1217389949]
+[12, 7279826998]
+[13, 43168558912]

@@ -8,20 +8,25 @@
 # Terms a(1)-a(54):
 #    1, 1, 1, 1, 2, 2, 2, 3, 2, 3, 2, 2, 3, 2, 2, 4, 3, 2, 6, 3, 4, 4, 3, 1, 1, 3, 3, 3, 3, 2, 4, 3, 3, 3, 3, 5, 4, 2, 3, 3, 5, 3, 7, 4, 1, 4, 3, 4, 3, 6, 2, 4, 3, 3
 
+include("../../../factordb/auto.sf")
+
 func a(n) {
     pn_primorial(2*n)/pn_primorial(n) + pn_primorial(n)
 }
 
-for k in (1 .. 1e6) {
+#for k in (1 .. 1e6) {
+for k in (54 .. 1e6) {
 
     var u = pn_primorial(2*k)
     var t = pn_primorial(k)
 
     var m = (u/t + t)
 
-    print(m.omega, ", ")
+    #print(omega(m), ", ")
+    say [k, omega(m)]
 }
 
+__END__
 47 3
 48 4
 49 3
