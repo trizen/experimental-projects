@@ -1,0 +1,43 @@
+#!/usr/bin/ruby
+
+# The number of n-almost primes less than or equal to 12^n, starting with a(0)=1.
+# https://oeis.org/A116431
+
+# Known terms:
+#   1, 5, 48, 434, 3695, 29165, 218283, 1569995, 10950776, 74621972, 499495257, 3297443264, 21533211312, 139411685398, 896352197825
+
+# New terms:
+#   a(15) = 5730605551626
+#   a(16) = 36465861350230
+
+#`{
+# PARI/GP program:
+
+almost_prime_count(N, k) = if(k==1, return(primepi(N))); (f(m, p, k, j=0) = my(c=0, s=sqrtnint(N\m, k)); if(k==2, forprime(q=p, s, c += primepi(N\(m*q))-j; j += 1), forprime(q=p, s, c += f(m*q, q, k-1, j); j += 1)); c); f(1, 2, k);
+a(n) = if(n == 0, 1, almost_prime_count(12^n, n)); \\ ~~~~
+
+}
+
+#for n in (0..100) {
+for n in (0..100) {
+    say [n, n.almost_prime_count(12**n)]
+}
+
+__END__
+[0, 1]
+[1, 5]
+[2, 48]
+[3, 434]
+[4, 3695]
+[5, 29165]
+[6, 218283]
+[7, 1569995]
+[8, 10950776]
+[9, 74621972]
+[10, 499495257]
+[11, 3297443264]
+[12, 21533211312]
+[13, 139411685398]
+[14, 896352197825]
+[15, 5730605551626]
+[16, 36465861350230]
