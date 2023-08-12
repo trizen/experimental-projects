@@ -1,0 +1,69 @@
+#!/usr/bin/ruby
+
+# a(1) = 1; a(n) is the smallest positive number that has yet appeared such that the sum of all terms a(1) + ... + a(n) has the same number of prime factors, counted with multiplicity, as the product of all terms a(1) * ... * a(n).
+# https://oeis.org/A364140
+
+# This approach is quite slow...
+
+var seen = Set(1)
+var bo = 0
+
+loop {
+
+    var min = Inf
+    var t = seen.prod
+    var u = seen.sum
+
+     func generate(j) {
+
+        var lo = 1
+        var hi = 2*lo
+        var b = bo+j
+
+        loop {
+
+            if (lo > min) {
+                return nil
+            }
+
+            j.almost_primes(lo, hi).each {|w|
+                if ((u+w -> is_almost_prime(b)) && !seen.has(w)) {
+                    return w
+                }
+            }
+
+            lo = hi+1
+            hi *= 2
+        }
+    }
+
+    var k = -1
+
+    for i in (1..Inf) {
+
+        if (2**i > min) {
+            break
+        }
+
+        var s = generate(i) \\ next
+
+        if (s < min) {
+            k = s
+            min = s
+        }
+    }
+
+    bo += k.bigomega
+    say k
+    seen << k
+}
+
+__END__
+2
+3
+10
+227
+77
+16064
+33464399
+8113
