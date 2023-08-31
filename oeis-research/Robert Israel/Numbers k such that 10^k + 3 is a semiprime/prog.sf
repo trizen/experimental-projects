@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+# Numbers k such that 10^k + 3 is a semiprime.
+# https://oeis.org/A363353
+
+# Known terms:
+#   3, 4, 7, 8, 10, 15, 16, 21, 27, 30, 37, 42, 43, 54, 66, 77, 96, 114, 130, 132, 155, 156, 168, 182, 213, 294
+
+# a(27) >= 306. - Amiram Eldar, Aug 17 2023
+
+include("../../../factordb/auto.sf")
+
+for n in (1..1000) {
+    print(n, ", ") if (is_semiprime(10**n + 3))
+}

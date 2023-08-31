@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Perfect powers that are equal to the sum of the first k perfect powers > 1 for some k.
+# https://oeis.org/A364948
+
+# Known terms:
+#   4, 121, 2548735225
+
+# Next term, if it exists, is > 979846576384.
+
+var sum = 0
+var sums = Set()
+
+for k in (2..1e9) {
+    var n = k.nth_perfect_power
+    sum += n
+    sums << sum
+    if (sums.has(n)) {
+        say [n, k]
+    }
+}
+
+__END__
+[4, 2]
+[121, 14]
+[2548735225, 51912]

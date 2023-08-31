@@ -68,7 +68,6 @@ while (1) {
             if ($k < $limit and is_almost_prime($n+1, $k - 2) and is_almost_prime($n, $k-4)) {
                 say "a(", $n, ") <= ", $k - 4;
                 $limit = $k;
-
             }
         }
     );

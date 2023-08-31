@@ -76,7 +76,6 @@ while (1) {
             if ($k < $limit and is_almost_prime($n, $k - 2)) {
                 say "a(", $n, ") <= ", $k - 2;
                 $limit = $k;
-
             }
         }
     );
