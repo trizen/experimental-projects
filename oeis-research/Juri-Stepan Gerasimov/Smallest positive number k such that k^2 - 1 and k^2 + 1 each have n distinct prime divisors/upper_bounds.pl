@@ -10,7 +10,7 @@
 
 # Lower-bounds:
 #   a(11) > sqrt(14632489711031894527)
-#   a(12) > sqrt(1170233742114360852991)
+#   a(12) > sqrt(6575140476955311459338)
 
 use 5.036;
 use Math::GMPz;
@@ -162,8 +162,8 @@ sub a ($n) {
     }
 
     #my $x = Math::GMPz->new(pn_primorial($n));
-    my $x = Math::GMPz->new($lower_bounds[$n])**2 - 1;
-    #my $x = Math::GMPz->new("658256479939327979807");
+    #my $x = Math::GMPz->new($lower_bounds[$n])**2 - 1;
+    my $x = Math::GMPz->new("6575140476955311459338");
     my $y = (4 * $x)/3;
     #my $y = 2 * $x;
 
