@@ -13,8 +13,8 @@ use experimental qw(signatures);
 
 use CHI;
 use WWW::Mechanize::Cached;
-use URI::Escape qw(uri_escape);
-use File::Basename qw(dirname);
+use URI::Escape           qw(uri_escape);
+use File::Basename        qw(dirname);
 use File::Spec::Functions qw(rel2abs catdir);
 
 use constant {
@@ -25,12 +25,12 @@ my $cache = CHI->new(driver   => 'BerkeleyDB',
                      root_dir => catdir(dirname(rel2abs($0)), 'cache'));
 
 my $mech = WWW::Mechanize::Cached->new(
-                                     autocheck     => 1,
-                                     show_progress => 0,
-                                     stack_depth   => 10,
-                                     cache         => $cache,
-                                     agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
-);
+                                       autocheck     => 1,
+                                       show_progress => 0,
+                                       stack_depth   => 10,
+                                       cache         => $cache,
+                                       agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                                      );
 
 {
     state $accepted_encodings = HTTP::Message::decodable();

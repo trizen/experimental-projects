@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Factorize a list of numbers for FactorDB, given a main list and several other
+# lists of numbers that may have a common factor with the numbers in the main list.
+
+var nums = File(ARGV.shift).open_r.lines.map{.nums.last}.grep { defined(_) }.uniq
+
+var gcds = Math.batch_gcd(
+    [
+        nums...,
+        ARGV.map{ File(_).open_r.lines.map{.nums.last}.grep { defined(_) && (.len\\0 > 25) } }.flat...
+    ].uniq.sort...
+).uniq.sort
+
+for n in (nums) {
+    var f = Math.gcd_factors(n, gcds).first(-1)
+    f || next
+    say "#{n} = #{f.join(' * ')}"
+}

@@ -58,6 +58,7 @@ Highly experimental personal projects.
 * [Factordb](./factordb)
     * [auto.sf](./factordb/auto.sf)
     * [batch gcd factor.sf](./factordb/batch_gcd_factor.sf)
+    * [batch gcd factor 2.sf](./factordb/batch_gcd_factor_2.sf)
     * [factordb.pl](./factordb/factordb.pl)
     * [factorize product of expressions.sf](./factordb/factorize_product_of_expressions.sf)
     * [generate fermat psp.sf](./factordb/generate_fermat_psp.sf)

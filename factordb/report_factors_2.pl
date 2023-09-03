@@ -14,7 +14,7 @@ use autodie;
 use warnings;
 
 use WWW::Mechanize;
-use List::Util qw(all);
+use List::Util   qw(all);
 use Math::AnyNum qw(:overload :all);
 use experimental qw(signatures);
 use Getopt::Long qw(GetOptions);
@@ -30,7 +30,7 @@ my $mech = WWW::Mechanize->new(
                                show_progress => 1,
                                stack_depth   => 10,
                                timeout       => 600,
-                               agent => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
+                               agent         => "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
                               );
 
 {
