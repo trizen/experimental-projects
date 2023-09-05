@@ -1,0 +1,105 @@
+#!/usr/bin/ruby
+
+# a(11) found m = 2138939853538560
+# a(11) found m = 2526176995612160
+
+# a(10) found m = 4009513558110720
+# a(10) found m = 4196243334041600
+# a(10) found m = 4250890925448960
+# a(10) found m = 4264772670403840
+# a(10) found m = 4694331125702400
+# a(11) found m = 4729522651983360
+# a(10) found m = 4790852606791680
+# a(10) found m = 4996830163610880
+# a(10) found m = 5101817933587200
+# a(10) found m = 5264522678120960
+# a(10) found m = 5431371042905600
+# a(10) found m = 5523092697191680
+# a(10) found m = 5525194236573440
+# a(10) found m = 5727625856001280
+# a(10) found m = 5778987687573760     (very close)
+# a(10) found m = 5852062539581440
+# a(10) found m = 5937381618013440
+# a(10) found m = 5948907374009600
+# a(10) found m = 5968911763043840
+# a(11) found m = 6026433544209920
+# a(10) found m = 6217329296404480
+# a(10) found m = 6225694946248960
+# a(10) found m = 6246007399831040
+# a(10) found m = 6312132216947200
+# a(10) found m = 6457158628226560
+# a(10) found m = 6871581212112640
+# a(10) found m = 6892136392410880
+# a(10) found m = 6932779745830400
+# a(10) found m = 6961627426082560
+# a(10) found m = 7102360767040000
+# a(10) found m = 7406828409708800
+# a(10) found m = 7524854188308480
+# a(10) found m = 7703508535374080
+# a(10) found m = 7732872117268480
+# a(10) found m = 7828103794118400
+# a(10) found m = 7965222599924480
+# a(9)  found m = 8012463159733760
+# a(9)  found m = 8019012379031040
+# a(9)  found m = 8024799172980480
+# a(9)  found m = 8024968426908160
+# a(9)  found m = 8028016589340160
+# a(9)  found m = 8028450913889280
+
+func chernick_carmichael_factors (n, m) {
+    [6*m + 1, 12*m + 1, {|i| 2**i * 9*m + 1 }.map(1 .. n-2)...]
+}
+
+func is_chernick_carmichael (n, m) {
+    (n == 2) ? (is_prime(6*m + 1) && is_prime(12*m + 1))
+             : (is_prime(2**(n-2) * 9*m + 1) && __FUNC__(n-1, m))
+}
+
+var seen = Set()
+
+ARGF.each {|line|
+    if (line =~ /\bm = (\d+)/) {|match|
+        var m = Num(match[0])
+
+        next if seen.has(m)
+        seen << m
+
+        var a = chernick_carmichael_factors(12, m)
+
+        for k in (3..a.len) {
+            var t = a.first(k).prod
+            say t if t.is_carmichael
+        }
+
+        if (a.all_prime) {
+            die "a(12) <= #{a.prod}"
+        }
+    }
+}
+
+#var m = 91180054183680
+#var a = chernick_carmichael_factors(12, m)
+
+
+__END__
+for k in (3..a.len) {
+    var t = a.first(k).prod
+    say t if t.is_carmichael
+}
+
+say ''
+
+# If all three are true, then a(12) has been found
+say is_chernick_carmichael(10, m)       # true if first 10 factors are prime
+say is_chernick_carmichael(11, m)       # true if first 11 factors are prime
+say is_chernick_carmichael(12, m)       # true if first 12 factors are prime
+
+say ''
+
+say chernick_carmichael_factors(12, m).map{.is_prime}
+say chernick_carmichael_factors(11, m).last.factor
+say chernick_carmichael_factors(12, m).last.factor
+
+#~ say ''
+#~ say chernick_carmichael_factors(11,m).prod.is_carmichael
+#~ say chernick_carmichael_factors(12,m).prod.is_carmichael
