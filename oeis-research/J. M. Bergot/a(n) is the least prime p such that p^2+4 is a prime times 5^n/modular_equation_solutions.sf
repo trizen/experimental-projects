@@ -29,8 +29,6 @@ func solve_modular_quadratic(a,b,c,m) {
     return solutions.sort.uniq
 }
 
-var MIN_BOUNDS = Hash()
-
 func a(n, max=nil) {
 
     var f = 5**n
@@ -78,6 +76,6 @@ func a(n, max=nil) {
     return max
 }
 
-for n in (0..1000) {
+for n in (0..100) {
     say "#{n} #{a(n)}"
 }

@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+# Number of positive integers <= 10^n that are divisible by no prime exceeding 13.
+# https://oeis.org/A106629
+
+# If ψ(n,B) is the number of B-smooth <= n, then:
+#
+#   ψ(n,B) ~ 1/pi(B)! * Prod_{p prime <= B} log(x)/log(p)
+#
+# where pi(x) is the prime-counting function.
+
+func a(n) {
+    13.smooth_count(10**n)
+}
+
+for n in (0..100) { print(a(n), ", ") }
+
+
+__END__
+0 1
+1 10
+2 62
+3 242
+4 733
+5 1848
+6 4106
+7 8289
+8 15519
+9 27365
+10 45914
+11 73908
+12 114831
+13 173077
+14 254065
+15 364385
+16 511985
+17 706293
+18 958460
+19 1281500
+20 1690506
+21 2202871
+22 2838489
+23 3620013
+24 4573071
+25 5726533
+26 7112760
+27 8767880
+28 10732089
+29 13049906
+30 15770500
+31 18948010
+32 22641849
+33 26917042
+34 31844560

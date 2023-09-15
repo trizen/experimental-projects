@@ -34,7 +34,8 @@ func upper_bound(n, from = 2, upto = 2*from) {
             say "This range contains: #{count.commify} elements\n"
 
             #(n+1).squarefree_almost_primes_each(from, upto, {|v|
-            (n+1).omega_primes_each(from, upto, {|v|
+            #(n+1).omega_primes_each(from, upto, {|v|
+            (n+1).omega_primes(from, upto).each({|v|
                 if (n `divides` v.dec) {
                     var k = (v-1)/n
                     if (omega(k) == (omega(n*k + 1) - 1)/n) {

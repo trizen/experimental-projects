@@ -130,7 +130,7 @@ while (1) {
     }
 
     $from = $upto+1;
-    $upto = 2*$from;
+    $upto = 3*$from;
 }
 
 __END__

@@ -1,0 +1,43 @@
+#!/usr/bin/ruby
+
+# a(n) is the least prime p such that p^2+4 is a prime times 5^n.
+# https://oeis.org/A357435
+
+# Known terms:
+#   3, 19, 11, 239, 9011, 61511, 75989, 299011, 4517761, 24830261, 666575989, 2541575989, 41989674011, 147951732239, 455568919739, 174807200989, 9513186107239, 215201662669739, 759834958424011, 5581612302174011, 5404715822825989
+
+# New terms:
+#   112788443850169739, 2606148434986511
+
+# a(n) has the form 5^n * k + x, for some k >= 0, where x is a solution to the modular quadratic equation x^2 + 4 == 0 (mod 5^n).
+
+func a(n, solution = Inf) {
+    var m = 5**n
+
+    for x in (modular_quadratic_formula(1, 0, 4, m)) {
+
+        x > solution && break
+
+        for k in (0 .. Inf) {
+            var p = (m*k + x)
+
+            p > solution && break
+            p.is_prime || next
+
+            var u = (p**2 + 4)
+            u.is_power_of(5) || u.remdiv(5).is_prime || next
+
+            var v = (u.valuation(5) - (u.is_power_of(5) ? 1 : 0))
+
+            if (v == n) {
+                solution = min(p, solution)
+            }
+        }
+    }
+
+    return solution
+}
+
+for n in (0..100) {
+    say "#{n} #{a(n)}"
+}

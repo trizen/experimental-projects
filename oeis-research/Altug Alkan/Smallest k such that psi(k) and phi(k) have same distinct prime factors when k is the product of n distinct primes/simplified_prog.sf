@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k such that psi(k) and phi(k) have same distinct prime factors when k is the product of n distinct primes (psi(k) = A001615(k) and phi(k) = A000010(k)), or 0 if no such k exists.
+# https://oeis.org/A291138
+
+# Known terms:
+#   3, 14, 42, 210, 3570, 43890, 746130, 14804790, 281291010, 8720021310
+
+func A291138(n, from = n.pn_primorial, upto = 2*from) {
+    loop {
+        n.squarefree_almost_primes_each(from, upto, {|v|
+            var a = v.phi
+            var b = v.psi
+            a.is_smooth_over_prod(b) || next
+            b.is_smooth_over_prod(a) || next
+            return v
+        })
+        from = upto+1
+        upto *= 2
+    }
+}
+
+for n in (1..100) { print(A291138(n), ", ") }

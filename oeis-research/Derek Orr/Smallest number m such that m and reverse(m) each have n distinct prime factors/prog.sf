@@ -17,3 +17,16 @@ generate(A, B, n) = A=max(A, vecprod(primes(n))); (f(m, p, j) = my(list=List());
 a(n) = my(x=vecprod(primes(n)), y=2*x); while(1, my(v=generate(x, y, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
 
 )
+
+func a(n, from = n.pn_primorial, upto = 2*from) {
+    loop {
+        n.omega_primes(from, upto).each {|v|
+            v.reverse.is_omega_prime(n) || next
+            return v
+        }
+        from = upto+1
+        upto *= 2
+    }
+}
+
+for n in (1..100) { print(a(n), ", ") }

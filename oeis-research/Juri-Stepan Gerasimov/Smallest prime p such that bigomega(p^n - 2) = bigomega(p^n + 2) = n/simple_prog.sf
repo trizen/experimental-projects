@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest prime p such that Omega(p^n - 2) = Omega(p^n) = Omega(p^n + 2) where Omega = A001222.
+# https://oeis.org/A328445
+
+# Known terms:
+#   5, 11, 127, 401, 1487, 1153, 6199, 10301, 22193, 72277
+
+# Find upper-bounds for a(n).
+
+# For a(11), searched up to 11988617 with limit = 1e6 and factor limit = 50.
+
+# a(11) <= 12617153
+# a(11) <= 1301423
+
+func A328445(n) {
+    for (var p = 2; true; p.next_prime!) {
+        is_almost_prime(p**n - 2, n) || next
+        is_almost_prime(p**n + 2, n) || next
+        return p
+    }
+}
+
+for n in (1..100) { print(A328445(n), ", ") }

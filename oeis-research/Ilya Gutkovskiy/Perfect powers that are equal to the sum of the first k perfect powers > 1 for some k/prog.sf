@@ -10,9 +10,10 @@
 
 var sum = 0
 var sums = Set()
+var n = 1
 
 for k in (2..1e9) {
-    var n = k.nth_perfect_power
+    n = n.next_perfect_power
     sum += n
     sums << sum
     if (sums.has(n)) {

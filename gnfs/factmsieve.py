@@ -71,7 +71,7 @@ GGNFS_PATH = '/usr/bin'
 MSIEVE_PATH = '/usr/bin'
 
 # Set the number of CPU cores and threads
-NUM_CORES = 2
+NUM_CORES = 1
 THREADS_PER_CORE = 1
 
 USE_CUDA = False
