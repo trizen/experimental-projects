@@ -89,15 +89,13 @@ forprimes {
     if (!BPSW_primality_test($_)) {
         die "Missed prime: $_";
     }
-}
-1e6;
+} 1e6;
 
 foroddcomposites {
     if (BPSW_primality_test($_)) {
         die "Counter-example: $_";
     }
-}
-1e6;
+} 1e6;
 
 say "Done...";
 say "Beginning the test...";

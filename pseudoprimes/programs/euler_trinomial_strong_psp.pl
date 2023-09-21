@@ -17,17 +17,29 @@ use Math::Sidef qw(iquadratic_formula);
 
 my %seen;
 my $z = Math::GMPz::Rmpz_init();
+my $t = Math::GMPz::Rmpz_init();
 
 while (<>) {
     next if /^\h*#/;
     /\S/ or next;
     my $n = (split(' ', $_))[-1];
-    #$n > ~0 or next;
+    $n > ~0 or next;
 
     $n || next;
 
-    Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
-    Math::GMPz::Rmpz_set_str($z, $n, 10);
+    # Check if `4*(n-41) + 1` is a square
+    Math::GMPz::Rmpz_set_str($t, "$n", 10);
+    Math::GMPz::Rmpz_sub_ui($t, $t, 41);
+    Math::GMPz::Rmpz_mul_2exp($t, $t, 2);
+    Math::GMPz::Rmpz_add_ui($t, $t, 1);
+    Math::GMPz::Rmpz_perfect_square_p($t) || next;
+
+    say "Passes the square test: $n";
+
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
+    #Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
+
+    Math::GMPz::Rmpz_set_str($z, "$n", 10);
 
     my @solutions = iquadratic_formula(-1, -1, $z - 41);
     my $x = $solutions[-1];
