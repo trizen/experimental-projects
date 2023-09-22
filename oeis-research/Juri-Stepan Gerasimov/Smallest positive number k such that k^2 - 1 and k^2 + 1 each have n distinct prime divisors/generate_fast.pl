@@ -8,6 +8,9 @@
 
 # a(n) >= max(A219017(n), A180278(n)).
 
+# Lower-bounds:
+#   a(12) > sqrt(658256479939327979807)
+
 use 5.036;
 use Math::GMPz;
 use ntheory qw(:all);
@@ -47,7 +50,8 @@ sub generate ($A, $B, $n) {
                         Math::GMPz::Rmpz_sub_ui($u, $v, 1);
                         if (Math::GMPz::Rmpz_perfect_square_p($u)) {
                             my $t = Math::GMPz::Rmpz_init_set($v);
-                            my $w = sqrtint($v - 1);
+                            my $w = sqrtint($u);
+                            say "Candidate: k = $w with k^2 + 1 = $t";
                             if (    is_omega_prime($n, mulint($w, $w) - 1)
                                 and is_omega_prime($n, mulint($w, $w) + 1)) {
                                 say("Found upper-bound: ", $w);

@@ -1082,6 +1082,7 @@ Highly experimental personal projects.
             * [prog.pl](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20positive%20number%20k%20such%20that%20k^2%20-%201%20and%20k^2%20+%201%20each%20have%20n%20distinct%20prime%20divisors/prog.pl)
             * [prog.sf](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20positive%20number%20k%20such%20that%20k^2%20-%201%20and%20k^2%20+%201%20each%20have%20n%20distinct%20prime%20divisors/prog.sf)
             * [upper bounds.pl](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20positive%20number%20k%20such%20that%20k^2%20-%201%20and%20k^2%20+%201%20each%20have%20n%20distinct%20prime%20divisors/upper_bounds.pl)
+            * [upper bounds 2.pl](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20positive%20number%20k%20such%20that%20k^2%20-%201%20and%20k^2%20+%201%20each%20have%20n%20distinct%20prime%20divisors/upper_bounds_2.pl)
         * [Smallest prime p such that A005117(k+1) - A005117(k-1) = n, where p = A005117(k) for some k](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20prime%20p%20such%20that%20A005117(k+1)%20-%20A005117(k-1)%20=%20n,%20where%20p%20=%20A005117(k)%20for%20some%20k)
             * [prog.pl](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20prime%20p%20such%20that%20A005117(k+1)%20-%20A005117(k-1)%20=%20n,%20where%20p%20=%20A005117(k)%20for%20some%20k/prog.pl)
         * [Smallest prime p such that bigomega(p^n - 2) = bigomega(p^n + 2) = n](./oeis-research/Juri-Stepan%20Gerasimov/Smallest%20prime%20p%20such%20that%20bigomega(p^n%20-%202)%20=%20bigomega(p^n%20+%202)%20=%20n)

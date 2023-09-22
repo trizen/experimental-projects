@@ -8,7 +8,9 @@
 
 # a(n) >= max(A219017(n), A180278(n)).
 
-# Lower-bounds:
+# Try to find upper-bounds, by assuming that k^2 + 1 is squarefree.
+
+# Conjectured lower-bounds:
 #   a(11) > sqrt(14632489711031894527)
 #   a(12) > sqrt(6575140476955311459338)
 
@@ -63,6 +65,7 @@ sub squarefree_generate ($A, $B, $n) {
                 if (Math::GMPz::Rmpz_perfect_square_p($u)) {
                     my $t = Math::GMPz::Rmpz_init_set($v);
                     my $w = sqrtint($u);
+                    say "Candidate: k = $w with k^2 + 1 = $t";
                     if (    is_omega_prime($n, mulint($w, $w) - 1)
                         and is_omega_prime($n, mulint($w, $w) + 1)) {
                         say("Found upper-bound: ", $w);
