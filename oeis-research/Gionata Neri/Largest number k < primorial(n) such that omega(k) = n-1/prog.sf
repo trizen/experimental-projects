@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Largest number k < primorial(n) such that omega(k) = n-1.
+# https://oeis.org/A292426
+
+# Known terms:
+#   1, 5, 28, 204, 2280, 29946, 509124, 9694230, 223002780, 6468882420, 200545084740
+
+# New terms:
+#   1, 5, 28, 204, 2280, 29946, 509124, 9694230, 223002780, 6468882420, 200545084740, 7420616447790, 304248924969990, 13082703773709570, 614888499146952030, 32589068024408996100, 1922759477457292844370, 117288363265448148804030, 7858320716113653603327510, 557940823566001913206999830
+
+# PARI/GP program:
+#`(
+
+a(n) = if(n==1, return(1)); my(A=vecprod(primes(n-1)), B=vecprod(primes(n))-1); (f(m, p, j) = my(r=0); forprime(q=p, sqrtnint(B\m, j), my(v=m*q); while(v <= B, if(j==1, if(v>=A && v > r, r = v), if(v*(q+1) <= B, r = max(r, f(v, q+1, j-1)))); v *= q)); r); f(1, 2, n-1); \\ ~~~~
+
+)
+
+for n in (2..100) {
+    print(pn_primorial(n).prev_omega_prime(n-1), ", ")
+}
