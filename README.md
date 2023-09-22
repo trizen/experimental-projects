@@ -771,6 +771,8 @@ Highly experimental personal projects.
     * [Gionata Neri](./oeis-research/Gionata%20Neri)
         * [Largest number k < primorial(n) such that omega(k) = n-1](./oeis-research/Gionata%20Neri/Largest%20number%20k%20<%20primorial(n)%20such%20that%20omega(k)%20=%20n-1)
             * [prog.sf](./oeis-research/Gionata%20Neri/Largest%20number%20k%20<%20primorial(n)%20such%20that%20omega(k)%20=%20n-1/prog.sf)
+        * [Least number k > primorial(n) such that omega(k) = n-1](./oeis-research/Gionata%20Neri/Least%20number%20k%20>%20primorial(n)%20such%20that%20omega(k)%20=%20n-1)
+            * [prog.sf](./oeis-research/Gionata%20Neri/Least%20number%20k%20>%20primorial(n)%20such%20that%20omega(k)%20=%20n-1/prog.sf)
     * [Giorgos Kalogeropoulos](./oeis-research/Giorgos%20Kalogeropoulos)
         * [Least prime p such that the n smallest primitive roots modulo p are the first n primes](./oeis-research/Giorgos%20Kalogeropoulos/Least%20prime%20p%20such%20that%20the%20n%20smallest%20primitive%20roots%20modulo%20p%20are%20the%20first%20n%20primes)
             * [prog.pl](./oeis-research/Giorgos%20Kalogeropoulos/Least%20prime%20p%20such%20that%20the%20n%20smallest%20primitive%20roots%20modulo%20p%20are%20the%20first%20n%20primes/prog.pl)
