@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # a(n) = k is the smallest number such that k^3 + 1 has exactly n distinct prime factors.
-# https://oeis.org/A180278
+# https://oeis.org/A219108
 
 # Known terms:
 #   0, 1, 3, 5, 17, 59, 101, 563, 2617, 9299, 22109, 132989, 364979, 1970869, 23515229, 109258049, 831731339

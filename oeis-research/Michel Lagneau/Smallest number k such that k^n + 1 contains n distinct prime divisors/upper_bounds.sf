@@ -26,25 +26,33 @@
 
 # Upper-bounds:
 #   a(16) <= 206874667
+#   a(17) <= 262144
+#   a(21) <= 50600
 
 # PARI/GP program:
 #   a(n) = my(k=1); while (omega(k^n+1) != n, k++); k; \\ ~~~~
 
-Num!VERBOSE = true
+# Conjectured lower-bounds:
+#   a(16) > 3532464
+#   a(19) > 464941
+#   a(20) > 239224
 
-func a(n, from = 1) {
+#Num!VERBOSE = true
+Num!USE_CONJECTURES = true
+
+func A219018(n, from = 1) {
     for k in (from..Inf) {
-
         var t = (k**n + 1)
         say "[#{n}] Checking: #{k} -> #{t}"
-
-        if (t.is_omega_prime(n)) {
-            return k
-        }
+        t.is_omega_prime(n) || next
+        #t.is_almost_prime(n) || next
+        #t.is_omega_prime(n) || next
+        return k
     }
 }
 
 var n = 16
-var from = 2376004
-
-say "a(#{n}) = #{a(n, from)}"
+var from = 3532464
+#var n = 14
+#var from = 1
+say "A219018(#{n}) <= #{A219018(n, from)}"

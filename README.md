@@ -1249,6 +1249,7 @@ Highly experimental personal projects.
         * [Smallest number k such that k^n + 1 contains n distinct prime divisors](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k^n%20+%201%20contains%20n%20distinct%20prime%20divisors)
             * [is omega prime.sf](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k^n%20+%201%20contains%20n%20distinct%20prime%20divisors/is_omega_prime.sf)
             * [prog.sf](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k^n%20+%201%20contains%20n%20distinct%20prime%20divisors/prog.sf)
+            * [upper bounds.sf](./oeis-research/Michel%20Lagneau/Smallest%20number%20k%20such%20that%20k^n%20+%201%20contains%20n%20distinct%20prime%20divisors/upper_bounds.sf)
         * [Smallest number such that k^2 + 1 has n distinct prime factors](./oeis-research/Michel%20Lagneau/Smallest%20number%20such%20that%20k^2%20+%201%20has%20n%20distinct%20prime%20factors)
             * [prog.pl](./oeis-research/Michel%20Lagneau/Smallest%20number%20such%20that%20k^2%20+%201%20has%20n%20distinct%20prime%20factors/prog.pl)
             * [prog.sf](./oeis-research/Michel%20Lagneau/Smallest%20number%20such%20that%20k^2%20+%201%20has%20n%20distinct%20prime%20factors/prog.sf)

@@ -7,9 +7,10 @@
 #   1, 3, 9, 43, 46, 47, 245, 1697, 109, 565, 3938, 3255, 30089, 18951, 2217
 
 # Lower-bounds:
-#   a(16) > 1501684
+#   a(16) > 2345280
 
 Num!VERBOSE = true
+Num!USE_FACTORDB = true
 
 func a(n, from = 1) {
     for k in (from..Inf) {
@@ -23,6 +24,6 @@ func a(n, from = 1) {
 }
 
 var n = 16
-var from = 1501684
+var from = 2345280
 
 say "a(#{n}) = #{a(n, from)}"
