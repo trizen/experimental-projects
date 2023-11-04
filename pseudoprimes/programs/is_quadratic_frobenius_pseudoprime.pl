@@ -21,7 +21,7 @@ use 5.020;
 use warnings;
 
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
 sub quadratic_powmod ($x, $y, $a, $b, $w, $n, $m) {

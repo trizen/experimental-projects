@@ -7,7 +7,7 @@
 #   4398575137518327194521 is a Fermat pseudoprime for b in [2, 58].
 
 use 5.020;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
 use Math::GMPz;

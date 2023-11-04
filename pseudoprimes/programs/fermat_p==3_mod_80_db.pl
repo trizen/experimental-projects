@@ -42,7 +42,7 @@ while (my ($n, $value) = each %db) {
 
     ($rem == 27) || ($rem == 3) || next;
 
-    Math::Prime::Util::GMP::is_pseudoprime($n,2) || next;
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
 
     my @factors = split(' ', $value);
 

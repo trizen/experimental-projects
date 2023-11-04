@@ -19,15 +19,15 @@ use strict;
 use warnings;
 
 use Math::GMPz;
-use POSIX qw(ULONG_MAX);
+use POSIX        qw(ULONG_MAX);
 use experimental qw(signatures);
 
-use Math::Sidef qw();
+use Math::Sidef  qw();
 use Math::AnyNum qw(is_smooth);
 
-$Sidef::Types::Number::Number::USE_YAFU = 1;
-$Sidef::Types::Number::Number::USE_FACTORDB = 1;
-$Sidef::Types::Number::Number::VERBOSE = 1;
+$Sidef::Types::Number::Number::USE_YAFU        = 1;
+$Sidef::Types::Number::Number::USE_FACTORDB    = 1;
+$Sidef::Types::Number::Number::VERBOSE         = 1;
 $Sidef::Types::Number::Number::SPECIAL_FACTORS = 1;
 
 use ntheory qw(
@@ -682,8 +682,7 @@ sub siqs_factorize ($n, $nf) {
 
             my $sieve_array = siqs_sieve($factor_base, $m);
 
-            $enough_relations =
-              siqs_trial_division($n, $sieve_array, $factor_base_info, $smooth_relations, $g, $h, $m, $required_relations);
+            $enough_relations = siqs_trial_division($n, $sieve_array, $factor_base_info, $smooth_relations, $g, $h, $m, $required_relations);
 
             if (   scalar(@$smooth_relations) >= $required_relations
                 or scalar(@$smooth_relations) > $prev_cnt) {
@@ -760,17 +759,45 @@ sub fast_fibonacci_factor ($n, $upto) {
 
     my $g = Math::GMPz::Rmpz_init();
 
+    my ($P, $Q) = (3, 1);
+
+    my $U0 = Math::GMPz::Rmpz_init_set_ui(0);
+    my $U1 = Math::GMPz::Rmpz_init_set_ui(1);
+
+    my $V0 = Math::GMPz::Rmpz_init_set_ui(2);
+    my $V1 = Math::GMPz::Rmpz_init_set_ui($P);
+
     foreach my $k (2 .. $upto) {
-        foreach my $P (3, 4) {
 
-            my ($U, $V) = map { Math::GMPz::Rmpz_init_set_str($_, 10) } lucas_sequence($n, $P, 1, $k);
+        # my ($U, $V) = Math::Prime::Util::GMP::lucas_sequence($n, $P, $Q, $k);
 
-            foreach my $t ($U, $U - 1, $V, $V - 1, $V - 2) {
-                Math::GMPz::Rmpz_gcd($g, $t, $n);
+        Math::GMPz::Rmpz_set($g, $U1);
+        Math::GMPz::Rmpz_mul_ui($U1, $U1, $P);
+        Math::GMPz::Rmpz_submul_ui($U1, $U0, $Q);
+        Math::GMPz::Rmpz_mod($U1, $U1, $n);
+        Math::GMPz::Rmpz_set($U0, $g);
 
-                if (    Math::GMPz::Rmpz_cmp_ui($g, 1) > 0
+        Math::GMPz::Rmpz_set($g, $V1);
+        Math::GMPz::Rmpz_mul_ui($V1, $V1, $P);
+        Math::GMPz::Rmpz_submul_ui($V1, $V0, $Q);
+        Math::GMPz::Rmpz_mod($V1, $V1, $n);
+        Math::GMPz::Rmpz_set($V0, $g);
+
+        foreach my $param ([$U1, 0], [$V1, -$P, 0]) {
+
+            my ($t, @deltas) = @$param;
+
+            foreach my $delta (@deltas) {
+
+                ($delta >= 0)
+                  ? Math::GMPz::Rmpz_add_ui($g, $t, $delta)
+                  : Math::GMPz::Rmpz_sub_ui($g, $t, -$delta);
+
+                Math::GMPz::Rmpz_gcd($g, $g, $n);
+
+                if (    Math::GMPz::Rmpz_cmp_ui($g, 12345) > 0
                     and Math::GMPz::Rmpz_cmp($g, $n) < 0) {
-                    return $g if ($g > 12345);
+                    return $g;
                 }
             }
         }
@@ -1886,7 +1913,7 @@ sub find_small_factors ($rem, $factors) {
         #~ pollard_rho_ntheory_factor($rem, int sqrt(1e16));
         #~ }
         #~ },
-                                );
+    );
 
   MAIN_LOOP: for (; ;) {
 

@@ -22,8 +22,7 @@ my $numbers       = retrieve($storable_file);
 my %table;
 
 sub my_euler_phi ($factors) {    # assumes n is squarefree
-    Math::GMPz::Rmpz_init_set_str(Math::Prime::Util::GMP::vecprod(map { Math::Prime::Util::GMP::subint($_, 1) } @$factors),
-                                  10);
+    Math::GMPz::Rmpz_init_set_str(Math::Prime::Util::GMP::vecprod(map { Math::Prime::Util::GMP::subint($_, 1) } @$factors), 10);
 }
 
 sub smallest_power ($k, $phi) {

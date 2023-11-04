@@ -8,20 +8,16 @@
 # See also:
 #   https://oeis.org/A299799
 
-use 5.020;
-use strict;
-use warnings;
-
-use ntheory qw(:all);
-use Math::GMPz;
-use experimental qw(signatures);
+use 5.036;
+use ntheory                qw(:all);
+use Math::Prime::Util::GMP qw();
 
 sub is_chebyshev_pseudoprime ($n) {
 
     foreach (1 .. 20) {
         my $p = int(rand(1e6)) + 5;
-        my ($u, $v) = lucas_sequence($n, $p, 1, $n);
-        $v == $p or return 0;
+        my $v = ($n > ~0) ? Math::Prime::Util::GMP::lucasvmod($p, 1, $n, $n) : lucasvmod($p, 1, $n, $n);
+        $v eq $p or return 0;
     }
 
     return 1;
@@ -35,6 +31,7 @@ while (<>) {
     my $n = (split(' ', $_))[-1];
 
     $n || next;
+    $n > ~0 or next;
 
     if (is_chebyshev_pseudoprime($n) and !$seen{$n}++) {
         say $n;

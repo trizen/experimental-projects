@@ -29,10 +29,10 @@ while (my ($n, $value) = each %db) {
 
     Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
 
-    znorder(2, $factors[0])  < 1e6 or next;
+    znorder(2, $factors[0]) < 1e6  or next;
     znorder(2, $factors[-1]) < 1e6 or next;
 
-    my $z = lcm(map {znorder(2, $_)} @factors);
+    my $z = lcm(map { znorder(2, $_) } @factors);
 
     if ($z < 1e6) {
         say "2^$z-1 = $n";

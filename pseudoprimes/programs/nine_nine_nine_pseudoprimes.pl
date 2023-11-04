@@ -19,11 +19,10 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use Math::Prime::Util::GMP
-  qw(is_prob_prime is_pseudoprime is_lucas_pseudoprime is_extra_strong_lucas_pseudoprime is_almost_extra_strong_lucas_pseudoprime);
+use Math::Prime::Util::GMP qw(is_prob_prime is_pseudoprime is_lucas_pseudoprime is_extra_strong_lucas_pseudoprime is_almost_extra_strong_lucas_pseudoprime);
 
 sub is_fibonacci_pseudoprime ($n) {
-    (Math::Prime::Util::GMP::lucas_sequence($n, 1, -1, Math::Prime::Util::GMP::subint($n, kronecker($n, 5))))[0] == 0;
+    Math::Prime::Util::GMP::lucasumod(1, -1, Math::Prime::Util::GMP::subint($n, kronecker($n, 5)), $n) eq '0';
 }
 
 sub is_lucas_carmichael ($n) {

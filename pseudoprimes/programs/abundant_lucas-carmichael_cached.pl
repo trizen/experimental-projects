@@ -15,13 +15,13 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use POSIX qw(ULONG_MAX);
+use POSIX        qw(ULONG_MAX);
 use Math::MPFR;
 
-my $storable_file = "cache/factors-lucas-carmichael.storable";
-my $lucas_carmichael    = retrieve($storable_file);
+my $storable_file    = "cache/factors-lucas-carmichael.storable";
+my $lucas_carmichael = retrieve($storable_file);
 
-sub my_sigma ($factors) { # assumes n is squarefree
+sub my_sigma ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();
@@ -46,7 +46,7 @@ my $t = Math::GMPz::Rmpz_init();
 
 while (my ($key, $value) = each %$lucas_carmichael) {
 
-    Math::Prime::Util::GMP::modint($key, 5) == 0
+         Math::Prime::Util::GMP::modint($key, 5) == 0
       or Math::Prime::Util::GMP::modint($key, 3) == 0
       or Math::Prime::Util::GMP::modint($key, 7) == 0
       or next;
@@ -57,11 +57,11 @@ while (my ($key, $value) = each %$lucas_carmichael) {
     my $abundancy = Math::MPFR->new(my_sigma(\@factors)) / $t;
 
     #~ if ($abundancy >= 1.9) {
-        #~ my $s = sprintf("%.3f", $abundancy);
-        #~ if ($s == 2 and $abundancy < 2) {
-            #~ $s = "1.999";
-        #~ }
-        #~ printf("%s %s\n", $s, $key);
+    #~ my $s = sprintf("%.3f", $abundancy);
+    #~ if ($s == 2 and $abundancy < 2) {
+    #~ $s = "1.999";
+    #~ }
+    #~ printf("%s %s\n", $s, $key);
     #~ }
 
     Math::GMPz::Rmpz_set_str($t, $key, 10);

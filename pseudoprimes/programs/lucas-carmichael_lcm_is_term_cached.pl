@@ -12,7 +12,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
 my $lucas_carmichael      = retrieve($lucas_carmichael_file);

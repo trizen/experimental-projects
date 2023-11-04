@@ -39,7 +39,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 
 use POSIX qw(ULONG_MAX);
 
@@ -59,9 +59,9 @@ my %table = (
     5 => 2203201,
     6 => 12306385,
 
-    7 => 9073150801,
-    8 => 3958035081,
-    9 => 2539184851126,
+    7  => 9073150801,
+    8  => 3958035081,
+    9  => 2539184851126,
     10 => 152064312120721,
     11 => 10963650080564545,
     12 => 378958695265110961,
@@ -70,7 +70,7 @@ my %table = (
 while (my ($key, $value) = each %db) {
 
     my @factors = split(' ', $value);
-    my $k = scalar(uniq(@factors));
+    my $k       = scalar(uniq(@factors));
 
     $k > 12 or next;
 

@@ -50,13 +50,14 @@ Math::GMPz::Rmpz_primorial_ui($primorial, 1e5);
 while (my ($key, $value) = each %db) {
 
     Math::GMPz::Rmpz_set_str($t, $key, 10);
+
     #~ Math::GMPz::Rmpz_add_ui($t, $t, 1);
     Math::GMPz::Rmpz_sub_ui($t, $t, 1);
 
     next if (Math::GMPz::Rmpz_popcount($t) == 1);
     is_smooth_over_prod($t, $primorial) || next;
 
-    my $n = Math::GMPz::Rmpz_get_str($t, 10);
+    my $n       = Math::GMPz::Rmpz_get_str($t, 10);
     my @factors = Math::Prime::Util::GMP::factor($n);
 
     my $v = Math::Prime::Util::GMP::vecprod(map { subint($_, 1) } @factors);

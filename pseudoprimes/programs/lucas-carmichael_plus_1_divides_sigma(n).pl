@@ -24,7 +24,7 @@ use experimental qw(signatures);
 my $lucas_carmichael_file = "cache/factors-lucas-carmichael.storable";
 my $lucas_carmichael      = retrieve($lucas_carmichael_file);
 
-sub my_sigma ($factors) { # assumes n is squarefree
+sub my_sigma ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();

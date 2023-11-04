@@ -10,12 +10,10 @@
 # Indices of 2 in A213060.
 # https://oeis.org/A213060
 
-use 5.020;
-use strict;
-use warnings;
-
-use ntheory qw(:all);
+use 5.036;
 use Math::GMPz;
+use ntheory                qw(:all);
+use Math::Prime::Util::GMP qw();
 
 my %seen;
 
@@ -32,9 +30,9 @@ while (<>) {
     #~ $n = Math::GMPz->new("$n");
     #~ }
 
-    my ($u, $v) = lucas_sequence($n, 1, -1, $n);
+    my $v = ($n > ~0) ? Math::Prime::Util::GMP::lucasvmod(1, -1, $n, $n) : lucasvmod(1, -1, $n, $n);
 
-    if ($v == 2) {
+    if ($v eq '2') {
         say $n;
     }
 }

@@ -11,7 +11,7 @@ use Storable;
 use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 use experimental qw(signatures);
 
 my $superpsp_file = "cache/factors-superpsp.storable";

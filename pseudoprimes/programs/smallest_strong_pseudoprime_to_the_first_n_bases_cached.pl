@@ -20,16 +20,16 @@ dbmopen(my %db, $cache_db, 0444)
 
 sub check ($n) {
 
-    for (my $base = 3; ; ++$base) {
+    for (my $base = 3 ; ; ++$base) {
         Math::Prime::Util::GMP::is_strong_pseudoprime($n, $base)
-            or return $base;
+          or return $base;
     }
 
     return undef;
 }
 
 my @table = ();
-my $w = Math::GMPz::Rmpz_init();
+my $w     = Math::GMPz::Rmpz_init();
 
 while (my ($n, $value) = each %db) {
 
@@ -51,7 +51,7 @@ dbmclose(%db);
 
 say "\nFinal results:\n";
 
-foreach my $i (0..$#table) {
+foreach my $i (0 .. $#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }

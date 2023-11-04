@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 use Math::Prime::Util::GMP;
 

@@ -12,7 +12,7 @@ use 5.020;
 use strict;
 use warnings;
 
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 use IO::Uncompress::UnZstd;
 

@@ -17,25 +17,25 @@ my $numbers       = retrieve($storable_file);
 
 sub check ($n, $factors) {
 
-    my $gcd = Math::Prime::Util::GMP::gcd(map { ($_ < ~0) ? ($_-1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+    my $gcd = Math::Prime::Util::GMP::gcd(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 
-    for (my $base = 2; ; ++$base) {
+    for (my $base = 2 ; ; ++$base) {
         Math::Prime::Util::GMP::powmod($base, $gcd, $n) eq '1'
-            or return $base;
+          or return $base;
     }
 
     return undef;
 }
 
 my @table = ();
-my $w = Math::GMPz::Rmpz_init();
+my $w     = Math::GMPz::Rmpz_init();
 
 while (my ($n, $value) = each %$numbers) {
 
     Math::GMPz::Rmpz_set_str($w, $n, 10);
 
     my @factors = split(' ', $value);
-    my $v = check($w, \@factors) // next;
+    my $v       = check($w, \@factors) // next;
 
     if (defined $table[$v]) {
         next if ($table[$v] < $w);
@@ -47,7 +47,7 @@ while (my ($n, $value) = each %$numbers) {
 
 say "\nFinal results:\n";
 
-foreach my $i (0..$#table) {
+foreach my $i (0 .. $#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }

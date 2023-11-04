@@ -13,7 +13,7 @@ use POSIX qw(ULONG_MAX);
 
 use Math::GMPz;
 use List::Util qw(uniq);
-use ntheory qw(:all);
+use ntheory    qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
@@ -24,7 +24,7 @@ my $cache_db = "cache/factors.db";
 dbmopen(my %db, $cache_db, 0444)
   or die "Can't create/access database <<$cache_db>>: $!";
 
-sub my_sigma ($factors) { # assumes n is squarefree
+sub my_sigma ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();

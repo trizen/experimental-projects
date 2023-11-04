@@ -9,11 +9,11 @@ use 5.020;
 use strict;
 use warnings;
 
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
 sub is_Bruckman_Lucas_pseudoprimes ($n) {
-    (lucas_sequence($n, 1, -1, $n))[1] == 1;
+    lucasvmod(1, -1, $n, $n) == 1;
 }
 
 my %seen;

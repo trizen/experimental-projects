@@ -11,7 +11,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 
 eval { require GDBM_File };
 
@@ -43,7 +43,8 @@ my %seen_p;
                 Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
                 Math::GMPz::Rmpz_divisible_p($nm1, $pm1);
             }
-        } @$factors;
+        }
+        @$factors;
         return 1;
     }
 }
@@ -66,12 +67,12 @@ while (my ($n, $value) = each %db) {
 
     foreach my $group (values %table) {
 
-        scalar(@$group) >= 4 or next;
+        scalar(@$group) >= 4                          or next;
         Math::Prime::Util::GMP::vecprod(@$group) > ~0 or next;
 
         my $size = scalar(@$group);
 
-        foreach my $k (4..$size) {
+        foreach my $k (4 .. $size) {
 
             binomial($size, $k) <= 1e2 or next;
 
@@ -79,10 +80,12 @@ while (my ($n, $value) = each %db) {
                 my @f = @{$group}[@_];
                 my $t = Math::Prime::Util::GMP::vecprod(@f);
                 if ($t > ~0 and my_is_carmichael_faster($t, \@f)) {
+
                     #say $t;
                     say $fh $t;
                 }
-            } $size, $k;
+            }
+            $size, $k;
         }
     }
 }

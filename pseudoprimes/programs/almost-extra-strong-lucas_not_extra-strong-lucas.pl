@@ -14,7 +14,7 @@ use Math::Prime::Util::GMP qw(
   is_lucas_pseudoprime
   is_extra_strong_lucas_pseudoprime
   is_almost_extra_strong_lucas_pseudoprime
-  );
+);
 
 while (<>) {
     next if /^\h*#/;

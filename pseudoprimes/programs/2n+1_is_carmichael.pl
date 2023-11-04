@@ -24,7 +24,7 @@ while (<>) {
     $n > ~0 or next;
 
     #~ if ($n > ((~0) >> 2)) {
-        #~ $n = Math::GMPz->new("$n");
+    #~ $n = Math::GMPz->new("$n");
     #~ }
 
     if (is_carmichael(addint(mulint(2, $n), 1))) {

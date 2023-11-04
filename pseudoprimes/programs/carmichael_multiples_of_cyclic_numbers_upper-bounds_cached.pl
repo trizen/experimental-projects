@@ -101,7 +101,7 @@ my %table = (
              9897 => Math::GMPz->new("420671308861831161"),
             );
 
-my @cyclic = map { $_+0 } keys %table;
+my @cyclic     = map { $_ + 0 } keys %table;
 my $cyclic_lcm = Math::Prime::Util::GMP::lcm(@cyclic);
 
 my $z = Math::GMPz::Rmpz_init();

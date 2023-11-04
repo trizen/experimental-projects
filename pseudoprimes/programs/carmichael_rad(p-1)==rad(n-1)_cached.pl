@@ -24,7 +24,7 @@ use Math::MPFR;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
 my $carmichael      = retrieve($carmichael_file);
@@ -58,13 +58,16 @@ while (my ($key, $value) = each %$carmichael) {
     Math::GMPz::Rmpz_set_str($nm1, $key, 10);
     Math::GMPz::Rmpz_sub_ui($nm1, $nm1, 1);
 
-    if (vecall {
+    if (
+        vecall {
 
-        Math::GMPz::Rmpz_set_str($pm1, $_, 10);
-        Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
+            Math::GMPz::Rmpz_set_str($pm1, $_, 10);
+            Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
 
-        is_smooth_over_prod($nm1, $pm1);
-    } @factors) {
+            is_smooth_over_prod($nm1, $pm1);
+        }
+        @factors
+      ) {
         say $key;
     }
 }

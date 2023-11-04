@@ -33,7 +33,7 @@
 #   a(n) = my(k=1); while (omega(k^n+1) != n, k++); k; \\ ~~~~
 
 # Conjectured lower-bounds:
-#   a(16) > 3532464
+#   a(16) > 3649011
 #   a(19) > 464941
 #   a(20) > 239224
 
@@ -52,7 +52,7 @@ func A219018(n, from = 1) {
 }
 
 var n = 16
-var from = 3532464
+var from = 3649011
 #var n = 14
 #var from = 1
 say "A219018(#{n}) <= #{A219018(n, from)}"

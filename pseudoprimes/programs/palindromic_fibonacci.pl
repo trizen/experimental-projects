@@ -6,18 +6,15 @@
 # Known terms:
 #   323, 15251, 34943, 1625261, 14457475441
 
-use 5.020;
-use strict;
-use warnings;
-
+use 5.036;
 use Math::GMPz;
-use ntheory qw(:all);
-use experimental qw(signatures);
+use ntheory                qw(:all);
+use Math::Prime::Util::GMP qw();
 
 my %seen;
 
 sub is_fibonacci_pseudoprime ($n) {
-    (lucas_sequence($n, 1, -1, Math::GMPz->new($n) - kronecker($n, 5)))[0] == 0;
+    Math::Prime::Util::GMP::lucasumod(1, -1, Math::Prime::Util::GMP::subint($n, Math::Prime::Util::GMP::kronecker(5, $n)), $n) eq '0';
 }
 
 my @terms;

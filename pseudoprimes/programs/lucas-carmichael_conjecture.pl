@@ -14,7 +14,7 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use Math::AnyNum qw(is_smooth);
 use Math::Prime::Util::GMP;
 
@@ -27,8 +27,7 @@ sub is_lucas_carmichael_1 ($n) {
 }
 
 sub is_lucas_carmichael_2 ($n) {
-    vecprod(map { $_ - 1 } grep { is_prime($_ - 1) } map { Math::GMPz->new("$_") } Math::Prime::Util::GMP::divisors($n + 1))
-      % $n == 0;
+    vecprod(map { $_ - 1 } grep { is_prime($_ - 1) } map { Math::GMPz->new("$_") } Math::Prime::Util::GMP::divisors($n + 1)) % $n == 0;
 }
 
 while (<>) {

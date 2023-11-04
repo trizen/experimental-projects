@@ -12,7 +12,7 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory    qw(:all);
 use List::Util qw(uniq);
 
 my $base = 3;

@@ -51,8 +51,9 @@ while (<>) {
     Math::GMPq::Rmpq_div_z($t, $t, $n);
 
     if ($t > $max) {
-    #if ($t >= 2) {
-    #if ($t >= 1.9) {
+
+        #if ($t >= 2) {
+        #if ($t >= 1.9) {
 
         #die "Found: $n";
         #say $n;

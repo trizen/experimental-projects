@@ -30,7 +30,7 @@ while (<>) {
 
     foreach my $b (2, 3, 5) {
 
-        my $t = $m * ($b-1) + 1;
+        my $t = $m * ($b - 1) + 1;
         if (Math::GMPz::Rmpz_perfect_power_p($t)) {
 
             my $n = is_power($t);
@@ -43,10 +43,10 @@ while (<>) {
                 next;
             }
 
-            (Math::GMPz->new($b)**$n - 1) / ($b-1) == $m
-                or next;
+            (Math::GMPz->new($b)**$n - 1) / ($b - 1) == $m
+              or next;
 
-            if (powmod($b, $m-1, $m) == 1) {
+            if (powmod($b, $m - 1, $m) == 1) {
                 die "Counter example for $m with b = $b and n = $n";
             }
         }

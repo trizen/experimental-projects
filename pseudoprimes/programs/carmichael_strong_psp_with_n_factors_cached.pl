@@ -29,7 +29,7 @@ my $carmichael = retrieve($carmichael_file);
 
 my %table;
 
-while(my($key, $value) = each %$carmichael) {
+while (my ($key, $value) = each %$carmichael) {
 
     my @factors = split(' ', $value);
     my $count   = scalar(@factors);

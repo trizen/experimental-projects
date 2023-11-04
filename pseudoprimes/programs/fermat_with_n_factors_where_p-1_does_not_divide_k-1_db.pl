@@ -14,7 +14,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use POSIX qw(ULONG_MAX);
+use POSIX        qw(ULONG_MAX);
 
 eval { require GDBM_File };
 
@@ -46,15 +46,18 @@ while (my ($key, $value) = each %db) {
 
     Math::GMPz::Rmpz_sub_ui($t, $n, 1);
 
-    if (vecany {
+    if (
+        vecany {
             ($_ < ULONG_MAX)
-                ? Math::GMPz::Rmpz_divisible_ui_p($t, $_ - 1)
-                : do {
-                    Math::GMPz::Rmpz_set_str($z, $_, 10);
-                    Math::GMPz::Rmpz_sub_ui($z, $z, 1);
-                    Math::GMPz::Rmpz_divisible_p($t, $z);
-                }
-    } @f) {
+              ? Math::GMPz::Rmpz_divisible_ui_p($t, $_ - 1)
+              : do {
+                Math::GMPz::Rmpz_set_str($z, $_, 10);
+                Math::GMPz::Rmpz_sub_ui($z, $z, 1);
+                Math::GMPz::Rmpz_divisible_p($t, $z);
+            }
+        }
+        @f
+      ) {
         next;
     }
 

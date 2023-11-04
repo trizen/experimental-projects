@@ -15,21 +15,20 @@
 # New term:
 #   713211736645623197793013755552001
 
-use 5.020;
-use strict;
-use warnings;
-
-use ntheory qw(:all);
+use 5.036;
 use Math::GMPz;
-use Math::AnyNum qw(is_smooth);
-use experimental qw(signatures);
+use Math::Sidef qw();
+use ntheory     qw(:all);
+
+#use Math::AnyNum qw(is_smooth);
+use Math::Prime::Util::GMP qw();
 
 sub is_chebyshev_pseudoprime ($n) {
 
     foreach (1 .. 20) {
         my $p = int(rand(1e6)) + 5;
-        my ($u, $v) = lucas_sequence($n, $p, 1, $n);
-        $v == $p or return;
+        my $v = ($n > ~0) ? Math::Prime::Util::GMP::lucasvmod($p, 1, $n, $n) : lucasvmod($p, 1, $n, $n);
+        $v eq $p or return 0;
     }
 
     return 1;
@@ -47,17 +46,14 @@ while (<>) {
 
     #next if length($n) > 55;
 
-    is_pseudoprime($n, 2)        || next;
-    is_chebyshev_pseudoprime($n) || next;
-
-    if ($n > ((~0) >> 1)) {
-        $n = Math::GMPz->new("$n");
-    }
+    Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
+    is_chebyshev_pseudoprime($n)                  || next;
 
     #is_smooth($n, 1e6) || next;
-    is_carmichael($n) || next;
+    Math::Sidef::is_smooth($n, 1e6) || next;
+    Math::Sidef::is_carmichael($n)  || next;
 
-    if (vecall { $n % (Math::GMPz->new($_) * $_ - 1) == 1 } factor($n)) {
+    if (vecall { $n % ($_ * $_ - 1) == 1 } Math::Sidef::factor($n)) {
         say "Found: $n";
     }
 }

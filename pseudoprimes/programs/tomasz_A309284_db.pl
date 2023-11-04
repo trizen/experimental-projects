@@ -25,15 +25,15 @@ my $cache_db = "cache/factors.db";
 dbmopen(my %db, $cache_db, 0444)
   or die "Can't create/access database <<$cache_db>>: $!";
 
-my $z = Math::GMPz::Rmpz_init();
-my $t = Math::GMPz::Rmpz_init();
-my $u = Math::GMPz::Rmpz_init();
+my $z   = Math::GMPz::Rmpz_init();
+my $t   = Math::GMPz::Rmpz_init();
+my $u   = Math::GMPz::Rmpz_init();
 my $ONE = Math::GMPz::Rmpz_init_set_ui(1);
 
 sub check {
     my ($n) = @_;
 
-    my $p = 2;
+    my $p     = 2;
     my $count = 0;
 
     Math::GMPz::Rmpz_sub_ui($t, $n, 1);
@@ -52,7 +52,7 @@ sub check {
             ++$count;
         }
         elsif (Math::GMPz::Rmpz_congruent_p($z, $u, $n)) {
-            return $count+1;
+            return $count + 1;
         }
         else {
             return undef;
@@ -63,15 +63,16 @@ sub check {
     return $count;
 }
 
-my @tests = qw(3277 5173601 2329584217 188985961 5113747913401 30990302851201 2528509579568281 5189206896360728641 12155831039329417441 41154189126635405260441);
+my @tests =
+  qw(3277 5173601 2329584217 188985961 5113747913401 30990302851201 2528509579568281 5189206896360728641 12155831039329417441 41154189126635405260441);
 
-foreach my $i (0..$#tests) {
-    check(Math::GMPz->new($tests[$i])) == ($i+1)
-        or die "Error for $tests[$i]";
+foreach my $i (0 .. $#tests) {
+    check(Math::GMPz->new($tests[$i])) == ($i + 1)
+      or die "Error for $tests[$i]";
 }
 
 my @table = ();
-my $w = Math::GMPz::Rmpz_init();
+my $w     = Math::GMPz::Rmpz_init();
 
 while (my ($n, $value) = each %db) {
 
@@ -93,7 +94,7 @@ dbmclose(%db);
 
 say "\nFinal results:\n";
 
-foreach my $i (0..$#table) {
+foreach my $i (0 .. $#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }

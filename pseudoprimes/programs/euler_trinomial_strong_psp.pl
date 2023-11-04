@@ -37,16 +37,17 @@ while (<>) {
     say "Passes the square test: $n";
 
     Math::Prime::Util::GMP::is_pseudoprime($n, 2) || next;
+
     #Math::Prime::Util::GMP::is_strong_pseudoprime($n, 2) || next;
 
     Math::GMPz::Rmpz_set_str($z, "$n", 10);
 
     my @solutions = iquadratic_formula(-1, -1, $z - 41);
-    my $x = $solutions[-1];
+    my $x         = $solutions[-1];
 
     say "Testing: $n with x = $x";
 
-    if ($x*$x + $x + 41 == $z) {
+    if ($x * $x + $x + 41 == $z) {
         die ":: Found: $n with x = $x";
     }
 }

@@ -8,7 +8,7 @@
 use 5.036;
 use Storable;
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory    qw(:all);
 use List::Util qw(uniq);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
@@ -24,7 +24,7 @@ sub carmichael_from_multiple ($factors, $m, $callback, $reps = 1e4) {
 
     my $smooth_lambda = 83;
 
-    (vecall { is_smooth(subint($_, 1), $smooth_lambda) } @$factors) || return;
+    (vecall { is_smooth(subint($_,             1), $smooth_lambda) } @$factors) || return;
     (vecall { is_smooth(subint(mulint($_, $_), 1), $smooth_lambda) } @$factors) || return;
 
     my $L = Math::Prime::Util::GMP::lcm(map { subint(mulint($_, $_), 1) } @$factors);

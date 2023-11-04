@@ -31,7 +31,7 @@ my $carmichael      = retrieve($carmichael_file);
 #~ }
 #>>>
 
-sub my_euler_phi ($factors) { # assumes n is squarefree
+sub my_euler_phi ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();

@@ -3,12 +3,8 @@
 # Try to find a Fibonacci pseudoprime `n` such that `legendre(n,5) = -1` and `n` is also a Fermat pseudoprime to base 2.
 # The reward for such pseudoprime is $620.
 
-use 5.020;
-use strict;
-use warnings;
-use experimental qw(signatures);
-
-use Math::Prime::Util::GMP qw(lucas_sequence is_pseudoprime divrem addint);
+use 5.036;
+use Math::Prime::Util::GMP qw(lucasumod is_pseudoprime divrem addint);
 
 while (<>) {
     next if /^\h*#/;
@@ -25,7 +21,7 @@ while (<>) {
 
     say "Testing: $n";
 
-    if ((lucas_sequence($n, 1, -1, addint($n, 1)))[0] == 0) {
+    if (lucasumod(1, -1, addint($n, 1), $n) eq '0') {
         die "\nCounter-example: $n\n";
     }
 }

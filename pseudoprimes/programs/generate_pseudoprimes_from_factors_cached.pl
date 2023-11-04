@@ -11,9 +11,10 @@ use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
-#my $storable_file = "cache/factors-carmichael.storable";
+my $storable_file = "cache/factors-carmichael.storable";
+
 #my $storable_file = "cache/factors-superpsp.storable";
-my $storable_file = "cache/factors-fermat.storable";
+#my $storable_file = "cache/factors-fermat.storable";
 
 #my $storable_file = "cache/factors-lucas-carmichael.storable";
 my $carmichael = retrieve($storable_file);
@@ -36,6 +37,7 @@ while (my ($n, $value) = each %$carmichael) {
               length($_) < 40
           and modint($_, 8) == 3
           and kronecker(5, $_) == -1
+
           #and is_square_free(subint($_, 1) >> 1)
           #and is_square_free(addint($_, 1) >> 2)
           #and (vecall { modint($_, 4) == 1 } factor(subint($_, 1) >> 1))
@@ -61,7 +63,7 @@ sub fibonacci_pseudoprimes ($list, $callback) {
 
             foreach my $d (divisors(subint($p, $k))) {
 
-                if ((lucas_sequence($p, 1, -1, $d))[0] == 0) {
+                if (lucasumod(1, -1, $d, $p) == 0) {
                     push @{$common_divisors{$d}}, $p;
                 }
 
@@ -80,13 +82,14 @@ sub fibonacci_pseudoprimes ($list, $callback) {
             forcomb {
                 my $n = Math::Prime::Util::GMP::vecprod(@{$arr}[@_]);
                 $callback->($n);
-            } $l, $k;
+            }
+            $l, $k;
         }
     }
 }
 
 sub is_fibonacci_pseudoprime ($n) {
-    (Math::Prime::Util::GMP::lucas_sequence($n, 1, -1, $n))[0] eq Math::Prime::Util::GMP::subint($n, 1);
+    Math::Prime::Util::GMP::lucasumod(1, -1, $n, $n) eq Math::Prime::Util::GMP::subint($n, 1);
 }
 
 fibonacci_pseudoprimes(
@@ -108,6 +111,5 @@ fibonacci_pseudoprimes(
                 }
             }
         }
-
     }
 );

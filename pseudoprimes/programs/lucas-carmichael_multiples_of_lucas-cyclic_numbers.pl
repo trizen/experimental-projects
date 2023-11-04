@@ -40,7 +40,7 @@ while (<>) {
 
     $n || next;
     $n =~ /^[0-9]+\z/ or next;
-    $n < ~0 or next;
+    $n < ~0           or next;
 
     if (Math::Prime::Util::GMP::gcd($n, $lucas_cyclic_lcm) eq '1') {
         next;

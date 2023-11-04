@@ -48,7 +48,7 @@ while (my ($key, $value) = each %db) {
     foreach my $p (@factors) {
         if ($p > $lim) {
 
-            my ($U, $V) = Math::Prime::Util::GMP::lucas_sequence(Math::Prime::Util::GMP::mulint($p, $p), $k, -1, $p);
+            my $V = Math::Prime::Util::GMP::lucasvmod($k, -1, $p, Math::Prime::Util::GMP::mulint($p, $p));
 
             if ($V == $k) {
                 next if $seen{$p}++;

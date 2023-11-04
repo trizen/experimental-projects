@@ -26,7 +26,7 @@ my $cache_db = "cache/factors.db";
 dbmopen(my %db, $cache_db, 0444)
   or die "Can't create/access database <<$cache_db>>: $!";
 
-sub my_euler_phi ($factors) { # assumes n is squarefree
+sub my_euler_phi ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();

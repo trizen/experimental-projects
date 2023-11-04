@@ -17,7 +17,7 @@ require LWP::UserAgent;
 require HTTP::Message;
 
 use constant {
-              USE_TOR_PROXY => 1,    # true to use the Tor proxy (127.0.0.1:9050)
+              USE_TOR_PROXY => 0,    # true to use the Tor proxy (127.0.0.1:9050)
              };
 
 my $cache_dir = 'cache';

@@ -1,17 +1,18 @@
 #!/usr/bin/perl
 
-# Try to find large Lucas V pseudoprimes, as defined in the "STRENGTHENING THE BAILLIE-PSW PRIMALITY TEST" paper.
-
-# See also:
-#   https://arxiv.org/pdf/2006.14425.pdf -- STRENGTHENING THE BAILLIE-PSW PRIMALITY TEST
-
-# All the known terms are:
-#   913, 150267335403, 430558874533, 14760229232131, 936916995253453
+# Try to find a BPSW pseudoprime.
 
 use 5.036;
 use Math::GMPz;
 use ntheory                qw(forprimes foroddcomposites);
 use Math::Prime::Util::GMP qw(:all);
+
+eval { require GDBM_File };
+
+my $cache_db = "cache/factors.db";
+
+dbmopen(my %db, $cache_db, 0444)
+  or die "Can't create/access database <<$cache_db>>: $!";
 
 sub findQ ($n) {
 
@@ -73,39 +74,13 @@ is_lucas_V_pseudoprime(430558874533)    or die "error";
 is_lucas_V_pseudoprime(14760229232131)  or die "error";
 is_lucas_V_pseudoprime(936916995253453) or die "error";
 
-say "Sanity check...";
+my $n = Math::GMPz::Rmpz_init();
 
-forprimes {
-    if (is_strong_pseudoprime($_, 2) and !is_lucas_V_pseudoprime($_)) {
-        die "Missed prime: $_";
-    }
-}
-1e6;
+while (my ($key) = each %db) {
 
-foroddcomposites {
-    if (is_strong_pseudoprime($_, 2) and is_lucas_V_pseudoprime($_)) {
-        die "Counter-example: $_";
-    }
-}
-1e6;
+    Math::GMPz::Rmpz_set_str($n, $key, 10);
 
-say "Done...";
-say "Beginning the test...";
-
-my %seen;
-my $z = Math::GMPz::Rmpz_init();
-
-while (<>) {
-    next if /^\h*#/;
-    /\S/ or next;
-    my $n = (split(' ', $_))[-1];
-    $n || next;
-    $n > 1e15 or next;
-
-    # say "Testing: $n";
-
-    Math::GMPz::Rmpz_set_str($z, "$n", 10);
-    if (is_lucas_V_pseudoprime($z)) {
-        say $n if !$seen{$n}++;
+    if (is_lucas_V_pseudoprime($n)) {
+        say $n;
     }
 }

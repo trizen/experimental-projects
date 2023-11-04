@@ -18,7 +18,7 @@ use experimental qw(signatures);
 sub check {
     my ($n) = @_;
 
-    my $p = 2;
+    my $p     = 2;
     my $count = 0;
 
     while (Math::Prime::Util::GMP::is_euler_pseudoprime($n, $p)) {
@@ -30,7 +30,7 @@ sub check {
 }
 
 my @table = (9);
-my $z = Math::GMPz::Rmpz_init();
+my $z     = Math::GMPz::Rmpz_init();
 
 while (<>) {
     next if /^\h*#/;
@@ -62,7 +62,7 @@ while (<>) {
 
 say "\nFinal results:";
 
-foreach my $i(0..$#table) {
+foreach my $i (0 .. $#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }

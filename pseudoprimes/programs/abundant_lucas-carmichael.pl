@@ -46,16 +46,17 @@ while (<>) {
         $n = Math::GMPz->new($n);
     }
 
-    (vecall { (($n+1) % addint($_,1)) == 0 } factor($n)) || next;
+    (vecall { (($n + 1) % addint($_, 1)) == 0 } factor($n)) || next;
 
     push @numbers, $n;
 }
 
-@numbers = sort {$a <=> $b} @numbers;
+@numbers = sort { $a <=> $b } @numbers;
 
 my $max = 0;
 
 foreach my $n (@numbers) {
+
     #say "Testing: $n";
 
     my $t     = Math::GMPq->new(0);

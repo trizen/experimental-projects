@@ -20,6 +20,7 @@ while (<>) {
     $n || next;
 
     if (is_power(subint($n, 1), 3) and is_pseudoprime($n, 2)) {
+
         #say rootint(subint($n, 1), 3), " -> $n" if !$seen{$n}++;
         printf("%s^3 + 1 = %s\n", rootint(subint($n, 1), 3), $n) if !$seen{$n}++;
     }

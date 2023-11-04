@@ -7,7 +7,7 @@ use strict;
 use warnings;
 use experimental qw(signatures);
 
-use ntheory qw(:all);
+use ntheory    qw(:all);
 use List::Util qw(uniq);
 
 my %seen;

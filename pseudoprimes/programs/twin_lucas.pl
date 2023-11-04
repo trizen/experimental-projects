@@ -9,19 +9,15 @@
 # More pairs are given by A006276:
 #   https://oeis.org/A006276 -- Pierce expansion of (3 - sqrt(5))/2.
 
-use 5.020;
-use strict;
-use warnings;
-
-use ntheory qw(:all);
+use 5.036;
 use Math::GMPz;
-use experimental qw(signatures);
-use Math::Prime::Util::GMP;
+use ntheory                qw(:all);
+use Math::Prime::Util::GMP qw();
 
 my %seen;
 
 sub is_Bruckman_Lucas_pseudoprimes ($n) {
-    (Math::Prime::Util::GMP::lucas_sequence($n, 1, -1, $n))[1] == 1;
+    Math::Prime::Util::GMP::lucasvmod(1, -1, $n, $n) eq '1';
 }
 
 while (<>) {
@@ -31,18 +27,18 @@ while (<>) {
 
     $n || next;
 
+    is_Bruckman_Lucas_pseudoprimes($n) || next;
+
     if ($n > ((~0) >> 1)) {
         $n = Math::GMPz->new("$n");
     }
-
-    is_Bruckman_Lucas_pseudoprimes($n) || next;
 
     if (is_Bruckman_Lucas_pseudoprimes($n + 2) and !is_prime($n + 2)) {
         say $n if !$seen{$n}++;
     }
 
     if (is_Bruckman_Lucas_pseudoprimes($n - 2) and !is_prime($n - 2)) {
-        say $n- 2 if !$seen{$n - 2}++;
+        say($n - 2) if !$seen{$n - 2}++;
     }
 }
 

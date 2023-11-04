@@ -14,7 +14,7 @@ use 5.020;
 use strict;
 use warnings;
 
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use Math::AnyNum qw(is_smooth);
 use Math::GMPz;
 

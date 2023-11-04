@@ -26,7 +26,7 @@ while (my ($key, $value) = each %$carmichael) {
 
     next if ($count < 10);
 
-    (vecall { kronecker(5,$_) == -1 } @factors) || next;
+    (vecall { kronecker(5, $_) == -1 } @factors) || next;
 
     my $n = Math::GMPz->new($key);
 

@@ -3,16 +3,12 @@
 # Integers m such that m and m+1 are terms of A111035.
 # https://oeis.org/A331977
 
-use 5.020;
-use strict;
-use warnings;
-
+use 5.036;
 use List::Util qw(uniq);
-use experimental qw(signatures);
-use ntheory qw(lucas_sequence);
+use ntheory    qw(:all);
 
 sub isok ($n) {
-    (lucas_sequence($n, 1, -1, $n + 2))[0] == 1;
+    lucasumod(1, -1, $n + 2, $n) == 1;
 }
 
 my @terms;

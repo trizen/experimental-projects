@@ -8,7 +8,7 @@
 #   https://oeis.org/A307809
 
 use 5.020;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use experimental qw(signatures);
 
 use Math::GMPz;

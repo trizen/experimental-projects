@@ -40,7 +40,8 @@ my $table         = retrieve($storable_file);
                 Math::GMPz::Rmpz_sub_ui($pm1, $pm1, 1);
                 Math::GMPz::Rmpz_divisible_p($nm1, $pm1);
             }
-        } @$factors;
+        }
+        @$factors;
         return 1;
     }
 }

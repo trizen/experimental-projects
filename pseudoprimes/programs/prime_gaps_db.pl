@@ -8,13 +8,13 @@ use POSIX qw(ULONG_MAX);
 
 use Math::GMPz;
 use List::Util qw(uniq);
-use ntheory qw(:all);
+use ntheory    qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
 use constant {
-    USE_MPFR => 0,  # true to check primes greater than 300
-};
+              USE_MPFR => 0,    # true to check primes greater than 300
+             };
 
 eval { require GDBM_File };
 
@@ -43,13 +43,15 @@ while (my ($key, $value) = each %db) {
             #$p = Math::Prime::Util::GMP::next_prime($p);
             #$p = Math::Prime::Util::GMP::prev_prime($p);
 
-            my $gap = Math::Prime::Util::GMP::subint(Math::Prime::Util::GMP::next_prime($p), $p);
-            my $merit = USE_MPFR ? do {
+            my $gap   = Math::Prime::Util::GMP::subint(Math::Prime::Util::GMP::next_prime($p), $p);
+            my $merit = USE_MPFR
+              ? do {
                 Math::MPFR::Rmpfr_set_str($f, $p, 10, 0);
                 Math::MPFR::Rmpfr_log($f, $f, 0);
                 Math::MPFR::Rmpfr_ui_div($f, $gap, $f, 0);
                 Math::MPFR::Rmpfr_get_d($f, 0);
-            } : do { $gap / log($p) };
+              }
+              : do { $gap / log($p) };
 
             if ($merit > $max_merit) {
                 say "Merit: $merit with g = $gap for p = $p";

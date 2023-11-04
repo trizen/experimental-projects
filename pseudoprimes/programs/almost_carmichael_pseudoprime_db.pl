@@ -15,9 +15,9 @@ use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
 
-# Make sure the storable file includes all the Carmichael numbers from factor.db
+# Make sure the storable file includes all the Carmichael numbers from factors.db
 my $carmichael_file = "cache/factors-carmichael.storable";
-my $carmichael = retrieve($carmichael_file);
+my $carmichael      = retrieve($carmichael_file);
 
 eval { require GDBM_File };
 
@@ -29,22 +29,22 @@ dbmopen(my %db, $cache_db, 0444)
 sub check ($n) {
 
     my $count = 0;
-    for (my $base = 3; ; $base = next_prime($base)) {
+    for (my $base = 3 ; ; $base = next_prime($base)) {
         ++$count;
         Math::Prime::Util::GMP::is_pseudoprime($n, $base)
-            or return $count;
+          or return $count;
     }
 
     return undef;
 }
 
 my @table = ();
-my $z = Math::GMPz::Rmpz_init();
+my $z     = Math::GMPz::Rmpz_init();
 
 while (my ($n, $value) = each %db) {
 
     next if exists $carmichael->{$n};
-    Math::Prime::Util::GMP::is_pseudoprime($n, 83, 2) || next;      # 83 = prime(23)
+    Math::Prime::Util::GMP::is_pseudoprime($n, 83, 2) || next;    # 83 = prime(23)
 
     my $v = check($n);
 
@@ -69,7 +69,7 @@ dbmclose(%db);
 
 say "\nFinal results:";
 
-foreach my $i (0..$#table) {
+foreach my $i (0 .. $#table) {
     if (defined($table[$i])) {
         printf("a(%2d) <= %s\n", $i, $table[$i]);
     }

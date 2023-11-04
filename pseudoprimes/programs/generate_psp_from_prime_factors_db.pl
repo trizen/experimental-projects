@@ -22,12 +22,13 @@ my %table;
 
 #my $CONSTANT_K = 2;
 my $CONSTANT_K = 3;
+
 #my $CONSTANT_K = 4;
 #my $CONSTANT_K = 20;
 #my $CONSTANT_K = 204;
 #my $CONSTANT_K = 548;
 
-my $MIN_P = sqrtint(divint(powint(2,64), $CONSTANT_K));
+my $MIN_P = sqrtint(divint(powint(2, 64), $CONSTANT_K));
 
 open my $fh, '>>', 'special_fermat_psp.txt';
 

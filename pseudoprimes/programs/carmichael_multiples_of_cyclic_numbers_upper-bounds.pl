@@ -10,8 +10,8 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use List::Util qw(uniq);
-use ntheory qw(:all);
+use List::Util             qw(uniq);
+use ntheory                qw(:all);
 use Math::Prime::Util::GMP qw(trial_factor);
 
 my %table = (

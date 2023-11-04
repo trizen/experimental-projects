@@ -22,6 +22,7 @@ my %table;
 
 #my $CONSTANT_K = 2;
 my $CONSTANT_K = 4;
+
 #my $CONSTANT_K = 20;
 #my $CONSTANT_K = 204;
 #my $CONSTANT_K = 548;

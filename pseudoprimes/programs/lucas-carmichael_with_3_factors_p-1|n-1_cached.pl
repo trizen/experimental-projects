@@ -23,7 +23,7 @@ foreach my $key (sort { log($a) <=> log($b) } keys %$lucas_carmichael) {
     my $n = Math::GMPz->new($key);
 
     my $dec = $n - 1;
-    my $k = scalar grep { Math::GMPz::Rmpz_divisible_p($dec, Math::GMPz->new($_) - 1) } split(' ', $lucas_carmichael->{$key});
+    my $k   = scalar grep { Math::GMPz::Rmpz_divisible_p($dec, Math::GMPz->new($_) - 1) } split(' ', $lucas_carmichael->{$key});
 
     if ($k >= 3) {
         if ($k >= 4) {

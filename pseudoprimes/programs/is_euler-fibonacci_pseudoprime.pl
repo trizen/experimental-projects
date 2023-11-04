@@ -10,13 +10,9 @@
 # See also:
 #   https://oeis.org/A094395
 
-use 5.020;
-use strict;
-use warnings;
-use experimental qw(signatures);
-
-use ntheory qw(is_euler_pseudoprime);
-use Math::Prime::Util::GMP qw(lucas_sequence subint);
+use 5.036;
+use ntheory                qw(is_euler_pseudoprime lucasumod subint);
+use Math::Prime::Util::GMP qw();
 
 while (<>) {
     next if /^\h*#/;
@@ -27,11 +23,11 @@ while (<>) {
 
     next if $n < 4e9;
 
-    if (is_euler_pseudoprime($n, 5)) {
+    if (($n > ~0) ? Math::Prime::Util::GMP::is_euler_pseudoprime($n, 5) : is_euler_pseudoprime($n, 5)) {
 
-        my ($U, $V) = lucas_sequence($n, 1, -1, $n);
+        my $U = ($n > ~0) ? Math::Prime::Util::GMP::lucasumod(1, -1, $n, $n) : lucasumod(1, -1, $n, $n);
 
-        if ($U eq subint($n, 1)) {
+        if ($U eq (($n > ~0) ? Math::Prime::Util::GMP::subint($n, 1) : subint($n, 1))) {
             die "\nCounter-example: $n\n";
         }
     }

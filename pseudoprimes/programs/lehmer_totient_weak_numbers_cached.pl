@@ -16,18 +16,18 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use Math::Sidef qw(trial_factor);
-use List::Util qw(uniq);
-use POSIX qw(ULONG_MAX);
+use Math::Sidef  qw(trial_factor);
+use List::Util   qw(uniq);
+use POSIX        qw(ULONG_MAX);
 
 my $carmichael_file = "cache/factors-carmichael.storable";
 my $carmichael      = retrieve($carmichael_file);
 
 #~ sub my_euler_phi ($factors) {    # assumes n is squarefree
-    #~ Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
+#~ Math::Prime::Util::GMP::vecprod(map { ($_ < ~0) ? ($_ - 1) : Math::Prime::Util::GMP::subint($_, 1) } @$factors);
 #~ }
 
-sub my_euler_phi ($factors) { # assumes n is squarefree
+sub my_euler_phi ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();
@@ -76,7 +76,7 @@ while (my ($key, $value) = each %$carmichael) {
     Math::GMPz::Rmpz_sub_ui($nm1, $nm1, 1);
 
     my @factors = split(' ', $value);
-    my $phi = my_euler_phi(\@factors);
+    my $phi     = my_euler_phi(\@factors);
 
     Math::GMPz::Rmpz_gcd($t, $phi, $nm1);
     Math::GMPz::Rmpz_divexact($t, $phi, $t);

@@ -12,12 +12,12 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use POSIX qw(ULONG_MAX);
+use POSIX        qw(ULONG_MAX);
 
 my $storable_file = "cache/factors-carmichael.storable";
 my $carmichael    = retrieve($storable_file);
 
-sub my_sigma ($factors) { # assumes n is squarefree
+sub my_sigma ($factors) {    # assumes n is squarefree
 
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();

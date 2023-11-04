@@ -22,6 +22,7 @@ while (<>) {
     $n || next;
 
     next if $n < ~0;
+
     #next if $n > ~0;
 
     Math::GMPz::Rmpz_set_str($z, $n, 10);

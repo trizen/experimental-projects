@@ -74,6 +74,7 @@ while (my ($n, $value) = each %db) {
 
     foreach my $p (@factors) {
         $p > $p_min or next;
+
         #say "Checking: $p";
         if (isok($p) and !$seen{$p}++) {
             say $fh $p;

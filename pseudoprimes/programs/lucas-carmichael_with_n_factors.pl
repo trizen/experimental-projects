@@ -9,7 +9,7 @@ use warnings;
 use experimental qw(signatures);
 
 use Math::GMPz;
-use ntheory qw(:all);
+use ntheory      qw(:all);
 use Math::AnyNum qw(is_smooth);
 
 sub is_lucas_carmichael ($n) {

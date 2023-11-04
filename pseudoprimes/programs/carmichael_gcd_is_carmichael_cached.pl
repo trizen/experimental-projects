@@ -40,4 +40,5 @@ forcomb {
         say $c;
         $carmichael->{$c} = 1;
     }
-} scalar(@c), 2;
+}
+scalar(@c), 2;

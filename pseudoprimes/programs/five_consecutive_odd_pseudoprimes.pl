@@ -7,7 +7,7 @@ use 5.020;
 use strict;
 use warnings;
 
-use ntheory qw(:all);
+use ntheory                qw(:all);
 use Math::Prime::Util::GMP qw();
 use Math::GMPz;
 
@@ -32,7 +32,7 @@ while (<>) {
         my $from = $z + $j;
         my $to   = $from + 8;
 
-        for(my $k = $from; $k <= $to; Math::GMPz::Rmpz_add_ui($k, $k, 2)) {
+        for (my $k = $from ; $k <= $to ; Math::GMPz::Rmpz_add_ui($k, $k, 2)) {
             if (not Math::Prime::Util::GMP::is_pseudoprime($k, 2)) {
                 $ok = 0;
                 last;

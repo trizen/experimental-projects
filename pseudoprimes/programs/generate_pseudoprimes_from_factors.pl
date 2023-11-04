@@ -29,11 +29,13 @@ while (my ($key, $value) = each %db) {
 
     push @list, grep { !$seen{$_}++ } grep {
 
-              #length($_) < 30
-            ($_ > 1e8) and  ($_ < 1e15)
+        #length($_) < 30
+        ($_ > 1e8) and ($_ < 1e15)
+
           #and modint($_, 8) == 3
           #and modint($_, 8) == 1
           and kronecker(5, $_) == -1
+
           #and is_square_free(subint($_, 1) >> 1)
           #and is_square_free(addint($_, 1) >> 2)
           #and (vecall { modint($_, 4) == 1 } factor(subint($_, 1) >> 1))
@@ -62,7 +64,7 @@ sub fibonacci_pseudoprimes ($list, $callback) {
 
             foreach my $d (divisors(subint($p, $k))) {
 
-                if ((lucas_sequence($p, 1, -1, $d))[0] == 0) {
+                if (lucasumod(1, -1, $d, $p) == 0) {
                     push @{$common_divisors{$d}}, $p;
                 }
 
@@ -81,13 +83,14 @@ sub fibonacci_pseudoprimes ($list, $callback) {
             forcomb {
                 my $n = Math::Prime::Util::GMP::vecprod(@{$arr}[@_]);
                 $callback->($n);
-            } $l, $k;
+            }
+            $l, $k;
         }
     }
 }
 
 sub is_fibonacci_pseudoprime ($n) {
-    (Math::Prime::Util::GMP::lucas_sequence($n, 1, -1, $n))[0] eq Math::Prime::Util::GMP::subint($n, 1);
+    Math::Prime::Util::GMP::lucasumod(1, -1, $n, $n) eq Math::Prime::Util::GMP::subint($n, 1);
 }
 
 fibonacci_pseudoprimes(
@@ -109,6 +112,5 @@ fibonacci_pseudoprimes(
                 }
             }
         }
-
     }
 );

@@ -24,7 +24,7 @@ use Math::GMPz;
 use ntheory qw(:all);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
-use List::Util qw(uniq);
+use List::Util   qw(uniq);
 
 my $storable_file = "cache/factors-fermat.storable";
 my $fermat        = retrieve($storable_file);

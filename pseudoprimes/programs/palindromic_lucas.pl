@@ -6,11 +6,9 @@
 # Known terms:
 #   15251, 1625261, 14457475441
 
-use 5.020;
-use strict;
-use warnings;
-
-use ntheory qw(:all);
+use 5.036;
+use ntheory                qw(:all);
+use Math::Prime::Util::GMP qw();
 
 my %seen;
 
@@ -21,8 +19,8 @@ while (<>) {
 
     $n || next;
 
-    ($n eq reverse($n))                     or next;
-    (lucas_sequence($n, 1, -1, $n))[1] == 1 or next;
+    ($n eq reverse($n))                                                                              or next;
+    (($n > ~0) ? Math::Prime::Util::GMP::lucasvmod(1, -1, $n, $n) : lucasvmod(1, -1, $n, $n)) eq '1' or next;
 
     next if $seen{$n}++;
 

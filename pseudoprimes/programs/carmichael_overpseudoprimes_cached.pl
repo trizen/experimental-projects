@@ -27,6 +27,7 @@ use warnings;
 use Storable;
 use Math::GMPz;
 use ntheory qw(:all);
+
 #use Math::Sidef qw(is_over_psp);
 use Math::Prime::Util::GMP;
 use experimental qw(signatures);
@@ -80,6 +81,7 @@ foreach my $n (sort { $a <=> $b } map { Math::GMPz->new($_) } grep { exists $car
     my $count   = scalar(@factors);
 
     next if ($count < 4);
+
     #is_over_psp($n) || next;
     is_over_pseudoprime_fast($n, \@factors) || next;
     next if (exists $table{$count});
