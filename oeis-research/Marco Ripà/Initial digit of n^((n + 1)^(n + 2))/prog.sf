@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+# Initial digit of n^((n + 1)^(n + 2)).
+# https://oeis.org/A364271
+
+#`{
+
+# PARI/GP program:
+
+\p 1000
+f(n,b=10) = exp(n - log(b)*floor(n/log(b)))
+a(n) = floor(f(log(n) * (n+1)^(n+2)))
+vector(86, n, a(n))
+
+}
+
+func a(n) {
+    local Num!PREC = (4*(n+1)*(n+2) + 4)
+    expnorm(log(n) * (n+1)**(n+2)).to_s.substr(2, 1).to_i
+}
+
+say 87.of(a)
+
+__END__
+1, 2, 3, 1, 7, 1, 7, 2, 8, 1, 1, 1, 2, 7, 1, 9, 1, 2, 2, 4, 5, 1, 7, 3, 2, 4, 1, 2, 6, 2, 1, 2, 2, 1, 8, 1, 6, 1, 5, 2, 8, 8, 3, 9, 3, 4, 2, 4, 3, 1, 6, 2, 1, 6, 6, 9, 1, 9, 2, 5, 2, 9, 9, 6, 8, 4, 2, 7, 7, 6, 1, 2, 2, 3, 1, 2, 6, 1, 1, 6, 1, 1, 2, 3, 5, 1

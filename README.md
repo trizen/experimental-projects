@@ -1198,6 +1198,8 @@ Highly experimental personal projects.
     * [Marco Ripà](./oeis-research/Marco%20Ripà)
         * [Initial digit of 2^(2^n) (A001146(n))](./oeis-research/Marco%20Ripà/Initial%20digit%20of%202^(2^n)%20(A001146(n)))
             * [prog.sf](./oeis-research/Marco%20Ripà/Initial%20digit%20of%202^(2^n)%20(A001146(n))/prog.sf)
+        * [Initial digit of n^((n + 1)^(n + 2))](./oeis-research/Marco%20Ripà/Initial%20digit%20of%20n^((n%20+%201)^(n%20+%202)))
+            * [prog.sf](./oeis-research/Marco%20Ripà/Initial%20digit%20of%20n^((n%20+%201)^(n%20+%202))/prog.sf)
     * [Marius A. Burtea](./oeis-research/Marius%20A.%20Burtea)
         * [Triangular numbers whose arithmetic derivative is also a triangular number](./oeis-research/Marius%20A.%20Burtea/Triangular%20numbers%20whose%20arithmetic%20derivative%20is%20also%20a%20triangular%20number)
             * [prog.pl](./oeis-research/Marius%20A.%20Burtea/Triangular%20numbers%20whose%20arithmetic%20derivative%20is%20also%20a%20triangular%20number/prog.pl)
