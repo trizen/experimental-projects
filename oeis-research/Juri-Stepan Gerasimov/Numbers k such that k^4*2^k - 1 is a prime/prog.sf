@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+
+# Numbers k such that k^4*2^k - 1 is a prime.
+# https://oeis.org/A367102
+
+# a(20) is greater than 77858.
+# The search took over 20 hours.
+
+# Update:
+#   a(20) and a(21) were both found by Hugo Pfoertner to be 91141 and 99459, respectively.
+
+# Known terms:
+#   3, 29, 43, 83, 133, 209, 271, 329, 415, 727, 2437, 5673, 6879, 7813, 8125, 11931, 29433, 29491, 38397, 91141, 99459
+
+for k in (77858..1e6) {
+    var t = (2**k * k**4 - 1)
+    say "Testing: #{k} (len: #{t.len})"
+    if (is_prime(t)) {
+        say k
+        if (k > 38397) {
+            die "Found new term: #{k}\n"
+        }
+    }
+}
+
+__END__
+Testing: 60932 (len: 18362)
+Testing: 60933 (len: 18362)
+Testing: 60934 (len: 18363)
+Testing: 60935 (len: 18363)
+^C
+sidef prog.sf  29462.48s user 78.26s system 95% cpu 8:37:31.95 total
+
+Testing: 63787 (len: 19222)
+Testing: 63788 (len: 19222)
+Testing: 63789 (len: 19222)
+^C
+sidef prog.sf  5341.68s user 7.46s system 96% cpu 1:32:18.46 total
+
+Testing: 77855 (len: 23457)
+Testing: 77856 (len: 23457)
+Testing: 77857 (len: 23457)
+Testing: 77858 (len: 23458)
+Testing: 77859 (len: 23458)
+^C
+sidef prog.sf  41737.97s user 52.61s system 98% cpu 11:50:21.94 total
