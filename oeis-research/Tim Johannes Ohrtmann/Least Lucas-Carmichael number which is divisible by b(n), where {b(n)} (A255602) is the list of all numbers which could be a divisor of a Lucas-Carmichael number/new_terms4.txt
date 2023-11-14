@@ -1,0 +1,710 @@
+# Searching for m = 2721 with limit = 1313309424353079
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2721 1313309424353079
+# Searching for m = 2723 with limit = 45343540319
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2723 45343540319
+# Searching for m = 2729 with limit = 320360039
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2729 320360039
+# Searching for m = 2731 with limit = 13646339999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2731 13646339999
+# Searching for m = 2735 with limit = 199509500735
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2735 199509500735
+# Searching for m = 2737 with limit = 194327
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2737 194327
+# Searching for m = 2741 with limit = 182912562755
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2741 182912562755
+# Searching for m = 2743 with limit = 2766406019
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2743 2766406019
+# Searching for m = 2747 with limit = 23176439
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2747 23176439
+# Searching for m = 2749 with limit = 13872143999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2749 13872143999
+# Searching for m = 2753 with limit = 144056231
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2753 144056231
+# Searching for m = 2757 with limit = 487842879
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2757 487842879
+# Searching for m = 2759 with limit = 126806399
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2759 126806399
+# Searching for m = 2761 with limit = 63503
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2761 63503
+# Searching for m = 2767 with limit = 185900609999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2767 185900609999
+# Searching for m = 2771 with limit = 3821954399
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2771 3821954399
+# Searching for m = 2773 with limit = 230159
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2773 230159
+# Searching for m = 2777 with limit = 1670784568739
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2777 1670784568739
+# Searching for m = 2779 with limit = 3262857239663
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2779 3262857239663
+# Searching for m = 2785 with limit = 1778743295
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2785 1778743295
+# Searching for m = 2789 with limit = 6933149999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2789 6933149999
+# Searching for m = 2791 with limit = 3720157305479
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2791 3720157305479
+# Searching for m = 2795 with limit = 8421335
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2795 8421335
+# Searching for m = 2797 with limit = 81456412155359
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2797 81456412155359
+# Searching for m = 2801 with limit = 30757890239
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2801 30757890239
+# Searching for m = 2803 with limit = 318259271519
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2803 318259271519
+# Searching for m = 2807 with limit = 229390847
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2807 229390847
+# Searching for m = 2811 with limit = 9605225627563246239
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Better upper-bound: 9298017353818051599
+# Better upper-bound: 2115497759509514379
+# Better upper-bound: 182770922483785299
+# Searching with k = 4
+# Searching with k = 3
+# Better upper-bound: 27765561488469447
+# Searching with k = 2
+# Searching with k = 1
+# !!!Smaller term found!!!
+2811 27765561488469447
+# Searching for m = 2813 with limit = 9572639
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2813 9572639
+# Searching for m = 2815 with limit = 856098343295
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2815 856098343295
+# Searching for m = 2819 with limit = 39750719
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2819 39750719
+# Searching for m = 2827 with limit = 845468063
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2827 845468063
+# Searching for m = 2831 with limit = 353107799
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2831 353107799
+# Searching for m = 2833 with limit = 843018643
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2833 843018643
+# Searching for m = 2837 with limit = 24157055
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2837 24157055
+# Searching for m = 2839 with limit = 157169879
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2839 157169879
+# Searching for m = 2843 with limit = 711526139
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2843 711526139
+# Searching for m = 2847 with limit = 4107602292807
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2847 4107602292807
+# Searching for m = 2849 with limit = 2276351
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2849 2276351
+# Searching for m = 2851 with limit = 13456893911
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2851 13456893911
+# Searching for m = 2855 with limit = 25149695
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2855 25149695
+# Searching for m = 2857 with limit = 699987190319
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2857 699987190319
+# Searching for m = 2861 with limit = 5199498431
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2861 5199498431
+# Searching for m = 2863 with limit = 261429119
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2863 261429119
+# Searching for m = 2867 with limit = 139098239
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2867 139098239
+# Searching for m = 2879 with limit = 945236159
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2879 945236159
+# Searching for m = 2881 with limit = 179310559
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2881 179310559
+# Searching for m = 2885 with limit = 87693068735
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2885 87693068735
+# Searching for m = 2887 with limit = 3568519655
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2887 3568519655
+# Searching for m = 2897 with limit = 503733257
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2897 503733257
+# Searching for m = 2899 with limit = 30071327
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2899 30071327
+# Searching for m = 2901 with limit = 72542261956647
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2901 72542261956647
+# Searching for m = 2903 with limit = 3262533647
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2903 3262533647
+# Searching for m = 2909 with limit = 558705449
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2909 558705449
+# Searching for m = 2911 with limit = 34562303
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2911 34562303
+# Searching for m = 2915 with limit = 2915
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2915 2915
+# Searching for m = 2917 with limit = 745012846679
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2917 745012846679
+# Searching for m = 2921 with limit = 71526527
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2921 71526527
+# Searching for m = 2923 with limit = 555407999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2923 555407999
+# Searching for m = 2927 with limit = 84674132207
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2927 84674132207
+# Searching for m = 2929 with limit = 140096999
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2929 140096999
+# Searching for m = 2935 with limit = 39003215
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2935 39003215
+# Searching for m = 2939 with limit = 561645839
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2939 561645839
+# Searching for m = 2941 with limit = 120581
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2941 120581
+# Searching for m = 2947 with limit = 2547918076319
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2947 2547918076319
+# Searching for m = 2951 with limit = 1915199
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2951 1915199
+# Searching for m = 2953 with limit = 189667714319
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2953 189667714319
+# Searching for m = 2957 with limit = 405528169535
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2957 405528169535
+# Searching for m = 2959 with limit = 653939
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2959 653939
+# Searching for m = 2963 with limit = 79043951
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2963 79043951
+# Searching for m = 2965 with limit = 12156224255
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2965 12156224255
+# Searching for m = 2969 with limit = 26456759
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2969 26456759
+# Searching for m = 2971 with limit = 12369233313359
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2971 12369233313359
+# Searching for m = 2973 with limit = 21777264108634719
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Better upper-bound: 6263461762095999
+# Searching with k = 4
+# Better upper-bound: 4601295096946239
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+# !!!Smaller term found!!!
+2973 4601295096946239
+# Searching for m = 2977 with limit = 4955773199
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2977 4955773199
+# Searching for m = 2981 with limit = 108946607
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2981 108946607
+# Searching for m = 2983 with limit = 60712858799
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2983 60712858799
+# Searching for m = 2987 with limit = 8399793479
+# Searching with k = 7
+# Searching with k = 6
+# Searching with k = 5
+# Searching with k = 4
+# Searching with k = 3
+# Searching with k = 2
+# Searching with k = 1
+2987 8399793479

@@ -47,8 +47,7 @@ use experimental qw(signatures);
 use Math::GMPz;
 
 sub divceil ($x, $y) {    # ceil(x/y)
-    my $q = ($x / $y);
-    ($q * $y == $x) ? $q : ($q + 1);
+    (($x % $y == 0) ? 0 : 1) + divint($x, $y);
 }
 
 sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
@@ -56,6 +55,9 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
     $A = vecmax($A, Math::GMPz->new(pn_primorial($k)));
 
     $A > $B and return;
+
+    # Largest possisble prime factor for Carmichael numbers <= B
+    my $max_p = (1 + sqrtint(8*$B + 1))>>2;
 
     my $generator = sub ($m, $lambda, $p, $k, $k_exp, $congr, $u = undef, $v = undef) {
 
@@ -76,7 +78,7 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
             return;
         }
 
-        my $s = rootint(($B / $m), $k);
+        my $s = vecmin($max_p, rootint(($B / $m), $k));
 
         for (my $r ; $p <= $s ; $p = $r) {
 
@@ -112,7 +114,7 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
     }
 }
 
-my $k = 13;
+my $k = 14;
 
 my $from = Math::GMPz->new(2);
 my $upto = Math::GMPz->new(pn_primorial($k));
@@ -144,3 +146,4 @@ a(9)  = 1022751992545146865
 a(10) = 5993318051893040401
 a(11) = 120459489697022624089201
 a(12) = 27146803388402594456683201
+a(13) = 14889929431153115006659489681

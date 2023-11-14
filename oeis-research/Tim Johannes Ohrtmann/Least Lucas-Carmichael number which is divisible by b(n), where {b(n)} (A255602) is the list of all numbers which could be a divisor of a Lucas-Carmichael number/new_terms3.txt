@@ -1,0 +1,169 @@
+# Searching for m = 2469 with limit = 390749096137712509119
+# Better upper-bound: 2296136347178935359
+# Better upper-bound: 830013040552511199
+# Better upper-bound: 98055244243409727
+# !!!Smaller term found!!!
+2469 98055244243409727
+# Searching for m = 2471 with limit = 38410195103
+2471 38410195103
+# Searching for m = 2473 with limit = 20173614757295
+2473 20173614757295
+# Searching for m = 2477 with limit = 42968519
+2477 42968519
+# Searching for m = 2479 with limit = 1623152519
+2479 1623152519
+# Searching for m = 2483 with limit = 306871487
+2483 306871487
+# Searching for m = 2485 with limit = 265895
+2485 265895
+# Searching for m = 2487 with limit = 9668194735359
+2487 9668194735359
+# Searching for m = 2489 with limit = 69669599
+2489 69669599
+# Searching for m = 2491 with limit = 191807
+2491 191807
+# Searching for m = 2497 with limit = 776567
+2497 776567
+# Searching for m = 2501 with limit = 349657307
+2501 349657307
+# Searching for m = 2503 with limit = 1303644999
+2503 1303644999
+# Searching for m = 2507 with limit = 47324639
+2507 47324639
+# Searching for m = 2509 with limit = 4338891479
+2509 4338891479
+# Searching for m = 2513 with limit = 10210319
+2513 10210319
+# Searching for m = 2515 with limit = 29407895
+2515 29407895
+# Searching for m = 2519 with limit = 8164079
+2519 8164079
+# Searching for m = 2521 with limit = 565861139
+2521 565861139
+# Searching for m = 2531 with limit = 12156911855
+2531 12156911855
+# Searching for m = 2533 with limit = 271038599
+2533 271038599
+# Searching for m = 2537 with limit = 145235639
+2537 145235639
+# Searching for m = 2539 with limit = 68598653759
+2539 68598653759
+# Searching for m = 2543 with limit = 2380738799
+2543 2380738799
+# Searching for m = 2549 with limit = 97501799
+2549 97501799
+# Searching for m = 2551 with limit = 364571063
+2551 364571063
+# Searching for m = 2555 with limit = 2646012669335
+2555 2646012669335
+# Searching for m = 2557 with limit = 215761570079
+2557 215761570079
+# Searching for m = 2559 with limit = 5419888521900159
+2559 5419888521900159
+# Searching for m = 2561 with limit = 187268003
+2561 187268003
+# Searching for m = 2563 with limit = 321843599
+2563 321843599
+# Searching for m = 2567 with limit = 93277079
+2567 93277079
+# Searching for m = 2569 with limit = 34709759
+2569 34709759
+# Searching for m = 2573 with limit = 64456223
+2573 64456223
+# Searching for m = 2577 with limit = 355739509119
+2577 355739509119
+# Searching for m = 2579 with limit = 6656399
+2579 6656399
+# Searching for m = 2581 with limit = 152279
+2581 152279
+# Searching for m = 2585 with limit = 18095
+2585 18095
+# Searching for m = 2587 with limit = 34347599
+2587 34347599
+# Searching for m = 2591 with limit = 564135839
+2591 564135839
+# Searching for m = 2593 with limit = 4768791234479
+2593 4768791234479
+# Searching for m = 2599 with limit = 39715319
+2599 39715319
+# Searching for m = 2603 with limit = 3796457279
+2603 3796457279
+# Searching for m = 2605 with limit = 11097953855
+2605 11097953855
+# Searching for m = 2609 with limit = 156620879
+2609 156620879
+# Searching for m = 2611 with limit = 105642493439
+2611 105642493439
+# Searching for m = 2613 with limit = 45337932436719
+2613 45337932436719
+# Searching for m = 2615 with limit = 683995699295
+2615 683995699295
+# Searching for m = 2617 with limit = 12489933455
+2617 12489933455
+# Searching for m = 2621 with limit = 15359508191
+2621 15359508191
+# Searching for m = 2623 with limit = 551925031679
+2623 551925031679
+# Searching for m = 2627 with limit = 13715567
+2627 13715567
+# Searching for m = 2629 with limit = 6023039
+2629 6023039
+# Searching for m = 2631 with limit = 1459281990451177943723199
+# Better upper-bound: 9228673819006688199
+# !!!Smaller term found!!!
+2631 9228673819006688199
+# Searching for m = 2633 with limit = 17692009055
+2633 17692009055
+# Searching for m = 2635 with limit = 206238815
+2635 206238815
+# Searching for m = 2641 with limit = 155819
+2641 155819
+# Searching for m = 2647 with limit = 255150939559
+2647 255150939559
+# Searching for m = 2649 with limit = 4993174719551199
+# Better upper-bound: 1293235807302399
+# !!!Smaller term found!!!
+2649 1293235807302399
+# Searching for m = 2653 with limit = 15717335039
+2653 15717335039
+# Searching for m = 2657 with limit = 17585699864831
+2657 17585699864831
+# Searching for m = 2659 with limit = 827536639
+2659 827536639
+# Searching for m = 2663 with limit = 532070063
+2663 532070063
+# Searching for m = 2665 with limit = 29315
+2665 29315
+# Searching for m = 2667 with limit = 162687
+2667 162687
+# Searching for m = 2669 with limit = 2117613959
+2669 2117613959
+# Searching for m = 2671 with limit = 585148280639
+2671 585148280639
+# Searching for m = 2677 with limit = 681679276199
+2677 681679276199
+# Searching for m = 2681 with limit = 147455
+2681 147455
+# Searching for m = 2683 with limit = 57612059
+2683 57612059
+# Searching for m = 2687 with limit = 50561279
+2687 50561279
+# Searching for m = 2689 with limit = 522534307679
+2689 522534307679
+# Searching for m = 2693 with limit = 117232610471
+2693 117232610471
+# Searching for m = 2699 with limit = 2834762399
+2699 2834762399
+# Searching for m = 2705 with limit = 4992691535
+2705 4992691535
+# Searching for m = 2707 with limit = 238162436591
+2707 238162436591
+# Searching for m = 2711 with limit = 11756221679
+2711 11756221679
+# Searching for m = 2713 with limit = 11516618648159
+2713 11516618648159
+# Searching for m = 2717 with limit = 6539819
+2717 6539819
+# Searching for m = 2719 with limit = 36981119
+2719 36981119
+# Searching for m = 2721 with limit = 15932217695324703807

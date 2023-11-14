@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+var min = 2020
+var max = 3000
+
+var multiples = (min..max -> grep { .is_coprime(.dedekind_psi) && .is_odd } )
+var L = multiples.lcm
+
+ARGF.each {|n|
+    n.to_i!
+
+    if (gcd(n, L) > 1) {
+        var values = multiples.grep { .divides(n) }
+        for k in (values) {
+            say "#{k} #{n}"
+            multiples.delete(k)
+        }
+
+        multiples || break
+    }
+}
+
+if (multiples.len > 0) {
+    say "Couldn't find upper-bounds for: #{multiples}"
+}

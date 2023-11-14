@@ -10,6 +10,9 @@ var max_n = terms.len
 var lucas_cyclic = max_n.by { .is_odd && .is_coprime(.psi) }
 
 terms.each_kv {|k,v|
+
+    say "Checking: #{lucas_cyclic[k]} | #{v}"
+
     assert(v.is_lucas_carmichael)
     assert_eq(v % lucas_cyclic[k], 0)
 

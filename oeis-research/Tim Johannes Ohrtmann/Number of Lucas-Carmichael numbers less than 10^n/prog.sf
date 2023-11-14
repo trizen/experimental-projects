@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+# Number of Lucas-Carmichael numbers less than 10^n.
+# https://oeis.org/A216929
+
+# Known terms:
+#   0, 0, 2, 8, 26, 60, 135, 323, 791, 1840, 4216, 9967
+
+# New term (12 November 2023):
+#   a(13) = 23070  (took 5 minutes)
+#   a(14) = 54356  (took ~1 hour)
+#   a(15) = 129125 (took ~5 hours)
+
+var min = 1
+var max = 10
+
+var n = 0
+var count = 0
+
+loop {
+
+    for k in (3..Inf) {
+        if (pn_primorial(k+1)/2 > max) {
+            break
+        }
+        count += k.lucas_carmichael(min, max).len
+    }
+
+    say "a(#{++n}) = #{count}"
+
+    (min, max) = (max, max*10)
+}
+
+__END__
+a(1) = 0
+a(2) = 0
+a(3) = 2
+a(4) = 8
+a(5) = 26
+a(6) = 60
+a(7) = 135
+a(8) = 323
+a(9) = 791
+a(10) = 1840
+a(11) = 4216
+a(12) = 9967
+a(13) = 23070
+a(14) = 54356
+a(15) = 129125

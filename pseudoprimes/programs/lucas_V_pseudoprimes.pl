@@ -56,6 +56,8 @@ sub is_lucas_V_pseudoprime ($n) {
         $Q = 5;
     }
 
+    #say "($P, $Q)";
+
     state $t = Math::GMPz::Rmpz_init();
     state $u = Math::GMPz::Rmpz_init();
 
