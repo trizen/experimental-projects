@@ -11,6 +11,32 @@
 #   a(14) = 54356  (took ~1 hour)
 #   a(15) = 129125 (took ~5 hours)
 
+#`{
+
+# PARI/GP programs:
+
+# Generate Lucas-Carmichael numbers <= n (slow)
+
+isok(n) = my(f=factor(n)); for(k=1, #f~, if ((n+1) % (f[k,1]+1) != 0 || f[k,2] >= 2, return(0))); #f~ > 1;
+upto(n) = my(A=List()); forprime(p=3, sqrtint(n+1)-1, my(t = p*(p+1), u = p+t); while(u <= n, if(isok(u), listput(A, u)); u += t)); vecsort(Set(A));
+
+# Count the number of Lucas-Carmichael numbers <= n (slow)
+
+islc(n) = my(f=factor(n)); for(k=1, #f~, if ((n+1) % (f[k,1]+1) != 0 || f[k,2] >= 2, return(0))); #f~ > 1;
+a(n) = my(A=List()); forprime(p=3, sqrtint(n+1)-1, my(t = p*(p+1), u = p+t); while(u <= n, if(islc(u), listput(A, u)); u += t)); #Set(A);
+
+# Count the number of Lucas-Carmichael numbers <= n (fast)
+
+lucas_carmichael(A, B, k) = A=max(A, vecprod(primes(k+1))\2); (f(m, l, lo, k) = my(list=List()); my(hi=min(sqrtint(B+1)-1, sqrtnint(B\m, k))); if(lo > hi, return(list)); if(k==1, lo=max(lo, ceil(A/m)); my(t=lift(-1/Mod(m,l))); while(t < lo, t += l); forstep(p=t, hi, l, if(isprime(p), my(n=m*p); if((n+1)%(p+1) == 0, listput(list, n)))), forprime(p=lo, hi, if(gcd(m, p+1) == 1, list=concat(list, f(m*p, lcm(l, p+1), p+1, k-1))))); list); f(1, 1, 3, k);
+a(n) = my(N=10^n); my(count=0); for(k=3, oo, if(vecprod(primes(k+1))\2 > N, break); count += #lucas_carmichael(1, N, k)); count;
+
+# Generate Lucas-Carmichael numbers <= n (fast)
+
+lucas_carmichael(A, B, k) = A=max(A, vecprod(primes(k+1))\2); (f(m, l, lo, k) = my(list=List()); my(hi=min(sqrtint(B+1)-1, sqrtnint(B\m, k))); if(lo > hi, return(list)); if(k==1, lo=max(lo, ceil(A/m)); my(t=lift(-1/Mod(m,l))); while(t < lo, t += l); forstep(p=t, hi, l, if(isprime(p), my(n=m*p); if((n+1)%(p+1) == 0, listput(list, n)))), forprime(p=lo, hi, if(gcd(m, p+1) == 1, list=concat(list, f(m*p, lcm(l, p+1), p+1, k-1))))); list); f(1, 1, 3, k);
+upto(n) = my(list=List()); for(k=3, oo, if(vecprod(primes(k+1))\2 > n, break); list=concat(list, lucas_carmichael(1, n, k))); vecsort(Vec(list));
+
+}
+
 var min = 1
 var max = 10
 
