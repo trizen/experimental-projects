@@ -1150,6 +1150,7 @@ Highly experimental personal projects.
             * [prog.sf](./oeis-research/Labos%20Elemer/Number%20of%20nonsquarefree%20numbers%20not%20exceeding%20n/prog.sf)
         * [Number of powerful numbers between 2^(n-1)+1 and 2^n](./oeis-research/Labos%20Elemer/Number%20of%20powerful%20numbers%20between%202^(n-1)+1%20and%202^n)
             * [prog.pl](./oeis-research/Labos%20Elemer/Number%20of%20powerful%20numbers%20between%202^(n-1)+1%20and%202^n/prog.pl)
+            * [prog faster.sf](./oeis-research/Labos%20Elemer/Number%20of%20powerful%20numbers%20between%202^(n-1)+1%20and%202^n/prog_faster.sf)
         * [Numbers k such that Cyclotomic(k,k) is prime](./oeis-research/Labos%20Elemer/Numbers%20k%20such%20that%20Cyclotomic(k,k)%20is%20prime)
             * [prog.sf](./oeis-research/Labos%20Elemer/Numbers%20k%20such%20that%20Cyclotomic(k,k)%20is%20prime/prog.sf)
             * [prog2.sf](./oeis-research/Labos%20Elemer/Numbers%20k%20such%20that%20Cyclotomic(k,k)%20is%20prime/prog2.sf)

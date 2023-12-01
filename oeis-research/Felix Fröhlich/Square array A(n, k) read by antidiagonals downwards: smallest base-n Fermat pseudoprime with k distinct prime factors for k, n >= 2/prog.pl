@@ -127,6 +127,13 @@ T(n,k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=fer
 print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
 for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
 
+# (VERSION 3) (faster)
+
+fermat_psp(A, B, k, base) = A=max(A, vecprod(primes(k))); (f(m, l, lo, k) = my(list=List()); my(hi=sqrtnint(B\m, k)); if(lo > hi, return(list)); if(k==1, forstep(p=lift(1/Mod(m, l)), hi, l, if(isprimepower(p) && gcd(m*base, p) == 1, my(n=m*p); if(n >= A && (n-1) % znorder(Mod(base, p)) == 0, listput(list, n)))), forprime(p=lo, hi, base%p == 0 && next; my(z=znorder(Mod(base, p))); gcd(m,z) == 1 || next; my(q=p, v=m*p); while(v <= B, list=concat(list, f(v, lcm(l, z), p+1, k-1)); q *= p; Mod(base, q)^z == 1 || break; v *= p))); list); vecsort(Set(f(1, 1, 2, k)));
+T(n,k) = if(n < 2, return()); my(x=vecprod(primes(k)), y=2*x); while(1, my(v=fermat_psp(x, y, k, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x);
+print_table(n, k) = for(x=2, n, for(y=2, k, print1(T(x, y), ", ")); print(""));
+for(k=2, 9, for(n=2, k, print1(T(n, k-n+2)", "))); \\ ~~~~
+
 # New terms:
 #   341, 561, 91, 11305, 286, 15, 825265, 41041, 435, 124, 45593065, 825265, 11305, 561, 35, 370851481, 130027051, 418285, 41041, 1105, 6, 38504389105, 2531091745, 30534805, 2203201, 25585, 561, 21, 7550611589521, 38504389105, 370851481, 68800501, 682465, 62745, 105, 28
 

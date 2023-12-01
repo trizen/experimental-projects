@@ -26,7 +26,7 @@ use Math::Sidef  qw();
 use Math::AnyNum qw(is_smooth);
 
 $Sidef::Types::Number::Number::USE_YAFU        = 1;
-$Sidef::Types::Number::Number::USE_FACTORDB    = 1;
+$Sidef::Types::Number::Number::USE_FACTORDB    = 0;
 $Sidef::Types::Number::Number::VERBOSE         = 1;
 $Sidef::Types::Number::Number::SPECIAL_FACTORS = 1;
 

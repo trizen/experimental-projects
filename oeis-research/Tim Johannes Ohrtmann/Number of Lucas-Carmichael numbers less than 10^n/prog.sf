@@ -6,7 +6,7 @@
 # Known terms:
 #   0, 0, 2, 8, 26, 60, 135, 323, 791, 1840, 4216, 9967
 
-# New term (12 November 2023):
+# New terms (12 November 2023):
 #   a(13) = 23070  (took 5 minutes)
 #   a(14) = 54356  (took ~1 hour)
 #   a(15) = 129125 (took ~5 hours)

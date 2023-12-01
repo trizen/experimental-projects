@@ -6,7 +6,7 @@
 # a(n) = my(s=0); forsquarefree(k=1, sqrtint(n), s += (-1)^(#k[2]~) * (n\k[1]^2)); n - s;
 
 func a(n) {
-    n.non_squarefree_count
+    n.nonsquarefree_count
 }
 
 func b(n) {

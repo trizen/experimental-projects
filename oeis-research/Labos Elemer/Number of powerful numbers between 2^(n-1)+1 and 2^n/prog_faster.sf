@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+# Number of powerful numbers between 2^(n-1)+1 and 2^n.
+# https://oeis.org/A062761
+
+# First few terms:
+#   0, 1, 1, 2, 3, 3, 7, 8, 12, 17, 25, 36, 50, 74, 105, 152, 213, 306, 437, 620, 882, 1256, 1781, 2531, 3588, 5091, 7221, 10225, 14504
+
+for n in (1 .. 30) {
+    print(2.powerful_count(2**(n-1) + 1, 2**n), ", ")
+}
+
+say ''
