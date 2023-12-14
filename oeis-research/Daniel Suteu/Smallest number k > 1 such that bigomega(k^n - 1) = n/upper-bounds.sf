@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest number k > 1 such that bigomega(k^n - 1) = n.
+# https://oeis.org/A368163
+
+# Known terms:
+#   3, 4, 4, 10, 17, 8, 25, 5, 28, 9, 81, 13, 289, 64, 100, 41, 6561, 31, 6657, 57, 529, 1025
+
+# a(24) = 79; a(27) = 961; a(28) = 729; a(30) = 361; a(32) = 2047.
+
+# Lower-bounds:
+#   a(23) > 40448
+#   a(25) > 22720
+#   a(26) > 7768
+
+# Conjectured lower-bounds:
+#   a(23) > 57344
+#   a(25) > 24576
+
+# Upper-bounds:
+#   a(23) <= 286721 (found by Jon E. Schoenfield, Sep 25 2018)
+#   a(23) <= 196609
+#   a(25) <= 28561
+#   a(26) <= 14015
+
+# Close call:
+#   bigomega(98305^23 - 1) = 22
+
+# Strong-candidates for a(23) (not yet factorized):
+#   131073,
+
+# Cf. A241793.
+
+Num!VERBOSE=true
+Num!USE_FACTORDB=true
+Num!USE_CONJECTURES=true
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+
+        #k.is_prime && next
+        #is_prob_squarefree(k**n - 1, 1e3) && next
+
+        say "[#{n}] Testing: #{k}"
+
+        try {
+            Sig.ALRM {
+                die "alarm\n"
+            }
+            Sys.alarm(60)
+            if (is_almost_prime(k**n - 1, n)) {
+                say "a(#{n}) = #{k}"
+                return k
+            }
+            Sys.alarm(0)
+        }
+        catch {
+            say "Timeout..."
+            Sys.run("killall yafu")
+        }
+    }
+}
+
+say a(26)

@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+# Primes p such that (2^(p-1)*(p+1) - 1) / p is prime.
+# https://oeis.org/A367195
+
+# Known terms:
+#   3, 5, 7, 11, 19, 29, 41, 61, 137, 181, 293, 11171
+
+# Lower-bounds:
+#   a(13) > 81197 (24K+ digits)
+
+for (var p = 11171.next_prime; true; p.next_prime!) {
+    var v = ((2**(p-1) * (p+1) - 1) / p)
+    say "Testing: #{p} (#{v.len} digits)"
+    if (v.is_prob_prime) {
+        die "Found new term: #{p}"
+    }
+}

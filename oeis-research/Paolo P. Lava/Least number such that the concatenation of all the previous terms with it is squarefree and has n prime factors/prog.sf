@@ -18,7 +18,7 @@
 #   a(17) = 510510
 
 # Lower-bounds:
-#   a(18) > 50843489
+#   a(18) > 51844464
 
 # PARI/GP program:
 #   a(n) = if(n==0, return(0)); my(prefix=vector(n-1, k, Str(a(k)))); for(k=1, oo, my(t=eval(concat(concat(prefix, [Str(k)])))); if(issquarefree(t) && bigomega(t) == n, return(k))); \\ ~~~~
@@ -45,11 +45,11 @@ func a(n, from=0) {
 
     for k in (from..Inf) {
         say "Checking: #{k}"
-        if (v + k -> to_n.is_squarefree_almost_prime(n)) {
+        if (Num(v + k).is_squarefree_almost_prime(n)) {
             say "Found: a(#{n}) = #{k}"
             return k
         }
     }
 }
 
-say a(18, 50843489)
+say a(18, 51844464)

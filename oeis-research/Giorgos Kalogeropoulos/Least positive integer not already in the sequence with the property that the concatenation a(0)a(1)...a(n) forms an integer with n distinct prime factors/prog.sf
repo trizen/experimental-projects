@@ -29,10 +29,10 @@ for k in (1..1e10) {
 
 __END__
 Found: a(15) = 251496 at x.sf line 11
-sidef -N  x.sf  22.22s user 1.92s system 60% cpu 39.830 total
+sidef prog.sf  22.22s user 1.92s system 60% cpu 39.830 total
 
 Found: a(16) = 1380652 at x.sf line 17
-sidef -N  x.sf  129.03s user 7.41s system 78% cpu 2:54.64 total
+sidef prog.sf  129.03s user 7.41s system 78% cpu 2:54.64 total
 
 Found: a(17) = 12137510 at x.sf line 18
-sidef -N  x.sf  1574.01s user 52.04s system 93% cpu 28:53.32 total
+sidef prog.sf  1574.01s user 52.04s system 93% cpu 28:53.32 total

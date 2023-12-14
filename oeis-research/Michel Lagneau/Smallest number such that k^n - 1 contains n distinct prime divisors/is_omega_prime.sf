@@ -25,6 +25,7 @@
 #   a(19) = 1048576 (confirmed by Jinyuan Wang, Feb 13 2023)
 
 local Num!VERBOSE = true
+local Num!USE_FACTORDB = true
 
 func a(n, from=2) {
     for k in (from..Inf) {

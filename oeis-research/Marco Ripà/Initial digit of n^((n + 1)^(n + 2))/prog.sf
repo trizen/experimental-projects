@@ -12,6 +12,13 @@ f(n,b=10) = exp(n - log(b)*floor(n/log(b)))
 a(n) = floor(f(log(n) * (n+1)^(n+2)))
 vector(86, n, a(n))
 
+# Version 2:
+
+\p 1000
+f(n,b=10) = exp(n % log(b))
+a(n) = floor(f(log(n) * (n+1)^(n+2)))
+vector(86, n, a(n))
+
 }
 
 func a(n) {
