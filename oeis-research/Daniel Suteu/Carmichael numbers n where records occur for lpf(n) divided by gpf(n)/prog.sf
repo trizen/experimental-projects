@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Carmichael numbers m where record occur for lpf(m)/gpf(m).
+
+# Problem from:
+#   https://math.stackexchange.com/questions/4736585/ratio-between-largest-and-smallest-prime-factor
+
+__END__
+
+561 with ratio 0.176470588235294
+1105 with ratio 0.294117647058824
+1729 with ratio 0.368421052631579
+252601 with ratio 0.405940594059406
+29111881 with ratio 0.429735234215886
+34657141 with ratio 0.443155452436195
+413138881 with ratio 0.609081934846989
+65311512001 with ratio 0.667221297836938
+7008512075401 with ratio 0.824569632721985
+33432760972801 with ratio 0.882356373821959
+156922160709748897 with ratio 0.918032931278373
+8005519274743488961 with ratio 0.942857170597862
