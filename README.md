@@ -1473,6 +1473,8 @@ Highly experimental personal projects.
         * [Quadratic discriminants from consecutive palindromic primes](./oeis-research/Philip%20Mizzi/Quadratic%20discriminants%20from%20consecutive%20palindromic%20primes)
             * [prog.pl](./oeis-research/Philip%20Mizzi/Quadratic%20discriminants%20from%20consecutive%20palindromic%20primes/prog.pl)
     * [Pierre CAMI](./oeis-research/Pierre%20CAMI)
+        * [Least k such that k * M(n) * M(n+1) + 1 is prime where M(n) = A000668(n)](./oeis-research/Pierre%20CAMI/Least%20k%20such%20that%20k%20*%20M(n)%20*%20M(n+1)%20+%201%20is%20prime%20where%20M(n)%20=%20A000668(n))
+            * [prog.sf](./oeis-research/Pierre%20CAMI/Least%20k%20such%20that%20k%20*%20M(n)%20*%20M(n+1)%20+%201%20is%20prime%20where%20M(n)%20=%20A000668(n)/prog.sf)
         * [Least k such that prime(k)*2^(10^n) -1 is prime](./oeis-research/Pierre%20CAMI/Least%20k%20such%20that%20prime(k)*2^(10^n)%20-1%20is%20prime)
             * [prog.sf](./oeis-research/Pierre%20CAMI/Least%20k%20such%20that%20prime(k)*2^(10^n)%20-1%20is%20prime/prog.sf)
         * [Least prime p such that p^(2*prime(n))-p^prime(n)-1 is prime](./oeis-research/Pierre%20CAMI/Least%20prime%20p%20such%20that%20p^(2*prime(n))-p^prime(n)-1%20is%20prime)

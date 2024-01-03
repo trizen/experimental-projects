@@ -4,6 +4,7 @@
 
 define(
     USE_BATCH_GCD = false
+    TRIAL_DIVISION = false
     TRIAL_LIMIT   = 1e7     # trial division limit
 )
 
@@ -40,8 +41,10 @@ for file in (ARGV) {
         var f = []
         var t = n
 
-        f += TRIAL_LIMIT.smooth_part(n).factor
-        n = idiv(n, f.prod)
+        if (TRIAL_DIVISION) {
+            f += TRIAL_LIMIT.smooth_part(n).factor
+            n = idiv(n, f.prod)
+        }
 
         f += if (USE_BATCH_GCD) {
             Math.gcd_factors(n, gcds + n.special_factors).first(-1)
@@ -50,7 +53,7 @@ for file in (ARGV) {
             n.special_factors.first(-1)
         }
 
-        f = f.sort.uniq
+        f = f.uniq
 
         f || next
         say "#{t} = #{f.join(' * ')}"

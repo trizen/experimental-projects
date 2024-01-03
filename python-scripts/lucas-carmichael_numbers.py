@@ -13,9 +13,13 @@ def lucas_carmichael(A, B, n):
 
             lo = max(lo, A // m + (1 if A % m else 0))
             hi = min(B // m + 1, max_p)
+            u  = l - pow(m, -1, l)
 
-            u = l - pow(m, -1, l)
-            while u < lo: u += l
+            if u < lo:
+                j,r = divmod(lo - u, l)
+                if r: j += 1
+                u += j*l
+
             if u > hi: return
 
             for p in range(u, hi, l):

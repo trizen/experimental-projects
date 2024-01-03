@@ -1,0 +1,44 @@
+#!/usr/bin/ruby
+
+# Least k such that k * M(n) * M(n+1) + 1 is prime where M(n) = A000668(n).
+# https://oeis.org/A098917
+
+# Known terms:
+#   2, 6, 4, 16, 36, 6, 42, 24, 172, 18, 52, 54, 6, 130, 2488, 1344, 12420, 5596, 364, 178, 3382, 10516, 44328, 30342, 25770
+
+# Mersenne exponents are given by A000043(n)
+
+# A000043(24) = 19937
+# A000043(25) = 21701
+
+# a(24) corresponds to a 12539-digit prime:
+#   30342 * (2**19937 - 1) * (2**21701 - 1) + 1
+
+# A000043(25) = 21701
+# A000043(26) = 23209
+
+# a(25) corresponds to a 13524-digit prime:
+#   25770 * (2**21701 - 1) * (2**23209 - 1) + 1
+
+# A000043(26) = 23209
+# A000043(27) = 44497
+
+# New terms found:
+#   a(26) = 47146
+
+# a(26) corresponds to a 20387-digit prime:
+#   47146 * (2**23209 - 1) * (2**44497 - 1) + 1
+
+var n = 26
+var t = ((2**23209 - 1) * (2**44497 - 1))
+
+for k in (1..1e9) {
+    say "Testing: #{k}"
+    if (t*k + 1 -> is_prob_prime) {
+        die "\na(#{n}) = #{k}\n"
+    }
+}
+
+__END__
+a(26) = 47146
+sidef prog.sf  14369.19s user 128.69s system 95% cpu 4:14:05.46 total
