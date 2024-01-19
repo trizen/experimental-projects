@@ -32,15 +32,15 @@ use Math::BigInt try => 'GMP';
 
 use constant {
 
-    USE_TOR_PROXY => 0,    # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
+    USE_TOR_PROXY => 1,    # true to use the Tor proxy to connect to factorDB (127.0.0.1:9050)
     USE_SIDEF     => 0,    # true to use Math::Sidef for finding factors of special form
 
+    ECM_MIN      => 65,    # numbers > 10^ECM_MIN will be factorized with ECM
     SIQS_MAX     => 70,    # numbers < 10^SIQS_MAX will be factorized with SIQS, if ECM fails
     YAFU_TIMEOUT => 60,    # number of seconds allocated for YAFU on small numbers < 10^ECM_MIN
 
     PREFER_YAFU_ECM => 0,  # true to prefer YAFU's ECM implementation
     PREFER_ECMPI    => 1,  # true to prefer ecmpi, which uses GMP-ECM (this is faster)
-    ECM_MIN         => 65, # numbers > 10^ECM_MIN will be factorized with ECM
 
     ECM_TIMEOUT       => 10,    # number of seconds allocated for ECM
     ECM_CURVES_FACTOR => 2,     # how many ECM curves to try: int(ECM_CURVES_FACTOR * ECM_TIMEOUT)
@@ -58,11 +58,7 @@ getopts('d:s:', \my %opt);
 
 sub execute_in_tmpdir ($cmd) {
 
-    my $cwd = cwd();            # current dir
-
-    # The directory is deleted when the object goes out of scope.
-    require File::Temp;
-
+    my $cwd = cwd();                              # current dir
     my $tmp = File::Temp->newdir(CLEANUP => 1);
 
     chdir($tmp);
@@ -183,9 +179,9 @@ sub ecm_one_factor ($n) {
 
 sub yafu_factor ($n) {
 
-    $n = Math::BigInt->new("$n");    # validate the number
+    $n = Math::BigInt->new("$n") || return;    # validate the number
 
-    if (length($n) >= ECM_MIN) {
+    if (length("$n") >= ECM_MIN) {
         return ecm_one_factor($n);
     }
 
@@ -363,11 +359,7 @@ sub factordb {
 
         say ":: Sending factors...";
 
-        if (scalar(@factors) >= 2) {
-            pop @factors;
-        }
-
-        eval { $resp = $mech->submit_form(form_number => 1, fields => {'report' => join(' ', @factors), 'format' => 7}) } // next;
+        $resp = eval { $mech->submit_form(form_number => 1, fields => {'report' => join(' ', @factors), 'format' => 7}) } // next;
 
         if ($resp->decoded_content =~ /Thank you/i) {
             say ":: New prime factors submitted!";
