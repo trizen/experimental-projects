@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+
+# Least totient number k > 1 such that n*k is a nontotient number, or 0 if no such number exists.
+# https://oeis.org/A361058
+
+# Try to find a(30) using powerful numbers.
+
+var n = 30
+var from = (2.5 * 10**10)
+var to = int(1.2*from)
+
+loop {
+
+    say "Sieving range: #{[from, to]}"
+
+    2.powerful(from, to).each {|k|
+        if (k.is_totient && !(k*n -> is_totient)) {
+            die "Found: a(#{n}) <= #{k}\n"
+        }
+    }
+
+    from = to+1
+    to = int(1.2*from)
+}

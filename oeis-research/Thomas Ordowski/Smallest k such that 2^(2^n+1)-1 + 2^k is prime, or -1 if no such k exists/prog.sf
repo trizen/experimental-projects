@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k such that 2^(2^n+1)-1 + 2^k is prime, or -1 if no such k exists.
+# https://oeis.org/A369378
+
+# Known terms:
+#   1, 2, 4, 16, 1968, 64, 64
+
+# Lower-bounds:
+#   a( 7) > 387711  (if it exists)
+#   a( 8) >  68735  (if it exists)
+#   a( 9) >  68223  (if it exists)
+#   a(10) >  67583  (if it exists)
+#   a(11) >  66687  (if it exists)
+#   a(12) >  67967  (if it exists)
+#   a(13) >  78975  (if it exists)
+
+Num!VERBOSE = true
+
+var n = 7
+var expr = (2**(2**n + 1) - 1)
+
+for k in (387711 .. Inf) {
+    var v = (expr + (1 << k))
+
+    say "Testing: #{k} (#{v.len} digits)"
+
+    if (v.is_prime) {
+        die "a(#{n}) = #{k}\n"
+    }
+}
