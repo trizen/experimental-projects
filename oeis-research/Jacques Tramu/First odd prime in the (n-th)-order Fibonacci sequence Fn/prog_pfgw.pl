@@ -2,10 +2,13 @@
 
 # Daniel "Trizen" Șuteu and M. F. Hasler
 # Date: 20 April 2018
-# Edit: 23 April 2018
+# Edit: 08 February 2024
 # https://github.com/trizen
 
 # Find the first index of the odd prime number in the nth-order Fibonacci sequence.
+
+# Known terms:
+#   0, 0, 4, 6, 9, 10, 40, 14, 17, 19, 361, 23, 90, 26, 373, 47, 288, 34, 75, 38, 251, 43, 67, 47, 74, 310, 511, 151534, 57, 20608, 1146, 62, 197, 94246, 9974, 287, 271172, 758
 
 # See also:
 #   https://oeis.org/A302990
@@ -15,6 +18,10 @@ use strict;
 use warnings;
 
 use Math::GMPz;
+use Math::Sidef;
+
+local $Sidef::Types::Number::Number::VERBOSE = 1;
+local $Sidef::Types::Number::Number::USE_PFGW = 1;
 
 my $ONE = Math::GMPz->new(1);
 
@@ -32,9 +39,9 @@ sub nth_order_prime_fibonacci_index ($n = 2, $min = 0) {
         $a[$t] = ($a[$t-1] << 1) - $a[$t];
 
         if ($i >= $min and Math::GMPz::Rmpz_odd_p($a[$t])) {
-            say "[", $n-1, "] Testing: $i";
+            say "[", $n-1, "] Testing: $i (", length($a[$t]), " digits)";
 
-            if (is_prob_prime($a[$t])) {
+            if (Math::Sidef::is_prime($a[$t])) {
                 say "\nFound: $t -> $i\n";
                 return $i;
             }
