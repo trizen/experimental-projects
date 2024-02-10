@@ -1,0 +1,48 @@
+#!/usr/bin/ruby
+
+# Least prime p such that p^n + 6 is the product of n distinct primes.
+# https://oeis.org/A363585
+
+# Known terms:
+#   5, 2, 23, 127, 71, 353, 1279, 3851, 3049, 18913, 47129, 352073
+
+# Upper bounds for the next terms are a(13) <= 696809, a(14) <= 1496423. - Hugo Pfoertner, Jun 11 2023
+
+# New terms:
+#   a(13) = 696809  (took 46 minutes to find)
+
+# Lower-bounds:
+#   a(14) > 307529
+
+Num!VERBOSE = true
+Num!USE_FACTORDB = true
+
+func a(n, from=2) {
+    assert(from.is_prime)
+    for (var p = from; true; p.next_prime!) {
+        var v = (p**n + 6)
+        say "[#{n}] Testing: #{p} -> #{v}"
+        if (is_squarefree_almost_prime(v, n)) {
+            return p
+        }
+    }
+}
+
+var n = 14
+var from = 307529
+
+say "a(#{n}) = #{a(n, from)}"
+
+__END__
+[1, 5]
+[2, 2]
+[3, 23]
+[4, 127]
+[5, 71]
+[6, 353]
+[7, 1279]
+[8, 3851]
+[9, 3049]
+[10, 18913]
+[11, 47129]
+[12, 352073]

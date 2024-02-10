@@ -12,8 +12,15 @@
 #   a(16) > 29231
 
 # Improved lower-bounds:
-#   a(14) > 3148351
+#   a(14) > 3156941
 #   a(15) > 361237
+
+# Conjecture lower-bounds:
+#   a(14) > 3745507
+
+Num!VERBOSE = true
+Num!USE_FACTORDB = true
+Num!USE_CONJECTURES = true
 
 func a(n, from = 2) {
     assert(from.is_prime)
@@ -27,7 +34,7 @@ func a(n, from = 2) {
 }
 
 var n = 14
-var from = 3148351.next_prime
+var from = 3156941
 
 say "a(#{n}) = #{a(n, from)}"
 
