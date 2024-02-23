@@ -1,0 +1,96 @@
+#!/usr/bin/ruby
+
+# Even numbers k such that k^2 - 1 is a powerful number.
+# https://oeis.org/A365983
+
+# k^2 - 1 = (k-1)*(k+1), therefore both k-1 and k+1 must be odd powerful numbers.
+
+# Known terms:
+#   26, 70226, 130576328, 189750626, 512706121226, 13837575261124, 99612037019890, 1385331749802026
+
+func odd_powerful_numbers(a, b, k=2) {
+
+    var odd_powerful = []
+
+    func (m,r) {
+
+        if (r < k) {
+            odd_powerful << m
+            return nil
+        }
+
+        var from = 1
+        var upto = iroot(idiv(b,m), r)
+
+        if ((r <= k) && (a > m)) {
+            from = idiv_ceil(a,m).iroot(r)
+        }
+
+        for j in (from .. upto) {
+
+            j.is_even && next
+
+            if (r > k) {
+                j.is_coprime(m) || next
+                j.is_squarefree || next
+            }
+
+            var t = (m * j**r)
+
+            if ((r <= k) && (t < a)) {
+                next
+            }
+
+            __FUNC__(t, r-1)
+        }
+    }(1, 2*k - 1)
+
+    odd_powerful.sort
+}
+
+var lo = 2
+var hi = 2*lo
+
+loop {
+
+    say "Sieving range: #{[lo, hi]}"
+
+    var arr = odd_powerful_numbers(lo-2, hi+2)
+    var lookup = arr.to_set
+
+    arr.each {|k|
+        if (lookup.has(k-2)) {
+            say k.dec
+        }
+    }
+
+    #arr.each {|v|
+    #    if (is_powerful(v.inc.sqr.dec)) {
+    #        say v.inc
+    #    }
+    #}
+
+    lo = hi+1
+    hi = 2*lo
+}
+
+__END__
+Sieving range: [2, 4]
+Sieving range: [5, 50]
+26
+Sieving range: [51, 510]
+Sieving range: [511, 5110]
+Sieving range: [5111, 51110]
+Sieving range: [51111, 511110]
+70226
+Sieving range: [511111, 5111110]
+Sieving range: [5111111, 51111110]
+Sieving range: [51111111, 511111110]
+130576328
+189750626
+Sieving range: [511111111, 5111111110]
+Sieving range: [5111111111, 51111111110]
+Sieving range: [51111111111, 511111111110]
+Sieving range: [511111111111, 5111111111110]
+512706121226
+Sieving range: [5111111111111, 51111111111110]

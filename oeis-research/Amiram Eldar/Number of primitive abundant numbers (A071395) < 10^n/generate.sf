@@ -1,0 +1,45 @@
+#!/usr/bin/ruby
+
+# Number of primitive abundant numbers (A071395) < 10^n.
+# https://oeis.org/A306986
+
+# Known terms:
+#   0, 3, 14, 98, 441, 1734, 8667, 41653, 213087, 1123424
+
+#var PERFECT = [6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176].grep{ _ <= 1e10 }
+
+func f(n, q, limit) {
+
+    #PERFECT.none { n.is_div(_) } || return false
+
+    var count = 0
+
+    for(var p = q; true; p.next_prime!) {
+        var t = n*p
+        break if (t >= limit)
+        # This includes terms with perfect divisors
+        if (t.is_primitive_abundant) {
+            count += 1
+        }
+        else {
+            count += f(t, p, limit)
+        }
+    }
+
+    return count
+}
+
+say f(1, 2, 1e4)
+
+__END__
+
+# PARI/GP programs
+
+# Generate terms
+
+prim_abundant(n, q, limit) = my(list=List()); forprime(p=q, oo, my(t = n*p); if(t >= limit, break); if(sigma(t) > 2*t, my(F=factor(t)[, 1], ok=1); for(i=1, #F, if(sigma(t\F[i], -1) > 2, ok=0; break)); if(ok, listput(list, t)), list = concat(list, prim_abundant(n*p, p, limit)))); list;
+
+# Count only
+
+prim_abundant(limit, n=1, q=2) = my(count=0); forprime(p=q, oo, my(t = n*p); if(t >= limit, break); if(sigma(t) > 2*t, my(F=factor(t)[, 1], ok=1); for(i=1, #F, if(sigma(t\F[i], -1) >= 2, ok=0; break)); if(ok, count += 1), count += prim_abundant(limit, n*p, p))); count;
+a(n) = prim_abundant(10^n);
