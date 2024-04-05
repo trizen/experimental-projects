@@ -9,6 +9,7 @@
 # a(8) = 4001045161 (found by Robert Israel)
 
 # No other terms < 2*10^10. (Michael S. Branicky)
+# If a(9) exists, then it exceeds 8*10^12. - Lucas A. Brown, Mar 08 2024
 
 # New term found:
 #   a(7) = 157108359787
@@ -28,7 +29,7 @@ use Math::Prime::Util::GMP;
 #my $from = 157108359787 - 1e7;
 #my $upto = 157108359787 + 1e6;
 
-my $from = 157108359787;
+my $from = 8 * powint(10, 12);
 my $upto = powint(10, 13);
 
 my $p = next_prime($from - 1);

@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+
+# Numbers k such that (3^k + 3*k)/3 is prime.
+# https://oeis.org/A370658
+
+# Known terms:
+#   1, 2, 4, 16, 46, 118, 160, 3740, 3778, 9704, 10624, 21460
+
+# If it exists, a(13) > 75000. - Hugo Pfoertner, Feb 27 2024
+
+Num!VERBOSE = true
+
+var from = 75476
+
+for k in (from..1e6) {
+
+    var v = (3**k + 3*k)/3
+    say "Testing: #{k} (#{v.len} digits)"
+
+    if (v -> is_prob_prime) {
+        die "\nFound new term: #{k}\n\n"
+    }
+}

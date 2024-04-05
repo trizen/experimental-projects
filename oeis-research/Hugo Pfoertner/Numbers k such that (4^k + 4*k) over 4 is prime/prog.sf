@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+
+# Numbers k such that (4^k + 4*k)/4 is prime.
+# https://oeis.org/A370659
+
+# Known terms:
+#   1, 3, 67, 247, 471, 1027, 6883, 11673
+
+# If it exists, a(13) > 75000. - Hugo Pfoertner, Feb 27 2024
+
+Num!VERBOSE = true
+
+var from = 75303
+
+for k in (from..1e6) {
+
+    var v = (4**k + 4*k)/4
+    say "Testing: #{k} (#{v.len} digits)"
+
+    if (v -> is_prime) {
+        die "\nFound new term: #{k}\n\n"
+    }
+}
