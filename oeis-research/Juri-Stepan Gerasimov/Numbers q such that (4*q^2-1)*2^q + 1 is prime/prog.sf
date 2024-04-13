@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+# Numbers q such that (4*q^2-1)*2^q + 1 is prime.
+# https://oeis.org/A371534
+
+# New terms found:
+#   64352
+
+Num!VERBOSE = true
+
+var from = 64352+1
+
+for n in (from .. 1e7) {
+
+    var v = (((4 * n**2 - 1) << n) + 1)
+    say "Testing: #{n} (#{v.len} digits)"
+
+    if (v.is_prime) {
+        die "\nNew term: #{n}"
+    }
+}
