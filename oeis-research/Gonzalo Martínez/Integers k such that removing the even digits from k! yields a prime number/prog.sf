@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+# Integers k such that removing the even digits from k! yields a prime number.
+# https://oeis.org/A371565
+
+# Known terms:
+#   6, 7, 8, 9, 10, 13, 18, 20, 21, 23, 25, 82, 119, 137, 2389, 4108, 5875
+
+Num!VERBOSE = true
+
+var P = [3,7]
+
+func factorial_from_primes(n) {
+
+    while (P[-1] <= n) {
+        P << P[-1].next_prime
+    }
+
+    P.pop if (P[-1] > n)
+    P.map {|p| p**factorial_valuation(n, p) }.prod << (factorial_valuation(n,2) - factorial_valuation(n,5))
+}
+
+var from = 7898
+
+for n in (from .. 1e8) {
+    #var v = factorial_from_primes(n).digits.grep(:is_odd).digits2num
+    var v = factorial_from_primes(n).to_s.gsub(/[02468]+/, '').to_i
+    say "Testing: #{n} (digits: #{v.len})"
+    if (v.is_prob_prime) {
+        die "Found new term: #{n}"
+    }
+}
