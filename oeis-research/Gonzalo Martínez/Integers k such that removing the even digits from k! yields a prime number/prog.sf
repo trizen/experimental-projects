@@ -20,7 +20,7 @@ func factorial_from_primes(n) {
     P.map {|p| p**factorial_valuation(n, p) }.prod << (factorial_valuation(n,2) - factorial_valuation(n,5))
 }
 
-var from = 7898
+var from = 15808
 
 for n in (from .. 1e8) {
     #var v = factorial_from_primes(n).digits.grep(:is_odd).digits2num

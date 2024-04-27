@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+# Composite numbers k that divide A001644(k) - 1.
+# https://oeis.org/A371805
+
+# Known terms:
+#   182, 25201, 54289, 63618, 194390, 750890, 804055, 1889041, 2487941, 3542533, 3761251, 6829689, 12032021, 12649337, 18002881
+
+var ker = [1,1,1]
+var init = [3, 1, 3]
+
+each_composite(1e9, {|k|
+    if (Math.linear_recmod(ker, init, k, k) == 1) {
+        say k
+    }
+})

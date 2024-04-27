@@ -110,6 +110,7 @@ pseudoprimes/smooth-primes/100-smooth.txt
 pseudoprimes/smooth-primes/1000-smooth.txt
 pseudoprimes/carmichael_1e18.txt
 pseudoprimes/carmichael_2^64.txt
+pseudoprimes/carmichael_10^22.txt
 pseudoprimes/psps-below-2-to-64.txt
 pseudoprimes/psps-below-2-to-64.txt.zst
 pseudoprimes/fermat_gt_1e18.txt
@@ -131,7 +132,7 @@ pseudoprimes/oeis-pseudoprimes/z_new_fermat_psp_4.txt
 pseudoprimes/oeis-pseudoprimes/z_new_fermat_psp_5.txt
 pseudoprimes/oeis-pseudoprimes/z_new_base-5_fermat_psp.txt
 pseudoprimes/oeis-pseudoprimes/z_new_carm_from_carm.txt
-pseudoprimes/z_new_fermat_psp_5.txt.zstd
+pseudoprimes/z_new_fermat_psp_5.txt.zst
 
 # Other stuff
 oeis-search/

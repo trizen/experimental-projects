@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Integers k such that A000045(k) + A004091(k) is prime (A000040).
+# https://oeis.org/A371508
+
+# Known terms:
+#   1, 2, 81, 311, 6887, 9691
+
+Num!VERBOSE = true
+
+var from = 75185
+
+var (a,b) = (fib(from-1), fib(from))
+
+for n in (from .. 1e8) {
+
+    var v = b+b.flip
+
+    say "Testing: #{n} (length: #{v.len})"
+    if (v.is_prob_prime) {
+        say n
+        die "Found new term: #{n}" if (n > 9691)
+    }
+
+    (a,b) = (b, a+b)
+}
