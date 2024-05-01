@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# The smallest number whose prime factor concatenation, when written in base n, contains all digits 0,1,...,(n-1).
+# https://oeis.org/A372309
+
+# Randomized algorithm, based on partitions, to quickly compute (non-optimal) upper-bounds.
+
+# Upper-bounds:
+#   a(15) <= 152807570562570
+#   a(16) <= 1762779898449570
+#   a(17) <= 52814540950435110
+#   a(18) <= 5815891347365301510
+#   a(19) <= 9323614291505100510
+#   a(20) <= 1154245189220271971130
+
+var n = 21
+var min = Inf
+
+say ":: Computing upper-bounds for n = #{n}"
+
+var digits = @^n
+var prefix = [[2],[3],[5],[7],[11]]
+
+digits - prefix.flat -> shuffle.partitions {|*a|
+
+    var f = [a..., prefix...].map{ .digits2num(n) }
+
+    if (f.all_prime) {
+        var t = f.prod
+        if ((t < min) && (f.map{.digits(n)}.flat.sort == digits)) {
+            min = t
+            say "a(#{n}) <= #{t}"
+        }
+    }
+}

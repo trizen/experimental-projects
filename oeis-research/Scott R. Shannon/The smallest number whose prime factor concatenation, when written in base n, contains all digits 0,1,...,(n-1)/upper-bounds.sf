@@ -1,0 +1,65 @@
+#!/usr/bin/ruby
+
+# The smallest number whose prime factor concatenation, when written in base n, contains all digits 0,1,...,(n-1).
+# https://oeis.org/A372309
+
+# Known terms:
+#   2, 6, 38, 174, 2866, 11670, 135570, 1335534, 15618090, 155077890, 5148702870
+
+# This program computes upper-bounds.
+
+func f (arr, p, n, value, max_value, callback) {
+
+    if (arr.len == n) {
+        if (value.factor.map { .digits(n) }.flat.len == n) {
+            callback(value)
+        }
+    }
+
+    var limit = idiv(max_value, value)
+
+    for (true; p <= limit; p.next_prime!) {
+        var D = p.digits(n)
+        if ((value*p <= max_value) && D.none{ arr.has(_) || (D.count(_) >= 2) }) {
+            f(arr + D.to_set, p, n, value * p, max_value, callback)
+        }
+    }
+
+    return nil
+}
+
+var n = 8
+var max = 2
+
+loop {
+    var terms = []
+    say ":: Computing terms <= #{max}"
+
+    f(Set(2), 3, n, 2, max, {|k|
+        say "a(#{n}) <= #{k}"
+        terms << k
+    })
+
+    if (terms) {
+        say "\n:: Final upper-bound:\na(#{n}) <= #{terms.min}"
+        break
+    }
+    max *= 2
+}
+
+__END__
+:: Computing terms <= 262144
+a(8) <= 135570
+a(8) <= 185970
+a(8) <= 216210
+a(8) <= 189714
+a(8) <= 260274
+a(8) <= 179346
+a(8) <= 240402
+a(8) <= 211902
+a(8) <= 208370
+a(8) <= 217970
+a(8) <= 262102
+
+:: Final upper-bound:
+a(8) <= 135570

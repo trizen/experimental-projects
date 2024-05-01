@@ -10,7 +10,7 @@ use 5.036;
 use ntheory qw(:all);
 
 # Next term is greater than:
-my $from = 9506000000;
+my $from = 10648000000;
 
 forfactored {
 
@@ -29,3 +29,9 @@ Testing: 9505000000
 Testing: 9506000000
 ^C
 perl prog.pl  12241.38s user 26.69s system 96% cpu 3:31:17.95 total
+
+Testing: 10646000000
+Testing: 10647000000
+Testing: 10648000000
+^C
+perl prog.pl  1947.68s user 2.91s system 95% cpu 34:08.11 total
