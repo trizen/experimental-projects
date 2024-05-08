@@ -1,0 +1,80 @@
+#!/usr/bin/ruby
+
+# Least number m such that 9*k*m+1 is prime for k=1..n.
+# https://oeis.org/A372238
+
+# Known terms:
+#   2, 2, 4, 170, 9860, 23450, 56980, 56980, 6723767050, 48276858630, 77460393371130, 97581361797920, 97581361797920, 1269928100726715430
+
+# Sidef translation of the PARI program by David A. Corneth.
+
+func isrem(r, p, n) {
+    1..n -> none {|k|
+        p `divides` (9*k*r + 1)
+    }
+}
+
+func remaindersmodp(p, n) {
+    ^p -> grep {|i| isrem(i, p, n) }
+}
+
+func remaindersuptop(n, maxp=31) {
+    var res = [[0, 1]]
+
+    for p in (maxp.primes-[3]) {
+
+        var rems = remaindersmodp(p, n)
+        var nres = []
+
+        for r in res {
+            for rem in rems {
+                nres << [Math.chinese(r, [rem, p]), lcm(p, r[1])]
+            }
+        }
+        res = nres
+    }
+
+    res.map{.[0]}.sort
+}
+
+func is(c, n) {
+    1..n -> all {|k|
+        is_prime(9*k*c + 1)
+    }
+}
+
+func a(n) {
+
+    var maxp = 11
+    var r = remaindersuptop(n, maxp)
+    var d = r.diffs
+    var s = maxp.primes.prod/3
+
+    d += [r[0] + s - r[-1]]
+
+    var i = r[0]
+    var d_len = d.len
+
+    for j in (0..Inf) {
+
+        if (is(i, n)) {
+            return i
+        }
+
+        i += d[j % d_len]
+    }
+}
+
+for n in (1..8) {
+    say [n, a(n)]
+}
+
+__END__
+[1, 2]
+[2, 2]
+[3, 4]
+[4, 170]
+[5, 9860]
+[6, 23450]
+[7, 56980]
+[8, 56980]

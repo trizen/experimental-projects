@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+# Indices k such that A002533(k) is prime.
+# https://oeis.org/A372491
+
+# Known terms:
+#   2, 3, 4, 5, 11, 17, 32, 53, 103, 107, 109, 113, 137, 197, 233, 811, 7993, 9281, 14387, 26573, 51361
+
+# It's very hard to find the next term, as most terms do not have small factors,
+# therefore we need to run a pseudoprime test on most numbers, which each take several seconds.
+
+Num!VERBOSE = true
+
+var from = 51481
+
+for k in (from..1e9) {
+
+    k.is_prime || k.is_power_of(2) || next
+
+    var v = Math.linear_rec([2,5], [1,1], k)
+    say ":: Testing: #{k} (length: #{v.len})"
+
+    if (v.is_prob_prime) {
+        die "\nFound new term: #{k}\n"
+    }
+}
