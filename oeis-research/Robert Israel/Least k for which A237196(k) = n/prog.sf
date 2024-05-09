@@ -1,0 +1,61 @@
+#!/usr/bin/ruby
+
+# a(n) is the least k for which A237196(k) = n.
+# https://oeis.org/A372648
+
+# Known terms:
+#   4, 10, 43, 1, 2, 26, 3, 28, 13, 2311675, 8396, 12918370, 37697697
+
+var P = [nil]+1e5.primes
+
+func a(n, pn=prime(n)) {
+
+    return nil if (n <= 0)
+
+    var t = 1
+
+    for j in (1..Inf) {
+        if (j != n) {
+            t *= P[j]
+        }
+        if (is_composite(t+pn)) {
+            if (j >= n) {
+                return j-1
+            }
+            else {
+                return j
+            }
+        }
+    }
+
+    return nil
+}
+
+assert_eq(a(2311675), 10)
+assert_eq(a(8396), 11)
+assert_eq(a(12918370), 12)
+assert_eq(a(37697697), 13)
+
+var table = []
+var k = 1
+
+1e9.each_prime {|p|
+    var v = a(k, p)
+    if (!table[v]) {
+        table[v] = k
+        say "a(#{v}) = #{k}"
+    }
+    ++k
+}
+
+__END__
+a(4) = 1
+a(5) = 2
+a(7) = 3
+a(1) = 4
+a(2) = 10
+a(9) = 13
+a(6) = 26
+a(8) = 28
+a(3) = 43
+a(11) = 8396
