@@ -15,8 +15,8 @@
 #   a(14) > 3156941
 #   a(15) > 361237
 
-# Conjecture lower-bounds:
-#   a(14) > 3745507
+# Conjectured lower-bounds:
+#   a(14) > 3807889
 
 Num!VERBOSE = true
 Num!USE_FACTORDB = true
@@ -34,7 +34,8 @@ func a(n, from = 2) {
 }
 
 var n = 14
-var from = 3156941
+#var from = 3156941
+var from = 3807889
 
 say "a(#{n}) = #{a(n, from)}"
 

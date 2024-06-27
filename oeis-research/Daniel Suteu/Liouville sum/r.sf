@@ -1,10 +1,77 @@
 #!/usr/bin/ruby
 
+# Partial sums of the alternating sum of divisors function (A206369).
+# https://oeis.org/A370905
 
 func foo(n) {
     sum(1..n, {|k|
         (-1)**bigomega(k) * faulhaber(floor(n/k), 1)
     })
 }
-say 20.of(foo)
-say 20.of(foo).map_cons(2, {|a,b| b-a })
+
+func bar(n) {
+    (1/2) * sum(1..n, {|k|
+        liouville(k) * floor(n/k) * floor(n/k + 1)
+    })
+}
+
+func euler_totient_partial_sum (n) {      # using Dirichlet's hyperbola method
+
+    var total = 0
+    var s = n.isqrt
+
+    for k in (1..s) {
+        total += k*mertens(idiv(n,k))
+    }
+
+    s.each_squarefree {|k|
+        total += moebius(k)*faulhaber(idiv(n,k), 1)
+    }
+
+    total -= mertens(s)*faulhaber(s, 1)
+
+    return total
+}
+
+func baz(n) {   # sublinear time
+
+    func f(n) {
+        n.is_square ? 1 : 0
+    }
+
+    func g(n) {
+        phi(n)
+    }
+
+    func R(n) {
+        n.isqrt
+    }
+
+    func S(n) {
+        return euler_totient_partial_sum(n)
+        #return sum(1..n, {|k| k.phi })
+    }
+
+    sum(1..n.isqrt, {|k|
+        f(k)*S(floor(n/k)) + g(k)*R(floor(n/k))
+    }) - S(n.isqrt)*R(n.isqrt)
+}
+
+func baz_fast(n) {   # sublinear time
+
+    func S(n) {
+        return euler_totient_partial_sum(n)
+        #return sum(1..n, {|k| k.phi })
+    }
+
+    sum(1..n.iroot(4), {|k|
+        S(floor(n / k**2))
+    }) + sum(1..n.isqrt, {|k|
+        phi(k) * isqrt(floor(n/k))
+    }) - S(n.isqrt)*n.iroot(4)
+}
+
+say foo(10000)
+say bar(10000)
+say baz(10000)
+say baz_fast(10000)

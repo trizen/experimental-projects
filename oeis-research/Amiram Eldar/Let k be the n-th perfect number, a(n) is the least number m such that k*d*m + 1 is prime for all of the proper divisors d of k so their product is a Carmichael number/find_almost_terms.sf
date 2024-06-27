@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+var N = 8128
+var D = N.proper_divisors
+
+ARGF.each{|line|
+    if (line =~ /Almost: (\d+)/) {|match|
+        var m = Num(match[0])
+        var c = D.count {|d| d*m*N - 1 -> is_prob_prime }
+        say "m = #{m} with count = #{c}" if (c >= 12)
+    }
+}
+
+__END__
+m = 604772181177255 with count = 12
+m = 606519755364075 with count = 12
+m = 608918796114240 with count = 12
+m = 609560323577355 with count = 12
+m = 634187491355355 with count = 12

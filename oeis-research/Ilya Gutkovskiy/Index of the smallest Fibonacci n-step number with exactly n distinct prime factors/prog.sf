@@ -10,20 +10,25 @@
 #   a(11) > 327
 #   a(12) > 282
 
-include("../../../factordb/auto.sf")
+# Conjectured lower-bounds:
+#   a(11) > 337
+
+Num!VERBOSE = true
+Num!USE_FACTORDB = true
+Num!USE_CONJECTURES = true
 
 func a(n, from=1) {
     for k in (from..Inf) {
         var t = fibonacci(k,n)
         say "[#{n},#{k}] Checking: #{t}"
-        if (try { omega(t) == n } catch { t.is_omega_prime(n) }) {
+        if (t.is_omega_prime(n)) {
             return k
         }
     }
 }
 
-#say a(11, 328)
-say a(12, 283)
+say a(11, 328)
+#say a(12, 283)
 
 #~ for n in (12..100) {
     #~ say "a(#{n}) = #{a(n)}"

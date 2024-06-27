@@ -12,13 +12,13 @@
 #   a(17) = 12137510
 
 # Lower-bounds:
-#   a(18) > 56425348
+#   a(18) > 56991837
 
 var arr = [1, 3, 4, 2, 11, 21, 30, 216, 118, 170, 1092, 8484, 97104, 96720, 493170, 251496, 1380652, 12137510]
 var n = arr.len
 var root = arr.join
 
-for k in (1..1e10) {
+for k in (56991837 .. 1e10) {
     say "Testing: #{k}"
     if (Num(root + k).is_omega_prime(n)) {
         if (!arr.contains(k)) {

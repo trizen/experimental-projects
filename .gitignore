@@ -136,3 +136,5 @@ pseudoprimes/z_new_fermat_psp_5.txt.zst
 
 # Other stuff
 oeis-search/
+oeis-research/Amiram Eldar/Let k be the n-th perfect number, a(n) is the least number m such that k*d*m + 1 is prime for all of the proper divisors d of k so their product is a Carmichael number/*.txt
+oeis-research/Amiram Eldar/Let k be the n-th perfect number, a(n) is the least number m such that k*d*m + 1 is prime for all of the proper divisors d of k so their product is a Carmichael number/prog
