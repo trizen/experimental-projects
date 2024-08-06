@@ -1,0 +1,41 @@
+#!/usr/bin/ruby
+
+# Smallest prime p such that the sum of it and the following prime has n prime factors including multiplicity, or 0 if no such prime exists.
+# https://oeis.org/A105418
+
+# Generate terms, by generating n-almost primes.
+
+for n in (3..500) {
+
+    var lo = 2
+    var hi = 2*lo
+
+    loop {
+
+        var found = false
+
+        n.almost_primes(lo, hi).each {|v|
+
+            var p = prev_prime((v>>1)+1)
+            var q = p.next_prime
+
+            if (p+q == v) {
+                found = true
+                say "#{n} #{p}"
+                break
+            }
+        }
+
+        break if found
+
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+__END__
+
+# PARI/GP program:
+
+almost_primes(A, B, n) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p, ceil(A/m)), B\m, listput(list, m*q)), forprime(q=p, sqrtnint(B\m, n), list=concat(list, f(m*q, q, n-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = if(n==2, return(0)); my(x=2^n, y=2*x); while(1, my(v=almost_primes(x, y, n)); for(k=1, #v, my(p=precprime(max(v[k]>>1, 2)), q=nextprime(p+1)); if(p+q == v[k], return(p))); x=y+1; y=2*x); \\ ~~~~

@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+# Numbers k such that (23^k - 2^k)/21 is prime.
+# https://oeis.org/A375161
+
+# Known terms:
+#   5, 11, 197, 4159
+
+# Next term, if it exists, is greater than 14956.
+
+for k in (14956 .. 1e6) {
+    var v = (23**k - (1 << k))/21
+
+    say "Testing: #{k} (#{v.len} digits)"
+
+    if (v.is_prob_prime) {
+        die "Found new term: #{k}\n"
+    }
+}
