@@ -46,8 +46,8 @@ my $lwp = LWP::UserAgent::Cached->new(
 my $lwp_uc = LWP::UserAgent->new(
                                  timeout       => 60,
                                  show_progress => 1,
-                                 agent    => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
-                                 ssl_opts => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
+                                 agent         => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+                                 ssl_opts      => {verify_hostname => 1, SSL_version => 'TLSv1_3'},
                                 );
 
 {
@@ -121,21 +121,38 @@ foreach my $id (@all_ids) {
     my $content = $lwp->get($url)->decoded_content;
 
     my $more = 0;
-    if (   $content =~ m{<span title="(.*?)">more</span>}
-        or $content =~ m{<span title="(.*?)">hard</span>}) {
+    if (   $content =~ m{<div class=sectname>KEYWORD</div>\s*<div class=sectbody>\s*.*?<span title="(.*?)">more</span>}
+        or $content =~ m{<div class=sectname>KEYWORD</div>\s*<div class=sectbody>\s*.*?<span title="(.*?)">hard</span>}) {
         $more = 1;
     }
 
     my $author = '';
     my $name   = '';
 
-    if ($content =~ m{.*<font size=-2>NAME</font>.*?(?!<tt>\s*<del>)<tt>(.*?)</tt>}s) {
+#<<<
+    if (   $content =~ m{.*<div class=sectname>NAME</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><span style="color: #\d+;">(.*?)</span>}s
+        or $content =~ m{.*<div class=sectname>NAME</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><del>.*?</del></tt></p>\s*<p class="diffs"><tt>(.*?)</tt></p>}s
+        or $content =~ m{.*<div class=sectname>NAME</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><span style="color: #\d+;">(.*?)</span></tt></p>}s
+        or $content =~ m{.*<div class=sectname>NAME</div>\s*<div class=sectbody>\s*<p class="diffs"><tt>(.*?)</tt></p>}s) {
         $name = remove_tags($1);
     }
+    else {
+        warn "Failed to extract name for ID: $id\n";
+    }
+#>>>
 
-    if ($content =~ m{.*<font size=-2>AUTHOR</font>.*?<ins>(.*?)</ins>}s) {
+#<<<
+    if (   $content =~ m{.*<div class=sectname>AUTHOR</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><span style="color: #\d+;"><a href="/wiki/User:.*?">(.*?)</a>}s
+        or $content =~ m{.*<div class=sectname>AUTHOR</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><ins><a href="/wiki/User:.*?">(.*?)</a>}s
+        or $content =~ m{.*<div class=sectname>AUTHOR</div>\s*<div class=sectbody>\s*<p class="diffs"><tt><span style="color: #\d+;">(.*?)</span></tt></p>}s
+        or $content =~ m{.*<div class=sectname>AUTHOR</div>\s*<div class=sectbody>\s*<p class="diffs"><tt>(.*?)</tt></p>}s
+    ) {
         $author = remove_tags($1);
     }
+    else {
+        warn "Failed to extract author for ID: $id\n";
+    }
+#>>>
 
     my $tname = $name;
 

@@ -3,6 +3,11 @@
 # a(n) is the index of the smallest tetrahedral number with exactly n prime factors (counted with multiplicity), or -1 if no such number exists.
 # https://oeis.org/A359090
 
+# New terms found:
+#   a(39) = 1073741822
+#   a(40) = 7516192768
+#   a(41) = 1073741823
+
 use 5.036;
 use ntheory qw(:all);
 
