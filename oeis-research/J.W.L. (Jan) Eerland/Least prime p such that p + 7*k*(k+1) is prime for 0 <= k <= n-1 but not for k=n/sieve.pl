@@ -4,6 +4,7 @@
 # https://oeis.org/A376675
 
 # New terms:
+#   a(15) = 251704297005767
 #   a(16) = 17
 
 =for comment
@@ -17,12 +18,7 @@ use ntheory qw(:all); sub a { my $n = $_[0]; my $lo = 2; my $hi = 2*$lo; while (
 use 5.036;
 use ntheory qw(:all);
 
-sub a {
-    my $n = shift;
-
-    my $lo = 2;
-    my $hi = 2 * $lo;
-
+sub a($n, $lo = 2, $hi = 2*$lo) {
     while (1) {
         my @terms = grep { !is_prime($_ + 7 * $n * ($n + 1)) } sieve_prime_cluster($lo, $hi, map { 7 * $_ * ($_ + 1) } 1 .. $n - 1);
         return $terms[0] if @terms;
@@ -31,9 +27,8 @@ sub a {
     }
 }
 
-foreach my $n (1 .. 100) {
-    say "a($n) = ", a($n);
-}
+my $n = 17;
+say "a($n) = ", a($n);
 
 __END__
 a(1) = 2
@@ -50,3 +45,5 @@ a(11) = 9833477
 a(12) = 19497833669
 a(13) = 215830859597
 a(14) = 111338387
+a(15) = 251704297005767
+a(16) = 17
