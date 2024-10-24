@@ -1,0 +1,43 @@
+#!/usr/bin/ruby
+
+# Least k such that phi(k) is an n-th power when k is the product of n distinct primes.
+# https://oeis.org/A281069
+
+# Known terms:
+#   2, 10, 30, 3458, 29526, 5437705, 91604415, 1190857395, 26535163830, 344957129790
+
+func a(n) {
+
+    var lo = 2
+    var hi = 2*lo
+
+    loop {
+
+        #say "Sieving range: #{[lo, hi]}"
+
+        n.squarefree_almost_primes_each(lo, hi, {|k|
+            if (k.phi.is_power(n)) {
+                return k
+            }
+        })
+
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (1..15) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+a(1) = 2
+a(2) = 10
+a(3) = 30
+a(4) = 3458
+a(5) = 29526
+a(6) = 5437705
+a(7) = 91604415
+a(8) = 1190857395
+a(9) = 26535163830
+a(10) = 344957129790
