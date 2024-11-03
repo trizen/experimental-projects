@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+ARGF.each {|line|
+    if (line =~ /^A[0-9]{6}(.*)/) {|m|
+        var nums = m[0].split(',').map{.to_i.abs}.grep{.is_int}
+        nums.each{.say}
+    }
+}

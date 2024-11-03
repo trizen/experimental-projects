@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+func sqrtrem_factorization(n, reps = 1000) {
+
+    var s = n.isqrt
+    var nm1 = n-1
+
+    reps.times {
+        var t = idiv(n,s)
+
+        if (t*s > n) {
+            s += isqrt(t*s - n)+2
+        }
+        else {
+            s += isqrt(n - t*s)+2
+        }
+
+        if (gcd(s, n).is_between(2, nm1)) {
+            return gcd(s, n)
+        }
+
+        if (gcd(t, n).is_between(2, nm1)) {
+            return gcd(t, n)
+        }
+    }
+
+    return 1
+}
+
+say sqrtrem_factorization(43*97)
+say sqrtrem_factorization(503*863)
+say sqrtrem_factorization(2**32 + 1)
