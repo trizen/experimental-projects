@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+# a(n) is the first number k such that k + a(i) is the product of n distinct prime factors, for all i < n; a(0) = 0.
+# https://oeis.org/A??????
+
+# Known terms:
+#   0, 2, 33, 1309, 55165, 13386021, 2239003921
+
+func a(n) is cached {
+
+    return 0 if (n == 0);
+    var terms = (^n -> map(a).flip)
+
+    var lo = 1
+    var hi = 2*lo
+
+    loop {
+        n.squarefree_almost_primes_each(lo, hi, {|k|
+            if (terms.all { is_squarefree_almost_prime(k + _, n) }) {
+                return k
+            }
+        })
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (1..10) {
+    say "a(#{n}) = #{a(n)}"
+}

@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+# a(n) is the irst number k such that the concatenation of a(i) and k has n prime factors, counted with multiplicity, for all i < n; a(0) = 0.
+# https://oeis.org/A??????
+
+# Known terms:
+#   0, 2, 6, 8, 152, 920, 2256, 57824, 223520, 612500, 14103168, 110125568
+
+func a(n) is cached {
+
+    return 0 if (n == 0);
+    var terms = (^n -> map(a).flip)
+
+    var lo = 1
+    var hi = 2*lo
+
+    loop {
+        n.almost_primes_each(lo, hi, {|k|
+            if (terms.all { is_almost_prime(Num(join('', _, k)), n) }) {
+                return k
+            }
+        })
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (1..100) {
+    say "a(#{n}) = #{a(n)}"
+}

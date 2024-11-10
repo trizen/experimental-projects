@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+# a(n) is the irst number k such that the concatenation of a(i) and k has n distinct prime factors, for all i < n; a(0) = 0.
+# https://oeis.org/A??????
+
+# Known terms:
+#   0, 2, 6, 66, 210, 22110, 9958740
+
+func a(n) is cached {
+
+    return 0 if (n == 0);
+    var terms = (^n -> map(a).flip)
+
+    var lo = 1
+    var hi = 2*lo
+
+    loop {
+        n.omega_primes_each(lo, hi, {|k|
+            if (terms.all { is_omega_prime(Num(join('', _, k)), n) }) {
+                return k
+            }
+        })
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (1..10) {
+    say "a(#{n}) = #{a(n)}"
+}

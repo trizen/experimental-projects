@@ -1,0 +1,52 @@
+#!/usr/bin/ruby
+
+# Smallest k such that 3^(4*3^n) - k is a safe prime.
+# https://oeis.org/A376946
+
+# Known terms:
+#   22, 202, 6934, 634, 109678, 445294, 2323138
+
+# Lower-bounds:
+#   a(7) > 23348433
+
+func a(n, from=1) {
+
+    var prefix = 3**(4 * 3**n)
+    var len = prefix.len
+
+    for k in (from .. Inf) {
+        say "Testing: #{k} (length: #{len})"
+
+        local Num!USE_PFGW = false
+
+        if (primality_pretest(prefix - k) && primality_pretest((prefix - k - 1)>>1)) {
+
+             local Num!USE_PFGW = true
+
+            if (prefix - k -> is_safe_prime) {
+                return k
+            }
+        }
+    }
+}
+
+var n = 7
+var from = 23348433
+
+say "a(#{n}) = #{a(n, from)}"
+
+#for n in (0..100) {
+#    say [n, a(n)]
+#}
+
+__END__
+[0, 22]
+[2, 6934]
+[3, 634]
+[4, 109678]
+[5, 445294]
+[6, 2323138]
+
+Testing: 14194858 (length: 4174)
+^C
+/home/swampyx/Other/Programare/sidef/bin/sidef -N  prog.sf  20260.40s user 1064.73s system 95% cpu 6:13:50.82 total
