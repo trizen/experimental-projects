@@ -16,6 +16,7 @@ use ntheory qw(:all); sub a { my $n = $_[0]; my $lo = 2; my $hi = 2*$lo; while (
 
 # Lower-bounds:
 #   a(16) > 41943044194303
+#   a(16) > 83886088388607 (17 December 2024)
 
 use 5.036;
 use ntheory qw(:all);
@@ -32,7 +33,7 @@ sub a ($n, $lo = 2, $hi = 2 * $lo) {
 }
 
 my $n  = 16;
-my $lo = 41943044194303;
+my $lo = 83886088388607;
 my $hi = int(1.5 * $lo);
 
 say "a($n) = ", a($n, $lo);
