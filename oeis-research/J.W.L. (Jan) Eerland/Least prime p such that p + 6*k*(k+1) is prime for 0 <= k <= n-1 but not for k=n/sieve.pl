@@ -17,6 +17,11 @@ use ntheory qw(:all); sub a { my $n = $_[0]; my $lo = 2; my $hi = 2*$lo; while (
 # Lower-bounds:
 #   a(16) > 41943044194303
 #   a(16) > 83886088388607 (17 December 2024)
+#   a(16) > 167772176777215 (18 December 2024)
+#   a(16) > 335544353554431 (18 December 2024)
+#   a(16) > 660090302112534 (20 December 2024)
+#   a(16) > 666691205133660 (22 December 2024)
+#   a(16) > 774007791978400 (22 December 2024)
 
 use 5.036;
 use ntheory qw(:all);
@@ -24,19 +29,19 @@ use ntheory qw(:all);
 sub a ($n, $lo = 2, $hi = 2 * $lo) {
 
     while (1) {
-        say ":: Sieving: [$lo, $hi]";
+        say ":: Sieving for a($n): [$lo, $hi]";
         my @terms = grep { !is_prime($_ + 6 * $n * ($n + 1)) } sieve_prime_cluster($lo, $hi, map { 6 * $_ * ($_ + 1) } 1 .. $n - 1);
         return $terms[0] if @terms;
         $lo = $hi + 1;
-        $hi = 2 * $lo;
+        $hi = int(1.1 * $lo);
     }
 }
 
 my $n  = 16;
-my $lo = 83886088388607;
-my $hi = int(1.5 * $lo);
+my $lo = 774007791978400;
+my $hi = int(1.1 * $lo);
 
-say "a($n) = ", a($n, $lo);
+say "a($n) = ", a($n, $lo, $hi);
 
 __END__
 a(1) = 2

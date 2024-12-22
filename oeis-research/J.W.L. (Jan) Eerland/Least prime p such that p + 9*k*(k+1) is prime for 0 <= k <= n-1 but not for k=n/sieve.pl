@@ -8,6 +8,7 @@
 
 # New terms:
 #   a(14) = 5201390418463
+#   a(15) = 86927887467919
 
 # Lower-bounds:
 #   a(15) > 52776558133247
@@ -15,18 +16,20 @@
 use 5.036;
 use ntheory qw(:all);
 
-sub a {
-    my $n  = $_[0];
-    my $lo = 2;
-    my $hi = 2 * $lo;
+sub a ($n, $lo = 2, $hi = 2*$lo) {
     while (1) {
-        say "Sieving: [$lo, $hi]";
+        say "Sieving for a($n): [$lo, $hi]";
         my @terms = grep { !is_prime($_ + 9 * $n * ($n + 1)) } sieve_prime_cluster($lo, $hi, map { 9 * $_ * ($_ + 1) } 1 .. $n - 1);
         return $terms[0] if @terms;
         $lo = $hi + 1;
-        $hi = 2 * $lo;
+        $hi = int(1.1 * $lo);
     }
 }
 
-$| = 1;
-for my $n (1 .. 100) { say "a($n) = ", a($n); }
+my $lo = 1;
+my $hi = int(1.1 * $lo);
+
+say a(16, $lo, $hi);
+
+#$| = 1;
+#for my $n (1 .. 100) { say "a($n) = ", a($n); }
