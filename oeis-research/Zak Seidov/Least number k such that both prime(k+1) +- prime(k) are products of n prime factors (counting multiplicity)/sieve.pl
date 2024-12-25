@@ -7,7 +7,7 @@
 #   24, 319, 738, 57360, 1077529, 116552943
 
 # Lower-bounds:
-#   a(9) > pi(77309411327)
+#   a(9) > pi(136958338043)
 
 use 5.036;
 use ntheory qw(:all);
@@ -16,8 +16,8 @@ my $n = 9;
 
 my $diff = powint(2, $n);
 
-my $lo = 2;
-my $hi = 2*$lo;
+my $lo = 136958338043;
+my $hi = int(1.01*$lo);
 
 while (1) {
 
@@ -33,7 +33,7 @@ while (1) {
     }
 
     $lo = $hi+1;
-    $hi = 2*$lo;
+    $hi = int(1.01*$lo);
 }
 
 __END__

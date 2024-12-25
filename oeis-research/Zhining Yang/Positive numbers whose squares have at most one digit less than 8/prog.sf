@@ -1,0 +1,41 @@
+#!/usr/bin/ruby
+
+# Positive numbers whose squares have at most one digit less than 8.
+# https://oeis.org/A378925
+
+# Known terms:
+#   1, 2, 3, 7, 9, 17, 83, 2983, 298327
+
+# No terms > 298327 with less than 22 digits. - Michael S. Branicky, Dec 11 2024
+
+for k in (1..30) {
+    say "k = #{k}"
+    variations_with_repetition([8,9], k, {|*a|
+        for v in (0..7) {
+            for k in (0..a.end) {
+                var t = a.clone.insert(k, v)
+                say t.digits2num.isqrt if t.digits2num.is_square
+            }
+        }
+    })
+}
+
+__END__
+k = 1
+9
+k = 2
+k = 3
+k = 4
+k = 5
+k = 6
+2983
+k = 7
+k = 8
+k = 9
+k = 10
+298327
+k = 11
+k = 12
+k = 13
+k = 14
+k = 15

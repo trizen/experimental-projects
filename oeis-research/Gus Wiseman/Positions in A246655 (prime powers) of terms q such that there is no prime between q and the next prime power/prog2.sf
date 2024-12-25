@@ -1,0 +1,92 @@
+#!/usr/bin/ruby
+
+# Positions in A246655 (prime powers) of terms q such that there is no prime between q and the next prime power.
+# https://oeis.org/A379156
+
+# Known terms:
+#   6, 14, 41, 359, 3589
+
+# No other terms < 128625507584899.
+
+var lo = 4503599627370495
+var hi = 2*lo
+
+loop {
+
+    say "Sieving: #{[lo, hi]}"
+
+    each_prime(lo.isqrt, hi.isqrt, {|p|
+        var pk = p
+        for k in (1..hi.ilog(p)) {
+            pk *= p
+            if (pk.next_prime > pk.next_prime_power) {
+                say pk
+            }
+        }
+    })
+
+    lo = hi+1
+    hi = 2*lo
+}
+
+__END__
+Sieving: [1, 2]
+Sieving: [3, 6]
+8
+Sieving: [7, 14]
+8
+Sieving: [15, 30]
+25
+Sieving: [31, 62]
+25
+Sieving: [63, 126]
+121
+Sieving: [127, 254]
+121
+Sieving: [255, 510]
+Sieving: [511, 1022]
+Sieving: [1023, 2046]
+Sieving: [2047, 4094]
+Sieving: [4095, 8190]
+Sieving: [8191, 16382]
+Sieving: [16383, 32766]
+32761
+Sieving: [32767, 65534]
+32761
+Sieving: [65535, 131070]
+Sieving: [131071, 262142]
+Sieving: [262143, 524286]
+Sieving: [524287, 1048574]
+Sieving: [1048575, 2097150]
+Sieving: [2097151, 4194302]
+Sieving: [4194303, 8388606]
+Sieving: [8388607, 16777214]
+Sieving: [16777215, 33554430]
+Sieving: [33554431, 67108862]
+Sieving: [67108863, 134217726]
+Sieving: [134217727, 268435454]
+Sieving: [268435455, 536870910]
+Sieving: [536870911, 1073741822]
+Sieving: [1073741823, 2147483646]
+Sieving: [2147483647, 4294967294]
+Sieving: [4294967295, 8589934590]
+Sieving: [8589934591, 17179869182]
+Sieving: [17179869183, 34359738366]
+Sieving: [34359738367, 68719476734]
+Sieving: [68719476735, 137438953470]
+Sieving: [137438953471, 274877906942]
+Sieving: [274877906943, 549755813886]
+Sieving: [549755813887, 1099511627774]
+Sieving: [1099511627775, 2199023255550]
+Sieving: [2199023255551, 4398046511102]
+Sieving: [4398046511103, 8796093022206]
+Sieving: [8796093022207, 17592186044414]
+Sieving: [17592186044415, 35184372088830]
+Sieving: [35184372088831, 70368744177662]
+Sieving: [70368744177663, 140737488355326]
+Sieving: [140737488355327, 281474976710654]
+Sieving: [281474976710655, 562949953421310]
+Sieving: [562949953421311, 1125899906842622]
+Sieving: [1125899906842623, 2251799813685246]
+Sieving: [2251799813685247, 4503599627370494]
+Sieving: [4503599627370495, 9007199254740990]

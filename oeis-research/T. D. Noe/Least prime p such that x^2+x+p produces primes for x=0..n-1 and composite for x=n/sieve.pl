@@ -15,7 +15,8 @@ use ntheory qw(:all); sub a { my $n = $_[0]; my $lo = 2; my $hi = 2*$lo; while (
 =cut
 
 # Lower-bounds:
-#   a(17) > 11608742626666
+#   a(17) > 291598227841757
+#   a(17) > 1783388239117169
 
 use 5.036;
 use ntheory qw(:all);
@@ -27,13 +28,13 @@ sub a ($n, $lo = 2, $hi = 2 * $lo) {
         my @terms = grep { !is_prime($_ + $n * ($n+1)) } sieve_prime_cluster($lo, $hi, map { $_ * ($_+1) } 1 .. $n - 1);
         return $terms[0] if @terms;
         $lo = $hi + 1;
-        $hi = int(1.5 * $lo);
+        $hi = int(1.1 * $lo);
     }
 }
 
 my $n  = 17;
-my $lo = 1;
-my $hi = int(1.5 * $lo);
+my $lo = 1783388239117169;
+my $hi = int(1.1 * $lo);
 
 say "a($n) = ", a($n, $lo, $hi);
 

@@ -9,6 +9,7 @@
 # This version is memory friendly.
 
 # Lower-bounds:
+#   a(8) > 786613953091
 #   a(8) > 21286545113742
 
 use 5.036;
@@ -17,7 +18,7 @@ use Time::HiRes qw(gettimeofday tv_interval);
 
 my $n = 8;
 
-my $multiplier = 1.2;
+my $multiplier = 1.1;
 my $from = 21286545113742;
 my $upto = int($multiplier * $from);
 

@@ -17,7 +17,7 @@ use experimental qw(signatures);
 #my $lower_bound = 2;
 
 my $n = 9;
-my $lower_bound = 6000000000;
+my $lower_bound = 19723461071;
 
 my $k = prime_count($lower_bound);
 
@@ -65,7 +65,13 @@ sub isok ($n, $p) {
     die "Error: (@list) != (@list2)";
 }
 
+my $count = 0;
+
 forprimes {
+
+    if (++$count % 1e7 == 0) {
+        say "Checking: $_"
+    }
 
     my $r = $Q[-1] * $Q[-1] - $Q[0] * $Q[0];
     my $t = $r + $Q[0];
