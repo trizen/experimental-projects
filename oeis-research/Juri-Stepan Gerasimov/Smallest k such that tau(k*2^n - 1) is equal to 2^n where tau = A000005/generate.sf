@@ -1,0 +1,64 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k such that tau(k*2^n - 1) is equal to 2^n where tau = A000005.
+# https://oeis.org/A377634
+
+# Known terms:
+#   2, 4, 17, 130, 1283, 6889, 40037, 638521, 10126943, 186814849
+
+# Upper-bounds:
+#   a(11) <= 2546733737
+#   a(12) <= 8167862431
+#   a(13) <= 1052676193433
+#   a(14) <= 30964627320559
+
+# Lower-bound:
+#   a(n)*2^n - 1 >= A360438(n). - ~~~~
+
+func smallest_number_with_n_odd_divisors(n) {
+
+    var te = n.valuation(2)
+
+    func mult_factors(n) is cached {
+
+        if (n.is_prime) {
+            return [[n]]
+        }
+
+        var c = []
+        n.divisors.each {|d|
+            if (d.is_between(2, n-1)) {
+                for a in (__FUNC__(idiv(n,d))) {
+                    c << a.clone.binsert(d)
+                }
+            }
+        }
+
+        c.uniq
+    }
+
+    var min = Inf
+
+    mult_factors(n).each {|d|
+
+        d.flip!
+
+        primes(3, 100).combinations(d.len, {|*a|
+
+            var t = d.prod_kv{|k,v|
+                ipow(a[k], v-1)
+            }
+
+            if (t + 1 -> valuation(2) == te) {
+                if (t < min) {
+                    say (t + 1 >> te)
+                    min = t
+                }
+            }
+        })
+    }
+
+    return nil
+}
+
+smallest_number_with_n_odd_divisors(2**13)

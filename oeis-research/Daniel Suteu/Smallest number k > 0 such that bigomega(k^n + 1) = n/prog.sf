@@ -8,6 +8,10 @@
 
 # a(16) <= 206874667; a(17) = 4095; a(18) = 6272; a(19) = 29951; a(21) = 1151.
 
+# Conjectured lower-bounds:
+#   a(16) > 947362
+#   a(20) > 538362
+
 # Lower-bounds:
 #   a(22) > 79012
 #   a(23) > 173610
@@ -21,6 +25,7 @@
 
 Num!VERBOSE=true
 Num!USE_FACTORDB=true
+Num!USE_CONJECTURES=true
 
 func a(n, from=1) {
     for k in (from..Inf) {
@@ -33,4 +38,17 @@ func a(n, from=1) {
     }
 }
 
-say a(19)
+say a(20)
+
+__END__
+[19] Testing: 29951
+pbrent_factor(r, 200): 191
+ecm_factor(r, 1629, 10): 24473
+ecm_factor(r, 1629, 10): 100207
+ecm_factor(r, 1629, 10): 186049
+ecm_factor(r, 1629, 10): 604733
+ecm_factor(r, 1629, 10): 17422963
+ecm_factor(r, 1629, 10): 1064486310867809
+a(19) = 29951
+29951
+sidef -N  prog.sf  43.61s user 1.39s system 77% cpu 57.929 total

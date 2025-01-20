@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest prime p such that omega(p^n + 1) = n.
+# https://oeis.org/A379768
+
+# Known terms:
+#   2, 3, 5, 43, 17, 47, 151, 1697, 59, 2153, 521, 13183, 30089, 66569, 761
+
+# 2 * 10^6 < a(16) <= 206874667; a(18) = 33577; a(20) <= 3258569.
+
+Num!VERBOSE = true
+Num!USE_CONJECTURES=true
+Num!USE_FACTORDB = true
+
+# Upper-bounds:
+#   a(16) <= 206874667
+#   a(20) <= 3258569
+
+# Conjectured lower-bounds:
+#   a(17) > 4537229
+#   a(19) > 4537229
+
+# Further terms:
+#   a(18) = 33577
+
+func a(n) {
+    for p in (1..Inf) {
+
+        p.is_prime || next
+
+        say "[#{n}] Testing: #{p}"
+
+        if (p**n + 1 -> is_omega_prime(n)) {
+            return p
+        }
+    }
+}
+
+for n in (15) {
+    #print(a(n), ", ")
+    say a(n)
+}

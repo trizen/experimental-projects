@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest prime p such that omega(p^n - 1) is equal to n, where omega = A001221.
+# https://oeis.org/A379450
+
+# Known terms:
+#   3, 5, 7, 11, 31, 11, 79, 47, 211, 113, 2473, 47, 45841, 389, 1123, 1061
+
+# Jinyuan Wang: I get a(17) > 729607, a(18) = 373, a(19) > 1600000, a(20)-a(22)=2141, 83071, 43541. Computed with isomega function in https://oeis.org/history?seq=A219019
+
+# PARI/GP program:
+#   a(n) = forprime(p=2, oo, if(omega(p^n-1) == n, return(p)));
+
+# Upper-bounds:
+#   a(17) <= 2487619
+
+# Lower-bounds:
+#   a(17) > 732181
+#   a(19) > 1600000
+
+# Conjectured lower-bounds:
+#   a(17) > 2126167
+#   a(19) > 7955449
+#   a(23) > 198193
+
+local Num!VERBOSE = true
+local Num!USE_FACTORDB = true
+local Num!USE_CONJECTURES = true
+
+func a(n, from=2) {
+    for k in (from..Inf) {
+        k.is_prime || next
+        var t = (k**n - 1)
+        say "[#{n}] Checking k = #{k}: #{t}"
+        if (t.is_omega_prime(n)) {
+            return k
+        }
+    }
+}
+
+#var n = 17
+#var from = 732181
+
+var n = 19
+var from = 3681151
+
+say a(n, from)

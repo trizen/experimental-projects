@@ -6,6 +6,8 @@
 # Known terms:
 #   3, 4, 4, 10, 17, 8, 25, 5, 28, 9, 81, 13, 289, 64, 100, 41, 6561, 31, 6657, 57, 529, 1025
 
+# a(23) <= 196609; a(24) = 79; a(25) <= 28561; a(26) = 14015; a(27) = 961; a(28) = 729; a(30) = 361; a(32) = 2047.
+
 # a(24) = 79; a(27) = 961; a(28) = 729; a(30) = 361; a(32) = 2047.
 
 # Lower-bounds:
@@ -36,7 +38,7 @@
 
 Num!VERBOSE=true
 Num!USE_FACTORDB=true
-#Num!USE_CONJECTURES=true
+Num!USE_CONJECTURES=true
 
 func a(n, from=1) {
     for k in (from..Inf) {
@@ -49,6 +51,7 @@ func a(n, from=1) {
     }
 }
 
+say a(32)
 #say a(23, 40448)
 #say a(26, 7768)
-say a(25, 22272)
+#say a(25, 22272)

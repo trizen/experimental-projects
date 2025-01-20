@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+# Smallest prime p with bigomega(p-1)=n, where bigomega(m)=A001222(m) is the number of prime divisors of m (counted with multiplicity).
+# https://oeis.org/A073919
+
+func a(n) {
+
+    var k = 2**n
+
+    loop {
+        if (is_prime(k+1)) {
+            return k+1
+        }
+        k = k.next_almost_prime(n)
+    }
+}
+
+func b(n) {
+
+    var lo = 2**n
+    var hi = 2*lo
+
+    loop {
+        n.almost_primes(lo, hi).each {|k|
+            if (is_prime(k+1)) {
+                return k+1
+            }
+        }
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (1..351) {
+    say (n, " ", b(n))
+}
+
+__END__
+almost_primes(A, B, n) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p, ceil(A/m)), B\m, listput(list, m*q)), forprime(q=p, sqrtnint(B\m, n), list=concat(list, f(m*q, q, n-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = if(n==0, return(2)); my(x=2^n, y=2*x); while(1, my(v=almost_primes(x, y, n)); for(k=1, #v, if(isprime(v[k]+1), return(v[k]+1))); x=y+1; y=2*x); \\ ~~~~
