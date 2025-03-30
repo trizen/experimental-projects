@@ -485,6 +485,8 @@ Highly experimental personal projects.
         * [Largest prime factor of 4^(2*n+1)+1](./oeis-research/Colin%20Barker/Largest%20prime%20factor%20of%204^(2*n+1)+1)
             * [prog.sf](./oeis-research/Colin%20Barker/Largest%20prime%20factor%20of%204^(2*n+1)+1/prog.sf)
     * [Ctibor O. Zizka](./oeis-research/Ctibor%20O.%20Zizka)
+        * [Numbers k such that partial sums of sigma0 are divisible by pillai's function](./oeis-research/Ctibor%20O.%20Zizka/Numbers%20k%20such%20that%20partial%20sums%20of%20sigma0%20are%20divisible%20by%20pillai's%20function)
+            * [prog.pl](./oeis-research/Ctibor%20O.%20Zizka/Numbers%20k%20such%20that%20partial%20sums%20of%20sigma0%20are%20divisible%20by%20pillai's%20function/prog.pl)
         * [Sum of floor(n^2 over k^2)](./oeis-research/Ctibor%20O.%20Zizka/Sum%20of%20floor(n^2%20over%20k^2))
             * [prog.sf](./oeis-research/Ctibor%20O.%20Zizka/Sum%20of%20floor(n^2%20over%20k^2)/prog.sf)
     * [César Aguilera](./oeis-research/César%20Aguilera)
