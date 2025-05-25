@@ -132,23 +132,23 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
                 if (is_prime($p)) {
                     my $valuation = valuation($p - 1, 2);
                     if ($valuation > $k_exp and powmod($base, ($p - 1) >> ($valuation - $k_exp), $p) == ($congr % $p)) {
-                    	Math::GMPz::Rmpz_mul_ui($v, $m, $p);
-                    	Math::GMPz::Rmpz_sub_ui($u, $v, 1);
-                    	if (Math::GMPz::Rmpz_divisible_ui_p($u, $p - 1)) {
-                        	my $term = Math::GMPz::Rmpz_init_set($v);
-                       	 say "# Found upper-bound: $term";
-                       	 $B = $term if ($term < $B);
-                       	 $callback->($term);
-                    	}
-              	    }
+                        Math::GMPz::Rmpz_mul_ui($v, $m, $p);
+                        Math::GMPz::Rmpz_sub_ui($u, $v, 1);
+                        if (Math::GMPz::Rmpz_divisible_ui_p($u, $p - 1)) {
+                            my $term = Math::GMPz::Rmpz_init_set($v);
+                            say "# Found upper-bound: $term";
+                            $B = $term if ($term < $B);
+                            $callback->($term);
+                        }
+                    }
                 }
             }
 
             return;
         }
 
-        my $z = Math::GMPz::Rmpz_init();
-        my $lcm =  Math::GMPz::Rmpz_init();
+        my $z   = Math::GMPz::Rmpz_init();
+        my $lcm = Math::GMPz::Rmpz_init();
 
         foreach my $p (@{primes($lo, $hi)}) {
 
@@ -162,7 +162,7 @@ sub strong_carmichael_in_range ($A, $B, $k, $base, $callback) {
             #is_smooth($p-1, 17) || next;
 
             Math::GMPz::Rmpz_mul_ui($z, $m, $p);
-            Math::GMPz::Rmpz_lcm_ui($lcm, $L, $p-1);
+            Math::GMPz::Rmpz_lcm_ui($lcm, $L, $p - 1);
 
             __SUB__->($z, $lcm, $p + 1, $k - 1, $k_exp, $congr);
         }
@@ -185,13 +185,18 @@ my $from = Math::GMPz->new(pn_primorial($k));
 $from = Math::GMPz->new("2693624541501640513291894811443");
 my $upto = 3 * $from;
 
+my $max = Math::GMPz->new("12119528395859597855693434006201");
+
 while (1) {
+
+    $upto = $max if ($upto > $max);
 
     my @found;
     strong_carmichael_in_range($from, $upto, $k, 2, sub ($n) { push @found, $n });
 
     if (@found) {
         @found = sort { $a <=> $b } @found;
+
         #say "Terms: @found";
         say "a($k) = $found[0]";
         last;

@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+
+# a(n) = smallest number k with n prime factors such that d + k/d is prime for every d | k.
+# https://oeis.org/A293756
+
+# Known terms:
+#   1, 2, 6, 30, 210, 186162
+
+# Charles R Greathouse IV: a(6) > 10^13.
+# Robert G. Wilson v: I have checked all integers composed of six primes, 2<p<q<r<s<t<990; with no positive results. Sorry.
+
+=for comment
+
+# Pari/GP program:
+
+generate(A, B, n, k) = A=max(A, 2^n); (f(m, p, n) = my(list=List()); if(n==1, forprime(q=max(p, ceil(A/m)), B\m, if(bigomega(m*q+sumdigits(m*q)) == k, listput(list, m*q))), forprime(q=p, sqrtnint(B\m, n), list=concat(list, f(m*q, q, n-1)))); list); vecsort(Vec(f(1, 2, n)));
+a(n) = my(x=2^n, y=2*x); while(1, my(v=generate(x, y, n, n)); if(#v >= 1, return(v[1])); x=y+1; y=2*x); \\ ~~~~
+
+=cut
+
+use 5.036;
+use ntheory qw(:all);
+
+sub almost_prime_numbers ($A, $B, $k, $callback) {
+
+    my $n = $k;
+    $A = vecmax($A, powint(2, $k));
+
+    sub ($m, $p, $k) {
+
+        if ($k == 1) {
+
+            my $v;
+            my @factors;
+
+            forprimes {
+                $v = $m * $_;
+                if (
+                    is_prime($m + $_) and is_prime($v + 1) and do {
+                        @factors = factor($m) if !@factors;
+                        vecall { is_prime(divint($v, $_) + $_) } @factors;
+                    }
+
+                    # and vecall { is_prime(divint($v, $_) + $_) } @divisors
+                    and vecall { is_prime(divint($v, $_) + $_) } divisors($v)
+                  ) {
+                    $callback->($v);
+                }
+            }
+            vecmax($p, cdivint($A, $m)), divint($B, $m);
+
+            return;
+        }
+
+        my $s = rootint(divint($B, $m), $k);
+
+        $s = 1e2 if ($s > 1e2);
+
+        foreach my $q (@{primes($p, $s)}) {
+            __SUB__->($m * $q, $q + 1, $k - 1);
+        }
+      }
+      ->(1, 2, $k);
+}
+
+my $n  = 6;
+my $lo = powint(10, 13); #powint(2, $n);
+my $hi = 2 * $lo;
+my $limit = 'inf' + 0;
+#my $limit = 5e8;
+
+while (1) {
+
+    say "Sieving range: [$lo, $hi]";
+
+    almost_prime_numbers(
+        $lo, $hi, $n,
+        sub ($k) {
+            if ($k < $limit) {
+                say "a(", $n, ") <= ", $k;
+                $limit = $k;
+            }
+        }
+    );
+
+    last if ($hi > $limit);
+
+    $lo = $hi + 1;
+    $hi = 2 * $lo;
+}
