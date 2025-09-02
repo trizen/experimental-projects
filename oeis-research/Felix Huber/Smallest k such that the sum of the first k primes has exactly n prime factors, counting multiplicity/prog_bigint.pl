@@ -17,7 +17,7 @@ my $n   = 36;
 my $k   = 1;
 my $sum = Math::GMPz::Rmpz_init_set_ui(0);
 
-$k = 1200000000;
+$k = 1700000000;
 $sum = Math::Sidef::prime_sum(ntheory::nth_prime($k));
 
 say "Searching with n = $n";
@@ -40,16 +40,11 @@ forprimes {
 
 __END__
 Searching with n = 36
-Searching with k = 100000000
-Searching with k = 200000000
-Searching with k = 300000000
-Searching with k = 400000000
-Searching with k = 500000000
-Searching with k = 600000000
-Searching with k = 700000000
-Searching with k = 800000000
-Searching with k = 900000000
-Searching with k = 1000000000
-Searching with k = 1100000000
-Searching with k = 1200000000
-Parameter '1.84467440870467e+19' must be a non-negative integer at x.sf line 13.
+Starting from k = 1200000000 with sum = 16177172097472096715
+Searching with k = 1300000000
+Searching with k = 1400000000
+Searching with k = 1500000000
+Searching with k = 1600000000
+Searching with k = 1700000000
+^C
+perl prog_bigint.pl  4649.11s user 9.42s system 92% cpu 1:23:53.96 total
