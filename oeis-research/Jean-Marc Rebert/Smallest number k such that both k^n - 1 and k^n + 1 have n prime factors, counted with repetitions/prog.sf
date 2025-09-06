@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+# Smallest number k such that both k^n - 1 and k^n + 1 have n prime factors, counted with repetitions
+# https://oeis.org/A385315
+
+# Known terms:
+#   4, 12, 66, 920, 26, 132, 79, 17958, 53, 693, 4181, 122160, 29791, 32318, 971
+
+# a(16) > 25364
+
+#Num!VERBOSE = true
+Num!USE_CONJECTURES = true
+Num!USE_FACTORDB = true
+
+func a(n, from=1) {
+    for k in (from..Inf) {
+        if (ipow(k, n) - 1 -> is_almost_prime(n)) {
+            say ":: Candidate: #{k}"
+            if (ipow(k, n) + 1 -> is_almost_prime(n)) {
+                say ":: Found term: #{k}"
+                return k
+            }
+        }
+    }
+}
+
+var n = 16
+var from = 25364
+
+say ":: Searching for a(#{n}) starting from #{from}"
+say "a(#{n}) = #{a(n, from)}"
