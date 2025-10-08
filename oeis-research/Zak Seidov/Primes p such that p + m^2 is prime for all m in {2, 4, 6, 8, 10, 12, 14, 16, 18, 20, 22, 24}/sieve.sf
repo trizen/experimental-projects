@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+# Primes p such that p + m^2 is prime for all m in {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24}.
+# https://oeis.org/A247275
+
+# Known terms:
+#   163, 409333, 376040154163, 1822896797857, 9871431850597, 13491637509487, 19802478368863
+
+# New terms:
+#   23511143848333
+
+var lo = 1
+var hi = 2*lo
+var terms = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24].map{.sqr}
+
+loop {
+
+    say "Sieveing: #{[lo, hi]}"
+    var arr = sieve_prime_cluster(lo, hi, terms...)
+
+    if (arr) {
+        say arr
+    }
+
+    lo = hi+1
+    hi = 2*lo
+}
+
+__END__
+[163]
+[409333]
+[376040154163]
+[1822896797857]
+[9871431850597, 13491637509487]
+[19802478368863, 23511143848333]

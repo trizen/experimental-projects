@@ -6,7 +6,7 @@
 # Known terms:
 #   4, 12, 66, 920, 26, 132, 79, 17958, 53, 693, 4181, 122160, 29791, 32318, 971
 
-# a(16) > 25364
+# a(16) > 26835
 
 #Num!VERBOSE = true
 Num!USE_CONJECTURES = true

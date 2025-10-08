@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number ending in at least n identical digits that has exactly n distinct prime divisors.
+# https://oeis.org/A389187
+
+# Known terms:
+#   2, 22, 222, 6666, 111111, 222222, 462222222, 58422222222, 11523666666666, 1141362222222222, 42481455555555555, 1173711888888888888
+
+func a(n) {
+    var Rn = idiv((ipow(10,n) - 1), 9)
+    var pow10 = ipow(10,n)
+
+    for d in (0..Inf) {
+        var start = ipow(10, d-1)
+        var end = ipow(10, d)
+
+        say "Testing: #{d} -- #{start*pow10 + Rn}"
+
+        for r in (start ..^ end) {
+
+            for m in (1..9) {
+                var t = (r*pow10 + m*Rn)
+                if (t.is_omega_prime(n)) {
+                    return t
+                }
+            }
+        }
+    }
+}
+
+for n in (1..13) {
+    say "a(#{n}) = #{a(n)}"
+}
