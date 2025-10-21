@@ -1,0 +1,65 @@
+#!/usr/bin/ruby
+
+# a(n) is the least number with exactly two distinct base-10 digits and exactly n distinct prime factors, or -1 if there is no such number.
+# https://oeis.org/A386761
+
+# Known terms:
+#   13, 10, 30, 330, 6006, 30030, 1111110, 200222022, 1001110110, 955559599995, 1000110001000110, 11011101101110110, 11111100000101111010
+
+func a(n) {
+
+    for d in (2..Inf) {
+
+        #say ":: Searching for a(#{n}) with #{d} digits...";
+
+        for f in (1..9) {
+
+            var min = nil
+
+            for r in (0..9) {
+
+                next if (f == r)
+
+                variations_with_repetition([f,r].sort, d-1, {|*suffix|
+                    var t = join('', f, suffix...)
+
+                    if (t.uniq.len > 1) {
+                        if ((!defined(min) || (t < min)) && t.to_i.is_omega_prime(n)) {
+                            min = t.to_i
+                            say "Candidate: #{t}"
+                        }
+                    }
+                })
+            }
+
+            defined(min) && return min
+        }
+    }
+}
+
+for n in (1..10) {
+    say "a(#{n}) = #{a(n)}"
+}
+
+__END__
+Candidate: 13
+a(1) = 13
+Candidate: 10
+a(2) = 10
+Candidate: 30
+a(3) = 30
+Candidate: 330
+a(4) = 330
+Candidate: 6006
+a(5) = 6006
+Candidate: 30030
+a(6) = 30030
+Candidate: 1111110
+a(7) = 1111110
+Candidate: 200222022
+a(8) = 200222022
+Candidate: 1001110110
+a(9) = 1001110110
+Candidate: 994999449444
+Candidate: 955559599995
+a(10) = 955559599995

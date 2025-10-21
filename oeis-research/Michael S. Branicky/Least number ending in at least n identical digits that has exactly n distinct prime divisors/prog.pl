@@ -32,7 +32,7 @@ sub a($n) {
     }
 }
 
-foreach my $n (1 .. 100) {
+foreach my $n (1 .. 10) {
     say "a($n) = ", a($n);
 }
 

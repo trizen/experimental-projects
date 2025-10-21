@@ -6,11 +6,11 @@
 # Known terms:
 #   2, 22, 222, 6666, 111111, 222222, 462222222, 58422222222, 11523666666666, 1141362222222222, 42481455555555555, 1173711888888888888
 
-func a(n) {
+func a(n, from=0) {
     var Rn = idiv((ipow(10,n) - 1), 9)
     var pow10 = ipow(10,n)
 
-    for d in (0..Inf) {
+    for d in (from..Inf) {
         var start = ipow(10, d-1)
         var end = ipow(10, d)
 
@@ -28,6 +28,22 @@ func a(n) {
     }
 }
 
-for n in (1..13) {
-    say "a(#{n}) = #{a(n)}"
-}
+# Searching for a(13)
+say a(13, 8)
+
+#~ for n in (1..10) {
+    #~ say "a(#{n}) = #{a(n)}"
+#~ }
+
+__END__
+Searching for a(13):
+
+Testing: 0 -- 9999999999999
+Testing: 1 -- 19999999999999
+Testing: 2 -- 109999999999999
+Testing: 3 -- 1009999999999999
+Testing: 4 -- 10009999999999999
+Testing: 5 -- 100009999999999999
+Testing: 6 -- 1000009999999999999
+Testing: 7 -- 10000009999999999999
+Testing: 8 -- 100000009999999999999
