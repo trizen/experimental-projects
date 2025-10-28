@@ -14,6 +14,8 @@ use Math::GMPz qw();
 
 sub a($n, $from = 0) {
 
+    say "Searching for a($n)";
+
     my $n_obj = bless(\$n, 'Sidef::Types::Number::Number');
     my $u     = Math::GMPz::Rmpz_init();
 
@@ -56,8 +58,8 @@ foreach my $n (1 .. 9) {
     say "a($n) = ", a($n);
 }
 
-# Seaching for a(13)
-say a(13, 8);
+# Seaching for a(14)
+say a(14);
 
 __END__
 a(1) = 2
@@ -72,3 +74,8 @@ a(9) = 11523666666666
 a(10) = 1141362222222222
 a(11) = 42481455555555555
 a(12) = 1173711888888888888
+a(13) = 579771522222222222222
+
+Testing: 8 -- 100000001111111111111
+579771522222222222222
+perl prog_bigint.pl  4381.62s user 1.68s system 79% cpu 1:31:54.59 total

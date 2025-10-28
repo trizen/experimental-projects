@@ -6,6 +6,13 @@
 # Known terms:
 #   1, 4, 192, 38280, 97560, 708394680, 7024881780
 
+# Lowe-bounds:
+#   a(8) > 35184372088831
+#   a(9) > 281474976710655
+
+# New terms:
+#   a(8) = 124985664048780
+
 use 5.036;
 use ntheory qw(:all);
 
@@ -57,8 +64,8 @@ sub squarefree_almost_primes ($A, $B, $k, $callback) {
       ->(1, (($sqfr % 2 == 0) ? 2 : 3), $k);
 }
 
-my $n  = 7;
-my $lo = 1;
+my $n  = 8;
+my $lo = 35184372088831;
 my $hi = 2 * $lo;
 
 say ":: Searching for a($n)";
@@ -101,3 +108,11 @@ while (1) {
     $lo = $hi + 1;
     $hi = 2 * $lo;
 }
+
+__END__
+:: Searching for a(8)
+Sieving range: [35184372088831, 70368744177662]
+Sieving range: [70368744177663, 140737488355326]
+Candidate: 124985664048780
+a(8) = 124985664048780
+perl prog.pl  7987.62s user 1.59s system 87% cpu 2:32:44.68 total
