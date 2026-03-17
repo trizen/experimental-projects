@@ -1182,6 +1182,8 @@ Highly experimental personal projects.
     * [Jianing Song](./oeis-research/Jianing%20Song)
         * [Composite numbers k such that the multiplicative order of 2 modulo lpf(2^k-1) is k](./oeis-research/Jianing%20Song/Composite%20numbers%20k%20such%20that%20the%20multiplicative%20order%20of%202%20modulo%20lpf(2^k-1)%20is%20k)
             * [prog.sf](./oeis-research/Jianing%20Song/Composite%20numbers%20k%20such%20that%20the%20multiplicative%20order%20of%202%20modulo%20lpf(2^k-1)%20is%20k/prog.sf)
+        * [Least Carmichael number (A002997) that is the product of exactly n primes congruent to 3 modulo 4](./oeis-research/Jianing%20Song/Least%20Carmichael%20number%20(A002997)%20that%20is%20the%20product%20of%20exactly%20n%20primes%20congruent%20to%203%20modulo%204)
+            * [generate.pl](./oeis-research/Jianing%20Song/Least%20Carmichael%20number%20(A002997)%20that%20is%20the%20product%20of%20exactly%20n%20primes%20congruent%20to%203%20modulo%204/generate.pl)
         * [Least coprime quadratic nonresidue to a(n)](./oeis-research/Jianing%20Song/Least%20coprime%20quadratic%20nonresidue%20to%20a(n))
             * [ntheory-sqrtmod.pl](./oeis-research/Jianing%20Song/Least%20coprime%20quadratic%20nonresidue%20to%20a(n)/ntheory-sqrtmod.pl)
             * [sidef-sqrtmod.pl](./oeis-research/Jianing%20Song/Least%20coprime%20quadratic%20nonresidue%20to%20a(n)/sidef-sqrtmod.pl)
