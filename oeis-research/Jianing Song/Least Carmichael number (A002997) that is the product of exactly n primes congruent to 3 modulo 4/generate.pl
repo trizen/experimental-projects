@@ -101,7 +101,10 @@ sub carmichael_numbers_3mod4_in_range ($A, $B, $k) {
                     Math::GMPz::Rmpz_mul_ui($v, $m, $p);
                     Math::GMPz::Rmpz_sub_ui($u, $v, 1);
                     if (Math::GMPz::Rmpz_divisible_ui_p($u, $p - 1)) {
-                        push @list, Math::GMPz::Rmpz_init_set($v);
+                        my $term = Math::GMPz::Rmpz_init_set($v);
+                        $B = $term if ($term < $B);
+                        say "Found upper-bound: $term";
+                        push @list, $term;
                     }
                 }
             }
@@ -131,8 +134,8 @@ sub a($n) {
 
     say "Searching for a($n)";
     return if $n < 3;
-    my $x = Math::GMPz->new("38685626227668133590597631");
-    my $y = 2*$x;
+    my $x = Math::GMPz->new("79228162514264337593543950335");
+    my $y = (3*$x)>>1;
 
     while (1) {
 
@@ -143,8 +146,8 @@ sub a($n) {
             return $list[0];
         }
         $x = $y+1;
-        $y = 2*$x;
+        $y = (3*$x)>>1;
     }
 }
 
-say a(13);
+say a(14);
