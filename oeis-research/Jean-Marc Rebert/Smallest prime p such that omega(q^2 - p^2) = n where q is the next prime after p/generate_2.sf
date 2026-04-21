@@ -1,0 +1,52 @@
+#!/usr/bin/ruby
+
+# Smallest prime p such that omega(q^2 - p^2) = n where q is the next prime after p.
+# https://oeis.org/A393324
+
+# Known terms:
+#   2, 5, 13, 103, 709, 5449, 19609, 1009457, 9699667, 380570173, 9953878901, 127943760811
+
+# Upper-bounds:
+#   a(13) <= 7146308038801
+#   a(14) <= 291915793384129
+#   a(15) <= 8911446124470821
+#   a(16) <= 650891537300922833
+#   a(17) <= 28740108149817929593
+#   a(18) <= 1247748737866031606063
+
+func a(n) {
+
+    var min = Inf
+    var lo = 1
+    var hi = 2*lo
+
+    loop {
+        #say "Sieving: #{[lo, hi]}"
+        var update = 0
+
+        n.omega_primes_each(lo, hi, {|m|
+
+            diff_of_squares(m).each_2d{ |q,p|
+                p < min || next
+                all_prime(p,q) || next
+                p.next_prime == q || next
+                say "a(#{n}) <= #{p}"
+                assert_eq(q**2 - p**2, m)
+                min = p if (p < min)
+                ++update
+                break
+            }
+        })
+
+        if ((min < Inf) && (update == 0)) {
+            return min
+        }
+
+        lo = hi+1
+        hi = 2*lo
+    }
+}
+
+for n in (3..11) {
+    say a(n)
+}
