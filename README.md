@@ -1240,6 +1240,8 @@ Highly experimental personal projects.
             * [search.pl](./oeis-research/Juri-Stepan%20Gerasimov/Integers%20k%20such%20that%20the%20k-th%20prime%20divides%20the%20k-th%20Lucas%20number/search.pl)
         * [Largest prime factor of n^n - n^(n-1) - n^(n-2) - ... - n^2 - n - 1](./oeis-research/Juri-Stepan%20Gerasimov/Largest%20prime%20factor%20of%20n^n%20-%20n^(n-1)%20-%20n^(n-2)%20-%20...%20-%20n^2%20-%20n%20-%201)
             * [prog.sf](./oeis-research/Juri-Stepan%20Gerasimov/Largest%20prime%20factor%20of%20n^n%20-%20n^(n-1)%20-%20n^(n-2)%20-%20...%20-%20n^2%20-%20n%20-%201/prog.sf)
+        * [Number of integers k in [prime(n-1)^7..prime(n)^7-1] with exactly 8 divisors](./oeis-research/Juri-Stepan%20Gerasimov/Number%20of%20integers%20k%20in%20[prime(n-1)^7..prime(n)^7-1]%20with%20exactly%208%20divisors)
+            * [prog.sf](./oeis-research/Juri-Stepan%20Gerasimov/Number%20of%20integers%20k%20in%20[prime(n-1)^7..prime(n)^7-1]%20with%20exactly%208%20divisors/prog.sf)
         * [Numbers k such that k^4*2^k - 1 is a prime](./oeis-research/Juri-Stepan%20Gerasimov/Numbers%20k%20such%20that%20k^4*2^k%20-%201%20is%20a%20prime)
             * [prog.sf](./oeis-research/Juri-Stepan%20Gerasimov/Numbers%20k%20such%20that%20k^4*2^k%20-%201%20is%20a%20prime/prog.sf)
         * [Numbers k such that omega(2^k-1) = omega(2*k-1)](./oeis-research/Juri-Stepan%20Gerasimov/Numbers%20k%20such%20that%20omega(2^k-1)%20=%20omega(2*k-1))
