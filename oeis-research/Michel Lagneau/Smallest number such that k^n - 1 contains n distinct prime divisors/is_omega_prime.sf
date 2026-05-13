@@ -21,11 +21,15 @@
 # Upper-bounds:
 #   a(19) <= 1048576
 
+# Conjectured lower-bounds:
+#   a(23) > 478807
+
 # New term:
 #   a(19) = 1048576 (confirmed by Jinyuan Wang, Feb 13 2023)
 
-local Num!VERBOSE = true
+#local Num!VERBOSE = true
 local Num!USE_FACTORDB = true
+local Num!USE_CONJECTURES = true
 
 func a(n, from=2) {
     for k in (from..Inf) {
@@ -38,7 +42,8 @@ func a(n, from=2) {
 }
 
 var n = 23
-var from = 446082
+#var from = 446082
+var from = 478807
 
 say a(n, from)
 
