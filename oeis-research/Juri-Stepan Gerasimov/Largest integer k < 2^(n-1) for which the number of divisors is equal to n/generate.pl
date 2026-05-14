@@ -4,6 +4,7 @@
 # https://oeis.org/A395952
 
 use 5.036;
+use List::Util qw(max);
 use ntheory 0.74 qw(:all);
 
 sub rootint_ceil($n, $k) {
@@ -59,7 +60,7 @@ sub prime_signature_numbers_in_range($A, $B, $prime_signature) {
             my $lo_tight = vecmax($lo, rootint_ceil(cdivint($A, $m), $e));
 
             foreach my $p (@{primes($lo_tight, $hi)}) {
-                $max_value = vecmax($max_value, mulint($m, powint($p, $e)));
+                $max_value = max($max_value, mulint($m, powint($p, $e)));
             }
 
             return;
@@ -125,10 +126,16 @@ sub inverse_tau($A, $B, $n) {
     $max_value;
 }
 
-foreach my $n(1..50) {
+foreach my $n (1..50) {
 
+    if (is_prime($n)) {
+        say "a($n) = 0";
+        next;
+    }
+
+    my $eps = (1 + 5**-sqrt($n));
     my $B = subint(powint(2, $n-1), 1);
-    my $A = divint($B, 2);
+    my $A = int($B / $eps);
 
     my $found = 0;
 
@@ -140,7 +147,7 @@ foreach my $n(1..50) {
             last;
         }
         $B = subint($A, 1);
-        $A = divint($B, 2);
+        $A = int($B / $eps);
         last if ($B <= 0);
     }
 
@@ -187,3 +194,11 @@ a(36) = 34359738100
 a(37) = 0
 a(38) = 137438691328
 a(39) = 274810802176
+a(40) = 549755813776
+a(41) = 0
+a(42) = 2199023237952
+a(43) = 0
+a(44) = 8796093019136
+a(45) = 17591976329841
+a(46) = 35184309174272
+a(47) = 0

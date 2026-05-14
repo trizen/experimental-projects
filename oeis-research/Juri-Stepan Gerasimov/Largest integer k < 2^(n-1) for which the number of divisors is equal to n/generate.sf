@@ -1,0 +1,82 @@
+#!/usr/bin/ruby
+
+# a(n) is the largest integer k < 2^(n-1) for which the number of divisors is equal to n, or 0 if no such k exists.
+# https://oeis.org/A395952
+
+for n in (1..50) {
+
+    if (n.is_prime) {
+        say "a(#{n}) = 0"
+        next
+    }
+
+    var eps = (1 + 5**-sqrt(n))
+    var B = ((2**(n-1)) - 1)
+    var A = int(B / eps)
+
+    var found = false
+
+    loop {
+        var arr = tau_inverse(A, B, n)
+        var max_value = arr.max
+        if (max_value) {
+            say "a(#{n}) = #{max_value}"
+            found = true
+            break
+        }
+        B = A-1
+        A = int(B / eps)
+        break if (B <= 0)
+    }
+
+    say "a(#{n}) = 0" if !found
+}
+
+__END__
+a(1) = 0
+a(2) = 0
+a(3) = 0
+a(4) = 6
+a(5) = 0
+a(6) = 28
+a(7) = 0
+a(8) = 114
+a(9) = 225
+a(10) = 496
+a(11) = 0
+a(12) = 2044
+a(13) = 0
+a(14) = 8128
+a(15) = 15376
+a(16) = 32766
+a(17) = 0
+a(18) = 131043
+a(19) = 0
+a(20) = 524240
+a(21) = 1032256
+a(22) = 2087936
+a(23) = 0
+a(24) = 8388588
+a(25) = 14776336
+a(26) = 33550336
+a(27) = 66928761
+a(28) = 134217536
+a(29) = 0
+a(30) = 536870800
+a(31) = 0
+a(32) = 2147483624
+a(33) = 4272844689
+a(34) = 8589869056
+a(35) = 16649257024
+a(36) = 34359738100
+a(37) = 0
+a(38) = 137438691328
+a(39) = 274810802176
+a(40) = 549755813776
+a(41) = 0
+a(42) = 2199023237952
+a(43) = 0
+a(44) = 8796093019136
+a(45) = 17591976329841
+a(46) = 35184309174272
+a(47) = 0
