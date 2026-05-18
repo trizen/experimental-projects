@@ -3,7 +3,7 @@
 # a(n) is the largest integer k < 2^(n-1) for which the number of divisors is equal to n, or 0 if no such k exists.
 # https://oeis.org/A395952
 
-for n in (1..50) {
+for n in (1..47) {
 
     if (n.is_prime) {
         say "a(#{n}) = 0"

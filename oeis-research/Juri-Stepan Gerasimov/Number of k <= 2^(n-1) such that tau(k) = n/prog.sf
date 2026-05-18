@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+# Number of k <= 2^(n-1) such that tau(k) = n where tau = A000005.
+# https://oeis.org/A393179
+
+for n in (1..70) {
+    say ("a(#{n}) = ", tau_inverse_len(1, 2**(n-1), n))
+}
