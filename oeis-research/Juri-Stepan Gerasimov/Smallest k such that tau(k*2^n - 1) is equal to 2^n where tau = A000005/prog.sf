@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+# a(n) is the smallest k such that tau(k*2^n - 1) is equal to 2^n
+# https://oeis.org/A377634
+
+var n = 14
+var lo = 2
+var hi = int(1.5*lo)
+
+loop {
+
+    say "Sieving: #{[lo, hi]}"
+    var arr = tau_inverse(lo, hi, 2**n)
+
+    arr.each {|k|
+        if (k+1 -> valuation(2) >= n) {
+            say [n, (k+1 / 2**n)]
+            Sys.exit(0)
+        }
+    }
+
+    lo = hi+1
+    hi = int(1.5*lo)
+}
+
+__END__
+Sieving: [26388279066623, 52776558133246]
+[12, 8167862431]
+sidef prog.sf  9.48s user 0.17s system 99% cpu 9.642 total
+
+Sieving: [1688849860263935, 3377699720527870]
+[13, 317808279653]
+sidef prog.sf  92.71s user 0.86s system 99% cpu 1:33.58 total

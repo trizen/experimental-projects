@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+# a(1) = 15; for n > 1, a(n) is the number of integers k in [prime(n-1)^7..prime(n)^7-1] with exactly 8 divisors.
+# https://oeis.org/A395379
+
+for n in (1..40) {
+    say [n, tau_inverse_len(prime(n-1)**7, prime(n)**7 - 1, 8)]
+}

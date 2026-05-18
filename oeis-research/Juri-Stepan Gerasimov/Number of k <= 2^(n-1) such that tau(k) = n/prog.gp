@@ -77,13 +77,13 @@ count_prime_signature_numbers(n, p_sig) = {
     return(count);
 }
 
-multiplicative_partitions(n, max_sum) = {
+multiplicative_partitions(n, max_value) = {
     my(res = List());
     my(D = divisors(n));
     my(divs = vector(#D - 1, i, D[i+1])); \\ remove divisor '1'
 
     local recurse;
-    (recurse = (target, min_idx, curr_sum, path, ~res_ref) ->
+    (recurse = (target, min_idx, path, ~res_ref) ->
         if(target == 1,
             listput(res_ref, path);
             return;
@@ -92,15 +92,15 @@ multiplicative_partitions(n, max_sum) = {
             my(d = divs[i]);
             \\ Prune branch if the divisor exceeds bounds
             if(d > target, break);
-            if(curr_sum + d > max_sum, break);
+            if(d > max_value, break);
 
             if(target % d == 0,
-                recurse(target \ d, i, curr_sum + d, concat(path, [d]), ~res_ref)
+                recurse(target \ d, i, concat(path, [d]), ~res_ref)
             );
         );
     );
 
-    recurse(n, 1, 0, [], ~res);
+    recurse(n, 1, [], ~res);
     return(Vec(res));
 }
 
