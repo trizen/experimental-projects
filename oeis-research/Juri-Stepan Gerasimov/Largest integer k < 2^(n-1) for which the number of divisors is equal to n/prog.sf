@@ -3,8 +3,28 @@
 # a(n) is the largest integer k < 2^(n-1) for which the number of divisors is equal to n, or 0 if no such k exists.
 # https://oeis.org/A395952
 
-for n in (1..100) {
-    say (n, " ", (prev_tau_inverse(2**(n-1), n) || 0))
+func a(n) is cached {
+
+    if (n.is_prime) {
+        return 0
+    }
+
+    var t = 2**(n-1)
+    for k in (1 .. n.tau**4) {
+        var v = (t - k)
+        if (v.tau == n) {
+            return v
+        }
+    }
+
+    (prev_tau_inverse(t, n) || 0)
+}
+
+var from = Num(ARGV[0] \\ 69)
+
+for n in (from .. 100) {
+    var v = a(n)
+    say join(" ", n, v)
 }
 
 __END__

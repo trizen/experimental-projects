@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+# a(1) = 0; for n > 1, a(n) is the smallest number in [2^(n-1) + 1..3^(n-1)] with exactly n divisors.
+# https://oeis.org/A396139
+
+func a(n) is cached {
+
+    if (n.is_prime) {
+        return 3**(n-1)
+    }
+
+    var t = 2**(n-1)
+    for k in (1 .. n.tau**4) {
+        var v = (t + k)
+        if (v.tau == n) {
+            return v
+        }
+    }
+
+    next_tau_inverse(t, n)
+}
+
+var from = Num(ARGV[0] \\ 69)
+
+for n in (from..100) {
+    var v = a(n)
+    say join(" ", n, v)
+}

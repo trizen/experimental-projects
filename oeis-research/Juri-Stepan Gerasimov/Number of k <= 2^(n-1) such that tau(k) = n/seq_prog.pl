@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 
+# Author: Daniel Suteu, 19 May 2026
 # Number of k <= 2^(n-1) such that tau(k) = n where tau = A000005.
 # https://oeis.org/A393179
 
-# a(60) = 934568375753531 (took 57 min)
-# a(68) = 213311846230015 (took 13 min)
-
 use 5.036;
 use ntheory 0.74 qw(:all);
+
+prime_precalc(1e7);
 
 sub unique_permutations($array, $callback) {
     sub ($items, $current_perm) {
@@ -20,8 +20,6 @@ sub unique_permutations($array, $callback) {
         my %level_seen;
         for my $i (0 .. $#$items) {
             my $item = $items->[$i];
-
-            # Skip iterations for duplicate elements in the same level
             next if $level_seen{$item}++;
 
             my @new_items = @$items;
@@ -56,7 +54,7 @@ sub count_prime_signature_numbers($n, $prime_signature) {
         }
 
         if ($k == 1) {
-            $count += prime_count($hi) - $j;
+            $count = addint($count, prime_count($hi) - $j);
             return;
         }
 
@@ -64,8 +62,16 @@ sub count_prime_signature_numbers($n, $prime_signature) {
             my $e2 = $P->[0];
             foreach my $p (@{primes($lo, $hi)}) {
                 my $t = mulint($m, powint($p, $e));
-                my $u = rootint(divint($n, $t), $e2);
-                $count += prime_count($u) - ++$j;
+                my $u = ($e2 == 1) ? divint($n, $t) : rootint(divint($n, $t), $e2);
+                if ($u > 1e11) {
+                    require Math::Sidef;
+                    $Sidef::Types::Number::Number::USE_PRIMECOUNT = 1;
+                    say "Computing pi($u)";
+                    $count = addint($count, Math::Sidef::prime_count($u) - ++$j);
+                }
+                else {
+                    $count = addint($count, prime_count($u) - ++$j);
+                }
             }
             return;
         }
@@ -94,12 +100,6 @@ sub count_prime_signature_numbers($n, $prime_signature) {
     return $count;
 }
 
-sub count_prime_signature_numbers_in_range($A, $B, $signature) {
-    my $term_1 = count_prime_signature_numbers($A - 1, $signature);
-    my $term_2 = count_prime_signature_numbers($B,     $signature);
-    $term_2 - $term_1;
-}
-
 sub multiplicative_partitions($n, $max_value = $n) {
 
     my @results;
@@ -108,115 +108,50 @@ sub multiplicative_partitions($n, $max_value = $n) {
     shift(@divs);    # remove divisor '1'
 
     my $end = $#divs;
-    sub ($target, $min_idx, $path) {
+    my @path;
+
+    sub ($target, $min_idx) {
 
         if ($target == 1) {
-            push @results, $path;
+            push @results, [@path];
             return;
         }
 
         for my $i ($min_idx .. $end) {
             my $d = $divs[$i];
 
-            # Prune branch if the divisor exceeds the remaining target
             last if $d > $target;
             last if $d > $max_value;
 
             if ($target % $d == 0) {
-                __SUB__->(divint($target, $d), $i, [@$path, $d]);
+                push @path, $d;
+                __SUB__->(divint($target, $d), $i);
+                pop @path;
             }
         }
-    }->($n, 0, []);
+    }->($n, 0);
 
     return @results;
 }
 
-sub count_inverse_tau($A, $B, $n) {
+sub count_inverse_tau($upto, $n) {
 
     my @signatures = map {
         [map { $_ - 1 } @$_]
-    } multiplicative_partitions($n, logint($B, 2) + 1);
+    } multiplicative_partitions($n, logint($upto, 2) + 1);
 
     my @counts;
     foreach my $sig (@signatures) {
-        push @counts, count_prime_signature_numbers_in_range($A, $B, $sig);
+        push @counts, count_prime_signature_numbers($upto, $sig);
     }
 
     vecsum(@counts);
 }
 
-count_inverse_tau(1, 462, 16) == 16 or die "error";
-count_inverse_tau(1,   powint(2, 9),  10) == 13    or die "error";
-count_inverse_tau(1,   powint(2, 40), 5040) == 103 or die "error";
-count_inverse_tau(1e5, 1e5 + 500, 48) == 10 or die "error";
-
-# Number of k <= 2^(n-1) such that tau(k) = n
-# https://oeis.org/A393179
-foreach my $n (1 .. 63) {
-    say "a($n) = ", count_inverse_tau(1, powint(2, $n - 1), $n);
+sub a($n) {
+    count_inverse_tau(powint(2, $n - 1), $n);
 }
 
-__END__
-a(1) = 1
-a(2) = 1
-a(3) = 1
-a(4) = 2
-a(5) = 1
-a(6) = 5
-a(7) = 1
-a(8) = 16
-a(9) = 5
-a(10) = 13
-a(11) = 1
-a(12) = 211
-a(13) = 1
-a(14) = 35
-a(15) = 19
-a(16) = 3134
-a(17) = 1
-a(18) = 1577
-a(19) = 1
-a(20) = 8043
-a(21) = 46
-a(22) = 319
-a(23) = 1
-a(24) = 615620
-a(25) = 19
-a(26) = 1045
-a(27) = 1565
-a(28) = 383778
-a(29) = 1
-a(30) = 768107
-a(31) = 1
-a(32) = 167262047
-a(33) = 374
-a(34) = 12296
-a(35) = 83
-a(36) = 325122420
-a(37) = 1
-a(38) = 43460
-a(39) = 1167
-a(40) = 6200272135
-a(41) = 1
-a(42) = 409822597
-a(43) = 1
-a(44) = 1108940842
-a(45) = 352281
-a(46) = 564349
-a(47) = 1
-a(48) = 7832178297534
-a(49) = 77
-a(50) = 20854198211
-a(51) = 12959
-a(52) = 62955792313
-a(53) = 1
-a(54) = 1540432298821
-a(55) = 535
-a(56) = 81973967619694
-a(57) = 45036
-a(58) = 28193568
-a(59) = 1
-a(60) = 934568375753531
-a(61) = 1
-a(62) = 105098920
-a(63) = 54930803
+foreach my $n (1..100) {
+    say "a($n) = ", a($n);
+}
