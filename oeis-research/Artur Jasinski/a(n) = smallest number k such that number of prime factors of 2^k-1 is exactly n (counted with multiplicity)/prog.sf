@@ -1,0 +1,37 @@
+#!/usr/bin/ruby
+
+# a(n) = smallest number k such that number of prime factors of 2^k-1 is exactly n (counted with multiplicity).
+# https://oeis.org/A136033
+
+# Known terms:
+#   2, 4, 6, 16, 12, 18, 24, 40, 54, 36, 102, 110, 60, 72, 108, 140, 120, 156, 144, 200, 216, 210, 240, 180, 456, 288, 336, 300, 396, 480, 882, 360, 468, 700
+
+# New terms:
+#   a(35) = 1232
+#   a(36) = 504
+#   a(37) = 420
+#   a(38) = 756
+#   a(39) = 648
+#   a(40) = 540
+#   a(41) = 972
+#   a(42) = 720
+
+# Lower-bounds:
+#   a(43) > 1368
+
+Num!USE_FACTORDB = true
+Num!USE_CONJECTURES = true
+Num!VERBOSE = true
+
+func a(n) {
+    for k in (1..Inf){
+        say "Testing: #{k}"
+        if (2**k - 1 -> is_almost_prime(n)) {
+            return k
+        }
+    }
+}
+
+for n in (43) {
+    say [n, a(n)]
+}
