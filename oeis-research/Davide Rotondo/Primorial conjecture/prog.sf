@@ -1,0 +1,44 @@
+#!/usr/bin/ruby
+
+# Davide Rotondo:
+#   After having found a conjecture similar to Buss's, which instead of considering the smallest number greater than f(n) + 1 considers the smallest number different from 1 that, when concatenated to f(n), gives a prime number, I propose today a variant of Fortune's primorial conjecture that uses concatenation. The first 100 values ​​are as follows.
+
+# [3, 7, 7, 11, 17, 17, 29, 29, 61, 37, 43, 41, 59, 61, 269, 79, 61, 89, 73, 101, 83, 109, 197, 107, 211, 173, 109, 379, 151, 127, 149, 211, 157, 181, 277, 179, 193, 179, 257, 211, 337, 277, 449, 307, 269, 251, 461, 487, 307, 311, 653, 281, 491, 617, 331, 409, 463, 389, 461, 283, 367, 307, 659, 491, 727, 743, 521, 499, 421, 521, 491, 409, 1151, 1097, 773, 593, 613, 859, 409, 431, 1019, 661, 827, 1549, 557, 683, 853, 1049, 643, 613, 601, 859, 733, 523, 719, 619, 761, 983, 557, 557]
+
+# Are these values always prime?
+
+var from = 7213.next_prime
+var prim = from.dec.primorial
+var p = from.dec.next_prime
+
+loop {
+    prim *= p
+
+    var k = 2
+    var prim_str = prim.to_s
+
+    for (true; true; ++k) {
+
+        if (k % 2 == 0) {
+            next
+        }
+
+        if (k % 5 == 0) {
+            next
+        }
+
+        var t = join('', prim_str, k)
+
+        if (Num(t).is_prob_prime) {
+            break
+        }
+    }
+
+    say "#{p} #{k}"
+
+    if (!k.is_prime) {
+        die "Counter-example for primorial(#{p}) with k = #{k}\n"
+    }
+
+    p.next_prime!
+}
