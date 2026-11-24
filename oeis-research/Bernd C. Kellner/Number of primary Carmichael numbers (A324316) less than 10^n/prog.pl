@@ -8,24 +8,29 @@
 
 # New terms:
 #   a(23) = 754150
-#   a(24) =
+#   a(24) = 1329780
 
 use 5.036;
 use strict;
 use warnings;
-use Math::Prime::Util::GMP qw();
-use Math::Prime::Util qw(factor is_square_free todigits vecsum);
+use Math::GMPz;
+use Math::Prime::Util::GMP qw(gcd todigits factor vecprod);
+use Math::Prime::Util qw(vecsum vecall primes);
 
 sub is_ok ($n) {
-    for my $p (Math::Prime::Util::GMP::factor($n)) {
-        return 0 unless (vecsum(Math::Prime::Util::GMP::todigits($n, $p)) == $p);
+    for my $p (factor($n)) {
+        return 0 unless (vecsum(todigits($n, $p)) == $p);
     }
     return 1;
 }
 
 my $len = 23;
+#my $len = 11;
 my $skip = $len;
+#my $count = 417;
 my $count = 754150;
+
+my $primorial = vecprod(@{primes(3, 300)});
 
 while (defined(my $line = <>)) {
     chomp $line;
@@ -36,6 +41,12 @@ while (defined(my $line = <>)) {
         ++$len;
     }
 
+    my $gcd = gcd($line, $primorial);
+
+    if ($gcd ne '1') {
+        next if not vecall { vecsum(todigits($line, $_)) == $_ } Math::Prime::Util::factor($gcd);
+    }
+
     if (is_ok($line)) {
         ++$count;
     }
@@ -44,10 +55,27 @@ while (defined(my $line = <>)) {
 say "Final count: $count";
 
 __END__
-from sympy import factorint
-from sympy.ntheory import digits
-def ok(n):
-    pf = factorint(n)
-    if n < 2 or max(pf.values()) > 1: return False
-    return all(sum(digits(n, p)[1:]) == p for p in pf)
-print([k for k in range(10**6) if ok(k)]) # Michael S. Branicky, Jul 03 2022
+a(1) = 0
+a(2) = 0
+a(3) = 0
+a(4) = 2
+a(5) = 4
+a(6) = 9
+a(7) = 19
+a(8) = 51
+a(9) = 107
+a(10) = 219
+a(11) = 417
+a(12) = 757
+a(13) = 1470
+a(14) = 2666
+a(15) = 5040
+a(16) = 9280
+a(17) = 17210
+a(18) = 32039
+a(19) = 59762
+a(20) = 111811
+a(21) = 210627
+a(22) = 397968
+a(23) = 754150
+a(24) = 1329780
